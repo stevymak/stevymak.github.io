@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Makouez IT – Admin</title>
+<meta name="theme-color" content="#09090f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
+  --accent:#3b82f6;--text:#f0f0ff;--muted:#8888aa;
+  --border:#ffffff14;--card:#ffffff08;--r:12px;
+  --success:#22c55e;--danger:#ef4444;--warning:#f59e0b;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;min-height:100vh}
+h1,h2{font-family:'Syne',sans-serif}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
+.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:360px;display:flex;flex-direction:column;gap:1.25rem}
+.login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;text-align:center}
+.login-logo span{color:var(--accent)}
+.login-sub{color:var(--muted);font-size:0.85rem;text-align:center}
+.form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
+.form-input:focus{border-color:#3b82f660}
+.btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;width:100%;transition:opacity 0.2s}
+.btn-main:hover{opacity:0.85}
+.error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none}
+
+/* DASHBOARD */
+.dashboard{display:none}
+.topbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.topbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.topbar-logo span{color:var(--accent)}
+.topbar-right{display:flex;align-items:center;gap:1rem}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-logout:hover{color:var(--text);border-color:#3b82f640}
+
+.content{padding:1.5rem;max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700}
+.stat-label{color:var(--muted);font-size:0.75rem;margin-top:0.2rem}
+
+.section-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.filter-tabs{display:flex;gap:0.5rem;flex-wrap:wrap}
+.tab{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.tab.active{background:#3b82f618;border-color:#3b82f660;color:var(--accent)}
+
+.rdv-list{display:flex;flex-direction:column;gap:0.75rem}
+.rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;gap:0.75rem}
+.rdv-card.confirmed{border-color:#22c55e30}
+.rdv-card.cancelled{opacity:0.45;border-color:#ef444430}
+.rdv-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem}
+.rdv-service{font-weight:600;font-size:0.95rem}
+.rdv-badge{font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:500;white-space:nowrap}
+.badge-pending{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b30}
+.badge-confirmed{background:#22c55e18;color:#22c55e;border:1px solid #22c55e30}
+.badge-cancelled{background:#ef444418;color:#ef4444;border:1px solid #ef444430}
+.rdv-info{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;font-size:0.83rem}
+.rdv-info-item{display:flex;flex-direction:column;gap:0.1rem}
+.rdv-info-label{color:var(--muted);font-size:0.72rem}
+.rdv-desc{font-size:0.82rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)}
+.rdv-actions{display:flex;gap:0.5rem}
+.btn-confirm{background:#22c55e18;color:#22c55e;border:1px solid #22c55e40;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-confirm:hover{background:#22c55e30}
+.btn-cancel{background:#ef444418;color:#ef4444;border:1px solid #ef444440;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-cancel:hover{background:#ef444430}
+
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:0.9rem}
+.empty-icon{font-size:2.5rem;margin-bottom:0.75rem}
+
+.loading{text-align:center;padding:2rem;color:var(--muted)}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:480px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .rdv-info{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-logo">Makouez <span>IT</span></div>
+    <div class="login-sub">Espace administrateur</div>
+    <input class="form-input" type="password" id="pwdInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-main" onclick="login()">Se connecter</button>
+    <div class="error-msg" id="errMsg">Mot de passe incorrect</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="topbar">
+    <div class="topbar-logo">Makouez <span>IT</span> <span style="color:var(--muted);font-size:0.8rem;font-weight:400">Admin</span></div>
+    <div class="topbar-right">
+      <span id="lastRefresh" style="font-size:0.75rem;color:var(--muted)"></span>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statTotal">–</div><div class="stat-label">Total RDV</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--warning)" id="statPending">–</div><div class="stat-label">En attente</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--success)" id="statConfirmed">–</div><div class="stat-label">Confirmés</div></div>
+    </div>
+    <div>
+      <div class="section-title" style="margin-bottom:0.75rem">
+        Rendez-vous
+        <button onclick="loadRdvs()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">↻ Actualiser</button>
+      </div>
+      <div class="filter-tabs" style="margin-bottom:1rem">
+        <button class="tab active" onclick="setFilter('all',this)">Tous</button>
+        <button class="tab" onclick="setFilter('pending',this)">En attente</button>
+        <button class="tab" onclick="setFilter('confirmed',this)">Confirmés</button>
+        <button class="tab" onclick="setFilter('cancelled',this)">Annulés</button>
+      </div>
+      <div id="rdvList"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+  authDomain: "makouez-it.firebaseapp.com",
+  projectId: "makouez-it",
+  storageBucket: "makouez-it.firebasestorage.app",
+  messagingSenderId: "558314427247",
+  appId: "1:558314427247:web:83e656344dd79019ccce9a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window._adminDb = db;
+window._adminFns = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy };
+</script>
+
+<script>
+// ⚠️ Change ce mot de passe !
+const ADMIN_PASSWORD = "makouezIT2024";
+
+let allRdvs = [];
+let currentFilter = 'all';
+
+function login(){
+  const pwd = document.getElementById('pwdInput').value;
+  if(pwd === ADMIN_PASSWORD){
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadRdvs();
+  } else {
+    document.getElementById('errMsg').style.display = 'block';
+    document.getElementById('pwdInput').value = '';
+  }
+}
+
+function logout(){
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('pwdInput').value = '';
+}
+
+async function loadRdvs(){
+  document.getElementById('rdvList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const { collection, getDocs, query, orderBy } = window._adminFns;
+    const db = window._adminDb;
+    const q = query(collection(db, "reservations"), orderBy("dateKey", "asc"));
+    const snap = await getDocs(q);
+    allRdvs = [];
+    snap.forEach(d => allRdvs.push({ id: d.id, ...d.data() }));
+    allRdvs.sort((a,b) => {
+      const da = a.dateKey+a.time, db2 = b.dateKey+b.time;
+      return da < db2 ? -1 : 1;
+    });
+    updateStats();
+    renderRdvs();
+    document.getElementById('lastRefresh').textContent = 'Mis à jour ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  } catch(e){
+    document.getElementById('rdvList').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Erreur de chargement. Vérifiez votre connexion.</div>';
+  }
+}
+
+function updateStats(){
+  document.getElementById('statTotal').textContent = allRdvs.length;
+  document.getElementById('statPending').textContent = allRdvs.filter(r=>r.status==='pending').length;
+  document.getElementById('statConfirmed').textContent = allRdvs.filter(r=>r.status==='confirmed').length;
+}
+
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderRdvs();
+}
+
+function renderRdvs(){
+  const filtered = currentFilter === 'all' ? allRdvs : allRdvs.filter(r=>r.status===currentFilter);
+  const list = document.getElementById('rdvList');
+  if(filtered.length === 0){
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div>Aucun rendez-vous dans cette catégorie</div>';
+    return;
+  }
+  list.innerHTML = '';
+  filtered.forEach(rdv => {
+    const card = document.createElement('div');
+    card.className = 'rdv-card' + (rdv.status==='confirmed'?' confirmed':'') + (rdv.status==='cancelled'?' cancelled':'');
+    card.id = 'card-'+rdv.id;
+    const dateLabel = rdv.dateKey ? new Date(rdv.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : rdv.dateKey;
+    const badgeClass = rdv.status==='confirmed' ? 'badge-confirmed' : rdv.status==='cancelled' ? 'badge-cancelled' : 'badge-pending';
+    const badgeLabel = rdv.status==='confirmed' ? '✓ Confirmé' : rdv.status==='cancelled' ? '✗ Annulé' : '⏳ En attente';
+    card.innerHTML = `
+      <div class="rdv-top">
+        <div class="rdv-service">${rdv.service||'–'}</div>
+        <div class="rdv-badge ${badgeClass}">${badgeLabel}</div>
+      </div>
+      <div class="rdv-info">
+        <div class="rdv-info-item"><div class="rdv-info-label">📅 Date & heure</div><div>${dateLabel} à ${rdv.time}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">👤 Client</div><div>${rdv.nom||'–'}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${rdv.telephone||'–'}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">💰 Tarif</div><div>${rdv.price||'–'}</div></div>
+        <div class="rdv-info-item" style="grid-column:1/-1"><div class="rdv-info-label">📍 Adresse</div><div>${rdv.adresse||'–'}</div></div>
+      </div>
+      ${rdv.description ? `<div class="rdv-desc">💬 ${rdv.description}</div>` : ''}
+      ${rdv.status !== 'cancelled' ? `
+      <div class="rdv-actions">
+        ${rdv.status !== 'confirmed' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
+        <button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler le RDV</button>
+      </div>` : `
+      <div class="rdv-actions">
+        <button class="btn-confirm" onclick="deleteRdv('${rdv.id}')" style="background:#ef444418;color:#ef4444;border-color:#ef444440">🗑 Supprimer</button>
+      </div>`}
+    `;
+    list.appendChild(card);
+  });
+}
+
+async function updateStatus(id, status){
+  try {
+    const { doc, updateDoc } = window._adminFns;
+    await updateDoc(doc(window._adminDb, "reservations", id), { status });
+    const rdv = allRdvs.find(r=>r.id===id);
+    if(rdv){ rdv.status = status; }
+    updateStats();
+    renderRdvs();
+  } catch(e){ alert('Erreur lors de la mise à jour.'); }
+}
+
+async function deleteRdv(id){
+  if(!confirm('Supprimer définitivement ce rendez-vous ?')) return;
+  try {
+    const { doc, deleteDoc } = window._adminFns;
+    await deleteDoc(doc(window._adminDb, "reservations", id));
+    allRdvs = allRdvs.filter(r=>r.id!==id);
+    updateStats();
+    renderRdvs();
+  } catch(e){ alert('Erreur lors de la suppression.'); }
+}
+</script>
+</body>
+</html>
