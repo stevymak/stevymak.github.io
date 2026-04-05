@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Makouez IT – Mon rendez-vous</title>
+<meta name="theme-color" content="#09090f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
+  --accent:#3b82f6;--text:#f0f0ff;--muted:#8888aa;
+  --border:#ffffff14;--card:#ffffff08;--r:12px;
+  --success:#22c55e;--danger:#ef4444;--warning:#f59e0b;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;gap:1rem}
+
+.frame{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:0 40px 80px #00000060}
+.frame-header{background:var(--bg3);padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.logo span{color:var(--accent)}
+
+/* LOGIN */
+.login-wrap{padding:1.5rem;display:flex;flex-direction:column;gap:1.1rem}
+.section-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700}
+.section-sub{color:var(--muted);font-size:0.85rem}
+.form-group{display:flex;flex-direction:column;gap:0.4rem}
+.form-label{font-size:0.8rem;color:var(--muted);font-weight:500}
+.form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
+.form-input:focus{border-color:#3b82f660}
+.form-input::placeholder{color:var(--muted)}
+.btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;width:100%}
+.btn-main:hover{opacity:0.85}
+.btn-main:disabled{opacity:0.4;cursor:not-allowed}
+.error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none}
+.forgot-link{color:var(--accent);font-size:0.82rem;text-align:center;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;width:100%}
+.forgot-link:hover{opacity:0.8}
+.back-to-rdv{color:var(--muted);font-size:0.82rem;text-align:center;text-decoration:none;display:block}
+.back-to-rdv:hover{color:var(--text)}
+
+/* DASHBOARD CLIENT */
+.dash-wrap{padding:1.5rem;display:none;flex-direction:column;gap:1.25rem}
+.user-row{display:flex;align-items:center;justify-content:space-between}
+.user-info{display:flex;flex-direction:column;gap:0.1rem}
+.user-name{font-weight:500;font-size:0.95rem}
+.user-email{font-size:0.78rem;color:var(--muted)}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-logout:hover{color:var(--text)}
+
+/* STATUT CARD */
+.status-card{border-radius:var(--r);padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.status-card.pending{background:#f59e0b08;border:1px solid #f59e0b30}
+.status-card.confirmed{background:#22c55e08;border:1px solid #22c55e30}
+.status-card.cancelled{background:#ef444408;border:1px solid #ef444430}
+.status-header{display:flex;align-items:center;justify-content:space-between}
+.status-badge{font-size:0.78rem;padding:0.3rem 0.8rem;border-radius:99px;font-weight:500}
+.badge-pending{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b40}
+.badge-confirmed{background:#22c55e18;color:#22c55e;border:1px solid #22c55e40}
+.badge-cancelled{background:#ef444418;color:#ef4444;border:1px solid #ef444440}
+.status-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline-item{display:flex;gap:0.85rem;position:relative}
+.timeline-item:not(:last-child)::before{content:'';position:absolute;left:11px;top:24px;bottom:-8px;width:1px;background:var(--border)}
+.tl-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;border:1.5px solid var(--border);background:var(--bg2);margin-top:2px;transition:all 0.3s}
+.tl-dot.done{background:#22c55e20;border-color:#22c55e60;color:#22c55e}
+.tl-dot.active{background:#3b82f620;border-color:#3b82f660;color:#3b82f6}
+.tl-dot.waiting{background:var(--card);color:var(--muted)}
+.tl-content{padding-bottom:1rem;flex:1}
+.tl-label{font-size:0.88rem;font-weight:500}
+.tl-sub{font-size:0.78rem;color:var(--muted);margin-top:0.1rem}
+
+/* DÉTAILS RDV */
+.rdv-details{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem}
+.rdv-detail-row{display:flex;align-items:flex-start;gap:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border);font-size:0.86rem}
+.rdv-detail-row:last-child{border-bottom:none}
+.rdv-detail-icon{width:26px;height:26px;background:var(--card);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}
+.rdv-detail-label{color:var(--muted);font-size:0.74rem}
+.rdv-detail-val{font-size:0.88rem}
+
+/* MESSAGE ADMIN */
+.admin-msg{background:#3b82f608;border:1px solid #3b82f620;border-radius:var(--r);padding:1rem;font-size:0.85rem;color:var(--muted);display:none}
+.admin-msg.show{display:block}
+.admin-msg-label{font-size:0.75rem;color:var(--accent);font-weight:500;margin-bottom:0.4rem}
+
+/* NO RDV */
+.no-rdv{text-align:center;padding:1.5rem 1rem;color:var(--muted);font-size:0.9rem}
+.no-rdv-icon{font-size:2rem;margin-bottom:0.75rem}
+.btn-new{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.8rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;color:var(--text);width:100%;margin-top:0.5rem;text-decoration:none;display:block;text-align:center;transition:background 0.2s}
+.btn-new:hover{background:#3b82f618}
+
+/* LOADING */
+.loading{text-align:center;padding:2rem;color:var(--muted)}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESET PWD */
+.reset-wrap{padding:1.5rem;display:none;flex-direction:column;gap:1.1rem}
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <div class="frame-header">
+    <div class="logo">Makouez <span>IT</span></div>
+    <span style="font-size:0.8rem;color:var(--muted)">Mon espace</span>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="login-wrap" id="loginWrap">
+    <div>
+      <div class="section-title">Bonjour 👋</div>
+      <div class="section-sub" style="margin-top:0.25rem">Connectez-vous pour voir votre rendez-vous</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" id="loginEmail" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mot de passe</label>
+      <input class="form-input" type="password" id="loginPwd" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="error-msg" id="loginErr">Email ou mot de passe incorrect</div>
+    <button class="btn-main" onclick="doLogin()">Se connecter</button>
+    <button class="forgot-link" onclick="showReset()">Mot de passe oublié ?</button>
+    <a class="back-to-rdv" href="rdv.html">← Prendre un rendez-vous</a>
+  </div>
+
+  <!-- RESET MOT DE PASSE -->
+  <div class="reset-wrap" id="resetWrap">
+    <div>
+      <div class="section-title">Réinitialiser</div>
+      <div class="section-sub" style="margin-top:0.25rem">Un email vous sera envoyé</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Votre email</label>
+      <input class="form-input" type="email" id="resetEmail" placeholder="votre@email.com">
+    </div>
+    <div class="error-msg" id="resetMsg" style="color:var(--success)"></div>
+    <button class="btn-main" onclick="doReset()">Envoyer le lien</button>
+    <button class="forgot-link" onclick="showLogin()">← Retour à la connexion</button>
+  </div>
+
+  <!-- DASHBOARD CLIENT -->
+  <div class="dash-wrap" id="dashWrap">
+    <div class="user-row">
+      <div class="user-info">
+        <div class="user-name" id="userName">–</div>
+        <div class="user-email" id="userEmail">–</div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
+    </div>
+
+    <div id="rdvContent">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+  authDomain: "makouez-it.firebaseapp.com",
+  projectId: "makouez-it",
+  storageBucket: "makouez-it.firebasestorage.app",
+  messagingSenderId: "558314427247",
+  appId: "1:558314427247:web:83e656344dd79019ccce9a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let unsubscribeSnapshot = null;
+
+// Surveiller l'état de connexion
+onAuthStateChanged(auth, user => {
+  if(user){
+    showDash(user);
+    loadRdv(user.uid);
+  } else {
+    showLogin();
+  }
+});
+
+window.doLogin = async function(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pwd = document.getElementById('loginPwd').value;
+  document.getElementById('loginErr').style.display = 'none';
+  try {
+    await signInWithEmailAndPassword(auth, email, pwd);
+  } catch(e){
+    document.getElementById('loginErr').style.display = 'block';
+  }
+};
+
+window.doLogout = async function(){
+  if(unsubscribeSnapshot) unsubscribeSnapshot();
+  await signOut(auth);
+};
+
+window.doReset = async function(){
+  const email = document.getElementById('resetEmail').value.trim();
+  const msg = document.getElementById('resetMsg');
+  try {
+    await sendPasswordResetEmail(auth, email);
+    msg.style.color = 'var(--success)';
+    msg.style.display = 'block';
+    msg.textContent = 'Email envoyé ! Vérifiez votre boîte mail.';
+  } catch(e){
+    msg.style.color = 'var(--danger)';
+    msg.style.display = 'block';
+    msg.textContent = 'Email introuvable.';
+  }
+};
+
+function showDash(user){
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('resetWrap').style.display = 'none';
+  document.getElementById('dashWrap').style.display = 'flex';
+  document.getElementById('userName').textContent = user.displayName || 'Client';
+  document.getElementById('userEmail').textContent = user.email;
+}
+
+window.showLogin = function(){
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('resetWrap').style.display = 'none';
+  document.getElementById('dashWrap').style.display = 'none';
+};
+
+window.showReset = function(){
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('resetWrap').style.display = 'flex';
+};
+
+async function loadRdv(uid){
+  const container = document.getElementById('rdvContent');
+  container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+  // Écoute en temps réel — se met à jour automatiquement quand tu confirmes
+  const q = query(collection(db, "reservations"), where("uid", "==", uid));
+
+  unsubscribeSnapshot = onSnapshot(q, snapshot => {
+    if(snapshot.empty){
+      container.innerHTML = `
+        <div class="no-rdv">
+          <div class="no-rdv-icon">📭</div>
+          <div>Aucun rendez-vous trouvé.</div>
+          <a class="btn-new" href="rdv.html">+ Prendre un rendez-vous</a>
+        </div>`;
+      return;
+    }
+
+    // Prendre le RDV le plus récent
+    const rdvs = [];
+    snapshot.forEach(d => rdvs.push({ id: d.id, ...d.data() }));
+    rdvs.sort((a,b) => (b.createdAt||'') > (a.createdAt||'') ? 1 : -1);
+    const rdv = rdvs[0];
+
+    const dateLabel = rdv.dateKey
+      ? new Date(rdv.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
+      : '–';
+
+    const statusClass = rdv.status === 'confirmed' ? 'confirmed' : rdv.status === 'cancelled' ? 'cancelled' : 'pending';
+    const badgeClass = rdv.status === 'confirmed' ? 'badge-confirmed' : rdv.status === 'cancelled' ? 'badge-cancelled' : 'badge-pending';
+    const badgeLabel = rdv.status === 'confirmed' ? '✓ Confirmé' : rdv.status === 'cancelled' ? '✗ Annulé' : '⏳ En attente';
+
+    // Timeline
+    const step1Done = true;
+    const step2Done = rdv.status === 'confirmed' || rdv.status === 'cancelled';
+    const step3Done = rdv.status === 'confirmed';
+    const step3Cancel = rdv.status === 'cancelled';
+
+    const tl1Class = step1Done ? 'done' : 'active';
+    const tl2Class = step2Done ? (rdv.status==='cancelled'?'waiting':'done') : 'active';
+    const tl3Class = step3Done ? 'done' : step3Cancel ? 'waiting' : 'waiting';
+
+    const tl2Label = rdv.status === 'confirmed' ? 'RDV confirmé par Stevy' : rdv.status === 'cancelled' ? 'RDV annulé' : 'En attente de confirmation';
+    const tl2Sub = rdv.status === 'confirmed' ? 'Votre créneau est réservé' : rdv.status === 'cancelled' ? 'Contactez Makouez IT pour reprendre RDV' : 'Stevy vous confirmera sous 1h';
+    const tl3Label = 'Intervention à domicile';
+    const tl3Sub = step3Done ? `${dateLabel} à ${rdv.time}` : 'En attente de confirmation';
+
+    container.innerHTML = `
+      <div class="status-card ${statusClass}">
+        <div class="status-header">
+          <div class="status-title">${rdv.service||'–'}</div>
+          <div class="status-badge ${badgeClass}">${badgeLabel}</div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="tl-dot ${tl1Class}">✓</div>
+            <div class="tl-content">
+              <div class="tl-label">Demande envoyée</div>
+              <div class="tl-sub">Votre réservation a bien été reçue</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-dot ${tl2Class}">${step2Done && rdv.status!=='cancelled'?'✓':'⏳'}</div>
+            <div class="tl-content">
+              <div class="tl-label">${tl2Label}</div>
+              <div class="tl-sub">${tl2Sub}</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="tl-dot ${tl3Class}">${step3Done?'✓':'📅'}</div>
+            <div class="tl-content">
+              <div class="tl-label">${tl3Label}</div>
+              <div class="tl-sub">${tl3Sub}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rdv-details">
+        <div class="rdv-detail-row">
+          <div class="rdv-detail-icon">📅</div>
+          <div><div class="rdv-detail-label">Date & heure</div><div class="rdv-detail-val">${dateLabel} à ${rdv.time}</div></div>
+        </div>
+        <div class="rdv-detail-row">
+          <div class="rdv-detail-icon">📍</div>
+          <div><div class="rdv-detail-label">Adresse</div><div class="rdv-detail-val">${rdv.adresse||'–'}</div></div>
+        </div>
+        <div class="rdv-detail-row">
+          <div class="rdv-detail-icon">📞</div>
+          <div><div class="rdv-detail-label">Téléphone</div><div class="rdv-detail-val">${rdv.telephone||'–'}</div></div>
+        </div>
+        <div class="rdv-detail-row">
+          <div class="rdv-detail-icon">💰</div>
+          <div><div class="rdv-detail-label">Tarif indicatif</div><div class="rdv-detail-val">${rdv.price||'–'}</div></div>
+        </div>
+        ${rdv.description ? `
+        <div class="rdv-detail-row">
+          <div class="rdv-detail-icon">💬</div>
+          <div><div class="rdv-detail-label">Description</div><div class="rdv-detail-val">${rdv.description}</div></div>
+        </div>` : ''}
+      </div>
+
+      ${rdvs.length > 1 ? `<div style="font-size:0.78rem;color:var(--muted);text-align:center">Vous avez ${rdvs.length} rendez-vous au total. Affichage du plus récent.</div>` : ''}
+      <a class="btn-new" href="rdv.html">+ Prendre un autre rendez-vous</a>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
