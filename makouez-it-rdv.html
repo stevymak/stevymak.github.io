@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makouez IT – Réserver un rendez-vous</title>
+<meta name="description" content="Prenez rendez-vous avec Makouez IT pour une intervention informatique à domicile en Île-de-France. Créneaux disponibles sous 24h.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
+  --accent:#3b82f6;--accent2:#60a5fa;
+  --text:#f0f0ff;--muted:#8888aa;
+  --border:#ffffff14;--card:#ffffff08;--r:12px;
+  --success:#22c55e;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;gap:1rem}
+h1,h2,h3{font-family:'Syne',sans-serif}
+
+.back-link{color:var(--muted);text-decoration:none;font-size:0.85rem;align-self:flex-start;margin-left:calc(50% - 210px);transition:color 0.2s}
+.back-link:hover{color:var(--text)}
+@media(max-width:480px){.back-link{margin-left:0}}
+
+.phone-frame{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:0 40px 80px #00000060}
+.phone-header{background:var(--bg3);padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.logo-sm{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.logo-sm span{color:var(--accent)}
+.step-indicator{display:flex;gap:6px;align-items:center}
+.step-dot{width:24px;height:4px;border-radius:99px;background:var(--border);transition:background 0.3s}
+.step-dot.active{background:var(--accent)}
+.step-dot.done{background:#3b82f660}
+
+.screen{padding:1.5rem;display:none;flex-direction:column;gap:1.25rem}
+.screen.active{display:flex}
+.screen-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700}
+.screen-sub{color:var(--muted);font-size:0.85rem;margin-top:0.2rem}
+
+.service-list{display:flex;flex-direction:column;gap:0.6rem}
+.service-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
+.service-btn:hover,.service-btn.selected{border-color:#3b82f660;background:#3b82f610}
+.service-btn .svc-icon{width:38px;height:38px;background:#3b82f618;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.service-btn .svc-name{font-weight:500;font-size:0.92rem}
+.service-btn .svc-price{color:var(--accent);font-size:0.8rem;font-weight:500}
+.service-btn .svc-check{margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s}
+.service-btn.selected .svc-check{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.calendar-header{display:flex;align-items:center;justify-content:space-between}
+.cal-nav{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1rem;transition:background 0.2s}
+.cal-nav:hover{background:var(--border)}
+.cal-month{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:0.75rem}
+.cal-day-label{text-align:center;font-size:0.72rem;color:var(--muted);padding:4px 0;font-weight:500}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:0.82rem;cursor:pointer;transition:all 0.2s;border:1px solid transparent}
+.cal-day:hover:not(.empty):not(.past){background:#3b82f618;border-color:#3b82f640}
+.cal-day.today{border-color:#3b82f640;color:var(--accent2);font-weight:600}
+.cal-day.selected{background:var(--accent);color:#fff;font-weight:600;border-color:var(--accent)}
+.cal-day.past{color:#ffffff20;cursor:default}
+.cal-day.empty{cursor:default}
+
+.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem}
+.time-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.6rem;text-align:center;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;color:var(--text)}
+.time-btn:hover,.time-btn.selected{background:#3b82f618;border-color:#3b82f660;color:var(--accent2)}
+.time-btn.selected{background:var(--accent);color:#fff;border-color:var(--accent)}
+.time-btn.unavail{color:#ffffff20;cursor:default;pointer-events:none}
+
+.form-group{display:flex;flex-direction:column;gap:0.4rem}
+.form-label{font-size:0.8rem;color:var(--muted);font-weight:500}
+.form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
+.form-input:focus{border-color:#3b82f660}
+.form-input::placeholder{color:var(--muted)}
+textarea.form-input{resize:none;height:80px}
+
+.summary-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.88rem}
+.summary-row:last-child{border-bottom:none;font-weight:600;color:var(--accent);font-size:0.95rem}
+.summary-label{color:var(--muted)}
+
+.btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;width:100%}
+.btn-main:hover{opacity:0.85}
+.btn-main:disabled{opacity:0.4;cursor:not-allowed}
+.btn-back{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:0.7rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.2s;width:100%}
+.btn-back:hover{color:var(--text);border-color:#3b82f640}
+
+.success-screen{padding:2rem 1.5rem;display:none;flex-direction:column;align-items:center;text-align:center;gap:1.25rem}
+.success-screen.active{display:flex}
+.success-icon{width:72px;height:72px;border-radius:50%;background:#22c55e20;border:2px solid #22c55e60;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.success-screen h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
+.success-screen p{color:var(--muted);font-size:0.9rem;max-width:280px}
+.confirm-card{background:var(--card);border:1px solid #22c55e30;border-radius:var(--r);padding:1.1rem;width:100%;text-align:left}
+.confirm-row{display:flex;align-items:center;gap:0.75rem;padding:0.4rem 0;font-size:0.88rem}
+.confirm-icon{width:28px;height:28px;background:#22c55e18;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<a class="back-link" href="makouez-it-site.html">← Retour au site</a>
+
+<div class="phone-frame">
+  <div class="phone-header">
+    <div class="logo-sm">Makouez <span>IT</span></div>
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+      <div class="step-dot" id="dot4"></div>
+    </div>
+  </div>
+
+  <!-- Étape 1 : Service -->
+  <div class="screen active" id="s1">
+    <div>
+      <div class="screen-title">Quel service ?</div>
+      <div class="screen-sub">Sélectionnez le type d'intervention</div>
+    </div>
+    <div class="service-list">
+      <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€')">
+        <div class="svc-icon">💻</div>
+        <div><div class="svc-name">Dépannage PC / Mac</div><div class="svc-price">60€ – 80€</div></div>
+        <div class="svc-check">✓</div>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Installation Windows / logiciels','à partir de 60€')">
+        <div class="svc-icon">🪟</div>
+        <div><div class="svc-name">Installation Windows / logiciels</div><div class="svc-price">à partir de 60€</div></div>
+        <div class="svc-check">✓</div>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Réseau Wi-Fi','à partir de 60€')">
+        <div class="svc-icon">📶</div>
+        <div><div class="svc-name">Réseau Wi-Fi</div><div class="svc-price">à partir de 60€</div></div>
+        <div class="svc-check">✓</div>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Récupération de données','à partir de 80€')">
+        <div class="svc-icon">💾</div>
+        <div><div class="svc-name">Récupération de données</div><div class="svc-price">à partir de 80€</div></div>
+        <div class="svc-check">✓</div>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Formation / accompagnement','40€/h')">
+        <div class="svc-icon">🎓</div>
+        <div><div class="svc-name">Formation / accompagnement</div><div class="svc-price">40€/h</div></div>
+        <div class="svc-check">✓</div>
+      </button>
+    </div>
+    <button class="btn-main" id="btn1" disabled onclick="goTo(2)">Choisir une date →</button>
+  </div>
+
+  <!-- Étape 2 : Date & heure -->
+  <div class="screen" id="s2">
+    <div>
+      <div class="screen-title">Choisir une date</div>
+      <div class="screen-sub">Sélectionnez un jour disponible</div>
+    </div>
+    <div>
+      <div class="calendar-header">
+        <button class="cal-nav" onclick="prevMonth()">‹</button>
+        <div class="cal-month" id="calTitle"></div>
+        <button class="cal-nav" onclick="nextMonth()">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+    <div id="timeSection" style="display:none">
+      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem">Créneaux disponibles</div>
+      <div class="time-grid" id="timeGrid"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.5rem">
+      <button class="btn-main" id="btn2" disabled onclick="goTo(3)">Continuer →</button>
+      <button class="btn-back" onclick="goTo(1)">← Retour</button>
+    </div>
+  </div>
+
+  <!-- Étape 3 : Infos client -->
+  <div class="screen" id="s3">
+    <div>
+      <div class="screen-title">Vos coordonnées</div>
+      <div class="screen-sub">Pour confirmer votre réservation</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.85rem">
+      <div class="form-group">
+        <label class="form-label">Prénom et nom *</label>
+        <input class="form-input" id="fname" type="text" placeholder="Marie Dupont" oninput="checkForm3()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Téléphone *</label>
+        <input class="form-input" id="fphone" type="tel" placeholder="06 XX XX XX XX" oninput="checkForm3()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Adresse d'intervention *</label>
+        <input class="form-input" id="faddress" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm3()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description du problème</label>
+        <textarea class="form-input" id="fdesc" placeholder="Mon PC est très lent depuis quelques jours..."></textarea>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.5rem">
+      <button class="btn-main" id="btn3" disabled onclick="goTo(4)">Récapitulatif →</button>
+      <button class="btn-back" onclick="goTo(2)">← Retour</button>
+    </div>
+  </div>
+
+  <!-- Étape 4 : Récapitulatif -->
+  <div class="screen" id="s4">
+    <div>
+      <div class="screen-title">Récapitulatif</div>
+      <div class="screen-sub">Vérifiez avant de confirmer</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-row"><span class="summary-label">Service</span><span id="sumService">–</span></div>
+      <div class="summary-row"><span class="summary-label">Date</span><span id="sumDate">–</span></div>
+      <div class="summary-row"><span class="summary-label">Heure</span><span id="sumTime">–</span></div>
+      <div class="summary-row"><span class="summary-label">Nom</span><span id="sumName">–</span></div>
+      <div class="summary-row"><span class="summary-label">Adresse</span><span id="sumAddr">–</span></div>
+      <div class="summary-row"><span class="summary-label">Tarif indicatif</span><span id="sumPrice">–</span></div>
+    </div>
+    <p style="font-size:0.78rem;color:var(--muted);text-align:center">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT) pour valider ce rendez-vous.</p>
+    <div style="display:flex;flex-direction:column;gap:0.5rem">
+      <button class="btn-main" onclick="confirm()">✓ Confirmer le rendez-vous</button>
+      <button class="btn-back" onclick="goTo(3)">← Modifier</button>
+    </div>
+  </div>
+
+  <!-- Succès -->
+  <div class="success-screen" id="sSuccess">
+    <div class="success-icon">✓</div>
+    <h2>Demande envoyée !</h2>
+    <p>Stevy (Makouez IT) vous confirmera votre rendez-vous par SMS sous 1 heure.</p>
+    <div class="confirm-card" id="confirmCard"></div>
+    <button class="btn-main" onclick="restart()" style="margin-top:0.5rem">Prendre un autre RDV</button>
+  </div>
+</div>
+
+<script>
+let state={service:'',servicePrice:'',selectedDate:null,selectedTime:'',currentYear:new Date().getFullYear(),currentMonth:new Date().getMonth()};
+const days=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const months=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const times=['08:00','09:00','10:00','11:00','14:00','15:00','16:00','17:00','18:00'];
+const unavailTimes=['10:00','15:00'];
+
+function selectService(btn,name,price){
+  document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.service=name;state.servicePrice=price;
+  document.getElementById('btn1').disabled=false;
+}
+
+function goTo(step){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sSuccess').classList.remove('active');
+  if(step===5){document.getElementById('sSuccess').classList.add('active')}
+  else{document.getElementById('s'+step).classList.add('active')}
+  [1,2,3,4].forEach(i=>{
+    const d=document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    if(i<step)d.classList.add('done');
+    else if(i===step)d.classList.add('active');
+  });
+  if(step===2)renderCalendar();
+  if(step===4)fillSummary();
+}
+
+function renderCalendar(){
+  const y=state.currentYear,m=state.currentMonth;
+  document.getElementById('calTitle').textContent=months[m]+' '+y;
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  days.forEach(d=>{const el=document.createElement('div');el.className='cal-day-label';el.textContent=d;grid.appendChild(el)});
+  const first=new Date(y,m,1);
+  let startDay=first.getDay()-1;if(startDay<0)startDay=6;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const today=new Date();today.setHours(0,0,0,0);
+  for(let i=0;i<startDay;i++){const e=document.createElement('div');e.className='cal-day empty';grid.appendChild(e)}
+  for(let d=1;d<=daysInMonth;d++){
+    const el=document.createElement('div');
+    const date=new Date(y,m,d);date.setHours(0,0,0,0);
+    const isPast=date<today;
+    const isToday=date.getTime()===today.getTime();
+    const isSelected=state.selectedDate&&state.selectedDate.getTime()===date.getTime();
+    const dow=date.getDay();
+    const isWeekend=dow===0||dow===6;
+    el.className='cal-day'+(isPast||isWeekend?' past':'')+(isToday?' today':'')+(isSelected?' selected':'');
+    el.textContent=d;
+    if(!isPast&&!isWeekend){el.onclick=()=>selectDate(date)}
+    grid.appendChild(el);
+  }
+}
+
+function selectDate(date){
+  state.selectedDate=date;state.selectedTime='';
+  document.getElementById('btn2').disabled=true;
+  renderCalendar();
+  const ts=document.getElementById('timeSection');
+  ts.style.display='block';
+  const tg=document.getElementById('timeGrid');
+  tg.innerHTML='';
+  times.forEach(t=>{
+    const el=document.createElement('div');
+    el.className='time-btn'+(unavailTimes.includes(t)?' unavail':'');
+    el.textContent=t;
+    if(!unavailTimes.includes(t)){el.onclick=()=>selectTime(t,el)}
+    tg.appendChild(el);
+  });
+}
+
+function selectTime(t,el){
+  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.selectedTime=t;
+  document.getElementById('btn2').disabled=false;
+}
+
+function prevMonth(){
+  state.currentMonth--;if(state.currentMonth<0){state.currentMonth=11;state.currentYear--}
+  state.selectedDate=null;state.selectedTime='';
+  document.getElementById('timeSection').style.display='none';
+  document.getElementById('btn2').disabled=true;
+  renderCalendar();
+}
+function nextMonth(){
+  state.currentMonth++;if(state.currentMonth>11){state.currentMonth=0;state.currentYear++}
+  state.selectedDate=null;state.selectedTime='';
+  document.getElementById('timeSection').style.display='none';
+  document.getElementById('btn2').disabled=true;
+  renderCalendar();
+}
+
+function checkForm3(){
+  const ok=document.getElementById('fname').value.trim()&&document.getElementById('fphone').value.trim()&&document.getElementById('faddress').value.trim();
+  document.getElementById('btn3').disabled=!ok;
+}
+
+function fillSummary(){
+  const dateStr=state.selectedDate?state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}):'–';
+  document.getElementById('sumService').textContent=state.service;
+  document.getElementById('sumDate').textContent=dateStr;
+  document.getElementById('sumTime').textContent=state.selectedTime;
+  document.getElementById('sumName').textContent=document.getElementById('fname').value;
+  document.getElementById('sumAddr').textContent=document.getElementById('faddress').value;
+  document.getElementById('sumPrice').textContent=state.servicePrice;
+}
+
+function confirm(){
+  const dateStr=state.selectedDate?state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}):'–';
+  document.getElementById('confirmCard').innerHTML=`
+    <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateStr} à ${state.selectedTime}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">📍</div><div>${document.getElementById('faddress').value}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">💰</div><div>${state.servicePrice} (devis confirmé sur place)</div></div>
+  `;
+  goTo(5);
+}
+
+function restart(){
+  state={service:'',servicePrice:'',selectedDate:null,selectedTime:'',currentYear:new Date().getFullYear(),currentMonth:new Date().getMonth()};
+  document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
+  ['fname','fphone','faddress','fdesc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('btn1').disabled=true;
+  document.getElementById('btn2').disabled=true;
+  document.getElementById('btn3').disabled=true;
+  goTo(1);
+}
+
+renderCalendar();
+</script>
+</body>
+</html>

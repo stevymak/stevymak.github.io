@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makouez IT – Dépannage informatique à domicile | Île-de-France</title>
+<meta name="description" content="Stevy, technicien informatique avec 9 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC/Mac, réseau Wi-Fi, récupération de données. À partir de 60€. Intervention rapide sous 24h.">
+<meta name="keywords" content="dépannage informatique domicile, technicien informatique Île-de-France, réparation PC Mac, récupération données, Makouez IT, dépannage informatique 93, technicien informatique Seine-Saint-Denis">
+<meta name="author" content="Stevy – Makouez IT">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Makouez IT – Dépannage informatique à domicile en Île-de-France">
+<meta property="og:description" content="Technicien informatique avec 9 ans d'expérience. Intervention rapide à domicile. Dépannage PC/Mac, Wi-Fi, récupération de données. À partir de 60€.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090f;
+  --bg2:#111120;
+  --bg3:#16162a;
+  --accent:#3b82f6;
+  --accent2:#60a5fa;
+  --text:#f0f0ff;
+  --muted:#8888aa;
+  --border:#ffffff14;
+  --card:#ffffff08;
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+h1,h2,h3,.logo{font-family:'Syne',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(9,9,15,0.85);border-bottom:1px solid var(--border)}
+.logo{font-size:1.4rem;font-weight:800;color:var(--text);letter-spacing:-0.02em}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.85}
+
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%, #1a2a5e44 0%, transparent 70%)}
+.hero-dot{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle, #3b82f620 0%, transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:#3b82f618;border:1px solid #3b82f640;color:var(--accent2);padding:0.35rem 1rem;border-radius:99px;font-size:0.8rem;font-weight:500;margin-bottom:1.5rem}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em;max-width:700px;margin:0 auto 1.5rem}
+.hero h1 .hl{color:var(--accent)}
+.hero p{color:var(--muted);font-size:1.1rem;max-width:520px;margin:0 auto 2.5rem;line-height:1.6}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:0.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;border:none;cursor:pointer}
+.btn-primary:hover{opacity:0.85}
+.btn-outline{background:transparent;color:var(--text);padding:0.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:500;text-decoration:none;border:1px solid var(--border);transition:background 0.2s}
+.btn-outline:hover{background:var(--border)}
+.hero-stats{display:flex;gap:2rem;justify-content:center;margin-top:4rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--text)}
+.stat-label{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+
+section{padding:5rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);font-weight:600;margin-bottom:0.75rem}
+.section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem;line-height:1.2}
+.section-sub{color:var(--muted);font-size:1.05rem;max-width:560px;line-height:1.6}
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
+.service-card:hover{border-color:#3b82f640;background:#3b82f608}
+.service-icon{width:44px;height:44px;background:#3b82f618;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem}
+.service-card h3{font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;font-family:'Syne',sans-serif}
+.service-card p{color:var(--muted);font-size:0.9rem;line-height:1.6}
+
+.tarifs-section{background:var(--bg2)}
+.tarifs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
+.tarif-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;position:relative}
+.tarif-card.featured{border-color:#3b82f660;background:linear-gradient(135deg,#3b82f610,#60a5fa08)}
+.tarif-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:0.72rem;font-weight:600;padding:0.2rem 0.9rem;border-radius:99px;white-space:nowrap}
+.tarif-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;margin-bottom:0.3rem}
+.tarif-price{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:0.2rem}
+.tarif-price span{font-size:1rem;color:var(--muted);font-weight:400}
+.tarif-desc{color:var(--muted);font-size:0.85rem;margin-bottom:1.25rem}
+.tarif-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.tarif-features li{display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;color:var(--text)}
+.tarif-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.75rem}
+
+.about-section{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.about-section{grid-template-columns:1fr}}
+.about-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:#fff}
+.about-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem}
+.tag{background:#3b82f618;color:var(--accent2);padding:0.25rem 0.75rem;border-radius:99px;font-size:0.8rem;border:1px solid #3b82f630}
+.values{display:flex;flex-direction:column;gap:1rem}
+.value-item{display:flex;align-items:flex-start;gap:1rem}
+.value-icon{width:36px;height:36px;background:#3b82f618;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.value-item h4{font-size:0.95rem;font-weight:600;margin-bottom:0.2rem;font-family:'Syne',sans-serif}
+.value-item p{font-size:0.85rem;color:var(--muted)}
+
+.zone-section{background:var(--bg2)}
+.zone-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem}
+.zone-chip{background:var(--card);border:1px solid var(--border);padding:0.4rem 1rem;border-radius:99px;font-size:0.85rem;color:var(--muted)}
+.zone-chip.main{background:#3b82f618;border-color:#3b82f640;color:var(--accent2)}
+
+.seo-section{background:var(--bg3)}
+.seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:2rem}
+.seo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
+.seo-card h4{font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;color:var(--accent2)}
+.seo-card p{font-size:0.82rem;color:var(--muted);line-height:1.5}
+
+.faq-section{}
+.faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:1rem;max-width:740px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;cursor:pointer}
+.faq-q{font-weight:500;font-size:0.95rem;display:flex;justify-content:space-between;align-items:center}
+.faq-a{color:var(--muted);font-size:0.9rem;margin-top:0.75rem;line-height:1.6;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-arrow{color:var(--accent);font-size:1.2rem;transition:transform 0.2s}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+
+.contact-section{background:linear-gradient(135deg,#0d1a3e,var(--bg))}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+.contact-methods{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
+.contact-method{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;text-decoration:none;color:var(--text);transition:border-color 0.2s}
+.contact-method:hover{border-color:#3b82f640}
+.contact-method-icon{width:40px;height:40px;background:#3b82f618;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-method-text small{color:var(--muted);font-size:0.8rem;display:block}
+.contact-method-text strong{font-size:0.95rem}
+.contact-cta-box{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center}
+.contact-cta-box h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.75rem}
+.contact-cta-box p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem}
+
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text-align:center}
+.footer-content{color:var(--muted);font-size:0.85rem}
+.footer-links{display:flex;gap:1.5rem;justify-content:center;margin-top:0.75rem;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--text)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{opacity:0;animation:fadeUp 0.6s ease forwards}
+.delay-1{animation-delay:0.1s}.delay-2{animation-delay:0.2s}.delay-3{animation-delay:0.3s}.delay-4{animation-delay:0.4s}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero h1{font-size:2rem}
+  .hero-stats{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Schema.org LocalBusiness pour SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Makouez IT",
+  "description": "Technicien informatique à domicile en Île-de-France. Dépannage PC/Mac, réseau Wi-Fi, récupération de données, installation Windows.",
+  "url": "https://www.makouez-it.fr",
+  "telephone": "+33XXXXXXXXX",
+  "email": "contact@makouez-it.fr",
+  "founder": {"@type": "Person", "name": "Stevy"},
+  "areaServed": ["Pierrefitte-sur-Seine", "Saint-Denis", "Stains", "Saint-Ouen", "Île-de-France"],
+  "priceRange": "60€ - 80€",
+  "openingHours": "Mo-Fr 09:00-19:00",
+  "serviceType": ["Dépannage informatique", "Réparation PC", "Récupération de données", "Installation Windows", "Formation informatique"]
+}
+</script>
+
+<nav>
+  <div class="logo">Makouez <span>IT</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#tarifs">Tarifs</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#rdv" class="nav-cta">Prendre RDV</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dot"></div>
+  <div style="position:relative;z-index:1">
+    <div class="badge fade-up"><span class="badge-dot"></span> Disponible en Île-de-France</div>
+    <h1 class="fade-up delay-1">Votre technicien<br>informatique <span class="hl">à domicile</span></h1>
+    <p class="fade-up delay-2">9 ans d'expérience. Des solutions concrètes, sans jargon, sans mauvaises surprises. J'interviens chez vous rapidement en Île-de-France.</p>
+    <div class="hero-btns fade-up delay-3">
+      <a href="#rdv" class="btn-primary">Prendre rendez-vous</a>
+      <a href="tel:+33XXXXXXXXX" class="btn-outline">Appeler maintenant</a>
+    </div>
+    <div class="hero-stats fade-up delay-4">
+      <div class="stat"><div class="stat-num">9 ans</div><div class="stat-label">d'expérience</div></div>
+      <div class="stat"><div class="stat-num">60€</div><div class="stat-label">à partir de</div></div>
+      <div class="stat"><div class="stat-num">24h</div><div class="stat-label">délai moyen</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">satisfaction garantie</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="section-label">Ce que je propose</div>
+    <h2 class="section-title">Des solutions pour chaque problème</h2>
+    <p class="section-sub">Du simple dépannage à la formation complète — j'interviens sur tous vos appareils, à votre domicile, en Île-de-France.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <h3>Dépannage PC &amp; Mac</h3>
+        <p>Lenteur, virus, écran noir, plantages, Windows qui ne démarre plus — je diagnostique et répare rapidement.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🪟</div>
+        <h3>Installation Windows &amp; logiciels</h3>
+        <p>Réinstallation de Windows, configuration initiale, installation de vos logiciels et mises à jour.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📶</div>
+        <h3>Réseau Wi-Fi</h3>
+        <p>Connexion lente, Wi-Fi coupé, problème de box, extension de réseau, sécurisation de votre connexion.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💾</div>
+        <h3>Récupération de données</h3>
+        <p>Fichiers supprimés, disque dur défaillant, photos perdues — je récupère vos données précieuses.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔒</div>
+        <h3>Sauvegarde &amp; sécurité</h3>
+        <p>Mise en place de sauvegardes automatiques, antivirus, protection contre les arnaques en ligne.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎓</div>
+        <h3>Formation &amp; accompagnement</h3>
+        <p>Apprenez à maîtriser votre PC, smartphone ou tablette à votre rythme, sans jargon technique.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tarifs" class="tarifs-section">
+  <div class="container">
+    <div class="section-label">Tarifs clairs</div>
+    <h2 class="section-title">Sans surprise, sans mauvaise surprise</h2>
+    <p class="section-sub">Des tarifs transparents pour chaque besoin. Devis gratuit avant toute intervention.</p>
+    <div class="tarifs-grid">
+      <div class="tarif-card">
+        <div class="tarif-name">Intervention standard</div>
+        <div class="tarif-price">60€ <span>à 80€</span></div>
+        <div class="tarif-desc">Déplacement inclus • Paiement après intervention</div>
+        <ul class="tarif-features">
+          <li>Diagnostic complet</li>
+          <li>Dépannage sur place</li>
+          <li>Conseils personnalisés</li>
+          <li>Suivi post-intervention</li>
+        </ul>
+      </div>
+      <div class="tarif-card featured">
+        <div class="tarif-badge">Le plus demandé</div>
+        <div class="tarif-name">Contrat Sérénité</div>
+        <div class="tarif-price">39€ <span>/mois</span></div>
+        <div class="tarif-desc">Assistance prioritaire toute l'année</div>
+        <ul class="tarif-features">
+          <li>Interventions illimitées</li>
+          <li>Priorité de passage</li>
+          <li>Support téléphonique inclus</li>
+          <li>Bilan informatique annuel</li>
+        </ul>
+      </div>
+      <div class="tarif-card">
+        <div class="tarif-name">Pack Senior+</div>
+        <div class="tarif-price">49€ <span>/mois</span></div>
+        <div class="tarif-desc">Accompagnement adapté aux seniors</div>
+        <ul class="tarif-features">
+          <li>Visites régulières à domicile</li>
+          <li>Formation progressive</li>
+          <li>Hotline dédiée</li>
+          <li>Protection anti-arnaques</li>
+        </ul>
+      </div>
+      <div class="tarif-card">
+        <div class="tarif-name">Pack Famille</div>
+        <div class="tarif-price">59€ <span>/mois</span></div>
+        <div class="tarif-desc">Jusqu'à 3 appareils, toute la famille</div>
+        <ul class="tarif-features">
+          <li>3 appareils couverts</li>
+          <li>PC, Mac, smartphone, tablette</li>
+          <li>Contrôle parental inclus</li>
+          <li>Interventions illimitées</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-label">À propos</div>
+    <div class="about-section">
+      <div>
+        <h2 class="section-title">Bonjour, je suis Stevy</h2>
+        <p style="color:var(--muted);margin-bottom:1.5rem">Fondateur de Makouez IT, technicien informatique depuis 9 ans. J'ai travaillé en environnement professionnel — notamment en milieu hospitalier — avant de lancer mon activité pour aider les particuliers en Île-de-France.</p>
+        <p style="color:var(--muted);margin-bottom:1.5rem">Mon crédo : vous expliquer clairement ce qui ne va pas, vous donner une solution concrète, et repartir en vous laissant autonome. Pas de jargon, pas de devis gonflé.</p>
+        <div class="about-tags">
+          <span class="tag">Dépannage PC/Mac</span>
+          <span class="tag">Réseaux</span>
+          <span class="tag">Windows</span>
+          <span class="tag">Sécurité</span>
+          <span class="tag">Formation</span>
+          <span class="tag">Micro-entrepreneur</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="avatar">S</div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem">Stevy</div>
+            <div style="color:var(--muted);font-size:0.85rem">Fondateur de Makouez IT</div>
+          </div>
+        </div>
+        <div class="values">
+          <div class="value-item">
+            <div class="value-icon">🎯</div>
+            <div>
+              <h4>Transparence totale</h4>
+              <p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">⚡</div>
+            <div>
+              <h4>Réactivité</h4>
+              <p>Intervention généralement sous 24h, parfois le jour même selon les disponibilités.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🤝</div>
+            <div>
+              <h4>Pédagogie</h4>
+              <p>Je vous explique ce qui s'est passé et comment éviter que ça se reproduise.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="zone-section">
+  <div class="container">
+    <div class="section-label">Zone d'intervention</div>
+    <h2 class="section-title">Île-de-France</h2>
+    <p class="section-sub">Makouez IT intervient principalement dans le 93 (Seine-Saint-Denis) et les départements voisins.</p>
+    <div class="zone-chips">
+      <span class="zone-chip main">Pierrefitte-sur-Seine</span>
+      <span class="zone-chip main">Saint-Denis</span>
+      <span class="zone-chip main">Stains</span>
+      <span class="zone-chip main">Saint-Ouen</span>
+      <span class="zone-chip">Paris (75)</span>
+      <span class="zone-chip">Argenteuil</span>
+      <span class="zone-chip">Épinay-sur-Seine</span>
+      <span class="zone-chip">Villetaneuse</span>
+      <span class="zone-chip">L'Île-Saint-Denis</span>
+      <span class="zone-chip">Aubervilliers</span>
+      <span class="zone-chip">La Courneuve</span>
+      <span class="zone-chip">Bobigny</span>
+      <span class="zone-chip">et alentours</span>
+    </div>
+    <p style="color:var(--muted);font-size:0.85rem;margin-top:1.25rem">Une intervention hors zone est possible sur demande — contactez-moi pour en discuter.</p>
+  </div>
+</section>
+
+<section class="seo-section">
+  <div class="container">
+    <div class="section-label">Pourquoi Makouez IT ?</div>
+    <h2 class="section-title">Ce qui me différencie</h2>
+    <div class="seo-grid">
+      <div class="seo-card">
+        <h4>Technicien certifié, pas un amateur</h4>
+        <p>9 ans d'expérience professionnelle dont en milieu hospitalier. Je sais gérer l'urgence et la rigueur.</p>
+      </div>
+      <div class="seo-card">
+        <h4>Intervention à domicile uniquement</h4>
+        <p>Pas besoin de démonter votre ordinateur et de le porter quelque part. Je viens chez vous.</p>
+      </div>
+      <div class="seo-card">
+        <h4>Paiement après intervention</h4>
+        <p>Vous ne payez qu'une fois satisfait. Devis gratuit, tarif fixe annoncé avant de commencer.</p>
+      </div>
+      <div class="seo-card">
+        <h4>Disponible rapidement</h4>
+        <p>Disponible en semaine et souvent le week-end. Délai moyen d'intervention : moins de 24h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="section-label">Questions fréquentes</div>
+    <h2 class="section-title">FAQ</h2>
+    <div class="faq-list" id="faq">
+      <div class="faq-item">
+        <div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div>
+        <div class="faq-a">Une intervention standard coûte entre 60€ et 80€, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention. Vous ne payez qu'après que le problème est résolu.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Quels types de problèmes pouvez-vous résoudre ? <span class="faq-arrow">+</span></div>
+        <div class="faq-a">PC lent, virus, écran noir, Windows qui plante, Wi-Fi qui ne fonctionne pas, récupération de fichiers perdus, configuration d'un nouvel ordinateur, formation… la grande majorité des problèmes courants.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Dans quel délai Makouez IT peut-il intervenir ? <span class="faq-arrow">+</span></div>
+        <div class="faq-a">En général sous 24h à 48h. Pour les urgences, contactez-moi directement par téléphone et je ferai mon possible pour intervenir rapidement.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Est-ce que vous intervenez sur Mac ? <span class="faq-arrow">+</span></div>
+        <div class="faq-a">Oui, j'interviens aussi bien sur PC Windows que sur Mac (macOS). Je prends également en charge les smartphones et tablettes Android et iPhone pour les problèmes courants.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Que se passe-t-il si le problème ne peut pas être résolu ? <span class="faq-arrow">+</span></div>
+        <div class="faq-a">Si le problème dépasse ce que je peux résoudre sur place (ex. panne matérielle grave), je vous l'explique honnêtement et vous conseille sur les options disponibles. Dans ce cas, le déplacement reste facturé mais à tarif réduit.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Besoin d'aide ?<br>Je suis là.</h2>
+        <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux. Je réponds rapidement.</p>
+        <div class="contact-methods">
+          <a href="tel:+33XXXXXXXXX" class="contact-method">
+            <div class="contact-method-icon">📞</div>
+            <div class="contact-method-text"><small>Appel direct</small><strong>06 XX XX XX XX</strong></div>
+          </a>
+          <a href="mailto:contact@makouez-it.fr" class="contact-method">
+            <div class="contact-method-icon">✉️</div>
+            <div class="contact-method-text"><small>Email</small><strong>contact@makouez-it.fr</strong></div>
+          </a>
+          <a href="https://wa.me/33XXXXXXXXX" class="contact-method">
+            <div class="contact-method-icon">💬</div>
+            <div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div>
+          </a>
+        </div>
+      </div>
+      <div id="rdv" class="contact-cta-box">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem">📅</div>
+        <h3>Prendre rendez-vous</h3>
+        <p>Réservez votre créneau en ligne en quelques secondes. Choisissez votre date et votre horaire, je confirme sous 1h.</p>
+        <a href="makouez-it-rdv.html" class="btn-primary" style="display:inline-block">Réserver un créneau →</a>
+        <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">Ou appelez le 06 XX XX XX XX</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem">Makouez <span style="color:#3b82f6">IT</span></div>
+    <div>Technicien informatique à domicile • Île-de-France • Micro-entrepreneur</div>
+    <div class="footer-links">
+      <a href="#">Mentions légales</a>
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">CGV</a>
+      <a href="#services">Services</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div style="margin-top:0.75rem;font-size:0.78rem">© 2025 Makouez IT – Stevy | SIRET : XXXXX | Tous droits réservés</div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.querySelector('.faq-q').addEventListener('click',()=>{
+    item.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
