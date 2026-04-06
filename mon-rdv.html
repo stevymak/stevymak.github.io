@@ -54,12 +54,36 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .field input{width:100%;background:#ffffff0a;border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s}
 .field input:focus{border-color:#3b82f660}
 .field input::placeholder{color:var(--muted)}
-.btn-login{width:100%;background:var(--accent);color:#fff;border:none;padding:0.85rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;margin-top:0.5rem}
+
+/* Password field wrapper */
+.field-password{position:relative}
+.field-password input{padding-right:3rem}
+.toggle-pw{position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;transition:color 0.2s}
+.toggle-pw:hover{color:var(--text)}
+.toggle-pw svg{width:18px;height:18px}
+
+.btn-login{width:100%;background:var(--accent);color:#fff;border:none;padding:0.85rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:opacity 0.2s,transform 0.15s;margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:0.5rem}
 .btn-login:hover{opacity:0.85}
+.btn-login:active{transform:scale(0.98)}
+.btn-login:disabled{opacity:0.5;cursor:not-allowed}
+
+/* Spinner */
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 .login-hint{text-align:center;margin-top:1.25rem;font-size:0.83rem;color:var(--muted)}
 .login-hint a{color:var(--accent2);text-decoration:none}
-.error-msg{background:#ef444420;border:1px solid #ef444440;color:#fca5a5;font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none}
-.error-msg.show{display:block}
+.link-forgot{text-align:right;margin-top:-0.75rem;margin-bottom:1rem;font-size:0.8rem}
+.link-forgot a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+.link-forgot a:hover{color:var(--accent2)}
+
+.error-msg{background:#ef444420;border:1px solid #ef444440;color:#fca5a5;font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem}
+.error-msg.show{display:flex}
+.success-msg{background:#22c55e18;border:1px solid #22c55e30;color:var(--green);font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem}
+.success-msg.show{display:flex}
+
+/* Reset view */
+#reset-view{display:none}
 
 /* DASHBOARD */
 #dashboard{display:none}
@@ -165,23 +189,61 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     </div>
     <div class="login-card">
       <h2>Connexion</h2>
-      <p>Entrez votre email et le code reçu lors de votre réservation pour accéder à votre espace.</p>
-      <div class="error-msg" id="error-msg">Email ou code incorrect. Vérifiez vos informations.</div>
+      <p>Connectez-vous avec l'email et le mot de passe de votre compte client.</p>
+      <div class="error-msg" id="error-msg">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="error-text">Email ou mot de passe incorrect.</span>
+      </div>
       <div class="field">
         <label>Adresse email</label>
         <input type="email" id="input-email" placeholder="votre@email.com" autocomplete="email">
       </div>
       <div class="field">
-        <label>Code de réservation</label>
-        <input type="text" id="input-code" placeholder="Ex : MKZ-2847" autocomplete="off" style="letter-spacing:0.05em">
+        <label>Mot de passe</label>
+        <div class="field-password">
+          <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
+          <button class="toggle-pw" type="button" onclick="togglePassword()" aria-label="Afficher/masquer le mot de passe">
+            <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
       </div>
-      <button class="btn-login" onclick="doLogin()">Accéder à mon espace →</button>
+      <div class="link-forgot"><a href="#" onclick="showResetView(event)">Mot de passe oublié ?</a></div>
+      <button class="btn-login" id="btn-login" onclick="doLogin()">
+        <span id="btn-login-text">Accéder à mon espace →</span>
+      </button>
       <div class="login-hint">
-        Pas encore de réservation ?
+        Pas encore de compte ?
         <a href="makouez-it-rdv.html">Prendre un RDV →</a>
       </div>
-      <div class="login-hint" style="margin-top:0.5rem">
-        Code perdu ? <a href="mailto:contact@makouezit.org">Contactez Stevy</a>
+    </div>
+  </div>
+
+  <!-- ===== RESET PASSWORD ===== -->
+  <div id="reset-view">
+    <div class="page-header" style="text-align:center;margin-bottom:2rem">
+      <div class="page-label">Mon Espace Client</div>
+      <h1 class="page-title">Réinitialiser le mot de passe</h1>
+    </div>
+    <div class="login-card">
+      <h2>Mot de passe oublié</h2>
+      <p>Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+      <div class="error-msg" id="reset-error-msg">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="reset-error-text">Une erreur est survenue.</span>
+      </div>
+      <div class="success-msg" id="reset-success-msg">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Email envoyé ! Vérifiez votre boîte mail.</span>
+      </div>
+      <div class="field">
+        <label>Adresse email</label>
+        <input type="email" id="reset-email" placeholder="votre@email.com" autocomplete="email">
+      </div>
+      <button class="btn-login" id="btn-reset" onclick="doResetPassword()">
+        <span id="btn-reset-text">Envoyer le lien →</span>
+      </button>
+      <div class="login-hint">
+        <a href="#" onclick="showLoginView(event)">← Retour à la connexion</a>
       </div>
     </div>
   </div>
@@ -242,291 +304,349 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script>
-// ─── DEMO DATA ─────────────────────────────────────────────────────────────
-// Simulation : en production ces données viendraient d'un backend/API
-const USERS = {
-  "jean.dupont@email.com|MKZ-2847": {
-    name: "Jean Dupont",
-    email: "jean.dupont@email.com",
-    rdvs: [
-      {
-        id: "r1",
-        service: "Dépannage PC – Windows lent",
-        date: "2025-04-10",
-        heure: "14h00",
-        duree: "1h – 2h",
-        adresse: "12 rue des Lilas, Pierrefitte-sur-Seine",
-        status: "confirmed",
-        prix: "60€ – 80€",
-        note: "PC qui rame depuis 3 semaines, Windows 11"
-      },
-      {
-        id: "r2",
-        service: "Configuration Wi-Fi & box SFR",
-        date: "2025-03-22",
-        heure: "10h30",
-        duree: "~1h",
-        adresse: "12 rue des Lilas, Pierrefitte-sur-Seine",
-        status: "done",
-        prix: "60€",
-        note: ""
-      },
-      {
-        id: "r3",
-        service: "Récupération de données",
-        date: "2025-02-14",
-        heure: "16h00",
-        duree: "1h – 3h",
-        adresse: "12 rue des Lilas, Pierrefitte-sur-Seine",
-        status: "done",
-        prix: "80€",
-        note: "Disque dur externe défaillant"
-      }
-    ]
-  },
-  "marie.martin@gmail.com|MKZ-5513": {
-    name: "Marie Martin",
-    email: "marie.martin@gmail.com",
-    rdvs: [
-      {
-        id: "r4",
-        service: "Formation PC pour débutant",
-        date: "2025-04-15",
-        heure: "09h00",
-        duree: "2h",
-        adresse: "8 avenue Victor Hugo, Saint-Denis",
-        status: "pending",
-        prix: "60€",
-        note: "Apprendre à utiliser Word et les emails"
-      }
-    ]
-  },
-  "demo@makouezit.org|MKZ-0000": {
-    name: "Compte Démo",
-    email: "demo@makouezit.org",
-    rdvs: [
-      {
-        id: "r5",
-        service: "Dépannage PC – Écran bleu (BSOD)",
-        date: "2025-04-18",
-        heure: "11h00",
-        duree: "1h – 2h",
-        adresse: "45 boulevard des Martyrs, Stains",
-        status: "confirmed",
-        prix: "60€ – 80€",
-        note: "Écran bleu au démarrage depuis mise à jour"
-      },
-      {
-        id: "r6",
-        service: "Installation Windows 11 + logiciels",
-        date: "2025-04-25",
-        heure: "14h30",
-        duree: "2h – 3h",
-        adresse: "45 boulevard des Martyrs, Stains",
-        status: "pending",
-        prix: "80€",
-        note: ""
-      },
-      {
-        id: "r7",
-        service: "Diagnostic réseau Wi-Fi",
-        date: "2025-03-05",
-        heure: "10h00",
-        duree: "1h",
-        adresse: "45 boulevard des Martyrs, Stains",
-        status: "done",
-        prix: "60€",
-        note: ""
-      }
-    ]
-  }
-};
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    doc,
+    updateDoc
+  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-// ─── STATE ──────────────────────────────────────────────────────────────────
-let currentUser = null;
-let cancelTarget = null;
-
-// ─── LOGIN ───────────────────────────────────────────────────────────────────
-function doLogin() {
-  const email = document.getElementById('input-email').value.trim().toLowerCase();
-  const code  = document.getElementById('input-code').value.trim().toUpperCase();
-  const key   = `${email}|${code}`;
-  const user  = USERS[key];
-
-  if (!user) {
-    document.getElementById('error-msg').classList.add('show');
-    document.getElementById('input-code').style.borderColor = '#ef444460';
-    return;
-  }
-
-  currentUser = { ...user, rdvs: JSON.parse(JSON.stringify(user.rdvs)) };
-  document.getElementById('error-msg').classList.remove('show');
-  showDashboard();
-}
-
-document.getElementById('input-code').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-document.getElementById('input-email').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('input-code').focus();
-});
-
-// ─── LOGOUT ──────────────────────────────────────────────────────────────────
-function doLogout() {
-  currentUser = null;
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('login-view').style.display = 'block';
-  document.getElementById('input-email').value = '';
-  document.getElementById('input-code').value = '';
-}
-
-// ─── DASHBOARD ───────────────────────────────────────────────────────────────
-function showDashboard() {
-  document.getElementById('login-view').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-
-  const initials = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('avatar-initials').textContent = initials;
-  document.getElementById('greeting-name').textContent   = `Bonjour, ${currentUser.name.split(' ')[0]} 👋`;
-  document.getElementById('greeting-email').textContent  = currentUser.email;
-
-  renderAll();
-}
-
-function renderAll() {
-  const today    = new Date(); today.setHours(0,0,0,0);
-  const upcoming = currentUser.rdvs.filter(r => new Date(r.date) >= today && r.status !== 'done' && r.status !== 'cancelled');
-  const past     = currentUser.rdvs.filter(r => new Date(r.date) < today  || r.status === 'done' || r.status === 'cancelled');
-
-  upcoming.sort((a,b) => new Date(a.date) - new Date(b.date));
-  past.sort((a,b)     => new Date(b.date) - new Date(a.date));
-
-  const total    = currentUser.rdvs.filter(r => r.status !== 'cancelled').length;
-  const done     = currentUser.rdvs.filter(r => r.status === 'done').length;
-  const pending  = currentUser.rdvs.filter(r => r.status === 'pending').length;
-
-  document.getElementById('summary-grid').innerHTML = `
-    <div class="sum-card accent"><div class="num">${upcoming.length}</div><div class="lbl">À venir</div></div>
-    <div class="sum-card green"><div class="num">${done}</div><div class="lbl">Terminés</div></div>
-    <div class="sum-card orange"><div class="num">${pending}</div><div class="lbl">En attente</div></div>
-    <div class="sum-card"><div class="num">${total}</div><div class="lbl">Total</div></div>
-  `;
-
-  document.getElementById('count-upcoming').textContent = upcoming.length ? `(${upcoming.length})` : '';
-  document.getElementById('count-past').textContent     = past.length ? `(${past.length})` : '';
-
-  const upEl = document.getElementById('list-upcoming');
-  const paEl = document.getElementById('list-past');
-
-  if (upcoming.length === 0) {
-    upEl.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">📅</div>
-        <h3>Aucun rendez-vous à venir</h3>
-        <p>Prenez un nouveau rendez-vous en quelques secondes.</p>
-        <a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a>
-      </div>`;
-  } else {
-    upEl.innerHTML = upcoming.map(r => rdvCard(r, false)).join('');
-  }
-
-  paEl.innerHTML = past.length
-    ? past.map(r => rdvCard(r, true)).join('')
-    : `<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Aucun historique pour le moment.</div>`;
-}
-
-function rdvCard(r, isPast) {
-  const d   = new Date(r.date);
-  const day = d.getDate();
-  const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-  const mon = months[d.getMonth()];
-  const year= d.getFullYear();
-
-  const statusMap = {
-    confirmed: { label: 'Confirmé',  cls: 'confirmed' },
-    pending:   { label: 'En attente', cls: 'pending'  },
-    done:      { label: 'Terminé',   cls: 'done'      },
-    cancelled: { label: 'Annulé',    cls: 'cancelled' }
+  // ─── CONFIG FIREBASE ──────────────────────────────────────────────────────
+  // 🔧 Remplace ces valeurs par celles de ton projet Firebase
+  const firebaseConfig = {
+    apiKey: "VOTRE_API_KEY",
+    authDomain: "VOTRE_PROJECT.firebaseapp.com",
+    projectId: "VOTRE_PROJECT_ID",
+    storageBucket: "VOTRE_PROJECT.appspot.com",
+    messagingSenderId: "VOTRE_SENDER_ID",
+    appId: "VOTRE_APP_ID"
   };
-  const st = statusMap[r.status] || statusMap.pending;
 
-  const canCancel = !isPast && r.status !== 'cancelled';
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  return `
-  <div class="rdv-card" id="card-${r.id}">
-    <div class="rdv-date-block">
-      <div class="rdv-day">${day}</div>
-      <div class="rdv-month">${mon} ${year}</div>
-    </div>
-    <div class="rdv-info">
-      <h4>${r.service}</h4>
-      <div class="rdv-meta">
-        <span class="rdv-meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          ${r.heure} · ${r.duree}
-        </span>
-        <span class="rdv-meta-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          ${r.adresse}
-        </span>
-        <span class="rdv-meta-item">💶 ${r.prix}</span>
+  // ─── STATE ─────────────────────────────────────────────────────────────────
+  let cancelTarget = null;
+  let currentRdvs  = [];
+
+  // ─── AUTH STATE OBSERVER ──────────────────────────────────────────────────
+  // Reconnexion automatique si l'utilisateur était déjà connecté
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      await loadDashboard(user);
+    }
+  });
+
+  // ─── LOGIN ─────────────────────────────────────────────────────────────────
+  window.doLogin = async function () {
+    const email    = document.getElementById('input-email').value.trim();
+    const password = document.getElementById('input-password').value;
+    const btn      = document.getElementById('btn-login');
+    const btnText  = document.getElementById('btn-login-text');
+
+    if (!email || !password) {
+      showError('error-msg', 'error-text', 'Veuillez remplir tous les champs.');
+      return;
+    }
+
+    // État chargement
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span>';
+    document.getElementById('error-msg').classList.remove('show');
+
+    try {
+      const credential = await signInWithEmailAndPassword(auth, email, password);
+      await loadDashboard(credential.user);
+    } catch (err) {
+      btn.disabled = false;
+      btnText.textContent = 'Accéder à mon espace →';
+
+      const msg = firebaseErrorMessage(err.code);
+      showError('error-msg', 'error-text', msg);
+    }
+  };
+
+  // ─── LOGOUT ────────────────────────────────────────────────────────────────
+  window.doLogout = async function () {
+    await signOut(auth);
+    currentRdvs = [];
+    document.getElementById('dashboard').style.display    = 'none';
+    document.getElementById('login-view').style.display   = 'block';
+    document.getElementById('input-email').value          = '';
+    document.getElementById('input-password').value       = '';
+    document.getElementById('btn-login').disabled         = false;
+    document.getElementById('btn-login-text').textContent = 'Accéder à mon espace →';
+  };
+
+  // ─── RESET PASSWORD ────────────────────────────────────────────────────────
+  window.doResetPassword = async function () {
+    const email   = document.getElementById('reset-email').value.trim();
+    const btn     = document.getElementById('btn-reset');
+    const btnText = document.getElementById('btn-reset-text');
+
+    if (!email) {
+      showError('reset-error-msg', 'reset-error-text', 'Veuillez entrer votre adresse email.');
+      return;
+    }
+
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span>';
+    document.getElementById('reset-error-msg').classList.remove('show');
+    document.getElementById('reset-success-msg').classList.remove('show');
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      document.getElementById('reset-success-msg').classList.add('show');
+      btnText.textContent = 'Email envoyé';
+    } catch (err) {
+      btn.disabled = false;
+      btnText.textContent = 'Envoyer le lien →';
+      const msg = firebaseErrorMessage(err.code);
+      showError('reset-error-msg', 'reset-error-text', msg);
+    }
+  };
+
+  // ─── LOAD DASHBOARD ────────────────────────────────────────────────────────
+  async function loadDashboard(user) {
+    document.getElementById('login-view').style.display  = 'none';
+    document.getElementById('reset-view').style.display  = 'none';
+    document.getElementById('dashboard').style.display   = 'block';
+
+    // Nom affiché : displayName Firebase ou partie avant @ de l'email
+    const displayName = user.displayName || user.email.split('@')[0];
+    const initials    = displayName.split(/[\s._-]+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+    document.getElementById('avatar-initials').textContent = initials;
+    document.getElementById('greeting-name').textContent   = `Bonjour, ${displayName.split(' ')[0]} 👋`;
+    document.getElementById('greeting-email').textContent  = user.email;
+
+    // Chargement des RDV depuis Firestore
+    await fetchRdvs(user.uid);
+  }
+
+  // ─── FETCH RDV FIRESTORE ───────────────────────────────────────────────────
+  // Structure attendue : collection "rdvs" avec champ "userId" = uid de l'utilisateur
+  async function fetchRdvs(uid) {
+    try {
+      const q = query(collection(db, 'rdvs'), where('userId', '==', uid));
+      const snap = await getDocs(q);
+      currentRdvs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderAll();
+    } catch (err) {
+      console.error('Erreur Firestore :', err);
+      showToast('Impossible de charger vos rendez-vous.', 'info');
+      currentRdvs = [];
+      renderAll();
+    }
+  }
+
+  // ─── CANCEL RDV ────────────────────────────────────────────────────────────
+  window.askCancel = function (id) {
+    cancelTarget = id;
+    document.getElementById('modal-cancel').classList.add('show');
+  };
+
+  window.closeModal = function () {
+    document.getElementById('modal-cancel').classList.remove('show');
+    cancelTarget = null;
+  };
+
+  window.confirmCancel = async function () {
+    if (!cancelTarget) return;
+
+    try {
+      // Mise à jour dans Firestore
+      await updateDoc(doc(db, 'rdvs', cancelTarget), { status: 'cancelled' });
+
+      // Mise à jour locale
+      const rdv = currentRdvs.find(r => r.id === cancelTarget);
+      if (rdv) rdv.status = 'cancelled';
+
+      closeModal();
+      renderAll();
+      showToast('Rendez-vous annulé. Stevy a été notifié.', 'info');
+    } catch (err) {
+      closeModal();
+      showToast('Erreur lors de l\'annulation. Contactez Stevy.', 'info');
+    }
+  };
+
+  document.getElementById('modal-cancel').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-cancel')) closeModal();
+  });
+
+  // ─── RENDER ────────────────────────────────────────────────────────────────
+  window.renderAll = function () {
+    const today    = new Date(); today.setHours(0,0,0,0);
+    const upcoming = currentRdvs.filter(r => new Date(r.date) >= today && r.status !== 'done' && r.status !== 'cancelled');
+    const past     = currentRdvs.filter(r => new Date(r.date) < today  || r.status === 'done' || r.status === 'cancelled');
+
+    upcoming.sort((a,b) => new Date(a.date) - new Date(b.date));
+    past.sort((a,b)     => new Date(b.date) - new Date(a.date));
+
+    const total   = currentRdvs.filter(r => r.status !== 'cancelled').length;
+    const done    = currentRdvs.filter(r => r.status === 'done').length;
+    const pending = currentRdvs.filter(r => r.status === 'pending').length;
+
+    document.getElementById('summary-grid').innerHTML = `
+      <div class="sum-card accent"><div class="num">${upcoming.length}</div><div class="lbl">À venir</div></div>
+      <div class="sum-card green"><div class="num">${done}</div><div class="lbl">Terminés</div></div>
+      <div class="sum-card orange"><div class="num">${pending}</div><div class="lbl">En attente</div></div>
+      <div class="sum-card"><div class="num">${total}</div><div class="lbl">Total</div></div>
+    `;
+
+    document.getElementById('count-upcoming').textContent = upcoming.length ? `(${upcoming.length})` : '';
+    document.getElementById('count-past').textContent     = past.length ? `(${past.length})` : '';
+
+    const upEl = document.getElementById('list-upcoming');
+    const paEl = document.getElementById('list-past');
+
+    if (upcoming.length === 0) {
+      upEl.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📅</div>
+          <h3>Aucun rendez-vous à venir</h3>
+          <p>Prenez un nouveau rendez-vous en quelques secondes.</p>
+          <a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a>
+        </div>`;
+    } else {
+      upEl.innerHTML = upcoming.map(r => rdvCard(r, false)).join('');
+    }
+
+    paEl.innerHTML = past.length
+      ? past.map(r => rdvCard(r, true)).join('')
+      : `<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Aucun historique pour le moment.</div>`;
+  };
+
+  function rdvCard(r, isPast) {
+    const d      = new Date(r.date);
+    const day    = d.getDate();
+    const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+    const mon    = months[d.getMonth()];
+    const year   = d.getFullYear();
+
+    const statusMap = {
+      confirmed: { label: 'Confirmé',   cls: 'confirmed' },
+      pending:   { label: 'En attente', cls: 'pending'   },
+      done:      { label: 'Terminé',    cls: 'done'      },
+      cancelled: { label: 'Annulé',     cls: 'cancelled' }
+    };
+    const st = statusMap[r.status] || statusMap.pending;
+    const canCancel = !isPast && r.status !== 'cancelled';
+
+    return `
+    <div class="rdv-card" id="card-${r.id}">
+      <div class="rdv-date-block">
+        <div class="rdv-day">${day}</div>
+        <div class="rdv-month">${mon} ${year}</div>
       </div>
-      ${r.note ? `<div style="margin-top:0.4rem;font-size:0.8rem;color:var(--muted);font-style:italic">📝 ${r.note}</div>` : ''}
-      ${canCancel ? `
-      <div class="rdv-actions">
-        <button class="btn-sm danger" onclick="askCancel('${r.id}')">Annuler ce RDV</button>
-        <a href="https://wa.me/33619515756?text=Bonjour Stevy, je souhaite modifier mon RDV du ${day} ${mon} à ${r.heure} (${r.service})" class="btn-sm" style="text-decoration:none">Modifier via WhatsApp</a>
-      </div>` : ''}
-    </div>
-    <div class="rdv-status">
-      <div class="badge-status ${st.cls}">
-        <span class="badge-dot-s"></span>${st.label}
+      <div class="rdv-info">
+        <h4>${r.service}</h4>
+        <div class="rdv-meta">
+          <span class="rdv-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            ${r.heure} · ${r.duree}
+          </span>
+          <span class="rdv-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${r.adresse}
+          </span>
+          <span class="rdv-meta-item">💶 ${r.prix}</span>
+        </div>
+        ${r.note ? `<div style="margin-top:0.4rem;font-size:0.8rem;color:var(--muted);font-style:italic">📝 ${r.note}</div>` : ''}
+        ${canCancel ? `
+        <div class="rdv-actions">
+          <button class="btn-sm danger" onclick="askCancel('${r.id}')">Annuler ce RDV</button>
+          <a href="https://wa.me/33619515756?text=Bonjour Stevy, je souhaite modifier mon RDV du ${day} ${mon} à ${r.heure} (${r.service})" class="btn-sm" style="text-decoration:none">Modifier via WhatsApp</a>
+        </div>` : ''}
       </div>
-    </div>
-  </div>`;
-}
+      <div class="rdv-status">
+        <div class="badge-status ${st.cls}">
+          <span class="badge-dot-s"></span>${st.label}
+        </div>
+      </div>
+    </div>`;
+  }
 
-// ─── CANCEL ──────────────────────────────────────────────────────────────────
-function askCancel(id) {
-  cancelTarget = id;
-  document.getElementById('modal-cancel').classList.add('show');
-}
+  // ─── HELPERS ───────────────────────────────────────────────────────────────
+  function showError(msgId, textId, message) {
+    document.getElementById(textId).textContent = message;
+    document.getElementById(msgId).classList.add('show');
+  }
 
-function closeModal() {
-  document.getElementById('modal-cancel').classList.remove('show');
-  cancelTarget = null;
-}
+  window.showToast = function (msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className   = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3500);
+  };
 
-function confirmCancel() {
-  if (!cancelTarget) return;
-  const rdv = currentUser.rdvs.find(r => r.id === cancelTarget);
-  if (rdv) rdv.status = 'cancelled';
-  closeModal();
-  renderAll();
-  showToast('Rendez-vous annulé. Stevy a été notifié.', 'info');
-}
+  // Traduction des codes d'erreur Firebase en français
+  function firebaseErrorMessage(code) {
+    const messages = {
+      'auth/invalid-email':          'Adresse email invalide.',
+      'auth/user-not-found':         'Aucun compte trouvé avec cet email.',
+      'auth/wrong-password':         'Mot de passe incorrect.',
+      'auth/invalid-credential':     'Email ou mot de passe incorrect.',
+      'auth/too-many-requests':      'Trop de tentatives. Réessayez dans quelques minutes.',
+      'auth/user-disabled':          'Ce compte a été désactivé.',
+      'auth/network-request-failed': 'Erreur réseau. Vérifiez votre connexion.',
+    };
+    return messages[code] || 'Une erreur est survenue. Réessayez.';
+  }
 
-document.getElementById('modal-cancel').addEventListener('click', e => {
-  if (e.target === document.getElementById('modal-cancel')) closeModal();
-});
-
-// ─── TOAST ───────────────────────────────────────────────────────────────────
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 3500);
-}
-
-// ─── HINT : auto-fill demo ───────────────────────────────────────────────────
-// Petite aide visuelle : hint discret sous les champs pour les tests
-setTimeout(() => {
-  const h = document.createElement('div');
-  h.style.cssText = 'text-align:center;margin-top:1rem;font-size:0.76rem;color:#ffffff25';
-  h.innerHTML = 'Démo : demo@makouezit.org · MKZ-0000';
-  document.querySelector('.login-card').appendChild(h);
-}, 500);
+  // Touche Entrée sur les champs de connexion
+  document.getElementById('input-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doLogin();
+  });
+  document.getElementById('input-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('input-password').focus();
+  });
+  document.getElementById('reset-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doResetPassword();
+  });
 </script>
+
+<script>
+  // ─── UI HELPERS (non-module) ───────────────────────────────────────────────
+  let pwVisible = false;
+
+  function togglePassword() {
+    pwVisible = !pwVisible;
+    const input = document.getElementById('input-password');
+    input.type  = pwVisible ? 'text' : 'password';
+    document.getElementById('eye-icon').innerHTML = pwVisible
+      ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`
+      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+  }
+
+  function showResetView(e) {
+    e.preventDefault();
+    document.getElementById('login-view').style.display = 'none';
+    document.getElementById('reset-view').style.display = 'block';
+    document.getElementById('reset-email').value = document.getElementById('input-email').value;
+  }
+
+  function showLoginView(e) {
+    e.preventDefault();
+    document.getElementById('reset-view').style.display = 'none';
+    document.getElementById('login-view').style.display = 'block';
+  }
+</script>
+
 </body>
 </html>
