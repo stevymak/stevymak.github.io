@@ -147,21 +147,30 @@ const db = getFirestore(app);
 
 window._adminDb = db;
 window._adminFns = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy };
+
+// ✅ FIX : signaler que Firebase est prêt
+window._firebaseReady = true;
+document.dispatchEvent(new Event('firebase-ready'));
 </script>
 
 <script>
-// ⚠️ Change ce mot de passe !
 const ADMIN_PASSWORD = "makouezIT2024";
 
 let allRdvs = [];
 let currentFilter = 'all';
 
+// ✅ FIX : attendre que Firebase soit prêt avant de charger les RDV
 function login(){
   const pwd = document.getElementById('pwdInput').value;
   if(pwd === ADMIN_PASSWORD){
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    loadRdvs();
+
+    if(window._firebaseReady){
+      loadRdvs();
+    } else {
+      document.addEventListener('firebase-ready', () => loadRdvs(), { once: true });
+    }
   } else {
     document.getElementById('errMsg').style.display = 'block';
     document.getElementById('pwdInput').value = '';
@@ -191,6 +200,7 @@ async function loadRdvs(){
     renderRdvs();
     document.getElementById('lastRefresh').textContent = 'Mis à jour ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   } catch(e){
+    console.error('Erreur Firebase:', e);
     document.getElementById('rdvList').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Erreur de chargement. Vérifiez votre connexion.</div>';
   }
 }
