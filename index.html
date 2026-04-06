@@ -38,6 +38,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s}
 .nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;align-items:center;gap:0.75rem}
+.nav-espace{
+  display:flex;align-items:center;gap:0.45rem;
+  background:transparent;
+  color:var(--accent2);
+  border:1px solid #3b82f640;
+  padding:0.45rem 1.1rem;
+  border-radius:8px;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.88rem;
+  font-weight:500;
+  cursor:pointer;
+  text-decoration:none;
+  transition:background 0.2s, border-color 0.2s;
+}
+.nav-espace:hover{background:#3b82f615;border-color:#3b82f680}
+.nav-espace svg{width:14px;height:14px;flex-shrink:0}
 .nav-cta{background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.2s}
 .nav-cta:hover{opacity:0.85}
 
@@ -145,6 +162,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   .nav-links{display:none}
   .hero h1{font-size:2rem}
   .hero-stats{gap:1rem}
+  .nav-espace span.label{display:none}
 }
 </style>
 </head>
@@ -176,7 +194,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <li><a href="#about">À propos</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#rdv" class="nav-cta">Prendre RDV</a>
+  <div class="nav-actions">
+    <a href="mon-rdv.html" class="nav-espace">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span class="label">Mon Espace</span>
+    </a>
+    <a href="#rdv" class="nav-cta">Prendre RDV</a>
+  </div>
 </nav>
 
 <section class="hero">
@@ -268,6 +295,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>Bilan informatique annuel</li>
         </ul>
       </div>
+      <br>
       <div class="tarif-card">
         <div class="tarif-name">Pack Senior+</div>
         <div class="tarif-price">49€ <span>/mois</span></div>
