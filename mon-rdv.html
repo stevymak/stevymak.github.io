@@ -442,7 +442,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   // Structure attendue : collection "reservations" avec champ "userId" = uid de l'utilisateur
   async function fetchreservations(uid) {
     try {
-      const q = query(collection(db, 'reservations'), where('userId', '==', uid));
+      const q = query(collection(db, 'reservations'), where('uid', '==', uid));
       const snap = await getDocs(q);
       currentreservations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderAll();
