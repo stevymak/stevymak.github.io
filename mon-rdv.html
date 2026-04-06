@@ -327,13 +327,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   // ─── CONFIG FIREBASE ──────────────────────────────────────────────────────
   // 🔧 Remplace ces valeurs par celles de ton projet Firebase
   const firebaseConfig = {
-    apiKey: "VOTRE_API_KEY",
-    authDomain: "VOTRE_PROJECT.firebaseapp.com",
-    projectId: "VOTRE_PROJECT_ID",
-    storageBucket: "VOTRE_PROJECT.appspot.com",
-    messagingSenderId: "VOTRE_SENDER_ID",
-    appId: "VOTRE_APP_ID"
-  };
+  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+  authDomain: "makouez-it.firebaseapp.com",
+  projectId: "makouez-it",
+  storageBucket: "makouez-it.firebasestorage.app",
+  messagingSenderId: "558314427247",
+  appId: "1:558314427247:web:83e656344dd79019ccce9a"
+};
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -341,7 +341,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
   // ─── STATE ─────────────────────────────────────────────────────────────────
   let cancelTarget = null;
-  let currentRdvs  = [];
+  let currentreservations  = [];
 
   // ─── AUTH STATE OBSERVER ──────────────────────────────────────────────────
   // Reconnexion automatique si l'utilisateur était déjà connecté
@@ -383,7 +383,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   // ─── LOGOUT ────────────────────────────────────────────────────────────────
   window.doLogout = async function () {
     await signOut(auth);
-    currentRdvs = [];
+    currentreservations = [];
     document.getElementById('dashboard').style.display    = 'none';
     document.getElementById('login-view').style.display   = 'block';
     document.getElementById('input-email').value          = '';
@@ -435,21 +435,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     document.getElementById('greeting-email').textContent  = user.email;
 
     // Chargement des RDV depuis Firestore
-    await fetchRdvs(user.uid);
+    await fetchreservations(user.uid);
   }
 
   // ─── FETCH RDV FIRESTORE ───────────────────────────────────────────────────
-  // Structure attendue : collection "rdvs" avec champ "userId" = uid de l'utilisateur
-  async function fetchRdvs(uid) {
+  // Structure attendue : collection "reservations" avec champ "userId" = uid de l'utilisateur
+  async function fetchreservations(uid) {
     try {
-      const q = query(collection(db, 'rdvs'), where('userId', '==', uid));
+      const q = query(collection(db, 'reservations'), where('userId', '==', uid));
       const snap = await getDocs(q);
-      currentRdvs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      currentreservations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderAll();
     } catch (err) {
       console.error('Erreur Firestore :', err);
       showToast('Impossible de charger vos rendez-vous.', 'info');
-      currentRdvs = [];
+      currentreservations = [];
       renderAll();
     }
   }
@@ -470,10 +470,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
     try {
       // Mise à jour dans Firestore
-      await updateDoc(doc(db, 'rdvs', cancelTarget), { status: 'cancelled' });
+      await updateDoc(doc(db, 'reservations', cancelTarget), { status: 'cancelled' });
 
       // Mise à jour locale
-      const rdv = currentRdvs.find(r => r.id === cancelTarget);
+      const rdv = currentreservations.find(r => r.id === cancelTarget);
       if (rdv) rdv.status = 'cancelled';
 
       closeModal();
@@ -492,15 +492,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   // ─── RENDER ────────────────────────────────────────────────────────────────
   window.renderAll = function () {
     const today    = new Date(); today.setHours(0,0,0,0);
-    const upcoming = currentRdvs.filter(r => new Date(r.date) >= today && r.status !== 'done' && r.status !== 'cancelled');
-    const past     = currentRdvs.filter(r => new Date(r.date) < today  || r.status === 'done' || r.status === 'cancelled');
+    const upcoming = currentreservations.filter(r => new Date(r.date) >= today && r.status !== 'done' && r.status !== 'cancelled');
+    const past     = currentreservations.filter(r => new Date(r.date) < today  || r.status === 'done' || r.status === 'cancelled');
 
     upcoming.sort((a,b) => new Date(a.date) - new Date(b.date));
     past.sort((a,b)     => new Date(b.date) - new Date(a.date));
 
-    const total   = currentRdvs.filter(r => r.status !== 'cancelled').length;
-    const done    = currentRdvs.filter(r => r.status === 'done').length;
-    const pending = currentRdvs.filter(r => r.status === 'pending').length;
+    const total   = currentreservations.filter(r => r.status !== 'cancelled').length;
+    const done    = currentreservations.filter(r => r.status === 'done').length;
+    const pending = currentreservations.filter(r => r.status === 'pending').length;
 
     document.getElementById('summary-grid').innerHTML = `
       <div class="sum-card accent"><div class="num">${upcoming.length}</div><div class="lbl">À venir</div></div>
