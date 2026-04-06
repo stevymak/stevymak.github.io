@@ -51,9 +51,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .login-card p{color:var(--muted);font-size:0.9rem;margin-bottom:2rem}
 .field{margin-bottom:1.25rem}
 .field label{display:block;font-size:0.83rem;font-weight:500;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.06em}
-.field input{width:100%;background:#ffffff0a;border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s}
-.field input:focus{border-color:#3b82f660}
-.field input::placeholder{color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;background:#ffffff0a;border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#3b82f660}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted)}
+.field select{appearance:none;cursor:pointer}
+.field select option{background:var(--bg2);color:var(--text)}
+.field textarea{resize:vertical;min-height:80px}
 
 /* Password field wrapper */
 .field-password{position:relative}
@@ -109,7 +112,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
 /* RDV CARD */
 .rdv-list{display:flex;flex-direction:column;gap:1rem;margin-bottom:2.5rem}
-.rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1.25rem;align-items:center;transition:border-color 0.2s}
+.rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1.25rem;align-items:start;transition:border-color 0.2s}
 .rdv-card:hover{border-color:#ffffff22}
 .rdv-date-block{text-align:center;min-width:52px}
 .rdv-day{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;line-height:1;color:var(--text)}
@@ -126,9 +129,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .badge-status.cancelled{background:#ef444420;color:#fca5a5;border:1px solid #ef444430}
 .badge-dot-s{width:6px;height:6px;border-radius:50%;background:currentColor}
 .rdv-actions{margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap}
-.btn-sm{padding:0.3rem 0.75rem;border-radius:7px;font-size:0.8rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:color 0.2s,border-color 0.2s}
+.btn-sm{padding:0.3rem 0.75rem;border-radius:7px;font-size:0.8rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:color 0.2s,border-color 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem}
 .btn-sm:hover{color:var(--text);border-color:#ffffff30}
 .btn-sm.danger:hover{color:#fca5a5;border-color:#ef444440}
+.btn-sm.primary{border-color:#3b82f640;color:var(--accent2)}
+.btn-sm.primary:hover{border-color:#3b82f680;background:#3b82f610}
 
 /* EMPTY STATE */
 .empty-state{text-align:center;padding:3rem 2rem;background:var(--card);border:1px dashed var(--border);border-radius:var(--r)}
@@ -149,23 +154,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:#00000080;backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.show{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:400px;width:100%}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:420px;width:100%}
 .modal h3{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
 .modal p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem}
-.modal-btns{display:flex;gap:0.75rem;justify-content:flex-end}
-.btn-modal-cancel{padding:0.5rem 1.2rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer}
+.modal-btns{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem}
+.btn-modal-cancel{padding:0.5rem 1.2rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;transition:color 0.2s}
+.btn-modal-cancel:hover{color:var(--text)}
 .btn-modal-confirm{padding:0.5rem 1.2rem;border-radius:8px;border:none;background:#ef4444;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer}
+.btn-modal-save{padding:0.5rem 1.2rem;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem}
+.btn-modal-save:hover{opacity:0.85}
+.btn-modal-save:disabled{opacity:0.5;cursor:not-allowed}
+
+/* Edit modal specific */
+#modal-edit .modal{max-width:500px}
+.edit-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-hint{font-size:0.77rem;color:var(--muted);margin-top:0.3rem}
 
 /* TOAST */
 .toast{position:fixed;bottom:2rem;right:2rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1.25rem;font-size:0.88rem;box-shadow:0 8px 32px #00000060;z-index:300;transform:translateY(120%);transition:transform 0.3s ease;max-width:280px}
 .toast.show{transform:translateY(0)}
 .toast.success{border-color:#22c55e30;color:var(--green)}
 .toast.info{border-color:#3b82f640;color:var(--accent2)}
+.toast.error{border-color:#ef444430;color:#fca5a5}
 
 @media(max-width:600px){
   .rdv-card{grid-template-columns:auto 1fr;gap:1rem}
   .rdv-status{grid-column:1/-1;text-align:left}
   .greeting-bar{flex-direction:column;align-items:flex-start}
+  .edit-row{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -276,7 +292,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <!-- CONTACT -->
     <div class="contact-box">
       <div class="contact-box-info">
-        <h4>Besoin d'aide ou d'une modification ?</h4>
+        <h4>Besoin d'aide ou d'une modification urgente ?</h4>
         <p>Contactez directement Stevy pour toute question sur vos réservations.</p>
       </div>
       <div class="contact-box-actions">
@@ -295,8 +311,60 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <h3>Annuler ce rendez-vous ?</h3>
     <p>Cette action est irréversible. Stevy sera notifié automatiquement. Vous pouvez reprendre un RDV à tout moment.</p>
     <div class="modal-btns">
-      <button class="btn-modal-cancel" onclick="closeModal()">Garder le RDV</button>
+      <button class="btn-modal-cancel" onclick="closeModal('modal-cancel')">Garder le RDV</button>
       <button class="btn-modal-confirm" onclick="confirmCancel()">Oui, annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MODIFICATION -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal" style="max-width:500px">
+    <h3>✏️ Modifier le rendez-vous</h3>
+    <p>Modifiez les informations souhaitées. Stevy sera notifié et confirmera les changements.</p>
+
+    <div class="field">
+      <label>Service</label>
+      <select id="edit-service">
+        <option value="">— Sélectionner —</option>
+        <option>Diagnostic & Dépannage PC</option>
+        <option>Suppression de virus / malwares</option>
+        <option>Installation logicielle</option>
+        <option>Sauvegarde & récupération de données</option>
+        <option>Configuration réseau / Wi-Fi</option>
+        <option>Optimisation & nettoyage PC</option>
+        <option>Formation informatique</option>
+        <option>Autre</option>
+      </select>
+    </div>
+
+    <div class="edit-row">
+      <div class="field">
+        <label>Date souhaitée</label>
+        <input type="date" id="edit-date">
+      </div>
+      <div class="field">
+        <label>Heure souhaitée</label>
+        <input type="time" id="edit-time" min="09:00" max="19:00">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Adresse d'intervention</label>
+      <input type="text" id="edit-adresse" placeholder="Ex : 12 rue de la Paix, Pierrefitte-sur-Seine">
+    </div>
+
+    <div class="field">
+      <label>Message pour Stevy <span style="font-size:0.75rem;color:var(--muted);text-transform:none;letter-spacing:0">(optionnel)</span></label>
+      <textarea id="edit-note" placeholder="Précisez vos modifications ou ajoutez un commentaire..."></textarea>
+      <div class="field-hint">⚠️ La modification reste soumise à la disponibilité de Stevy. Vous serez contacté pour confirmation.</div>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" onclick="closeModal('modal-edit')">Annuler</button>
+      <button class="btn-modal-save" id="btn-save-edit" onclick="confirmEdit()">
+        <span id="btn-save-text">Enregistrer la demande →</span>
+      </button>
     </div>
   </div>
 </div>
@@ -325,15 +393,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
   // ─── CONFIG FIREBASE ──────────────────────────────────────────────────────
-  // 🔧 Remplace ces valeurs par celles de ton projet Firebase
   const firebaseConfig = {
-  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
-  authDomain: "makouez-it.firebaseapp.com",
-  projectId: "makouez-it",
-  storageBucket: "makouez-it.firebasestorage.app",
-  messagingSenderId: "558314427247",
-  appId: "1:558314427247:web:83e656344dd79019ccce9a"
-};
+    apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+    authDomain: "makouez-it.firebaseapp.com",
+    projectId: "makouez-it",
+    storageBucket: "makouez-it.firebasestorage.app",
+    messagingSenderId: "558314427247",
+    appId: "1:558314427247:web:83e656344dd79019ccce9a"
+  };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -341,15 +408,45 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
   // ─── STATE ─────────────────────────────────────────────────────────────────
   let cancelTarget = null;
-  let currentreservations  = [];
+  let editTarget   = null;
+  let currentReservations = [];
 
   // ─── AUTH STATE OBSERVER ──────────────────────────────────────────────────
-  // Reconnexion automatique si l'utilisateur était déjà connecté
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       await loadDashboard(user);
     }
   });
+
+  // ─── HELPER : parse date from reservation ─────────────────────────────────
+  // Supporte plusieurs formats de stockage Firestore :
+  // - dateKey (string "YYYY-MM-DD") + time (string "HH:MM")
+  // - date (string "YYYY-MM-DD" ou timestamp ISO)
+  // - Firestore Timestamp object
+  function getReservationDate(r) {
+    try {
+      // Cas 1 : Firestore Timestamp
+      if (r.date && typeof r.date.toDate === 'function') {
+        return r.date.toDate();
+      }
+      // Cas 2 : dateKey + time
+      if (r.dateKey) {
+        const timeStr = r.time || r.heure || '00:00';
+        // Normalise "HH:MM" ou "HHhMM" → "HH:MM"
+        const normalized = timeStr.replace('h', ':');
+        return new Date(`${r.dateKey}T${normalized}`);
+      }
+      // Cas 3 : champ date string ISO
+      if (r.date && typeof r.date === 'string') {
+        return new Date(r.date);
+      }
+      // Cas 4 : champ date nombre (timestamp ms)
+      if (r.date && typeof r.date === 'number') {
+        return new Date(r.date);
+      }
+    } catch(e) {}
+    return new Date(0); // fallback
+  }
 
   // ─── LOGIN ─────────────────────────────────────────────────────────────────
   window.doLogin = async function () {
@@ -363,7 +460,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       return;
     }
 
-    // État chargement
     btn.disabled = true;
     btnText.innerHTML = '<span class="spinner"></span>';
     document.getElementById('error-msg').classList.remove('show');
@@ -374,7 +470,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     } catch (err) {
       btn.disabled = false;
       btnText.textContent = 'Accéder à mon espace →';
-
       const msg = firebaseErrorMessage(err.code);
       showError('error-msg', 'error-text', msg);
     }
@@ -383,7 +478,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   // ─── LOGOUT ────────────────────────────────────────────────────────────────
   window.doLogout = async function () {
     await signOut(auth);
-    currentreservations = [];
+    currentReservations = [];
     document.getElementById('dashboard').style.display    = 'none';
     document.getElementById('login-view').style.display   = 'block';
     document.getElementById('input-email').value          = '';
@@ -426,7 +521,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     document.getElementById('reset-view').style.display  = 'none';
     document.getElementById('dashboard').style.display   = 'block';
 
-    // Nom affiché : displayName Firebase ou partie avant @ de l'email
     const displayName = user.displayName || user.email.split('@')[0];
     const initials    = displayName.split(/[\s._-]+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
@@ -434,73 +528,157 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     document.getElementById('greeting-name').textContent   = `Bonjour, ${displayName.split(' ')[0]} 👋`;
     document.getElementById('greeting-email').textContent  = user.email;
 
-    // Chargement des RDV depuis Firestore
-    await fetchreservations(user.uid);
+    await fetchReservations(user.uid);
   }
 
   // ─── FETCH RDV FIRESTORE ───────────────────────────────────────────────────
-  // Structure attendue : collection "reservations" avec champ "userId" = uid de l'utilisateur
-  async function fetchreservations(uid) {
+  async function fetchReservations(uid) {
     try {
       const q = query(collection(db, 'reservations'), where('uid', '==', uid));
       const snap = await getDocs(q);
-      currentreservations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      currentReservations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderAll();
     } catch (err) {
       console.error('Erreur Firestore :', err);
-      showToast('Impossible de charger vos rendez-vous.', 'info');
-      currentreservations = [];
+      showToast('Impossible de charger vos rendez-vous.', 'error');
+      currentReservations = [];
       renderAll();
     }
   }
 
-  // ─── CANCEL RDV ────────────────────────────────────────────────────────────
+  // ─── CANCEL ────────────────────────────────────────────────────────────────
   window.askCancel = function (id) {
     cancelTarget = id;
     document.getElementById('modal-cancel').classList.add('show');
   };
 
-  window.closeModal = function () {
-    document.getElementById('modal-cancel').classList.remove('show');
-    cancelTarget = null;
-  };
-
   window.confirmCancel = async function () {
     if (!cancelTarget) return;
-
     try {
-      // Mise à jour dans Firestore
       await updateDoc(doc(db, 'reservations', cancelTarget), { status: 'cancelled' });
-
-      // Mise à jour locale
-      const rdv = currentreservations.find(r => r.id === cancelTarget);
+      const rdv = currentReservations.find(r => r.id === cancelTarget);
       if (rdv) rdv.status = 'cancelled';
-
-      closeModal();
+      closeModal('modal-cancel');
       renderAll();
       showToast('Rendez-vous annulé. Stevy a été notifié.', 'info');
     } catch (err) {
-      closeModal();
-      showToast('Erreur lors de l\'annulation. Contactez Stevy.', 'info');
+      closeModal('modal-cancel');
+      showToast("Erreur lors de l'annulation. Contactez Stevy.", 'error');
     }
   };
 
-  document.getElementById('modal-cancel').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal-cancel')) closeModal();
+  // ─── EDIT ──────────────────────────────────────────────────────────────────
+  window.askEdit = function (id) {
+    editTarget = id;
+    const rdv  = currentReservations.find(r => r.id === id);
+    if (!rdv) return;
+
+    // Pré-remplissage des champs
+    const serviceEl = document.getElementById('edit-service');
+    for (let opt of serviceEl.options) {
+      if (opt.value === rdv.service) { opt.selected = true; break; }
+    }
+    // Date
+    if (rdv.dateKey) {
+      document.getElementById('edit-date').value = rdv.dateKey;
+    }
+    // Heure
+    const heureRaw = rdv.time || rdv.heure || '';
+    document.getElementById('edit-time').value = heureRaw.replace('h', ':');
+    // Adresse
+    document.getElementById('edit-adresse').value = rdv.adresse || '';
+    // Note
+    document.getElementById('edit-note').value = '';
+
+    // Reset bouton
+    document.getElementById('btn-save-text').textContent = 'Enregistrer la demande →';
+    document.getElementById('btn-save-edit').disabled = false;
+
+    document.getElementById('modal-edit').classList.add('show');
+  };
+
+  window.confirmEdit = async function () {
+    if (!editTarget) return;
+
+    const newService = document.getElementById('edit-service').value;
+    const newDate    = document.getElementById('edit-date').value;
+    const newTime    = document.getElementById('edit-time').value;
+    const newAdresse = document.getElementById('edit-adresse').value.trim();
+    const newNote    = document.getElementById('edit-note').value.trim();
+
+    if (!newService || !newDate || !newTime || !newAdresse) {
+      showToast('Veuillez remplir tous les champs obligatoires.', 'error');
+      return;
+    }
+
+    const btn     = document.getElementById('btn-save-edit');
+    const btnText = document.getElementById('btn-save-text');
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span> Enregistrement…';
+
+    const updateData = {
+      service:         newService,
+      dateKey:         newDate,
+      time:            newTime,
+      heure:           newTime,
+      adresse:         newAdresse,
+      status:          'pending',           // repasse en attente de confirmation
+      modificationNote: newNote || null,
+      modifiedAt:      new Date().toISOString()
+    };
+
+    try {
+      await updateDoc(doc(db, 'reservations', editTarget), updateData);
+
+      // Mise à jour locale
+      const rdv = currentReservations.find(r => r.id === editTarget);
+      if (rdv) Object.assign(rdv, updateData);
+
+      closeModal('modal-edit');
+      renderAll();
+      showToast('Demande de modification envoyée ! Stevy vous confirmera les changements.', 'success');
+    } catch (err) {
+      btn.disabled = false;
+      btnText.textContent = 'Enregistrer la demande →';
+      showToast('Erreur lors de la modification. Contactez Stevy.', 'error');
+    }
+  };
+
+  // ─── CLOSE MODAL ──────────────────────────────────────────────────────────
+  window.closeModal = function (id) {
+    document.getElementById(id).classList.remove('show');
+    if (id === 'modal-cancel') cancelTarget = null;
+    if (id === 'modal-edit')   editTarget   = null;
+  };
+
+  // Click hors modal = fermeture
+  ['modal-cancel', 'modal-edit'].forEach(id => {
+    document.getElementById(id).addEventListener('click', e => {
+      if (e.target === document.getElementById(id)) closeModal(id);
+    });
   });
 
   // ─── RENDER ────────────────────────────────────────────────────────────────
   window.renderAll = function () {
-    const today    = new Date(); today.setHours(0,0,0,0);
-    const upcoming = currentreservations.filter(r => new Date(r.date) >= today && r.status !== 'done' && r.status !== 'cancelled');
-    const past     = currentreservations.filter(r => new Date(r.date) < today  || r.status === 'done' || r.status === 'cancelled');
+    const now   = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // minuit
 
-    upcoming.sort((a,b) => new Date(a.date) - new Date(b.date));
-    past.sort((a,b)     => new Date(b.date) - new Date(a.date));
+    const upcoming = currentReservations.filter(r => {
+      if (r.status === 'done' || r.status === 'cancelled') return false;
+      return getReservationDate(r) >= today;
+    });
 
-    const total   = currentreservations.filter(r => r.status !== 'cancelled').length;
-    const done    = currentreservations.filter(r => r.status === 'done').length;
-    const pending = currentreservations.filter(r => r.status === 'pending').length;
+    const past = currentReservations.filter(r => {
+      if (r.status === 'done' || r.status === 'cancelled') return true;
+      return getReservationDate(r) < today;
+    });
+
+    upcoming.sort((a, b) => getReservationDate(a) - getReservationDate(b));
+    past.sort((a, b)     => getReservationDate(b) - getReservationDate(a));
+
+    const total   = currentReservations.filter(r => r.status !== 'cancelled').length;
+    const done    = currentReservations.filter(r => r.status === 'done').length;
+    const pending = currentReservations.filter(r => r.status === 'pending').length;
 
     document.getElementById('summary-grid').innerHTML = `
       <div class="sum-card accent"><div class="num">${upcoming.length}</div><div class="lbl">À venir</div></div>
@@ -533,11 +711,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   };
 
   function rdvCard(r, isPast) {
-    const d      = new Date(r.date);
+    const d      = getReservationDate(r);
     const day    = d.getDate();
     const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
     const mon    = months[d.getMonth()];
     const year   = d.getFullYear();
+
+    // Heure affichée
+    const heureDisplay = r.time || r.heure || '—';
+    // Durée (optionnel)
+    const dureeDisplay = r.duree ? ` · ${r.duree}` : '';
 
     const statusMap = {
       confirmed: { label: 'Confirmé',   cls: 'confirmed' },
@@ -546,7 +729,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       cancelled: { label: 'Annulé',     cls: 'cancelled' }
     };
     const st = statusMap[r.status] || statusMap.pending;
-    const canCancel = !isPast && r.status !== 'cancelled';
+
+    // Boutons d'action : disponibles si pas passé et pas annulé
+    const canAct = !isPast && r.status !== 'cancelled';
+
+    // Badge "en attente de confirmation" si modification récente
+    const modifBadge = r.modificationNote !== undefined && r.status === 'pending'
+      ? `<div style="margin-top:0.4rem;font-size:0.78rem;color:var(--orange);display:flex;align-items:center;gap:0.3rem">
+           <span>⏳</span> Modification en attente de confirmation par Stevy
+         </div>`
+      : '';
 
     return `
     <div class="rdv-card" id="card-${r.id}">
@@ -555,23 +747,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
         <div class="rdv-month">${mon} ${year}</div>
       </div>
       <div class="rdv-info">
-        <h4>${r.service}</h4>
+        <h4>${r.service || '—'}</h4>
         <div class="rdv-meta">
           <span class="rdv-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            ${r.heure} · ${r.duree}
+            ${heureDisplay}${dureeDisplay}
           </span>
+          ${r.adresse ? `
           <span class="rdv-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             ${r.adresse}
-          </span>
-          <span class="rdv-meta-item">💶 ${r.prix}</span>
+          </span>` : ''}
+          ${r.prix ? `<span class="rdv-meta-item">💶 ${r.prix}</span>` : ''}
         </div>
         ${r.note ? `<div style="margin-top:0.4rem;font-size:0.8rem;color:var(--muted);font-style:italic">📝 ${r.note}</div>` : ''}
-        ${canCancel ? `
+        ${modifBadge}
+        ${canAct ? `
         <div class="rdv-actions">
-          <button class="btn-sm danger" onclick="askCancel('${r.id}')">Annuler ce RDV</button>
-          <a href="https://wa.me/33619515756?text=Bonjour Stevy, je souhaite modifier mon RDV du ${day} ${mon} à ${r.heure} (${r.service})" class="btn-sm" style="text-decoration:none">Modifier via WhatsApp</a>
+          <button class="btn-sm primary" onclick="askEdit('${r.id}')">
+            ✏️ Modifier
+          </button>
+          <button class="btn-sm danger" onclick="askCancel('${r.id}')">
+            Annuler ce RDV
+          </button>
         </div>` : ''}
       </div>
       <div class="rdv-status">
@@ -592,10 +790,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className   = `toast ${type} show`;
-    setTimeout(() => t.classList.remove('show'), 3500);
+    setTimeout(() => t.classList.remove('show'), 4000);
   };
 
-  // Traduction des codes d'erreur Firebase en français
   function firebaseErrorMessage(code) {
     const messages = {
       'auth/invalid-email':          'Adresse email invalide.',
@@ -609,7 +806,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     return messages[code] || 'Une erreur est survenue. Réessayez.';
   }
 
-  // Touche Entrée sur les champs de connexion
+  // Touche Entrée
   document.getElementById('input-password').addEventListener('keydown', e => {
     if (e.key === 'Enter') window.doLogin();
   });
