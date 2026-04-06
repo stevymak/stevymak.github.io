@@ -26,9 +26,10 @@ h1,h2{font-family:'Syne',sans-serif}
 .login-sub{color:var(--muted);font-size:0.85rem;text-align:center}
 .form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
 .form-input:focus{border-color:#3b82f660}
-.btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;width:100%;transition:opacity 0.2s}
+.btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;width:100%;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
 .btn-main:hover{opacity:0.85}
-.error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none}
+.btn-main:disabled{opacity:0.5;cursor:not-allowed}
+.error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none;background:#ef444410;border:1px solid #ef444430;border-radius:8px;padding:0.5rem}
 
 /* DASHBOARD */
 .dashboard{display:none}
@@ -36,6 +37,7 @@ h1,h2{font-family:'Syne',sans-serif}
 .topbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
 .topbar-logo span{color:var(--accent)}
 .topbar-right{display:flex;align-items:center;gap:1rem}
+.admin-email{font-size:0.75rem;color:var(--muted)}
 .btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
 .btn-logout:hover{color:var(--text);border-color:#3b82f640}
 
@@ -78,22 +80,32 @@ h1,h2{font-family:'Syne',sans-serif}
 .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+.page-loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100}
+.page-loader.hidden{display:none}
+
 @media(max-width:480px){
   .stats{grid-template-columns:repeat(3,1fr)}
   .rdv-info{grid-template-columns:1fr}
+  .admin-email{display:none}
 }
 </style>
 </head>
 <body>
 
+<!-- Loader initial pendant vérification auth -->
+<div class="page-loader" id="pageLoader">
+  <div class="spinner"></div>
+</div>
+
 <!-- LOGIN -->
-<div class="login-wrap" id="loginWrap">
+<div class="login-wrap" id="loginWrap" style="display:none">
   <div class="login-card">
     <div class="login-logo">Makouez <span>IT</span></div>
     <div class="login-sub">Espace administrateur</div>
+    <input class="form-input" type="email" id="emailInput" placeholder="Email" onkeydown="if(event.key==='Enter')login()">
     <input class="form-input" type="password" id="pwdInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')login()">
-    <button class="btn-main" onclick="login()">Se connecter</button>
-    <div class="error-msg" id="errMsg">Mot de passe incorrect</div>
+    <button class="btn-main" id="loginBtn" onclick="login()">Se connecter</button>
+    <div class="error-msg" id="errMsg"></div>
   </div>
 </div>
 
@@ -102,6 +114,7 @@ h1,h2{font-family:'Syne',sans-serif}
   <div class="topbar">
     <div class="topbar-logo">Makouez <span>IT</span> <span style="color:var(--muted);font-size:0.8rem;font-weight:400">Admin</span></div>
     <div class="topbar-right">
+      <span id="adminEmail" class="admin-email"></span>
       <span id="lastRefresh" style="font-size:0.75rem;color:var(--muted)"></span>
       <button class="btn-logout" onclick="logout()">Déconnexion</button>
     </div>
@@ -132,6 +145,7 @@ h1,h2{font-family:'Syne',sans-serif}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -144,43 +158,77 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 window._adminDb = db;
-window._adminFns = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy };
+window._adminAuth = auth;
+window._adminFns = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy, signInWithEmailAndPassword, signOut };
 
-// ✅ FIX : signaler que Firebase est prêt
-window._firebaseReady = true;
-document.dispatchEvent(new Event('firebase-ready'));
+// ✅ Surveiller automatiquement l'état de connexion
+onAuthStateChanged(auth, (user) => {
+  // Cacher le loader initial
+  document.getElementById('pageLoader').classList.add('hidden');
+
+  if(user){
+    // Connecté → afficher le dashboard
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('adminEmail').textContent = user.email;
+    loadRdvs();
+  } else {
+    // Non connecté → afficher le login
+    document.getElementById('loginWrap').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+  }
+});
 </script>
 
 <script>
-const ADMIN_PASSWORD = "makouezIT2024";
-
 let allRdvs = [];
 let currentFilter = 'all';
 
-// ✅ FIX : attendre que Firebase soit prêt avant de charger les RDV
-function login(){
+async function login(){
+  const email = document.getElementById('emailInput').value.trim();
   const pwd = document.getElementById('pwdInput').value;
-  if(pwd === ADMIN_PASSWORD){
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
+  const btn = document.getElementById('loginBtn');
+  const errMsg = document.getElementById('errMsg');
 
-    if(window._firebaseReady){
-      loadRdvs();
-    } else {
-      document.addEventListener('firebase-ready', () => loadRdvs(), { once: true });
-    }
-  } else {
-    document.getElementById('errMsg').style.display = 'block';
-    document.getElementById('pwdInput').value = '';
+  if(!email || !pwd){
+    errMsg.textContent = 'Veuillez remplir tous les champs.';
+    errMsg.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;margin:0"></div> Connexion...';
+  errMsg.style.display = 'none';
+
+  try {
+    const { signInWithEmailAndPassword } = window._adminFns;
+    await signInWithEmailAndPassword(window._adminAuth, email, pwd);
+    // onAuthStateChanged prend le relais automatiquement
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = 'Se connecter';
+    const errors = {
+      'auth/invalid-email': 'Adresse email invalide.',
+      'auth/user-not-found': 'Aucun compte trouvé avec cet email.',
+      'auth/wrong-password': 'Mot de passe incorrect.',
+      'auth/invalid-credential': 'Email ou mot de passe incorrect.',
+      'auth/too-many-requests': 'Trop de tentatives. Réessayez plus tard.',
+    };
+    errMsg.textContent = errors[e.code] || 'Erreur de connexion. Réessayez.';
+    errMsg.style.display = 'block';
   }
 }
 
-function logout(){
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('pwdInput').value = '';
+async function logout(){
+  try {
+    const { signOut } = window._adminFns;
+    await signOut(window._adminAuth);
+    document.getElementById('emailInput').value = '';
+    document.getElementById('pwdInput').value = '';
+  } catch(e){ alert('Erreur lors de la déconnexion.'); }
 }
 
 async function loadRdvs(){
