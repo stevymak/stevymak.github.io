@@ -83,6 +83,7 @@ textarea.form-input{resize:none;height:80px}
 .account-divider::before,.account-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .account-box{background:#3b82f608;border:1px solid #3b82f620;border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;gap:0.75rem}
 .account-box-title{font-size:0.82rem;color:var(--accent2);font-weight:500;display:flex;align-items:center;gap:0.5rem}
+.account-box-hint{font-size:0.78rem;color:var(--muted);line-height:1.5}
 .pwd-wrap{position:relative}
 .pwd-toggle{position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:0.25rem}
 .pwd-strength{height:3px;border-radius:99px;background:var(--border);margin-top:0.4rem;overflow:hidden}
@@ -197,13 +198,15 @@ textarea.form-input{resize:none;height:80px}
     </div>
   </div>
 
-  <!-- Étape 3 : Infos client + compte -->
+  <!-- Étape 3 : Infos client -->
   <div class="screen" id="s3">
     <div>
       <div class="screen-title">Vos coordonnées</div>
       <div class="screen-sub">Pour confirmer votre réservation</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:0.85rem">
+
+      <!-- Infos de base -->
       <div class="form-group">
         <label class="form-label">Prénom et nom *</label>
         <input class="form-input" id="fname" type="text" placeholder="Marie Dupont" oninput="checkForm3()">
@@ -212,6 +215,13 @@ textarea.form-input{resize:none;height:80px}
         <label class="form-label">Téléphone *</label>
         <input class="form-input" id="fphone" type="tel" placeholder="06 XX XX XX XX" oninput="checkForm3()">
       </div>
+
+      <!-- Email ici, dans les coordonnées de base -->
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input class="form-input" id="femail" type="email" placeholder="marie@email.com" oninput="checkForm3()">
+      </div>
+
       <div class="form-group">
         <label class="form-label">Adresse d'intervention *</label>
         <input class="form-input" id="faddress" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm3()">
@@ -221,23 +231,21 @@ textarea.form-input{resize:none;height:80px}
         <textarea class="form-input" id="fdesc" placeholder="Mon PC est très lent depuis quelques jours..."></textarea>
       </div>
 
-      <!-- COMPTE CLIENT -->
-      <div class="account-divider">Créer votre espace client</div>
+      <!-- COMPTE CLIENT OPTIONNEL -->
+      <div class="account-divider">Espace client (optionnel)</div>
       <div class="account-box">
         <div class="account-box-title">🔐 Suivez votre RDV en temps réel</div>
+        <div class="account-box-hint">Créez un mot de passe pour accéder à votre espace client avec l'email renseigné ci-dessus. Laissez vide si vous ne souhaitez pas créer de compte.</div>
         <div class="form-group">
-          <label class="form-label">Email *</label>
-          <input class="form-input" id="femail" type="email" placeholder="marie@email.com" oninput="checkForm3()">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mot de passe *</label>
+          <label class="form-label">Mot de passe (optionnel, min. 6 caractères)</label>
           <div class="pwd-wrap">
-            <input class="form-input" id="fpwd" type="password" placeholder="Au moins 6 caractères" oninput="checkForm3(); updatePwdStrength()" style="padding-right:2.5rem">
+            <input class="form-input" id="fpwd" type="password" placeholder="Laissez vide pour ignorer" oninput="checkForm3(); updatePwdStrength()" style="padding-right:2.5rem">
             <button class="pwd-toggle" type="button" onclick="togglePwd()">👁</button>
           </div>
           <div class="pwd-strength"><div class="pwd-strength-bar" id="pwdBar"></div></div>
         </div>
       </div>
+
     </div>
     <div style="display:flex;flex-direction:column;gap:0.5rem">
       <button class="btn-main" id="btn3" disabled onclick="goTo(4)">Récapitulatif →</button>
@@ -256,8 +264,10 @@ textarea.form-input{resize:none;height:80px}
       <div class="summary-row"><span class="summary-label">Date</span><span id="sumDate">–</span></div>
       <div class="summary-row"><span class="summary-label">Heure</span><span id="sumTime">–</span></div>
       <div class="summary-row"><span class="summary-label">Nom</span><span id="sumName">–</span></div>
-      <div class="summary-row"><span class="summary-label">Adresse</span><span id="sumAddr">–</span></div>
+      <div class="summary-row"><span class="summary-label">Téléphone</span><span id="sumPhone">–</span></div>
       <div class="summary-row"><span class="summary-label">Email</span><span id="sumEmail">–</span></div>
+      <div class="summary-row"><span class="summary-label">Adresse</span><span id="sumAddr">–</span></div>
+      <div class="summary-row"><span class="summary-label">Espace client</span><span id="sumAccount">–</span></div>
       <div class="summary-row"><span class="summary-label">Tarif indicatif</span><span id="sumPrice">–</span></div>
     </div>
     <p style="font-size:0.78rem;color:var(--muted);text-align:center">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT) pour valider ce rendez-vous.</p>
@@ -271,9 +281,9 @@ textarea.form-input{resize:none;height:80px}
   <div class="success-screen" id="sSuccess">
     <div class="success-icon">✓</div>
     <h2>Demande envoyée !</h2>
-    <p>Stevy (Makouez IT) vous confirmera votre rendez-vous. Suivez le statut depuis votre espace client.</p>
+    <p>Stevy (Makouez IT) vous confirmera votre rendez-vous. Vous recevrez une notification par email et/ou SMS dès confirmation.</p>
     <div class="confirm-card" id="confirmCard"></div>
-    <a class="btn-account" href="mon-rdv.html">→ Voir mon espace client</a>
+    <a class="btn-account" href="mon-rdv.html" id="linkEspaceClient" style="display:none">→ Voir mon espace client</a>
     <button class="btn-main" onclick="restart()" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.85rem;padding:0.7rem">Prendre un autre RDV</button>
   </div>
 </div>
@@ -441,7 +451,9 @@ async function nextMonth(){
 
 function checkForm3(){
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('femail').value);
-  const pwdOk = document.getElementById('fpwd').value.length >= 6;
+  const pwd = document.getElementById('fpwd').value;
+  // Mot de passe optionnel : OK si vide, ou si >= 6 caractères
+  const pwdOk = pwd === '' || pwd.length >= 6;
   const ok = document.getElementById('fname').value.trim()
     && document.getElementById('fphone').value.trim()
     && document.getElementById('faddress').value.trim()
@@ -452,6 +464,7 @@ function checkForm3(){
 function updatePwdStrength(){
   const pwd = document.getElementById('fpwd').value;
   const bar = document.getElementById('pwdBar');
+  if(pwd === ''){ bar.style.width='0%'; return; }
   let score = 0;
   if(pwd.length >= 6) score++;
   if(pwd.length >= 10) score++;
@@ -471,12 +484,15 @@ function togglePwd(){
 
 function fillSummary(){
   const dateStr = state.selectedDate ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) : '–';
+  const pwd = document.getElementById('fpwd').value;
   document.getElementById('sumService').textContent = state.service;
   document.getElementById('sumDate').textContent = dateStr;
   document.getElementById('sumTime').textContent = state.selectedTime;
   document.getElementById('sumName').textContent = document.getElementById('fname').value;
-  document.getElementById('sumAddr').textContent = document.getElementById('faddress').value;
+  document.getElementById('sumPhone').textContent = document.getElementById('fphone').value;
   document.getElementById('sumEmail').textContent = document.getElementById('femail').value;
+  document.getElementById('sumAddr').textContent = document.getElementById('faddress').value;
+  document.getElementById('sumAccount').textContent = pwd.length >= 6 ? '✓ Compte créé' : 'Sans compte';
   document.getElementById('sumPrice').textContent = state.servicePrice;
   const btn = document.getElementById('btnConfirm');
   if(btn) btn.disabled = false;
@@ -502,36 +518,42 @@ async function confirmRdv(){
   const email = document.getElementById('femail').value.trim();
   const pwd = document.getElementById('fpwd').value;
   const nom = document.getElementById('fname').value.trim();
+  const telephone = document.getElementById('fphone').value.trim();
 
   showSpinner(true);
 
-  // 1. Créer le compte Firebase Auth
+  // 1. Créer le compte Firebase Auth SEULEMENT si mot de passe renseigné (>= 6 chars)
   let uid = null;
-  try {
-    const { createUserWithEmailAndPassword, updateProfile } = window._authFns;
-    const userCred = await createUserWithEmailAndPassword(window._auth, email, pwd);
-    uid = userCred.user.uid;
-    await updateProfile(userCred.user, { displayName: nom });
-  } catch(e) {
-    hideSpinner();
-    if(e.code === 'auth/email-already-in-use'){
-      alert('Cet email est déjà utilisé. Connectez-vous sur mon-rdv.html pour voir vos RDV.');
-    } else {
-      alert('Erreur lors de la création du compte : ' + e.message);
+  let accountCreated = false;
+  if(pwd.length >= 6){
+    try {
+      const { createUserWithEmailAndPassword, updateProfile } = window._authFns;
+      const userCred = await createUserWithEmailAndPassword(window._auth, email, pwd);
+      uid = userCred.user.uid;
+      await updateProfile(userCred.user, { displayName: nom });
+      accountCreated = true;
+    } catch(e) {
+      hideSpinner();
+      if(e.code === 'auth/email-already-in-use'){
+        alert('Cet email est déjà utilisé. Connectez-vous sur mon-rdv.html pour voir vos RDV.');
+      } else {
+        alert('Erreur lors de la création du compte : ' + e.message);
+      }
+      return;
     }
-    return;
   }
 
-  // 2. Sauvegarder dans Firebase Firestore
+  // 2. Sauvegarder dans Firestore (email toujours présent, uid peut être null)
   try {
     await window.saveReservation({
-      dateKey, monthKey,
+      dateKey,
+      monthKey,
       time: state.selectedTime,
       service: state.service,
       price: state.servicePrice,
       nom,
-      email,
-      telephone: document.getElementById('fphone').value,
+      email,        // ← toujours sauvegardé pour les notifications
+      telephone,    // ← toujours sauvegardé pour les notifications SMS
       adresse: document.getElementById('faddress').value,
       description: document.getElementById('fdesc').value,
       status: 'pending',
@@ -539,7 +561,7 @@ async function confirmRdv(){
     }, uid);
   } catch(e){ console.error('Firestore error:', e); }
 
-  // 3. Email via Formspree
+  // 3. Email de notification admin via Formspree
   try {
     const formData = new FormData();
     formData.append('Service', state.service);
@@ -548,7 +570,7 @@ async function confirmRdv(){
     formData.append('Heure', state.selectedTime);
     formData.append('Nom', nom);
     formData.append('Email', email);
-    formData.append('Telephone', document.getElementById('fphone').value);
+    formData.append('Telephone', telephone);
     formData.append('Adresse', document.getElementById('faddress').value);
     formData.append('Description', document.getElementById('fdesc').value);
     await fetch('https://formspree.io/f/xkopkwrz', { method:'POST', body:formData, headers:{'Accept':'application/json'} });
@@ -556,10 +578,16 @@ async function confirmRdv(){
 
   hideSpinner();
 
+  // Afficher ou masquer le lien espace client selon si un compte a été créé
+  const linkEspaceClient = document.getElementById('linkEspaceClient');
+  if(accountCreated){ linkEspaceClient.style.display = 'block'; }
+  else { linkEspaceClient.style.display = 'none'; }
+
   document.getElementById('confirmCard').innerHTML = `
     <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateStr} à ${state.selectedTime}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📍</div><div>${document.getElementById('faddress').value}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">📧</div><div>Confirmation envoyée à ${email}</div></div>
     <div class="confirm-row"><div class="confirm-icon">💰</div><div>${state.servicePrice} (devis confirmé sur place)</div></div>
   `;
   goTo(5);
