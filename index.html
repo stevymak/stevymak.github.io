@@ -65,11 +65,15 @@ section{padding:5rem 2rem}
 .section-sub{color:var(--muted);font-size:1.05rem;max-width:560px;line-height:1.6}
 
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
-.service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
-.service-card:hover{border-color:#3b82f640;background:#3b82f608}
+
+/* Cartes services cliquables */
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color 0.2s,background 0.2s,transform 0.2s;position:relative;overflow:hidden;text-decoration:none;color:var(--text);display:block;cursor:pointer}
+.service-card:hover{border-color:#3b82f660;background:#3b82f610;transform:translateY(-2px)}
+.service-card:hover .service-cta{opacity:1;transform:translateX(0)}
 .service-icon{width:44px;height:44px;background:#3b82f618;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem}
 .service-card h3{font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;font-family:'Syne',sans-serif}
 .service-card p{color:var(--muted);font-size:0.9rem;line-height:1.6}
+.service-cta{margin-top:0.85rem;font-size:0.82rem;color:var(--accent2);font-weight:500;display:flex;align-items:center;gap:0.3rem;opacity:0;transform:translateX(-6px);transition:opacity 0.2s,transform 0.2s}
 .service-card.new-service{border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)}
 .service-new-badge{display:inline-block;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:99px;margin-left:0.5rem;vertical-align:middle}
 
@@ -215,44 +219,58 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="container">
     <div class="section-label">Ce que je propose</div>
     <h2 class="section-title">Des solutions pour chaque problème</h2>
-    <p class="section-sub">Du simple dépannage à la formation complète, j'interviens sur tous vos appareils, à votre domicile, en Île-de-France.</p>
+    <p class="section-sub">Cliquez sur un service pour réserver directement avec ce service pré-sélectionné.</p>
     <div class="services-grid">
-      <div class="service-card">
+
+      <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC%2FMac" class="service-card">
         <div class="service-icon">💻</div>
-        <h3>Dépannage PC</h3>
+        <h3>Dépannage PC / Mac</h3>
         <p>Lenteur, virus, écran noir, plantages, Windows qui ne démarre plus, je diagnostique et répare rapidement.</p>
-      </div>
-      <div class="service-card">
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
+      <a href="makouez-it-rdv.html?service=Installation+Windows+%2F+logiciels" class="service-card">
         <div class="service-icon">🪟</div>
         <h3>Installation Windows &amp; logiciels</h3>
         <p>Réinstallation de Windows, configuration initiale, installation de vos logiciels et mises à jour.</p>
-      </div>
-      <div class="service-card">
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
+      <a href="makouez-it-rdv.html?service=R%C3%A9seau+Wi-Fi" class="service-card">
         <div class="service-icon">📶</div>
         <h3>Réseau Wi-Fi</h3>
         <p>Connexion lente, Wi-Fi coupé, problème de box, extension de réseau, sécurisation de votre connexion.</p>
-      </div>
-      <div class="service-card">
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
+      <a href="makouez-it-rdv.html?service=R%C3%A9cup%C3%A9ration+de+donn%C3%A9es" class="service-card">
         <div class="service-icon">💾</div>
         <h3>Récupération de données</h3>
         <p>Fichiers supprimés, disque dur défaillant, photos perdues, je récupère vos données précieuses.</p>
-      </div>
-      <div class="service-card">
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
+      <a href="makouez-it-rdv.html?service=Sauvegarde+%26+s%C3%A9curit%C3%A9" class="service-card">
         <div class="service-icon">🔒</div>
         <h3>Sauvegarde &amp; sécurité</h3>
         <p>Mise en place de sauvegardes automatiques, antivirus, protection contre les arnaques en ligne.</p>
-      </div>
-      <div class="service-card">
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
+      <a href="makouez-it-rdv.html?service=Formation+%2F+accompagnement" class="service-card">
         <div class="service-icon">🎓</div>
         <h3>Formation &amp; accompagnement</h3>
         <p>Apprenez à maîtriser votre PC, smartphone ou tablette à votre rythme, sans jargon technique.</p>
-      </div>
-      <!-- NOUVELLE PRESTATION -->
-      <div class="service-card new-service">
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
+      <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="service-card new-service">
         <div class="service-icon">🌐</div>
         <h3>Intégration &amp; Développement web <span class="service-new-badge">Nouveau</span></h3>
         <p>Création de sites vitrines, landing pages, intégration HTML/CSS/JS, développement d'applications web sur mesure pour particuliers et professionnels.</p>
-      </div>
+        <div class="service-cta">Réserver ce service →</div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -308,7 +326,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>Interventions illimitées</li>
         </ul>
       </div>
-      <div class="tarif-card" style="border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)">
+      <div class="tarif-card" style="grid-column:1/-1;max-width:340px;margin:0 auto;border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)">
         <div class="tarif-badge" style="background:#60a5fa">Nouveau</div>
         <div class="tarif-name">Développement web</div>
         <div class="tarif-price">150€ <span>à partir de</span></div>
@@ -477,7 +495,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <a href="#contact">Contact</a>
     </div>
     <div style="margin-top:0.75rem;font-size:0.78rem">© 2025 Makouez IT – Stevy | SIRET : 83955229600023 | Tous droits réservés</div>
-    <!-- Lien admin discret -->
     <div style="margin-top:1rem">
       <a href="admin.html" class="footer-admin-link">⚙ Espace admin</a>
     </div>
