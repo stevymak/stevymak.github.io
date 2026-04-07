@@ -63,7 +63,6 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .cal-day.empty{cursor:default}
 .cal-day.full{color:#ffffff30;cursor:default}
 
-/* Plages horaires */
 .slot-list{display:flex;flex-direction:column;gap:0.5rem}
 .slot-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
 .slot-btn:hover:not(.unavail){border-color:#3b82f660;background:#3b82f610}
@@ -76,9 +75,7 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .slot-check{margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s}
 .slot-btn.selected .slot-check{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* Indicateur de remplissage par couleur */
 .slot-fill{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:99px;white-space:nowrap;margin-left:auto}
-.slot-fill.free{background:#22c55e15;color:#22c55e;border:1px solid #22c55e30}
 .slot-fill.low{background:#22c55e15;color:#22c55e;border:1px solid #22c55e30}
 .slot-fill.mid{background:#f59e0b15;color:#f59e0b;border:1px solid #f59e0b30}
 .slot-fill.high{background:#ef444415;color:#ef4444;border:1px solid #ef444430}
@@ -139,6 +136,9 @@ textarea.form-input{resize:none;height:80px}
 
 .legend{display:flex;gap:0.75rem;font-size:0.72rem;color:var(--muted);margin-top:0.25rem;flex-wrap:wrap}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:3px}
+
+/* Bandeau service pré-sélectionné */
+.preselect-banner{background:#3b82f610;border:1px solid #3b82f630;border-radius:var(--r);padding:0.75rem 1rem;font-size:0.82rem;color:var(--accent2);display:flex;align-items:center;gap:0.5rem}
 </style>
 </head>
 <body>
@@ -162,6 +162,10 @@ textarea.form-input{resize:none;height:80px}
       <div class="screen-title">Quel service ?</div>
       <div class="screen-sub">Sélectionnez le type d'intervention</div>
     </div>
+    <!-- Bandeau pré-sélection (affiché si service passé en URL) -->
+    <div class="preselect-banner" id="preselectBanner" style="display:none">
+      ✓ Service pré-sélectionné depuis le site — vous pouvez modifier votre choix ci-dessous.
+    </div>
     <div class="service-list">
       <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€')">
         <div class="svc-icon">💻</div>
@@ -181,6 +185,11 @@ textarea.form-input{resize:none;height:80px}
       <button class="service-btn" onclick="selectService(this,'Récupération de données','à partir de 80€')">
         <div class="svc-icon">💾</div>
         <div><div class="svc-name">Récupération de données</div><div class="svc-price">à partir de 80€</div></div>
+        <div class="svc-check">✓</div>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Sauvegarde & sécurité','à partir de 60€')">
+        <div class="svc-icon">🔒</div>
+        <div><div class="svc-name">Sauvegarde &amp; sécurité</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Formation / accompagnement','40€/h')">
@@ -211,7 +220,7 @@ textarea.form-input{resize:none;height:80px}
       </div>
       <div class="cal-grid" id="calGrid"></div>
       <div class="legend" style="margin-top:0.5rem">
-        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#22c55e40;border:1px solid #22c55e60"></div> 1-1 résa</div>
+        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#22c55e40;border:1px solid #22c55e60"></div> 1 résa</div>
         <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#f59e0b40;border:1px solid #f59e0b60"></div> 2-3 résas</div>
         <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#ef444440;border:1px solid #ef444460"></div> 4+ résas</div>
       </div>
@@ -263,7 +272,7 @@ textarea.form-input{resize:none;height:80px}
         <div class="account-divider">Espace client (optionnel)</div>
         <div class="account-box">
           <div class="account-box-title">🔐 Suivez votre RDV en temps réel</div>
-          <div class="account-box-hint" id="accountHint">Créez un mot de passe pour accéder à votre espace client. Laissez vide si vous ne souhaitez pas créer de compte.</div>
+          <div class="account-box-hint">Créez un mot de passe pour accéder à votre espace client. Laissez vide si vous ne souhaitez pas créer de compte.</div>
           <div class="form-group" id="pwdGroup">
             <label class="form-label">Mot de passe (optionnel, min. 6 caractères)</label>
             <div class="pwd-wrap">
@@ -357,7 +366,6 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Charge les réservations du mois et retourne un objet { dateKey: { slotId: count } }
 window.loadBookings = async function(year, month) {
   const prefix = `${year}-${String(month+1).padStart(2,'0')}`;
   const q = query(collection(db, "reservations"), where("monthKey", "==", prefix));
@@ -365,7 +373,6 @@ window.loadBookings = async function(year, month) {
   const booked = {};
   snap.forEach(d => {
     const data = d.data();
-    // On ne compte que les réservations non annulées
     if (data.status === 'cancelled') return;
     if (!booked[data.dateKey]) booked[data.dateKey] = {};
     const slot = data.time || 'unknown';
@@ -410,9 +417,9 @@ window.checkEmailExists = async function(email) {
 const MAX_PER_SLOT = 5;
 
 const ALL_SLOTS = [
-  { id: 'matin',  emoji: '🌅', label: 'Matin',          hours: '8h00 – 12h00',  weekendOnly: true  },
-  { id: 'aprem',  emoji: '☀️',  label: 'Après-midi',     hours: '13h00 – 17h00', weekendOnly: false },
-  { id: 'soir',   emoji: '🌆', label: 'Fin de journée',  hours: '17h00 – 20h00', weekendOnly: false },
+  { id: 'matin',  emoji: '🌅', label: 'Matin',         hours: '8h00 – 12h00',  weekendOnly: true  },
+  { id: 'aprem',  emoji: '☀️',  label: 'Après-midi',    hours: '13h00 – 17h00', weekendOnly: false },
+  { id: 'soir',   emoji: '🌆', label: 'Fin de journée', hours: '17h00 – 20h00', weekendOnly: false },
 ];
 
 const days   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
@@ -427,6 +434,41 @@ let state = {
   currentMonth:new Date().getMonth(),
   bookings:{}
 };
+
+// ─── Pré-sélection depuis l'URL ───────────────────────────────────────────
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const serviceParam = params.get('service');
+  if (!serviceParam) return;
+
+  // Correspondance entre le nom URL et (nom interne, prix)
+  const serviceMap = {
+    'Dépannage PC/Mac':                  { name: 'Dépannage PC/Mac',                  price: '60-80€' },
+    'Installation Windows / logiciels':  { name: 'Installation Windows / logiciels',  price: 'à partir de 60€' },
+    'Réseau Wi-Fi':                       { name: 'Réseau Wi-Fi',                       price: 'à partir de 60€' },
+    'Récupération de données':            { name: 'Récupération de données',            price: 'à partir de 80€' },
+    'Sauvegarde & sécurité':             { name: 'Sauvegarde & sécurité',             price: 'à partir de 60€' },
+    'Formation / accompagnement':         { name: 'Formation / accompagnement',         price: '40€/h' },
+    'Intégration / Développement web':    { name: 'Intégration / Développement web',    price: 'à partir de 150€' },
+  };
+
+  const match = serviceMap[serviceParam];
+  if (!match) return;
+
+  // Pré-sélectionner le bon bouton
+  document.querySelectorAll('.service-btn').forEach(btn => {
+    const name = btn.querySelector('.svc-name').textContent.trim();
+    if (name === match.name) {
+      btn.classList.add('selected');
+      state.service      = match.name;
+      state.servicePrice = match.price;
+      document.getElementById('btn1').disabled = false;
+      document.getElementById('preselectBanner').style.display = 'flex';
+      // Scroll vers le bouton sélectionné
+      setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+    }
+  });
+})();
 
 let _emailCheckTimer = null;
 function onEmailInput(){
@@ -476,30 +518,21 @@ function getSlotsForDay(dow) {
   return ALL_SLOTS.filter(s => isWeekend || !s.weekendOnly);
 }
 
-// Retourne le total de résas actives pour un jour donné (toutes plages)
-function getDayTotalBookings(dateKey) {
-  if (!state.bookings[dateKey]) return 0;
-  return Object.values(state.bookings[dateKey]).reduce((a,b) => a+b, 0);
-}
-
-// Retourne la classe de couleur selon le nombre de résas sur le jour
 function getDayColorClass(dateKey, dow) {
   const slots = getSlotsForDay(dow);
-  const maxPossible = slots.length * MAX_PER_SLOT;
   const booked = state.bookings[dateKey] || {};
   const total = Object.values(booked).reduce((a,b) => a+b, 0);
   const allFull = slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
   if (allFull) return 'full';
   if (total === 0) return '';
-  if (total >= 1 && total <= 1) return 'booked-low';
-  if (total >= 2 && total <= 3) return 'booked-mid';
+  if (total === 1) return 'booked-low';
+  if (total <= 3) return 'booked-mid';
   return 'booked-high';
 }
 
-// Retourne la classe CSS et le label pour l'indicateur de remplissage d'une plage
 function getSlotFillInfo(dateKey, slotId) {
   const count = (state.bookings[dateKey] && state.bookings[dateKey][slotId]) || 0;
-  if (count === 0) return null; // pas d'indicateur si vide
+  if (count === 0) return null;
   if (count >= MAX_PER_SLOT) return { cls: 'full', label: 'Complet' };
   if (count >= 4) return { cls: 'high', label: `${count}/${MAX_PER_SLOT} résas` };
   if (count >= 2) return { cls: 'mid', label: `${count}/${MAX_PER_SLOT} résas` };
@@ -516,9 +549,7 @@ function renderCalendar(){
   let startDay = first.getDay()-1; if(startDay<0) startDay=6;
   const daysInMonth = new Date(y,m+1,0).getDate();
   const today = new Date(); today.setHours(0,0,0,0);
-
   for(let i=0;i<startDay;i++){ const e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
-
   for(let d=1;d<=daysInMonth;d++){
     const el = document.createElement('div');
     const date = new Date(y,m,d); date.setHours(0,0,0,0);
@@ -527,22 +558,17 @@ function renderCalendar(){
     const isSelected = state.selectedDate && state.selectedDate.getTime()===date.getTime();
     const dow        = date.getDay();
     const dateKey    = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-
     const slots = getSlotsForDay(dow);
     const booked = state.bookings[dateKey] || {};
     const allFull = !isPast && slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
     const colorClass = getDayColorClass(dateKey, dow);
-
     let className = 'cal-day';
     if (isPast) className += ' past';
     if (isToday) className += ' today';
     if (isSelected) className += ' selected';
     if (allFull) className += ' full';
-
     el.className = className;
     el.textContent = d;
-
-    // Couleur de fond selon occupation (uniquement si pas passé, pas sélectionné, pas plein)
     if (!isPast && !isSelected && !allFull && colorClass) {
       const colors = {
         'booked-low':  { bg: '#22c55e18', border: '#22c55e40' },
@@ -550,11 +576,10 @@ function renderCalendar(){
         'booked-high': { bg: '#ef444418', border: '#ef444440' },
       };
       if (colors[colorClass]) {
-        el.style.background = colors[colorClass].bg;
+        el.style.background  = colors[colorClass].bg;
         el.style.borderColor = colors[colorClass].border;
       }
     }
-
     if(!isPast && !allFull){ el.onclick = ()=>selectDate(date, dateKey); }
     grid.appendChild(el);
   }
@@ -564,21 +589,17 @@ function selectDate(date, dateKey){
   state.selectedDate = date; state.selectedTime = ''; state.selectedSlotLabel = '';
   document.getElementById('btn2').disabled = true;
   renderCalendar();
-
   const dow = date.getDay();
   const slots = getSlotsForDay(dow);
   const booked = state.bookings[dateKey] || {};
-
   const ts = document.getElementById('timeSection');
   ts.style.display = 'block';
   const sl = document.getElementById('slotList');
   sl.innerHTML = '';
-
   slots.forEach(slot => {
     const count = booked[slot.id] || 0;
     const isFull = count >= MAX_PER_SLOT;
     const fillInfo = getSlotFillInfo(dateKey, slot.id);
-
     const btn = document.createElement('button');
     btn.className = 'slot-btn' + (isFull ? ' unavail' : '');
     btn.innerHTML = `
@@ -645,7 +666,7 @@ function updatePwdStrength(){
   if(/[A-Z]/.test(pwd)) score++;
   if(/[0-9]/.test(pwd)) score++;
   if(/[^A-Za-z0-9]/.test(pwd)) score++;
-  bar.style.width    = (score/5*100)+'%';
+  bar.style.width      = (score/5*100)+'%';
   bar.style.background = score<=1?'#ef4444':score<=3?'#f59e0b':'#22c55e';
 }
 
@@ -663,7 +684,6 @@ function fillSummary(){
   if (window._currentUser)          accountLabel = '✓ Compte existant lié';
   else if (window._emailIsExisting) accountLabel = '✓ Email existant — lié automatiquement';
   else if (pwd.length >= 6)         accountLabel = '✓ Compte créé';
-
   document.getElementById('sumService').textContent = state.service;
   document.getElementById('sumDate').textContent    = dateStr;
   document.getElementById('sumTime').textContent    = state.selectedSlotLabel || state.selectedTime;
@@ -700,11 +720,8 @@ async function confirmRdv(){
   const pwd      = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
   const nom      = document.getElementById('fname').value.trim();
   const telephone = document.getElementById('fphone').value.trim();
-
   showSpinner(true);
-
   let uid = null, accountCreated = false;
-
   if (window._currentUser) {
     uid = window._currentUser.uid; accountCreated = true;
   } else if (window._emailIsExisting) {
@@ -720,13 +737,10 @@ async function confirmRdv(){
       hideSpinner();
       if(e.code === 'auth/email-already-in-use'){
         window._emailIsExisting = true; uid = null; accountCreated = false;
-      } else {
-        alert('Erreur lors de la création du compte : ' + e.message); return;
-      }
+      } else { alert('Erreur lors de la création du compte : ' + e.message); return; }
     }
     showSpinner(true);
   }
-
   try {
     await window.saveReservation({
       dateKey, monthKey,
@@ -741,28 +755,24 @@ async function confirmRdv(){
       createdAt:   new Date().toISOString()
     }, uid);
   } catch(e){ console.error('Firestore error:', e); }
-
   try {
     const formData = new FormData();
-    formData.append('Service',   state.service);
-    formData.append('Tarif',     state.servicePrice);
-    formData.append('Date',      dateStr);
-    formData.append('Plage',     state.selectedSlotLabel);
-    formData.append('Nom',       nom);
-    formData.append('Email',     email);
-    formData.append('Telephone', telephone);
-    formData.append('Adresse',   document.getElementById('faddress').value);
+    formData.append('Service',     state.service);
+    formData.append('Tarif',       state.servicePrice);
+    formData.append('Date',        dateStr);
+    formData.append('Plage',       state.selectedSlotLabel);
+    formData.append('Nom',         nom);
+    formData.append('Email',       email);
+    formData.append('Telephone',   telephone);
+    formData.append('Adresse',     document.getElementById('faddress').value);
     formData.append('Description', document.getElementById('fdesc').value);
     await fetch('https://formspree.io/f/xkopkwrz', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
     });
   } catch(e){ console.error('Formspree error:', e); }
-
   hideSpinner();
-
   const linkEspaceClient = document.getElementById('linkEspaceClient');
   linkEspaceClient.style.display = (accountCreated || window._emailIsExisting) ? 'block' : 'none';
-
   document.getElementById('confirmCard').innerHTML = `
     <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateStr}</div></div>
@@ -781,6 +791,7 @@ function restart(){
   };
   window._emailIsExisting = false;
   document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('preselectBanner').style.display = 'none';
   if (!window._currentUser) {
     ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id=>{
       const el = document.getElementById(id); if(el) el.value='';
