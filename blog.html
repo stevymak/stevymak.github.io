@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog & Conseils informatiques – Makouez IT</title>
+<meta name="description" content="Conseils, astuces et mini-tutos informatiques par Stevy (Makouez IT). Apprenez à résoudre vos problèmes informatiques facilement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
+  --accent:#3b82f6;--accent2:#60a5fa;
+  --text:#f0f0ff;--muted:#8888aa;
+  --border:#ffffff14;--card:#ffffff08;--r:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+h1,h2,h3{font-family:'Syne',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(9,9,15,0.9);border-bottom:1px solid var(--border)}
+.logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);text-decoration:none}
+.logo span{color:var(--accent)}
+.nav-back{display:flex;align-items:center;gap:0.5rem;color:var(--muted);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
+.nav-back:hover{color:var(--text)}
+
+.page{padding:7rem 2rem 5rem;max-width:1100px;margin:0 auto}
+.page-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);font-weight:600;margin-bottom:0.75rem}
+.page-title{font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:1rem}
+.page-sub{color:var(--muted);font-size:1.05rem;max-width:560px;line-height:1.6;margin-bottom:3rem}
+
+/* Liste articles */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;margin-bottom:4rem}
+.article-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.2s,transform 0.2s;cursor:pointer}
+.article-card:hover{border-color:#3b82f640;transform:translateY(-3px)}
+.article-thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:linear-gradient(135deg,#16162a,#1e1e3a)}
+.article-body{padding:1.25rem}
+.article-tag{display:inline-block;background:#3b82f618;color:var(--accent2);font-size:0.72rem;font-weight:600;padding:0.15rem 0.6rem;border-radius:99px;margin-bottom:0.6rem;border:1px solid #3b82f630}
+.article-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.4rem;line-height:1.3}
+.article-excerpt{color:var(--muted);font-size:0.85rem;line-height:1.5;margin-bottom:0.85rem}
+.article-meta{display:flex;align-items:center;gap:0.75rem;font-size:0.75rem;color:var(--muted)}
+.article-read{color:var(--accent2);font-size:0.82rem;font-weight:500}
+
+/* Article complet (modal) */
+.article-modal{position:fixed;inset:0;background:#00000095;backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.article-modal.show{display:flex}
+.article-full{background:var(--bg2);border:1px solid var(--border);border-radius:20px;max-width:720px;width:100%;margin:auto;padding:2.5rem;position:relative}
+.article-full-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--card);border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:color 0.2s}
+.article-full-close:hover{color:var(--text)}
+.article-full-tag{display:inline-block;background:#3b82f618;color:var(--accent2);font-size:0.75rem;font-weight:600;padding:0.2rem 0.75rem;border-radius:99px;margin-bottom:0.75rem;border:1px solid #3b82f630}
+.article-full h1{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2}
+.article-full-meta{color:var(--muted);font-size:0.8rem;margin-bottom:2rem;display:flex;gap:1rem}
+.article-full-content{color:var(--text);font-size:0.95rem;line-height:1.8}
+.article-full-content h2{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin:2rem 0 0.75rem;color:var(--accent2)}
+.article-full-content h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;margin:1.5rem 0 0.5rem}
+.article-full-content p{margin-bottom:1rem;color:var(--muted)}
+.article-full-content ul,.article-full-content ol{margin:0.75rem 0 1rem 1.5rem;color:var(--muted)}
+.article-full-content li{margin-bottom:0.4rem}
+.article-full-content strong{color:var(--text)}
+.article-full-content .tip{background:#3b82f610;border:1px solid #3b82f630;border-radius:8px;padding:0.9rem 1rem;margin:1.25rem 0;font-size:0.88rem;color:var(--accent2)}
+.article-full-content .warning{background:#f59e0b10;border:1px solid #f59e0b30;border-radius:8px;padding:0.9rem 1rem;margin:1.25rem 0;font-size:0.88rem;color:#f59e0b}
+.article-full-content .step{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;margin:0.5rem 0;font-size:0.9rem;display:flex;gap:0.75rem;align-items:flex-start}
+.step-num{background:var(--accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;margin-top:0.1rem}
+.article-cta{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;text-align:center;margin-top:2rem}
+.article-cta p{color:var(--muted);font-size:0.88rem;margin-bottom:0.75rem}
+.btn-rdv{display:inline-block;background:var(--accent);color:#fff;padding:0.7rem 1.6rem;border-radius:9px;text-decoration:none;font-size:0.9rem;font-weight:500;transition:opacity 0.2s}
+.btn-rdv:hover{opacity:0.85}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Makouez <span>IT</span></a>
+  <a href="index.html" class="nav-back">← Retour au site</a>
+</nav>
+
+<div class="page">
+  <div class="page-label">Conseils & Astuces</div>
+  <h1 class="page-title">Blog informatique</h1>
+  <p class="page-sub">Des guides pratiques rédigés par Stevy pour vous aider à résoudre vos problèmes informatiques du quotidien — sans jargon.</p>
+
+  <div class="blog-grid" id="blogGrid"></div>
+</div>
+
+<!-- Modal article complet -->
+<div class="article-modal" id="articleModal">
+  <div class="article-full" id="articleFull">
+    <button class="article-full-close" onclick="closeArticle()">✕</button>
+    <div id="articleContent"></div>
+  </div>
+</div>
+
+<script>
+const articles = [
+  {
+    id: 1,
+    emoji: '🐢',
+    tag: 'Performance',
+    title: 'Pourquoi mon PC est lent et comment y remédier',
+    excerpt: 'Un ordinateur qui rame peut avoir de nombreuses causes. Voici les 5 raisons les plus fréquentes et comment les résoudre vous-même en moins de 10 minutes.',
+    duration: '5 min',
+    content: `
+      <div class="article-full-tag">Performance</div>
+      <h1>Pourquoi mon PC est lent et comment y remédier</h1>
+      <div class="article-full-meta"><span>⏱ 5 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Un PC lent est l'une des plaintes les plus courantes. Avant d'appeler un technicien, voici les causes fréquentes et ce que vous pouvez faire.</p>
+
+        <h2>1. Trop de programmes au démarrage</h2>
+        <p>Beaucoup de logiciels se lancent automatiquement quand vous allumez votre PC, ralentissant considérablement le démarrage.</p>
+        <div class="step"><div class="step-num">1</div><div>Appuyez sur <strong>Ctrl + Shift + Échap</strong> pour ouvrir le Gestionnaire des tâches</div></div>
+        <div class="step"><div class="step-num">2</div><div>Cliquez sur l'onglet <strong>"Démarrage"</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Faites un clic droit sur les programmes inutiles et cliquez <strong>"Désactiver"</strong></div></div>
+        <div class="tip">💡 Désactivez tout sauf votre antivirus et les pilotes essentiels.</div>
+
+        <h2>2. Disque dur presque plein</h2>
+        <p>Windows a besoin d'espace libre pour fonctionner. Si votre disque est rempli à plus de 85%, les performances chutent drastiquement.</p>
+        <div class="step"><div class="step-num">1</div><div>Ouvrez l'<strong>Explorateur de fichiers</strong> et regardez l'espace libre sur C:</div></div>
+        <div class="step"><div class="step-num">2</div><div>Tapez <strong>"Nettoyage de disque"</strong> dans le menu Démarrer et lancez-le</div></div>
+        <div class="step"><div class="step-num">3</div><div>Cochez toutes les cases et cliquez <strong>"Nettoyer les fichiers système"</strong></div></div>
+
+        <h2>3. Trop de RAM utilisée</h2>
+        <p>Si vous avez beaucoup d'onglets ou de programmes ouverts en même temps, votre mémoire vive peut être saturée.</p>
+        <div class="warning">⚠️ Si le Gestionnaire des tâches montre une utilisation RAM > 90%, pensez à fermer les applications inutiles ou à augmenter la RAM.</div>
+
+        <h2>4. Virus ou malwares</h2>
+        <p>Un logiciel malveillant peut consommer vos ressources en arrière-plan sans que vous le sachiez. Faites un scan complet avec Windows Defender.</p>
+        <div class="step"><div class="step-num">1</div><div>Tapez <strong>"Sécurité Windows"</strong> dans le menu Démarrer</div></div>
+        <div class="step"><div class="step-num">2</div><div>Cliquez sur <strong>"Protection contre les virus"</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Lancez une <strong>"Analyse complète"</strong></div></div>
+
+        <h2>5. PC qui chauffe</h2>
+        <p>Un processeur qui chauffe trop ralentit volontairement pour se protéger. Nettoyez les ventilateurs et assurez une bonne ventilation.</p>
+        <div class="tip">💡 Si malgré tout votre PC reste lent, il peut s'agir d'un disque dur défaillant ou d'une RAM endommagée. N'hésitez pas à faire appel à Stevy.</div>
+
+        <div class="article-cta">
+          <p>Votre PC est toujours lent malgré ces conseils ?</p>
+          <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC%2FMac" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 2,
+    emoji: '🦠',
+    tag: 'Sécurité',
+    title: 'Comment savoir si mon PC a un virus et s\'en débarrasser',
+    excerpt: 'Pop-ups intempestifs, PC lent, programmes qui s\'ouvrent tout seuls… Voici comment détecter et éliminer un virus sans logiciel payant.',
+    duration: '6 min',
+    content: `
+      <div class="article-full-tag">Sécurité</div>
+      <h1>Comment savoir si mon PC a un virus et s'en débarrasser</h1>
+      <div class="article-full-meta"><span>⏱ 6 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Un virus informatique peut causer de nombreux problèmes. Voici comment identifier une infection et y remédier.</p>
+
+        <h2>Les signes d'une infection</h2>
+        <ul>
+          <li>PC soudainement très lent sans raison apparente</li>
+          <li>Pop-ups publicitaires qui apparaissent partout</li>
+          <li>Page d'accueil de votre navigateur changée sans votre accord</li>
+          <li>Programmes qui se lancent ou se ferment tout seuls</li>
+          <li>Fichiers disparus ou renommés</li>
+          <li>Votre antivirus désactivé sans que vous l'ayez fait</li>
+        </ul>
+
+        <h2>Étape 1 : Scanner avec Windows Defender</h2>
+        <div class="step"><div class="step-num">1</div><div>Ouvrez <strong>Sécurité Windows</strong> depuis le menu Démarrer</div></div>
+        <div class="step"><div class="step-num">2</div><div>Cliquez <strong>"Protection contre les virus et menaces"</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Choisissez <strong>"Options d'analyse"</strong> puis <strong>"Analyse complète"</strong></div></div>
+        <div class="step"><div class="step-num">4</div><div>Attendez la fin (peut prendre 30-60 min) et suivez les instructions</div></div>
+
+        <h2>Étape 2 : Utiliser Malwarebytes (gratuit)</h2>
+        <p>Windows Defender est bon mais Malwarebytes détecte des menaces supplémentaires. Téléchargez la version gratuite sur <strong>malwarebytes.com</strong> et lancez un scan.</p>
+        <div class="tip">💡 Utilisez toujours les deux : Windows Defender en protection permanente + Malwarebytes pour un scan ponctuel.</div>
+
+        <h2>Étape 3 : Nettoyer votre navigateur</h2>
+        <div class="step"><div class="step-num">1</div><div>Dans Chrome : Menu → <strong>Paramètres → Réinitialiser les paramètres</strong></div></div>
+        <div class="step"><div class="step-num">2</div><div>Vérifiez les extensions installées et supprimez celles que vous ne reconnaissez pas</div></div>
+
+        <h2>Étape 4 : Changer vos mots de passe</h2>
+        <p>Si vous avez eu un virus, changez immédiatement vos mots de passe importants (email, banque, réseaux sociaux) depuis un autre appareil.</p>
+        <div class="warning">⚠️ Si le virus revient ou si vos fichiers sont chiffrés (ransomware), n'essayez pas de régler ça seul. Contactez un professionnel immédiatement.</div>
+
+        <div class="article-cta">
+          <p>Vous pensez avoir un virus ou votre PC se comporte bizarrement ?</p>
+          <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC%2FMac" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 3,
+    emoji: '📶',
+    tag: 'Réseau',
+    title: 'Wi-Fi lent ou qui coupe : les solutions',
+    excerpt: 'Connexion internet qui rame, Wi-Fi qui se déconnecte sans cesse… Avant d\'appeler votre opérateur, essayez ces astuces simples et efficaces.',
+    duration: '4 min',
+    content: `
+      <div class="article-full-tag">Réseau</div>
+      <h1>Wi-Fi lent ou qui coupe : les solutions</h1>
+      <div class="article-full-meta"><span>⏱ 4 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Un Wi-Fi instable est très frustrant. Voici les causes les plus fréquentes et comment les résoudre.</p>
+
+        <h2>Solution 1 : Redémarrer la box</h2>
+        <p>Cela semble basique, mais ça résout 60% des problèmes. Éteignez votre box pendant 30 secondes, puis rallumez-la et attendez 2 minutes.</p>
+
+        <h2>Solution 2 : Vérifier la distance et les obstacles</h2>
+        <p>Le Wi-Fi est affaibli par les murs épais, les objets métalliques et les appareils électroménagers (micro-ondes, four).</p>
+        <div class="tip">💡 Placez votre box en hauteur, au centre de votre logement, loin des murs épais et des appareils électriques.</div>
+
+        <h2>Solution 3 : Changer le canal Wi-Fi</h2>
+        <p>Si plusieurs voisins utilisent le même canal, cela crée des interférences. Connectez-vous à l'interface de votre box et changez le canal (1, 6 ou 11 sont les meilleurs).</p>
+
+        <h2>Solution 4 : Préférer le câble Ethernet</h2>
+        <p>Pour un PC fixe ou une TV connectée, branchez un câble réseau directement dans la box. Vous obtiendrez une connexion jusqu'à 10x plus stable.</p>
+
+        <h2>Solution 5 : Mettre à jour les pilotes réseau</h2>
+        <div class="step"><div class="step-num">1</div><div>Faites un clic droit sur le menu Démarrer → <strong>Gestionnaire de périphériques</strong></div></div>
+        <div class="step"><div class="step-num">2</div><div>Dépliez <strong>"Cartes réseau"</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Clic droit sur votre carte Wi-Fi → <strong>"Mettre à jour le pilote"</strong></div></div>
+
+        <h2>Solution 6 : Répéteur ou mesh Wi-Fi</h2>
+        <p>Si votre logement est grand ou a beaucoup de murs, un répéteur Wi-Fi (à partir de 30€) ou un système mesh peut transformer votre connexion.</p>
+        <div class="warning">⚠️ Si le problème vient de votre débit internet (et non du Wi-Fi), contactez votre opérateur ou vérifiez sur <strong>nperf.com</strong>.</div>
+
+        <div class="article-cta">
+          <p>Votre Wi-Fi reste problématique malgré ces conseils ?</p>
+          <a href="makouez-it-rdv.html?service=R%C3%A9seau+Wi-Fi" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 4,
+    emoji: '🔒',
+    tag: 'Sécurité',
+    title: 'Comment créer des mots de passe forts et les retenir',
+    excerpt: 'Un mot de passe faible est la première cause de piratage. Découvrez comment créer des mots de passe inviolables et les gérer facilement.',
+    duration: '5 min',
+    content: `
+      <div class="article-full-tag">Sécurité</div>
+      <h1>Comment créer des mots de passe forts et les retenir</h1>
+      <div class="article-full-meta"><span>⏱ 5 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Le mot de passe est votre première ligne de défense. Voici comment en créer de vraiment solides.</p>
+
+        <h2>Ce qu'il faut éviter absolument</h2>
+        <ul>
+          <li><strong>123456</strong> — le mot de passe le plus utilisé au monde</li>
+          <li>Votre prénom + année de naissance</li>
+          <li>Le nom de votre animal de compagnie</li>
+          <li>Le même mot de passe sur tous vos comptes</li>
+          <li>Un mot du dictionnaire seul</li>
+        </ul>
+
+        <h2>La méthode des 3 mots aléatoires</h2>
+        <p>Choisissez 3 mots sans rapport et combinez-les. Par exemple : <strong>Chaise-Nuage-Guitare47!</strong></p>
+        <div class="tip">💡 Ce type de mot de passe est à la fois très fort et facile à retenir. Les majuscules, chiffres et symboles le renforcent encore.</div>
+
+        <h2>Utiliser un gestionnaire de mots de passe</h2>
+        <p>Un gestionnaire retient tous vos mots de passe à votre place. Vous n'avez qu'un seul mot de passe maître à retenir.</p>
+        <ul>
+          <li><strong>Bitwarden</strong> — gratuit, open source, excellent</li>
+          <li><strong>1Password</strong> — payant mais très complet</li>
+          <li><strong>Le gestionnaire intégré à Chrome/Edge</strong> — pratique pour débuter</li>
+        </ul>
+
+        <h2>Activer la double authentification (2FA)</h2>
+        <p>Même si quelqu'un vole votre mot de passe, il ne pourra pas se connecter sans le code envoyé sur votre téléphone.</p>
+        <div class="step"><div class="step-num">1</div><div>Allez dans les paramètres de sécurité de votre compte (Gmail, Facebook…)</div></div>
+        <div class="step"><div class="step-num">2</div><div>Cherchez <strong>"Validation en deux étapes"</strong> ou <strong>"Authentification à deux facteurs"</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Activez-la et liez votre numéro de téléphone</div></div>
+        <div class="warning">⚠️ Activez toujours le 2FA sur votre email principal — c'est la clé de voûte de tous vos autres comptes.</div>
+
+        <div class="article-cta">
+          <p>Vous souhaitez sécuriser votre PC et vos comptes en profondeur ?</p>
+          <a href="makouez-it-rdv.html?service=Sauvegarde+%26+s%C3%A9curit%C3%A9" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 5,
+    emoji: '💾',
+    tag: 'Données',
+    title: 'Sauvegarder ses données : le guide complet',
+    excerpt: 'Perte d\'un disque dur, ransomware, fausse manipulation… Protégez vos photos et fichiers importants grâce à une stratégie de sauvegarde simple.',
+    duration: '6 min',
+    content: `
+      <div class="article-full-tag">Données</div>
+      <h1>Sauvegarder ses données : le guide complet</h1>
+      <div class="article-full-meta"><span>⏱ 6 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Il y a deux types de personnes : ceux qui ont perdu des données, et ceux qui n'ont pas encore perdu des données. Voici comment vous protéger.</p>
+
+        <h2>La règle du 3-2-1</h2>
+        <p>C'est la règle d'or des professionnels de l'informatique :</p>
+        <ul>
+          <li><strong>3</strong> copies de vos données</li>
+          <li><strong>2</strong> supports différents (disque dur externe + cloud)</li>
+          <li><strong>1</strong> copie hors site (chez un proche ou dans le cloud)</li>
+        </ul>
+
+        <h2>Option 1 : Disque dur externe</h2>
+        <p>Un disque externe de 1 To coûte environ 50-60€ et suffit pour la plupart des gens.</p>
+        <div class="step"><div class="step-num">1</div><div>Branchez votre disque externe</div></div>
+        <div class="step"><div class="step-num">2</div><div>Tapez <strong>"Historique des fichiers"</strong> dans le menu Démarrer</div></div>
+        <div class="step"><div class="step-num">3</div><div>Activez-le et sélectionnez votre disque externe</div></div>
+        <div class="tip">💡 Windows fera des sauvegardes automatiques régulières de vos documents, photos et musiques.</div>
+
+        <h2>Option 2 : Cloud (OneDrive, Google Drive)</h2>
+        <p>OneDrive (intégré à Windows) offre 5 Go gratuits. Google Drive offre 15 Go gratuits. Pour les photos, Google Photos est excellent.</p>
+        <div class="step"><div class="step-num">1</div><div>Activez la synchronisation OneDrive depuis la barre des tâches</div></div>
+        <div class="step"><div class="step-num">2</div><div>Déplacez vos dossiers importants dans le dossier OneDrive</div></div>
+
+        <h2>Ce qu'il faut sauvegarder en priorité</h2>
+        <ul>
+          <li>Photos de famille</li>
+          <li>Documents administratifs (impôts, contrats…)</li>
+          <li>Travaux professionnels ou scolaires</li>
+          <li>Favoris et mots de passe du navigateur</li>
+        </ul>
+        <div class="warning">⚠️ Un disque dur peut tomber en panne à n'importe quel moment, même neuf. Ne remettez pas la sauvegarde à plus tard !</div>
+
+        <div class="article-cta">
+          <p>Vous souhaitez mettre en place une sauvegarde automatique professionnelle ?</p>
+          <a href="makouez-it-rdv.html?service=Sauvegarde+%26+s%C3%A9curit%C3%A9" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 6,
+    emoji: '🖥️',
+    tag: 'Windows',
+    title: 'Réinstaller Windows proprement sans perdre ses fichiers',
+    excerpt: 'Windows bugue, est trop lent, ou vous voulez repartir sur une base saine ? Voici comment réinstaller Windows 10/11 en conservant vos données.',
+    duration: '7 min',
+    content: `
+      <div class="article-full-tag">Windows</div>
+      <h1>Réinstaller Windows proprement sans perdre ses fichiers</h1>
+      <div class="article-full-meta"><span>⏱ 7 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Une réinstallation de Windows peut sembler intimidante, mais Windows 10 et 11 proposent une option simple pour "remettre à zéro" sans perdre vos fichiers personnels.</p>
+
+        <div class="warning">⚠️ Avant toute chose, sauvegardez vos données sur un disque externe ou dans le cloud !</div>
+
+        <h2>Option 1 : Réinitialiser Windows (recommandée)</h2>
+        <div class="step"><div class="step-num">1</div><div>Ouvrez <strong>Paramètres</strong> (touche Windows + I)</div></div>
+        <div class="step"><div class="step-num">2</div><div>Allez dans <strong>Système → Récupération</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Cliquez sur <strong>"Réinitialiser ce PC"</strong></div></div>
+        <div class="step"><div class="step-num">4</div><div>Choisissez <strong>"Conserver mes fichiers"</strong></div></div>
+        <div class="step"><div class="step-num">5</div><div>Suivez les instructions — le processus prend 30-60 minutes</div></div>
+        <div class="tip">💡 Cette option supprime les logiciels installés mais conserve vos documents, photos et paramètres de compte.</div>
+
+        <h2>Ce qui sera supprimé</h2>
+        <ul>
+          <li>Tous les logiciels installés (Office, navigateurs, etc.)</li>
+          <li>Les pilotes personnalisés</li>
+          <li>Les paramètres de certains logiciels</li>
+        </ul>
+
+        <h2>Ce qui sera conservé</h2>
+        <ul>
+          <li>Vos fichiers personnels (Documents, Images, Téléchargements)</li>
+          <li>Votre compte utilisateur Windows</li>
+          <li>Certains paramètres Windows</li>
+        </ul>
+
+        <h2>Après la réinstallation</h2>
+        <p>Vous devrez réinstaller vos logiciels (Office, navigateurs préférés, etc.). Profitez-en pour n'installer que ce dont vous avez vraiment besoin.</p>
+
+        <div class="article-cta">
+          <p>Vous n'êtes pas à l'aise pour faire ça seul ? Stevy s'en charge.</p>
+          <a href="makouez-it-rdv.html?service=Installation+Windows+%2F+logiciels" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 7,
+    emoji: '📧',
+    tag: 'Arnaque',
+    title: 'Reconnaître et éviter les arnaques en ligne',
+    excerpt: 'Phishing, faux support technique, fausses livraisons… Les arnaques se multiplient. Apprenez à les reconnaître avant qu\'il ne soit trop tard.',
+    duration: '5 min',
+    content: `
+      <div class="article-full-tag">Arnaque</div>
+      <h1>Reconnaître et éviter les arnaques en ligne</h1>
+      <div class="article-full-meta"><span>⏱ 5 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Les arnaques informatiques causent des millions d'euros de pertes chaque année en France. Voici comment les repérer.</p>
+
+        <h2>L'arnaque "Votre PC est infecté"</h2>
+        <p>Une fenêtre pop-up s'affiche avec un son d'alarme, indiquant que votre PC est infecté et vous demandant d'appeler un numéro. <strong>C'est une arnaque.</strong></p>
+        <div class="step"><div class="step-num">1</div><div>Ne paniquez pas et ne cliquez sur rien dans la fenêtre</div></div>
+        <div class="step"><div class="step-num">2</div><div>Fermez votre navigateur avec <strong>Alt + F4</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Si vous ne pouvez pas fermer, utilisez <strong>Ctrl + Shift + Échap</strong> pour forcer la fermeture</div></div>
+
+        <h2>Le phishing (faux emails)</h2>
+        <p>Des emails imitant votre banque, La Poste, ou les impôts vous demandent de cliquer sur un lien et d'entrer vos identifiants.</p>
+        <ul>
+          <li>Vérifiez toujours l'adresse email de l'expéditeur</li>
+          <li>Survolez les liens avant de cliquer pour voir la vraie URL</li>
+          <li>En cas de doute, tapez vous-même l'adresse du site dans le navigateur</li>
+          <li>Votre banque ne vous demandera <strong>jamais</strong> votre code PIN par email</li>
+        </ul>
+
+        <h2>Les fausses livraisons</h2>
+        <p>Un SMS vous demande de payer des frais de douane pour recevoir un colis. Si vous n'attendez rien, ignorez-le.</p>
+        <div class="warning">⚠️ En cas de doute, ne cliquez sur aucun lien. Rendez-vous directement sur le site officiel de La Poste ou du transporteur.</div>
+
+        <h2>L'arnaque au faux support Microsoft</h2>
+        <p>Quelqu'un vous appelle en se présentant comme technicien Microsoft et vous demande d'installer un logiciel de prise en main à distance. <strong>Microsoft ne vous appellera jamais spontanément.</strong></p>
+
+        <div class="tip">💡 Le réflexe numéro 1 : si quelque chose vous presse, menace, ou crée une urgence, c'est probablement une arnaque. Prenez le temps de réfléchir.</div>
+
+        <div class="article-cta">
+          <p>Vous pensez avoir été victime d'une arnaque ou souhaitez sécuriser votre PC ?</p>
+          <a href="makouez-it-rdv.html?service=Sauvegarde+%26+s%C3%A9curit%C3%A9" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 8,
+    emoji: '🖨️',
+    tag: 'Matériel',
+    title: 'Mon imprimante ne fonctionne plus : que faire ?',
+    excerpt: 'Imprimante hors ligne, bourrage papier, cartouches vides... Résolvez les problèmes d\'imprimante les plus courants pas à pas.',
+    duration: '4 min',
+    content: `
+      <div class="article-full-tag">Matériel</div>
+      <h1>Mon imprimante ne fonctionne plus : que faire ?</h1>
+      <div class="article-full-meta"><span>⏱ 4 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>L'imprimante est souvent source de frustration. Voici les solutions aux problèmes les plus fréquents.</p>
+
+        <h2>Problème 1 : Imprimante "hors ligne"</h2>
+        <div class="step"><div class="step-num">1</div><div>Éteignez l'imprimante, attendez 30 secondes, rallumez-la</div></div>
+        <div class="step"><div class="step-num">2</div><div>Allez dans <strong>Paramètres → Bluetooth et appareils → Imprimantes</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Cliquez sur votre imprimante → <strong>"Ouvrir la file d'attente d'impression"</strong></div></div>
+        <div class="step"><div class="step-num">4</div><div>Supprimez tous les documents en attente et réessayez</div></div>
+
+        <h2>Problème 2 : Bourrage papier</h2>
+        <div class="step"><div class="step-num">1</div><div>Éteignez l'imprimante</div></div>
+        <div class="step"><div class="step-num">2</div><div>Ouvrez tous les capots et retirez le papier coincé <strong>délicatement</strong>, dans le sens du papier</div></div>
+        <div class="step"><div class="step-num">3</div><div>Ne forcez jamais — vous risquez d'abîmer les rouleaux</div></div>
+        <div class="tip">💡 Utilisez toujours du papier de bonne qualité et ne remplissez pas le bac à plus de 80% de sa capacité.</div>
+
+        <h2>Problème 3 : Impression de mauvaise qualité</h2>
+        <ul>
+          <li>Lignes manquantes → nettoyez les têtes d'impression depuis le logiciel de l'imprimante</li>
+          <li>Couleurs incorrectes → calibrez les couleurs ou remplacez les cartouches</li>
+          <li>Pages floues → vérifiez que vous utilisez le bon type de papier</li>
+        </ul>
+
+        <h2>Problème 4 : Réinstaller les pilotes</h2>
+        <p>Si rien ne fonctionne, désinstallez l'imprimante depuis le Gestionnaire de périphériques et téléchargez les pilotes depuis le site du fabricant (HP, Canon, Epson…).</p>
+
+        <div class="article-cta">
+          <p>Votre imprimante reste récalcitrante ? Stevy peut intervenir à domicile.</p>
+          <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC%2FMac" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 9,
+    emoji: '📱',
+    tag: 'Mobile',
+    title: 'Transférer ses photos du smartphone vers le PC',
+    excerpt: 'Vos photos s\'accumulent sur votre téléphone et vous manquez de place ? Voici 3 méthodes simples pour les transférer sur votre ordinateur.',
+    duration: '4 min',
+    content: `
+      <div class="article-full-tag">Mobile</div>
+      <h1>Transférer ses photos du smartphone vers le PC</h1>
+      <div class="article-full-meta"><span>⏱ 4 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Vous avez des centaines de photos sur votre téléphone et vous voulez les sauvegarder sur votre PC ? Voici les méthodes les plus simples.</p>
+
+        <h2>Méthode 1 : Câble USB (la plus simple)</h2>
+        <div class="step"><div class="step-num">1</div><div>Branchez votre téléphone au PC avec un câble USB</div></div>
+        <div class="step"><div class="step-num">2</div><div>Sur votre téléphone, choisissez <strong>"Transfert de fichiers"</strong> ou <strong>"MTP"</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div>Ouvrez l'Explorateur de fichiers sur le PC — votre téléphone apparaît comme un lecteur</div></div>
+        <div class="step"><div class="step-num">4</div><div>Allez dans <strong>DCIM → Camera</strong> et copiez vos photos</div></div>
+
+        <h2>Méthode 2 : Google Photos (automatique)</h2>
+        <p>Installez <strong>Google Photos</strong> sur votre téléphone, activez la sauvegarde automatique. Vos photos sont alors accessibles sur <strong>photos.google.com</strong> depuis votre PC.</p>
+        <div class="tip">💡 Google Photos offre 15 Go gratuits. C'est la méthode la plus pratique car la sauvegarde se fait automatiquement en Wi-Fi.</div>
+
+        <h2>Méthode 3 : Bluetooth</h2>
+        <p>Pour quelques photos seulement, le Bluetooth fonctionne. Activez-le sur les deux appareils, associez-les et utilisez le partage de fichiers. C'est plus lent mais sans câble.</p>
+
+        <h2>Libérer de l'espace sur le téléphone</h2>
+        <p>Une fois vos photos sauvegardées sur le PC ou dans le cloud, vous pouvez les supprimer du téléphone. Dans Google Photos, il y a une option "Libérer de l'espace" qui supprime les photos déjà sauvegardées.</p>
+
+        <div class="article-cta">
+          <p>Vous avez du mal avec les appareils numériques ? Une formation à domicile peut tout changer.</p>
+          <a href="makouez-it-rdv.html?service=Formation+%2F+accompagnement" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 10,
+    emoji: '⚡',
+    tag: 'Optimisation',
+    title: '10 astuces pour booster les performances de Windows',
+    excerpt: 'Sans acheter de nouveau matériel, il est possible de gagner beaucoup en performance. Voici 10 réglages Windows que même les débutants peuvent faire.',
+    duration: '8 min',
+    content: `
+      <div class="article-full-tag">Optimisation</div>
+      <h1>10 astuces pour booster les performances de Windows</h1>
+      <div class="article-full-meta"><span>⏱ 8 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
+      <div class="article-full-content">
+        <p>Avant d'acheter un nouveau PC, essayez ces 10 optimisations. Elles peuvent transformer complètement votre expérience.</p>
+
+        <h2>1. Désactiver les effets visuels</h2>
+        <div class="step"><div class="step-num">1</div><div>Tapez <strong>"Ajuster les performances"</strong> dans la barre de recherche</div></div>
+        <div class="step"><div class="step-num">2</div><div>Choisissez <strong>"Ajuster afin d'obtenir les meilleures performances"</strong></div></div>
+
+        <h2>2. Désactiver les programmes au démarrage</h2>
+        <p>Ctrl + Shift + Échap → onglet Démarrage → désactivez tout ce qui est inutile.</p>
+
+        <h2>3. Vider les fichiers temporaires régulièrement</h2>
+        <div class="step"><div class="step-num">1</div><div>Appuyez sur <strong>Windows + R</strong>, tapez <strong>%temp%</strong> et validez</div></div>
+        <div class="step"><div class="step-num">2</div><div>Sélectionnez tout (Ctrl+A) et supprimez</div></div>
+
+        <h2>4. Activer le mode Haute performance</h2>
+        <div class="step"><div class="step-num">1</div><div>Clic droit sur la batterie dans la barre des tâches</div></div>
+        <div class="step"><div class="step-num">2</div><div>Choisissez <strong>"Hautes performances"</strong></div></div>
+        <div class="tip">💡 Uniquement recommandé si votre PC est branché, car cela consomme plus de batterie.</div>
+
+        <h2>5. Vérifier les mises à jour Windows</h2>
+        <p>Les mises à jour incluent souvent des optimisations de performance. Paramètres → Windows Update → Rechercher des mises à jour.</p>
+
+        <h2>6. Défragmenter le disque dur (HDD uniquement)</h2>
+        <p>Tapez "Défragmenter" dans la barre de recherche. <strong>Ne faites pas ça sur un SSD</strong>, seulement sur un disque dur classique.</p>
+
+        <h2>7. Augmenter la mémoire virtuelle</h2>
+        <p>Si vous manquez de RAM, Windows peut utiliser une partie du disque comme mémoire. Système → Paramètres système avancés → Performances → Avancé → Mémoire virtuelle.</p>
+
+        <h2>8. Désactiver l'indexation si vous cherchez rarement des fichiers</h2>
+        <p>Tapez "services.msc" → trouvez "Windows Search" → double-clic → Type de démarrage : Manuel.</p>
+
+        <h2>9. Vérifier l'état du disque dur</h2>
+        <div class="step"><div class="step-num">1</div><div>Ouvrez une invite de commandes en administrateur</div></div>
+        <div class="step"><div class="step-num">2</div><div>Tapez <strong>chkdsk C: /f /r</strong> et validez</div></div>
+        <div class="step"><div class="step-num">3</div><div>Redémarrez — Windows vérifiera le disque au démarrage</div></div>
+
+        <h2>10. Mettre à jour les pilotes</h2>
+        <p>Des pilotes obsolètes peuvent considérablement ralentir Windows. Utilisez le Gestionnaire de périphériques ou téléchargez les pilotes depuis le site du fabricant de votre PC.</p>
+        <div class="tip">💡 Si après tout ça votre PC est toujours lent, le problème vient probablement du matériel (disque dur vieillissant, RAM insuffisante). Un passage à un SSD peut multiplier la vitesse par 5.</div>
+
+        <div class="article-cta">
+          <p>Vous souhaitez une optimisation complète de votre PC par un professionnel ?</p>
+          <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC%2FMac" class="btn-rdv">Prendre rendez-vous →</a>
+        </div>
+      </div>
+    `
+  }
+];
+
+// Rendu des cartes
+const grid = document.getElementById('blogGrid');
+articles.forEach(a => {
+  const card = document.createElement('div');
+  card.className = 'article-card';
+  card.innerHTML = `
+    <div class="article-thumb">${a.emoji}</div>
+    <div class="article-body">
+      <div class="article-tag">${a.tag}</div>
+      <div class="article-title">${a.title}</div>
+      <div class="article-excerpt">${a.excerpt}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="article-meta"><span>⏱ ${a.duration}</span></div>
+        <div class="article-read">Lire →</div>
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', () => openArticle(a));
+  grid.appendChild(card);
+});
+
+function openArticle(a) {
+  document.getElementById('articleContent').innerHTML = a.content;
+  document.getElementById('articleModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('articleFull').scrollTop = 0;
+}
+
+function closeArticle() {
+  document.getElementById('articleModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('articleModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('articleModal')) closeArticle();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeArticle();
+});
+</script>
+</body>
+</html>
