@@ -6,8 +6,6 @@
 <title>Makouez IT – Réserver un rendez-vous</title>
 <meta name="description" content="Prenez rendez-vous avec Makouez IT pour une intervention informatique à domicile en Île-de-France.">
 <meta name="theme-color" content="#09090f">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -40,6 +38,7 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .screen-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700}
 .screen-sub{color:var(--muted);font-size:0.85rem;margin-top:0.2rem}
 
+/* Services */
 .service-list{display:flex;flex-direction:column;gap:0.6rem}
 .service-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
 .service-btn:hover,.service-btn.selected{border-color:#3b82f660;background:#3b82f610}
@@ -48,7 +47,12 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .service-btn .svc-price{color:var(--accent);font-size:0.8rem;font-weight:500}
 .service-btn .svc-check{margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s}
 .service-btn.selected .svc-check{background:var(--accent);border-color:var(--accent);color:#fff}
+.service-btn.web-dev{border-color:#60a5fa30;background:linear-gradient(135deg,#3b82f608,#60a5fa05)}
 
+/* Badge presélection */
+.preselect-banner{background:#3b82f610;border:1px solid #3b82f630;border-radius:var(--r);padding:0.75rem 1rem;font-size:0.82rem;color:var(--accent2);display:flex;align-items:center;gap:0.5rem}
+
+/* Calendrier */
 .calendar-header{display:flex;align-items:center;justify-content:space-between}
 .cal-nav{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1rem;transition:background 0.2s}
 .cal-nav:hover{background:var(--border)}
@@ -62,7 +66,6 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .cal-day.past{color:#ffffff20;cursor:default}
 .cal-day.empty{cursor:default}
 .cal-day.full{color:#ffffff30;cursor:default}
-
 .slot-list{display:flex;flex-direction:column;gap:0.5rem}
 .slot-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
 .slot-btn:hover:not(.unavail){border-color:#3b82f660;background:#3b82f610}
@@ -74,26 +77,34 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .slot-hours{color:var(--muted);font-size:0.8rem}
 .slot-check{margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s}
 .slot-btn.selected .slot-check{background:var(--accent);border-color:var(--accent);color:#fff}
-
 .slot-fill{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:99px;white-space:nowrap;margin-left:auto}
 .slot-fill.low{background:#22c55e15;color:#22c55e;border:1px solid #22c55e30}
 .slot-fill.mid{background:#f59e0b15;color:#f59e0b;border:1px solid #f59e0b30}
 .slot-fill.high{background:#ef444415;color:#ef4444;border:1px solid #ef444430}
-.slot-fill.full{background:#ef444415;color:#ef4444;border:1px solid #ef444430}
+.legend{display:flex;gap:0.75rem;font-size:0.72rem;color:var(--muted);margin-top:0.25rem;flex-wrap:wrap}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:3px}
 
+/* Formulaire */
 .form-group{display:flex;flex-direction:column;gap:0.4rem}
 .form-label{font-size:0.8rem;color:var(--muted);font-weight:500}
 .form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
 .form-input:focus{border-color:#3b82f660}
 .form-input::placeholder{color:var(--muted)}
-.form-input:disabled{opacity:0.5;cursor:not-allowed}
 textarea.form-input{resize:none;height:80px}
+select.form-input{cursor:pointer}
+select.form-input option{background:var(--bg2);color:var(--text)}
 
+/* Bannière web dev */
+.webdev-banner{background:linear-gradient(135deg,#3b82f610,#60a5fa08);border:1px solid #3b82f640;border-radius:var(--r);padding:1rem;display:flex;gap:0.75rem;align-items:flex-start}
+.webdev-banner-icon{font-size:1.5rem;flex-shrink:0}
+.webdev-banner-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem;margin-bottom:0.2rem}
+.webdev-banner-sub{color:var(--muted);font-size:0.78rem;line-height:1.4}
+
+/* Compte */
 .connected-banner{background:#22c55e12;border:1px solid #22c55e30;border-radius:var(--r);padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;font-size:0.85rem}
 .connected-banner .cb-icon{font-size:1.2rem}
 .connected-banner strong{color:var(--success)}
 .connected-banner small{color:var(--muted);font-size:0.78rem;display:block;margin-top:0.1rem}
-
 .account-divider{display:flex;align-items:center;gap:0.75rem;color:var(--muted);font-size:0.78rem}
 .account-divider::before,.account-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .account-box{background:#3b82f608;border:1px solid #3b82f620;border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;gap:0.75rem}
@@ -103,27 +114,28 @@ textarea.form-input{resize:none;height:80px}
 .pwd-toggle{position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:0.25rem}
 .pwd-strength{height:3px;border-radius:99px;background:var(--border);margin-top:0.4rem;overflow:hidden}
 .pwd-strength-bar{height:100%;border-radius:99px;transition:width 0.3s,background 0.3s;width:0%}
-
 .email-hint{font-size:0.75rem;padding:0.4rem 0.6rem;border-radius:6px;margin-top:0.25rem;display:none}
 .email-hint.existing{background:#3b82f610;border:1px solid #3b82f630;color:var(--accent2)}
 .email-hint.new{background:#22c55e10;border:1px solid #22c55e30;color:var(--success)}
 
+/* Récap */
 .summary-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
 .summary-row{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.88rem}
 .summary-row:last-child{border-bottom:none;font-weight:600;color:var(--accent);font-size:0.95rem}
 .summary-label{color:var(--muted)}
 
+/* Boutons */
 .btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;width:100%}
 .btn-main:hover{opacity:0.85}
 .btn-main:disabled{opacity:0.4;cursor:not-allowed}
 .btn-back{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:0.7rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.2s;width:100%}
 .btn-back:hover{color:var(--text);border-color:#3b82f640}
 
+/* Succès */
 .success-screen{padding:2rem 1.5rem;display:none;flex-direction:column;align-items:center;text-align:center;gap:1.25rem}
 .success-screen.active{display:flex}
 .success-icon{width:72px;height:72px;border-radius:50%;background:#22c55e20;border:2px solid #22c55e60;display:flex;align-items:center;justify-content:center;font-size:2rem}
 .success-screen h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
-.success-screen p{color:var(--muted);font-size:0.9rem;max-width:280px}
 .confirm-card{background:var(--card);border:1px solid #22c55e30;border-radius:var(--r);padding:1.1rem;width:100%;text-align:left}
 .confirm-row{display:flex;align-items:center;gap:0.75rem;padding:0.4rem 0;font-size:0.88rem}
 .confirm-icon{width:28px;height:28px;background:#22c55e18;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
@@ -134,11 +146,14 @@ textarea.form-input{resize:none;height:80px}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.legend{display:flex;gap:0.75rem;font-size:0.72rem;color:var(--muted);margin-top:0.25rem;flex-wrap:wrap}
-.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:3px}
-
-/* Bandeau service pré-sélectionné */
-.preselect-banner{background:#3b82f610;border:1px solid #3b82f630;border-radius:var(--r);padding:0.75rem 1rem;font-size:0.82rem;color:var(--accent2);display:flex;align-items:center;gap:0.5rem}
+/* Web dev form spécifique */
+.form-section-title{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--accent2);margin-top:0.25rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border)}
+.budget-chips{display:flex;flex-wrap:wrap;gap:0.5rem}
+.budget-chip{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:0.35rem 0.85rem;font-size:0.82rem;color:var(--muted);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.budget-chip:hover,.budget-chip.selected{background:#3b82f618;border-color:#3b82f660;color:var(--accent2)}
+.delai-chips{display:flex;flex-wrap:wrap;gap:0.5rem}
+.delai-chip{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:0.35rem 0.85rem;font-size:0.82rem;color:var(--muted);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.delai-chip:hover,.delai-chip.selected{background:#3b82f618;border-color:#3b82f660;color:var(--accent2)}
 </style>
 </head>
 <body>
@@ -162,51 +177,50 @@ textarea.form-input{resize:none;height:80px}
       <div class="screen-title">Quel service ?</div>
       <div class="screen-sub">Sélectionnez le type d'intervention</div>
     </div>
-    <!-- Bandeau pré-sélection (affiché si service passé en URL) -->
     <div class="preselect-banner" id="preselectBanner" style="display:none">
-      ✓ Service pré-sélectionné depuis le site — vous pouvez modifier votre choix ci-dessous.
+      ✓ Service pré-sélectionné — vous pouvez modifier votre choix ci-dessous.
     </div>
     <div class="service-list">
-      <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€')">
+      <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€',false)">
         <div class="svc-icon">💻</div>
         <div><div class="svc-name">Dépannage PC / Mac</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Installation Windows / logiciels','à partir de 60€')">
+      <button class="service-btn" onclick="selectService(this,'Installation Windows / logiciels','à partir de 60€',false)">
         <div class="svc-icon">🪟</div>
         <div><div class="svc-name">Installation Windows / Logiciels</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Réseau Wi-Fi','à partir de 60€')">
+      <button class="service-btn" onclick="selectService(this,'Réseau Wi-Fi','à partir de 60€',false)">
         <div class="svc-icon">📶</div>
         <div><div class="svc-name">Réseau Wi-Fi</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Récupération de données','à partir de 80€')">
+      <button class="service-btn" onclick="selectService(this,'Récupération de données','à partir de 80€',false)">
         <div class="svc-icon">💾</div>
         <div><div class="svc-name">Récupération de données</div><div class="svc-price">à partir de 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Sauvegarde & sécurité','à partir de 60€')">
+      <button class="service-btn" onclick="selectService(this,'Sauvegarde & sécurité','à partir de 60€',false)">
         <div class="svc-icon">🔒</div>
         <div><div class="svc-name">Sauvegarde &amp; sécurité</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Formation / accompagnement','40€/h')">
+      <button class="service-btn" onclick="selectService(this,'Formation / accompagnement','40€/h',false)">
         <div class="svc-icon">🎓</div>
         <div><div class="svc-name">Formation / Accompagnement</div><div class="svc-price">40€/h</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Intégration / Développement web','à partir de 150€')">
+      <button class="service-btn web-dev" onclick="selectService(this,'Intégration / Développement web','à partir de 150€',true)">
         <div class="svc-icon">🌐</div>
         <div><div class="svc-name">Intégration / Développement web</div><div class="svc-price">à partir de 150€</div></div>
         <div class="svc-check">✓</div>
       </button>
     </div>
-    <button class="btn-main" id="btn1" disabled onclick="goTo(2)">Choisir une date →</button>
+    <button class="btn-main" id="btn1" disabled onclick="goToStep2()">Continuer →</button>
   </div>
 
-  <!-- Étape 2 : Date & plage horaire -->
+  <!-- Étape 2A : Date & créneau (services classiques) -->
   <div class="screen" id="s2">
     <div>
       <div class="screen-title">Choisir une date</div>
@@ -235,7 +249,84 @@ textarea.form-input{resize:none;height:80px}
     </div>
   </div>
 
-  <!-- Étape 3 : Infos client -->
+  <!-- Étape 2B : Formulaire web dev -->
+  <div class="screen" id="s2web">
+    <div class="webdev-banner">
+      <div class="webdev-banner-icon">🌐</div>
+      <div>
+        <div class="webdev-banner-title">Demande de développement web</div>
+        <div class="webdev-banner-sub">Décrivez votre projet en quelques mots — Stevy vous recontactera avec un devis gratuit sous 24h.</div>
+      </div>
+    </div>
+
+    <div class="form-section-title">Votre projet</div>
+
+    <div class="form-group">
+      <label class="form-label">Type de projet *</label>
+      <select class="form-input" id="webType" onchange="checkWebForm()">
+        <option value="">Sélectionnez…</option>
+        <option>Site vitrine</option>
+        <option>Landing page</option>
+        <option>Site e-commerce</option>
+        <option>Application web sur mesure</option>
+        <option>Refonte de site existant</option>
+        <option>Intégration HTML/CSS/JS</option>
+        <option>Autre</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Description courte du projet *</label>
+      <textarea class="form-input" id="webDesc" placeholder="Ex : Site vitrine pour mon auto-école avec formulaire de contact et page tarifs…" oninput="checkWebForm()" style="height:90px"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Budget envisagé</label>
+      <div class="budget-chips" id="budgetChips">
+        <div class="budget-chip" onclick="selectChip(this,'budgetChips','webBudget','Moins de 300€')">Moins de 300€</div>
+        <div class="budget-chip" onclick="selectChip(this,'budgetChips','webBudget','300€ – 600€')">300€ – 600€</div>
+        <div class="budget-chip" onclick="selectChip(this,'budgetChips','webBudget','600€ – 1000€')">600€ – 1000€</div>
+        <div class="budget-chip" onclick="selectChip(this,'budgetChips','webBudget','Plus de 1000€')">Plus de 1000€</div>
+        <div class="budget-chip" onclick="selectChip(this,'budgetChips','webBudget','À définir')">À définir</div>
+      </div>
+      <input type="hidden" id="webBudget" value="">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Délai souhaité</label>
+      <div class="delai-chips" id="delaiChips">
+        <div class="delai-chip" onclick="selectChip(this,'delaiChips','webDelai','Le plus tôt possible')">Urgent</div>
+        <div class="delai-chip" onclick="selectChip(this,'delaiChips','webDelai','1 mois')">1 mois</div>
+        <div class="delai-chip" onclick="selectChip(this,'delaiChips','webDelai','2-3 mois')">2-3 mois</div>
+        <div class="delai-chip" onclick="selectChip(this,'delaiChips','webDelai','Pas de délai précis')">Flexible</div>
+      </div>
+      <input type="hidden" id="webDelai" value="">
+    </div>
+
+    <div class="form-section-title" style="margin-top:0.25rem">Vos coordonnées</div>
+
+    <div class="form-group">
+      <label class="form-label">Prénom et nom *</label>
+      <input class="form-input" id="webNom" type="text" placeholder="Marie Dupont" oninput="checkWebForm()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email *</label>
+      <input class="form-input" id="webEmail" type="email" placeholder="marie@email.com" oninput="checkWebForm()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Téléphone</label>
+      <input class="form-input" id="webTel" type="tel" placeholder="06 XX XX XX XX">
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:0.5rem">
+      <button class="btn-main" id="btnWebSubmit" disabled onclick="submitWebForm()">
+        <span id="btnWebText">Envoyer ma demande →</span>
+      </button>
+      <button class="btn-back" onclick="goTo(1)">← Retour</button>
+    </div>
+  </div>
+
+  <!-- Étape 3 : Infos client (services classiques) -->
   <div class="screen" id="s3">
     <div>
       <div class="screen-title">Vos coordonnées</div>
@@ -256,8 +347,7 @@ textarea.form-input{resize:none;height:80px}
       </div>
       <div class="form-group">
         <label class="form-label">Email *</label>
-        <input class="form-input" id="femail" type="email" placeholder="marie@email.com"
-               oninput="checkForm3(); onEmailInput()" onblur="onEmailBlur()">
+        <input class="form-input" id="femail" type="email" placeholder="marie@email.com" oninput="checkForm3(); onEmailInput()" onblur="onEmailBlur()">
         <div class="email-hint" id="emailHint"></div>
       </div>
       <div class="form-group">
@@ -272,12 +362,11 @@ textarea.form-input{resize:none;height:80px}
         <div class="account-divider">Espace client (optionnel)</div>
         <div class="account-box">
           <div class="account-box-title">🔐 Suivez votre RDV en temps réel</div>
-          <div class="account-box-hint">Créez un mot de passe pour accéder à votre espace client. Laissez vide si vous ne souhaitez pas créer de compte.</div>
+          <div class="account-box-hint">Créez un mot de passe pour accéder à votre espace client.</div>
           <div class="form-group" id="pwdGroup">
             <label class="form-label">Mot de passe (optionnel, min. 6 caractères)</label>
             <div class="pwd-wrap">
-              <input class="form-input" id="fpwd" type="password" placeholder="Laissez vide pour ignorer"
-                     oninput="checkForm3(); updatePwdStrength()" style="padding-right:2.5rem">
+              <input class="form-input" id="fpwd" type="password" placeholder="Laissez vide pour ignorer" oninput="checkForm3(); updatePwdStrength()" style="padding-right:2.5rem">
               <button class="pwd-toggle" type="button" onclick="togglePwd()">👁</button>
             </div>
             <div class="pwd-strength"><div class="pwd-strength-bar" id="pwdBar"></div></div>
@@ -291,7 +380,7 @@ textarea.form-input{resize:none;height:80px}
     </div>
   </div>
 
-  <!-- Étape 4 : Récapitulatif -->
+  <!-- Étape 4 : Récapitulatif (services classiques) -->
   <div class="screen" id="s4">
     <div>
       <div class="screen-title">Récapitulatif</div>
@@ -308,25 +397,41 @@ textarea.form-input{resize:none;height:80px}
       <div class="summary-row"><span class="summary-label">Espace client</span><span id="sumAccount">–</span></div>
       <div class="summary-row"><span class="summary-label">Tarif indicatif</span><span id="sumPrice">–</span></div>
     </div>
-    <p style="font-size:0.78rem;color:var(--muted);text-align:center">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT) pour valider ce rendez-vous.</p>
+    <p style="font-size:0.78rem;color:var(--muted);text-align:center">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT).</p>
     <div style="display:flex;flex-direction:column;gap:0.5rem">
       <button class="btn-main" id="btnConfirm" onclick="confirmRdv()">✓ Confirmer le rendez-vous</button>
       <button class="btn-back" onclick="goTo(3)">← Modifier</button>
     </div>
   </div>
 
-  <!-- Succès -->
+  <!-- Succès RDV classique -->
   <div class="success-screen" id="sSuccess">
     <div class="success-icon">✓</div>
     <h2>Demande envoyée !</h2>
-    <p>Stevy (Makouez IT) vous confirmera votre rendez-vous. Vous recevrez une notification par email dès confirmation.</p>
+    <p>Stevy vous confirmera votre rendez-vous par email dès que possible.</p>
     <div class="confirm-card" id="confirmCard"></div>
     <a class="btn-account" href="mon-rdv.html" id="linkEspaceClient" style="display:none">→ Voir mon espace client</a>
     <button class="btn-main" onclick="restart()" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.85rem;padding:0.7rem">Prendre un autre RDV</button>
   </div>
+
+  <!-- Succès web dev -->
+  <div class="success-screen" id="sSuccessWeb">
+    <div class="success-icon">🌐</div>
+    <h2>Demande envoyée !</h2>
+    <p>Stevy a bien reçu votre demande de projet web. Il vous recontactera sous 24h avec un devis gratuit.</p>
+    <div style="background:var(--card);border:1px solid #22c55e30;border-radius:var(--r);padding:1rem;width:100%;font-size:0.85rem;color:var(--muted);text-align:left">
+      <div style="margin-bottom:0.5rem;font-weight:600;color:var(--text)">Ce qui se passe ensuite :</div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem">
+        <div>📞 Stevy vous contacte pour un brief rapide</div>
+        <div>📝 Devis détaillé envoyé par email</div>
+        <div>🚀 Démarrage du projet après validation</div>
+      </div>
+    </div>
+    <a href="index.html" class="btn-account">← Retour au site</a>
+  </div>
 </div>
 
-<!-- Firebase SDK -->
+<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -340,11 +445,9 @@ const firebaseConfig = {
   messagingSenderId: "558314427247",
   appId: "1:558314427247:web:83e656344dd79019ccce9a"
 };
-
 const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
 const auth = getAuth(app);
-
 window._db   = db;
 window._auth = auth;
 window._firestoreFns = { doc, setDoc, collection, query, where, getDocs };
@@ -356,7 +459,6 @@ onAuthStateChanged(auth, (user) => {
     const displayName = user.displayName || user.email.split('@')[0];
     document.getElementById('fname').value   = displayName;
     document.getElementById('femail').value  = user.email;
-    document.getElementById('fname').disabled  = false;
     document.getElementById('femail').disabled = true;
     document.getElementById('connectedBanner').style.display = 'flex';
     document.getElementById('connectedEmail').textContent    = user.email;
@@ -382,9 +484,8 @@ window.loadBookings = async function(year, month) {
 };
 
 window.saveReservation = async function(data, uid) {
-  const slotKey = data.time.replace(/[^a-z]/gi, '').toLowerCase();
-  const timestamp = Date.now();
-  const key = `${data.dateKey}_${slotKey}_${timestamp}`;
+  const slotKey = data.time.replace(/[^a-z]/gi,'').toLowerCase();
+  const key = `${data.dateKey}_${slotKey}_${Date.now()}`;
   const { doc, setDoc } = window._firestoreFns;
   await setDoc(doc(db, "reservations", key), { ...data, uid: uid || null });
 };
@@ -415,102 +516,143 @@ window.checkEmailExists = async function(email) {
 
 <script>
 const MAX_PER_SLOT = 5;
-
 const ALL_SLOTS = [
-  { id: 'matin',  emoji: '🌅', label: 'Matin',         hours: '8h00 – 12h00',  weekendOnly: true  },
-  { id: 'aprem',  emoji: '☀️',  label: 'Après-midi',    hours: '13h00 – 17h00', weekendOnly: false },
-  { id: 'soir',   emoji: '🌆', label: 'Fin de journée', hours: '17h00 – 20h00', weekendOnly: false },
+  { id:'matin',  emoji:'🌅', label:'Matin',         hours:'8h00 – 12h00',  weekendOnly:true  },
+  { id:'aprem',  emoji:'☀️',  label:'Après-midi',    hours:'13h00 – 17h00', weekendOnly:false },
+  { id:'soir',   emoji:'🌆', label:'Fin de journée', hours:'17h00 – 20h00', weekendOnly:false },
 ];
-
 const days   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 window._emailIsExisting = false;
 
 let state = {
-  service:'', servicePrice:'',
+  service:'', servicePrice:'', isWebDev:false,
   selectedDate:null, selectedTime:'', selectedSlotLabel:'',
-  currentYear:new Date().getFullYear(),
-  currentMonth:new Date().getMonth(),
+  currentYear:new Date().getFullYear(), currentMonth:new Date().getMonth(),
   bookings:{}
 };
 
-// ─── Pré-sélection depuis l'URL ───────────────────────────────────────────
+// ─── PRÉ-SÉLECTION URL ────────────────────────────────────────────────────────
 (function(){
   const params = new URLSearchParams(window.location.search);
-  const serviceParam = params.get('service');
-  if (!serviceParam) return;
-
-  // Correspondance entre le nom URL et (nom interne, prix)
+  const sp = params.get('service');
+  if (!sp) return;
   const serviceMap = {
-    'Dépannage PC/Mac':                  { name: 'Dépannage PC/Mac',                  price: '60-80€' },
-    'Installation Windows / logiciels':  { name: 'Installation Windows / logiciels',  price: 'à partir de 60€' },
-    'Réseau Wi-Fi':                       { name: 'Réseau Wi-Fi',                       price: 'à partir de 60€' },
-    'Récupération de données':            { name: 'Récupération de données',            price: 'à partir de 80€' },
-    'Sauvegarde & sécurité':             { name: 'Sauvegarde & sécurité',             price: 'à partir de 60€' },
-    'Formation / accompagnement':         { name: 'Formation / accompagnement',         price: '40€/h' },
-    'Intégration / Développement web':    { name: 'Intégration / Développement web',    price: 'à partir de 150€' },
+    'Dépannage PC/Mac':                 { name:'Dépannage PC/Mac',                 price:'60-80€',            webdev:false },
+    'Installation Windows / logiciels': { name:'Installation Windows / logiciels', price:'à partir de 60€',   webdev:false },
+    'Réseau Wi-Fi':                      { name:'Réseau Wi-Fi',                      price:'à partir de 60€',   webdev:false },
+    'Récupération de données':           { name:'Récupération de données',           price:'à partir de 80€',   webdev:false },
+    'Sauvegarde & sécurité':            { name:'Sauvegarde & sécurité',            price:'à partir de 60€',   webdev:false },
+    'Formation / accompagnement':        { name:'Formation / accompagnement',        price:'40€/h',             webdev:false },
+    'Intégration / Développement web':   { name:'Intégration / Développement web',   price:'à partir de 150€',  webdev:true  },
   };
-
-  const match = serviceMap[serviceParam];
+  const match = serviceMap[sp];
   if (!match) return;
-
-  // Pré-sélectionner le bon bouton
   document.querySelectorAll('.service-btn').forEach(btn => {
     const name = btn.querySelector('.svc-name').textContent.trim();
     if (name === match.name) {
       btn.classList.add('selected');
       state.service      = match.name;
       state.servicePrice = match.price;
+      state.isWebDev     = match.webdev;
       document.getElementById('btn1').disabled = false;
       document.getElementById('preselectBanner').style.display = 'flex';
-      // Scroll vers le bouton sélectionné
-      setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+      setTimeout(() => btn.scrollIntoView({ behavior:'smooth', block:'nearest' }), 200);
     }
   });
 })();
 
-let _emailCheckTimer = null;
-function onEmailInput(){
-  window._emailIsExisting = false;
-  document.getElementById('emailHint').style.display = 'none';
-  document.getElementById('pwdGroup').style.display  = 'flex';
-  clearTimeout(_emailCheckTimer);
-}
-function onEmailBlur(){
-  const email = document.getElementById('femail').value.trim();
-  clearTimeout(_emailCheckTimer);
-  _emailCheckTimer = setTimeout(() => window.checkEmailExists(email), 300);
-}
-
-function selectService(btn, name, price){
-  document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
+// ─── SÉLECTION SERVICE ────────────────────────────────────────────────────────
+function selectService(btn, name, price, isWebDev) {
+  document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  state.service = name; state.servicePrice = price;
+  state.service      = name;
+  state.servicePrice = price;
+  state.isWebDev     = isWebDev;
   document.getElementById('btn1').disabled = false;
 }
 
-async function goTo(step){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sSuccess').classList.remove('active');
-  if(step===5){ document.getElementById('sSuccess').classList.add('active'); }
-  else{ document.getElementById('s'+step).classList.add('active'); }
-  [1,2,3,4].forEach(i=>{
-    const d = document.getElementById('dot'+i);
-    d.classList.remove('active','done');
-    if(i<step) d.classList.add('done');
-    else if(i===step) d.classList.add('active');
-  });
-  if(step===2){ await loadAndRender(); }
-  if(step===4){ fillSummary(); }
+function goToStep2() {
+  if (state.isWebDev) {
+    goToWebDev();
+  } else {
+    goTo(2);
+  }
 }
 
-async function loadAndRender(){
-  showSpinner(false);
-  try { state.bookings = await window.loadBookings(state.currentYear, state.currentMonth); }
-  catch(e){ state.bookings = {}; }
-  hideSpinner();
-  renderCalendar();
+function goToWebDev() {
+  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); s.style.display=''; });
+  document.getElementById('s2web').classList.add('active');
+  // Étapes : on affiche 3 dots pour ce flow
+  [1,2,3,4].forEach(i => {
+    const d = document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    if (i === 1) d.classList.add('done');
+    if (i === 2) d.classList.add('active');
+  });
+}
+
+// ─── FORMULAIRE WEB DEV ───────────────────────────────────────────────────────
+function selectChip(el, groupId, hiddenId, value) {
+  document.querySelectorAll('#' + groupId + ' .budget-chip, #' + groupId + ' .delai-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(hiddenId).value = value;
+  checkWebForm();
+}
+
+function checkWebForm() {
+  const ok = document.getElementById('webType').value
+    && document.getElementById('webDesc').value.trim().length > 10
+    && document.getElementById('webNom').value.trim()
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('webEmail').value.trim());
+  document.getElementById('btnWebSubmit').disabled = !ok;
+}
+
+async function submitWebForm() {
+  const btn     = document.getElementById('btnWebSubmit');
+  const btnText = document.getElementById('btnWebText');
+  btn.disabled  = true;
+  btnText.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle"></span>';
+
+  const formData = new FormData();
+  formData.append('Service',      'Intégration / Développement web');
+  formData.append('Type_projet',  document.getElementById('webType').value);
+  formData.append('Description',  document.getElementById('webDesc').value.trim());
+  formData.append('Budget',       document.getElementById('webBudget').value || 'Non précisé');
+  formData.append('Délai',        document.getElementById('webDelai').value || 'Non précisé');
+  formData.append('Nom',          document.getElementById('webNom').value.trim());
+  formData.append('Email',        document.getElementById('webEmail').value.trim());
+  formData.append('Téléphone',    document.getElementById('webTel').value.trim() || 'Non renseigné');
+
+  try {
+    await fetch('https://formspree.io/f/xkopkwrz', {
+      method:'POST', body:formData, headers:{'Accept':'application/json'}
+    });
+  } catch(e) { console.error(e); }
+
+  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); });
+  document.getElementById('sSuccessWeb').classList.add('active');
+  [1,2,3,4].forEach(i => {
+    const d = document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    d.classList.add('done');
+  });
+}
+
+// ─── CALENDRIER ───────────────────────────────────────────────────────────────
+async function goTo(step) {
+  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); });
+  if (step === 5) { document.getElementById('sSuccess').classList.add('active'); }
+  else { document.getElementById('s'+step).classList.add('active'); }
+  [1,2,3,4].forEach(i => {
+    const d = document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    if (i < step) d.classList.add('done');
+    else if (i === step) d.classList.add('active');
+  });
+  if (step === 2) await loadAndRender();
+  if (step === 4) fillSummary();
 }
 
 function getSlotsForDay(dow) {
@@ -518,50 +660,47 @@ function getSlotsForDay(dow) {
   return ALL_SLOTS.filter(s => isWeekend || !s.weekendOnly);
 }
 
+async function loadAndRender() {
+  try { state.bookings = await window.loadBookings(state.currentYear, state.currentMonth); }
+  catch(e) { state.bookings = {}; }
+  renderCalendar();
+}
+
 function getDayColorClass(dateKey, dow) {
-  const slots = getSlotsForDay(dow);
+  const slots  = getSlotsForDay(dow);
   const booked = state.bookings[dateKey] || {};
-  const total = Object.values(booked).reduce((a,b) => a+b, 0);
+  const total  = Object.values(booked).reduce((a,b) => a+b, 0);
   const allFull = slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
   if (allFull) return 'full';
   if (total === 0) return '';
-  if (total === 1) return 'booked-low';
-  if (total <= 3) return 'booked-mid';
-  return 'booked-high';
+  if (total === 1) return 'low';
+  if (total <= 3)  return 'mid';
+  return 'high';
 }
 
-function getSlotFillInfo(dateKey, slotId) {
-  const count = (state.bookings[dateKey] && state.bookings[dateKey][slotId]) || 0;
-  if (count === 0) return null;
-  if (count >= MAX_PER_SLOT) return { cls: 'full', label: 'Complet' };
-  if (count >= 4) return { cls: 'high', label: `${count}/${MAX_PER_SLOT} résas` };
-  if (count >= 2) return { cls: 'mid', label: `${count}/${MAX_PER_SLOT} résas` };
-  return { cls: 'low', label: `${count}/${MAX_PER_SLOT} résa` };
-}
-
-function renderCalendar(){
+function renderCalendar() {
   const y = state.currentYear, m = state.currentMonth;
-  document.getElementById('calTitle').textContent = months[m]+' '+y;
+  document.getElementById('calTitle').textContent = months[m] + ' ' + y;
   const grid = document.getElementById('calGrid');
   grid.innerHTML = '';
-  days.forEach(d=>{ const el=document.createElement('div'); el.className='cal-day-label'; el.textContent=d; grid.appendChild(el); });
-  const first = new Date(y,m,1);
-  let startDay = first.getDay()-1; if(startDay<0) startDay=6;
-  const daysInMonth = new Date(y,m+1,0).getDate();
-  const today = new Date(); today.setHours(0,0,0,0);
-  for(let i=0;i<startDay;i++){ const e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
-  for(let d=1;d<=daysInMonth;d++){
-    const el = document.createElement('div');
-    const date = new Date(y,m,d); date.setHours(0,0,0,0);
-    const isPast     = date < today;
-    const isToday    = date.getTime()===today.getTime();
-    const isSelected = state.selectedDate && state.selectedDate.getTime()===date.getTime();
-    const dow        = date.getDay();
-    const dateKey    = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const slots = getSlotsForDay(dow);
-    const booked = state.bookings[dateKey] || {};
-    const allFull = !isPast && slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
-    const colorClass = getDayColorClass(dateKey, dow);
+  days.forEach(d => { const el = document.createElement('div'); el.className = 'cal-day-label'; el.textContent = d; grid.appendChild(el); });
+  const first    = new Date(y, m, 1);
+  let startDay   = first.getDay() - 1; if (startDay < 0) startDay = 6;
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const today    = new Date(); today.setHours(0,0,0,0);
+  for (let i = 0; i < startDay; i++) { const e = document.createElement('div'); e.className = 'cal-day empty'; grid.appendChild(e); }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el    = document.createElement('div');
+    const date  = new Date(y, m, d); date.setHours(0,0,0,0);
+    const isPast    = date < today;
+    const isToday   = date.getTime() === today.getTime();
+    const isSelected = state.selectedDate && state.selectedDate.getTime() === date.getTime();
+    const dow       = date.getDay();
+    const dateKey   = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const slots     = getSlotsForDay(dow);
+    const booked    = state.bookings[dateKey] || {};
+    const allFull   = !isPast && slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
+    const colorCls  = getDayColorClass(dateKey, dow);
     let className = 'cal-day';
     if (isPast) className += ' past';
     if (isToday) className += ' today';
@@ -569,27 +708,21 @@ function renderCalendar(){
     if (allFull) className += ' full';
     el.className = className;
     el.textContent = d;
-    if (!isPast && !isSelected && !allFull && colorClass) {
-      const colors = {
-        'booked-low':  { bg: '#22c55e18', border: '#22c55e40' },
-        'booked-mid':  { bg: '#f59e0b18', border: '#f59e0b40' },
-        'booked-high': { bg: '#ef444418', border: '#ef444440' },
-      };
-      if (colors[colorClass]) {
-        el.style.background  = colors[colorClass].bg;
-        el.style.borderColor = colors[colorClass].border;
-      }
+    if (!isPast && !isSelected && !allFull && colorCls) {
+      const colors = { low:'#22c55e18', mid:'#f59e0b18', high:'#ef444418' };
+      const borders = { low:'#22c55e40', mid:'#f59e0b40', high:'#ef444440' };
+      if (colors[colorCls]) { el.style.background = colors[colorCls]; el.style.borderColor = borders[colorCls]; }
     }
-    if(!isPast && !allFull){ el.onclick = ()=>selectDate(date, dateKey); }
+    if (!isPast && !allFull) { el.onclick = () => selectDate(date, dateKey); }
     grid.appendChild(el);
   }
 }
 
-function selectDate(date, dateKey){
+function selectDate(date, dateKey) {
   state.selectedDate = date; state.selectedTime = ''; state.selectedSlotLabel = '';
   document.getElementById('btn2').disabled = true;
   renderCalendar();
-  const dow = date.getDay();
+  const dow   = date.getDay();
   const slots = getSlotsForDay(dow);
   const booked = state.bookings[dateKey] || {};
   const ts = document.getElementById('timeSection');
@@ -597,93 +730,59 @@ function selectDate(date, dateKey){
   const sl = document.getElementById('slotList');
   sl.innerHTML = '';
   slots.forEach(slot => {
-    const count = booked[slot.id] || 0;
+    const count  = booked[slot.id] || 0;
     const isFull = count >= MAX_PER_SLOT;
-    const fillInfo = getSlotFillInfo(dateKey, slot.id);
-    const btn = document.createElement('button');
+    const btn    = document.createElement('button');
     btn.className = 'slot-btn' + (isFull ? ' unavail' : '');
-    btn.innerHTML = `
-      <span class="slot-icon">${slot.emoji}</span>
-      <span class="slot-info">
-        <span class="slot-label">${slot.label}</span>
-        <span class="slot-hours">${slot.hours}</span>
-      </span>
-      ${isFull
-        ? `<span class="slot-fill full">Complet</span>`
-        : fillInfo
-          ? `<span class="slot-fill ${fillInfo.cls}">${fillInfo.label}</span>`
-          : `<span class="slot-check">✓</span>`
-      }
-    `;
-    if(!isFull){ btn.onclick = () => selectSlot(slot, btn); }
+    let fillHTML = '';
+    if (isFull) fillHTML = `<span class="slot-fill high">Complet</span>`;
+    else if (count >= 4) fillHTML = `<span class="slot-fill high">${count}/${MAX_PER_SLOT}</span>`;
+    else if (count >= 2) fillHTML = `<span class="slot-fill mid">${count}/${MAX_PER_SLOT}</span>`;
+    else if (count >= 1) fillHTML = `<span class="slot-fill low">${count}/${MAX_PER_SLOT}</span>`;
+    else fillHTML = `<span class="slot-check">✓</span>`;
+    btn.innerHTML = `<span class="slot-icon">${slot.emoji}</span><span class="slot-info"><span class="slot-label">${slot.label}</span><span class="slot-hours">${slot.hours}</span></span>${fillHTML}`;
+    if (!isFull) { btn.onclick = () => { document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); state.selectedTime = slot.id; state.selectedSlotLabel = `${slot.label} (${slot.hours})`; document.getElementById('btn2').disabled = false; }; }
     sl.appendChild(btn);
   });
 }
 
-function selectSlot(slot, el){
-  document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  state.selectedTime      = slot.id;
-  state.selectedSlotLabel = `${slot.label} (${slot.hours})`;
-  document.getElementById('btn2').disabled = false;
-}
+async function prevMonth() { state.currentMonth--; if (state.currentMonth < 0) { state.currentMonth = 11; state.currentYear--; } state.selectedDate = null; state.selectedTime = ''; document.getElementById('timeSection').style.display = 'none'; document.getElementById('btn2').disabled = true; await loadAndRender(); }
+async function nextMonth() { state.currentMonth++; if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; } state.selectedDate = null; state.selectedTime = ''; document.getElementById('timeSection').style.display = 'none'; document.getElementById('btn2').disabled = true; await loadAndRender(); }
 
-async function prevMonth(){
-  state.currentMonth--; if(state.currentMonth<0){ state.currentMonth=11; state.currentYear--; }
-  state.selectedDate=null; state.selectedTime=''; state.selectedSlotLabel='';
-  document.getElementById('timeSection').style.display='none';
-  document.getElementById('btn2').disabled=true;
-  await loadAndRender();
-}
-async function nextMonth(){
-  state.currentMonth++; if(state.currentMonth>11){ state.currentMonth=0; state.currentYear++; }
-  state.selectedDate=null; state.selectedTime=''; state.selectedSlotLabel='';
-  document.getElementById('timeSection').style.display='none';
-  document.getElementById('btn2').disabled=true;
-  await loadAndRender();
-}
+// ─── FORMULAIRE CLIENT ────────────────────────────────────────────────────────
+let _emailCheckTimer = null;
+function onEmailInput() { window._emailIsExisting = false; document.getElementById('emailHint').style.display = 'none'; document.getElementById('pwdGroup').style.display = 'flex'; clearTimeout(_emailCheckTimer); }
+function onEmailBlur() { const email = document.getElementById('femail').value.trim(); clearTimeout(_emailCheckTimer); _emailCheckTimer = setTimeout(() => window.checkEmailExists(email), 300); }
 
-function checkForm3(){
-  const email  = document.getElementById('femail').value.trim();
+function checkForm3() {
+  const email = document.getElementById('femail').value.trim();
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const pwd    = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
-  const accountSectionHidden = document.getElementById('accountSection').style.display === 'none';
-  const pwdOk = accountSectionHidden || window._emailIsExisting || pwd === '' || pwd.length >= 6;
-  const ok = document.getElementById('fname').value.trim()
-    && document.getElementById('fphone').value.trim()
-    && document.getElementById('faddress').value.trim()
-    && emailOk && pwdOk;
+  const pwd   = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
+  const accountHidden = document.getElementById('accountSection').style.display === 'none';
+  const pwdOk = accountHidden || window._emailIsExisting || pwd === '' || pwd.length >= 6;
+  const ok = document.getElementById('fname').value.trim() && document.getElementById('fphone').value.trim() && document.getElementById('faddress').value.trim() && emailOk && pwdOk;
   document.getElementById('btn3').disabled = !ok;
 }
 
-function updatePwdStrength(){
+function updatePwdStrength() {
   const pwd = document.getElementById('fpwd').value;
   const bar = document.getElementById('pwdBar');
-  if(pwd === ''){ bar.style.width='0%'; return; }
+  if (pwd === '') { bar.style.width = '0%'; return; }
   let score = 0;
-  if(pwd.length >= 6) score++;
-  if(pwd.length >= 10) score++;
-  if(/[A-Z]/.test(pwd)) score++;
-  if(/[0-9]/.test(pwd)) score++;
-  if(/[^A-Za-z0-9]/.test(pwd)) score++;
-  bar.style.width      = (score/5*100)+'%';
-  bar.style.background = score<=1?'#ef4444':score<=3?'#f59e0b':'#22c55e';
+  if (pwd.length >= 6) score++; if (pwd.length >= 10) score++; if (/[A-Z]/.test(pwd)) score++; if (/[0-9]/.test(pwd)) score++; if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  bar.style.width = (score/5*100)+'%';
+  bar.style.background = score <= 1 ? '#ef4444' : score <= 3 ? '#f59e0b' : '#22c55e';
 }
 
-function togglePwd(){
-  const input = document.getElementById('fpwd');
-  input.type  = input.type === 'password' ? 'text' : 'password';
-}
+function togglePwd() { const input = document.getElementById('fpwd'); input.type = input.type === 'password' ? 'text' : 'password'; }
 
-function fillSummary(){
-  const dateStr = state.selectedDate
-    ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})
-    : '–';
+function fillSummary() {
+  const dateStr = state.selectedDate ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) : '–';
   const pwd = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
   let accountLabel = 'Sans compte';
-  if (window._currentUser)          accountLabel = '✓ Compte existant lié';
+  if (window._currentUser) accountLabel = '✓ Compte existant lié';
   else if (window._emailIsExisting) accountLabel = '✓ Email existant — lié automatiquement';
-  else if (pwd.length >= 6)         accountLabel = '✓ Compte créé';
+  else if (pwd.length >= 6) accountLabel = '✓ Compte créé';
   document.getElementById('sumService').textContent = state.service;
   document.getElementById('sumDate').textContent    = dateStr;
   document.getElementById('sumTime').textContent    = state.selectedSlotLabel || state.selectedTime;
@@ -693,40 +792,29 @@ function fillSummary(){
   document.getElementById('sumAddr').textContent    = document.getElementById('faddress').value;
   document.getElementById('sumAccount').textContent = accountLabel;
   document.getElementById('sumPrice').textContent   = state.servicePrice;
-  const btn = document.getElementById('btnConfirm');
-  if(btn) btn.disabled = false;
 }
 
-function showSpinner(lockConfirm=false){
-  if(document.getElementById('sendingOverlay')) return;
-  const overlay = document.createElement('div');
-  overlay.className = 'sending-overlay'; overlay.id = 'sendingOverlay';
+function showSpinner(lock=false) {
+  if (document.getElementById('sendingOverlay')) return;
+  const overlay = document.createElement('div'); overlay.className = 'sending-overlay'; overlay.id = 'sendingOverlay';
   overlay.innerHTML = '<div class="spinner"></div>';
   document.querySelector('.phone-frame').appendChild(overlay);
-  if(lockConfirm){ const btn = document.getElementById('btnConfirm'); if(btn) btn.disabled = true; }
+  if (lock) { const btn = document.getElementById('btnConfirm'); if (btn) btn.disabled = true; }
 }
-function hideSpinner(){ const o = document.getElementById('sendingOverlay'); if(o) o.remove(); }
+function hideSpinner() { const o = document.getElementById('sendingOverlay'); if (o) o.remove(); }
 
-async function confirmRdv(){
-  const dateStr = state.selectedDate
-    ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})
-    : '–';
-  const y = state.selectedDate.getFullYear();
-  const m = state.selectedDate.getMonth();
-  const d = state.selectedDate.getDate();
+async function confirmRdv() {
+  const y = state.selectedDate.getFullYear(), m = state.selectedDate.getMonth(), d = state.selectedDate.getDate();
   const dateKey  = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   const monthKey = `${y}-${String(m+1).padStart(2,'0')}`;
   const email    = document.getElementById('femail').value.trim();
   const pwd      = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
   const nom      = document.getElementById('fname').value.trim();
-  const telephone = document.getElementById('fphone').value.trim();
   showSpinner(true);
   let uid = null, accountCreated = false;
-  if (window._currentUser) {
-    uid = window._currentUser.uid; accountCreated = true;
-  } else if (window._emailIsExisting) {
-    uid = null; accountCreated = false;
-  } else if (pwd.length >= 6) {
+  if (window._currentUser) { uid = window._currentUser.uid; accountCreated = true; }
+  else if (window._emailIsExisting) { uid = null; accountCreated = false; }
+  else if (pwd.length >= 6) {
     try {
       const { createUserWithEmailAndPassword, updateProfile } = window._authFns;
       const userCred = await createUserWithEmailAndPassword(window._auth, email, pwd);
@@ -735,84 +823,55 @@ async function confirmRdv(){
       accountCreated = true;
     } catch(e) {
       hideSpinner();
-      if(e.code === 'auth/email-already-in-use'){
-        window._emailIsExisting = true; uid = null; accountCreated = false;
-      } else { alert('Erreur lors de la création du compte : ' + e.message); return; }
+      if (e.code === 'auth/email-already-in-use') { window._emailIsExisting = true; uid = null; accountCreated = false; }
+      else { alert('Erreur : ' + e.message); return; }
+      showSpinner(true);
     }
-    showSpinner(true);
   }
   try {
-    await window.saveReservation({
-      dateKey, monthKey,
-      time:      state.selectedTime,
-      timeLabel: state.selectedSlotLabel,
-      service:   state.service,
-      price:     state.servicePrice,
-      nom, email, telephone,
-      adresse:     document.getElementById('faddress').value,
-      description: document.getElementById('fdesc').value,
-      status:      'pending',
-      createdAt:   new Date().toISOString()
-    }, uid);
-  } catch(e){ console.error('Firestore error:', e); }
+    await window.saveReservation({ dateKey, monthKey, time:state.selectedTime, timeLabel:state.selectedSlotLabel, service:state.service, price:state.servicePrice, nom, email, telephone:document.getElementById('fphone').value, adresse:document.getElementById('faddress').value, description:document.getElementById('fdesc').value, status:'pending', createdAt:new Date().toISOString() }, uid);
+  } catch(e) { console.error(e); }
   try {
     const formData = new FormData();
-    formData.append('Service',     state.service);
-    formData.append('Tarif',       state.servicePrice);
-    formData.append('Date',        dateStr);
-    formData.append('Plage',       state.selectedSlotLabel);
-    formData.append('Nom',         nom);
-    formData.append('Email',       email);
-    formData.append('Telephone',   telephone);
-    formData.append('Adresse',     document.getElementById('faddress').value);
-    formData.append('Description', document.getElementById('fdesc').value);
-    await fetch('https://formspree.io/f/xkopkwrz', {
-      method:'POST', body:formData, headers:{'Accept':'application/json'}
+    ['Service','Tarif','Date','Plage','Nom','Email','Telephone','Adresse','Description'].forEach((k,i) => {
+      const vals = [state.service, state.servicePrice, state.selectedDate?.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}), state.selectedSlotLabel, nom, email, document.getElementById('fphone').value, document.getElementById('faddress').value, document.getElementById('fdesc').value];
+      formData.append(k, vals[i]);
     });
-  } catch(e){ console.error('Formspree error:', e); }
+    await fetch('https://formspree.io/f/xkopkwrz', { method:'POST', body:formData, headers:{'Accept':'application/json'} });
+  } catch(e) { console.error(e); }
   hideSpinner();
   const linkEspaceClient = document.getElementById('linkEspaceClient');
   linkEspaceClient.style.display = (accountCreated || window._emailIsExisting) ? 'block' : 'none';
+  const dateFormatted = state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   document.getElementById('confirmCard').innerHTML = `
     <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
-    <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateStr}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateFormatted}</div></div>
     <div class="confirm-row"><div class="confirm-icon">🕐</div><div>${state.selectedSlotLabel}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📍</div><div>${document.getElementById('faddress').value}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📧</div><div>Confirmation envoyée à ${email}</div></div>
-    <div class="confirm-row"><div class="confirm-icon">💰</div><div>${state.servicePrice} (devis confirmé sur place)</div></div>
   `;
   goTo(5);
 }
 
-function restart(){
-  state = {
-    service:'', servicePrice:'', selectedDate:null, selectedTime:'', selectedSlotLabel:'',
-    currentYear:new Date().getFullYear(), currentMonth:new Date().getMonth(), bookings:{}
-  };
+function restart() {
+  state = { service:'', servicePrice:'', isWebDev:false, selectedDate:null, selectedTime:'', selectedSlotLabel:'', currentYear:new Date().getFullYear(), currentMonth:new Date().getMonth(), bookings:{} };
   window._emailIsExisting = false;
-  document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('preselectBanner').style.display = 'none';
   if (!window._currentUser) {
-    ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id=>{
-      const el = document.getElementById(id); if(el) el.value='';
-    });
-    document.getElementById('pwdBar').style.width='0%';
-    document.getElementById('emailHint').style.display='none';
-    document.getElementById('accountSection').style.display='block';
-    document.getElementById('pwdGroup').style.display='flex';
+    ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('pwdBar').style.width = '0%';
+    document.getElementById('emailHint').style.display = 'none';
+    document.getElementById('accountSection').style.display = 'block';
+    document.getElementById('pwdGroup').style.display = 'flex';
   } else {
-    ['faddress','fdesc'].forEach(id=>{ const el = document.getElementById(id); if(el) el.value=''; });
+    ['faddress','fdesc'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   }
   document.getElementById('btn1').disabled = true;
   document.getElementById('btn2').disabled = true;
   document.getElementById('btn3').disabled = true;
   goTo(1);
 }
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
-}
 </script>
-  <script src="push-notifications.js"></script>
 </body>
 </html>
