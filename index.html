@@ -74,7 +74,8 @@ section{padding:5rem 2rem}
 .service-new-badge{display:inline-block;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:99px;margin-left:0.5rem;vertical-align:middle}
 
 .tarifs-section{background:var(--bg2)}
-.tarifs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
+.tarifs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem;max-width:720px;margin-left:auto;margin-right:auto}
+@media(max-width:600px){.tarifs-grid{grid-template-columns:1fr}}
 .tarif-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;position:relative}
 .tarif-card.featured{border-color:#3b82f660;background:linear-gradient(135deg,#3b82f610,#60a5fa08)}
 .tarif-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:0.72rem;font-weight:600;padding:0.2rem 0.9rem;border-radius:99px;white-space:nowrap}
