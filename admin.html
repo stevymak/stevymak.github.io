@@ -18,6 +18,7 @@
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;min-height:100vh}
 h1,h2{font-family:'Syne',sans-serif}
 
+/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
 .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:360px;display:flex;flex-direction:column;gap:1.25rem}
 .login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;text-align:center}
@@ -30,6 +31,7 @@ h1,h2{font-family:'Syne',sans-serif}
 .btn-main:disabled{opacity:0.5;cursor:not-allowed}
 .error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none;background:#ef444410;border:1px solid #ef444430;border-radius:8px;padding:0.5rem}
 
+/* DASHBOARD */
 .dashboard{display:none}
 .topbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
 .topbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
@@ -39,23 +41,74 @@ h1,h2{font-family:'Syne',sans-serif}
 .btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
 .btn-logout:hover{color:var(--text);border-color:#3b82f640}
 
-.content{padding:1.5rem;max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
+/* TABS */
+.tabs-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;gap:0;overflow-x:auto}
+.tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:0.9rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:color 0.2s,border-color 0.2s;white-space:nowrap}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none;padding:1.5rem;max-width:900px;margin:0 auto}
+.tab-content.active{display:block}
 
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
+/* STATS DASHBOARD */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin-bottom:1.5rem}
 .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center}
 .stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700}
-.stat-label{color:var(--muted);font-size:0.75rem;margin-top:0.2rem}
+.stat-label{color:var(--muted);font-size:0.72rem;margin-top:0.2rem;text-transform:uppercase;letter-spacing:0.05em}
 
-.section-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+/* GRAPHIQUE BARRES simple */
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem}
+.chart-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center}
+.bar-chart{display:flex;align-items:flex-end;gap:0.5rem;height:120px}
+.bar-wrap{display:flex;flex-direction:column;align-items:center;gap:0.3rem;flex:1}
+.bar{width:100%;border-radius:4px 4px 0 0;transition:height 0.5s ease;min-height:4px;background:var(--accent);opacity:0.8}
+.bar:hover{opacity:1}
+.bar-label{font-size:0.7rem;color:var(--muted);text-align:center}
+.bar-val{font-size:0.7rem;color:var(--text);font-weight:500}
+
+/* Services populaires */
+.services-chart{display:flex;flex-direction:column;gap:0.6rem}
+.svc-bar-row{display:flex;align-items:center;gap:0.75rem;font-size:0.82rem}
+.svc-bar-name{width:180px;flex-shrink:0;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svc-bar-track{flex:1;background:var(--card);border-radius:99px;height:8px;overflow:hidden}
+.svc-bar-fill{height:100%;border-radius:99px;background:var(--accent);transition:width 0.5s ease}
+.svc-bar-count{width:30px;text-align:right;color:var(--text);font-weight:500;flex-shrink:0}
+
+/* Revenus */
+.revenue-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem}
+.rev-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem}
+.rev-label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem}
+.rev-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--success)}
+@media(max-width:480px){.revenue-grid{grid-template-columns:1fr}}
+
+/* CALENDRIER */
+.cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-nav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1rem;transition:background 0.2s}
+.cal-nav-btn:hover{background:var(--border)}
+.cal-month-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem}
+.cal-grid-admin{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-head{text-align:center;font-size:0.72rem;color:var(--muted);padding:4px 0;font-weight:500}
+.cal-cell{min-height:72px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:4px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative}
+.cal-cell:hover:not(.cal-empty):not(.cal-past){border-color:#3b82f640;background:#3b82f608}
+.cal-cell.cal-today{border-color:#3b82f660}
+.cal-cell.cal-empty{background:transparent;border-color:transparent;cursor:default}
+.cal-cell.cal-past{opacity:0.5}
+.cal-day-num{font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:2px}
+.cal-cell.cal-today .cal-day-num{color:var(--accent)}
+.cal-rdv-chip{font-size:0.62rem;padding:1px 4px;border-radius:3px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.chip-pending{background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b30}
+.chip-confirmed{background:#22c55e20;color:#22c55e;border:1px solid #22c55e30}
+.chip-cancelled{background:#ef444420;color:#ef4444;border:1px solid #ef444430}
+.cal-more{font-size:0.62rem;color:var(--muted);padding:1px 4px}
+
+/* LISTE RDV */
+.section-title-row{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
 .filter-tabs{display:flex;gap:0.5rem;flex-wrap:wrap}
-.tab{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif}
-.tab.active{background:#3b82f618;border-color:#3b82f660;color:var(--accent)}
-
+.tab-filter{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.tab-filter.active{background:#3b82f618;border-color:#3b82f660;color:var(--accent)}
 .rdv-list{display:flex;flex-direction:column;gap:0.75rem}
 .rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;gap:0.75rem}
 .rdv-card.confirmed{border-color:#22c55e30}
 .rdv-card.cancelled{opacity:0.45;border-color:#ef444430}
-/* ─── Nouveau : style carte avec modification ─── */
 .rdv-card.modified{border-color:#f59e0b60;background:#f59e0b05}
 .rdv-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
 .rdv-service{font-weight:600;font-size:0.95rem}
@@ -64,36 +117,58 @@ h1,h2{font-family:'Syne',sans-serif}
 .badge-pending{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b30}
 .badge-confirmed{background:#22c55e18;color:#22c55e;border:1px solid #22c55e30}
 .badge-cancelled{background:#ef444418;color:#ef4444;border:1px solid #ef444430}
-/* ─── Nouveau : badge modification ─── */
-.badge-modif{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b50;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:600;white-space:nowrap;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
-
+.badge-done{background:#ffffff10;color:var(--muted);border:1px solid var(--border)}
+.badge-modif{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b50;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:600;white-space:nowrap;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
 .rdv-info{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;font-size:0.83rem}
 .rdv-info-item{display:flex;flex-direction:column;gap:0.1rem}
 .rdv-info-label{color:var(--muted);font-size:0.72rem}
 .rdv-desc{font-size:0.82rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)}
-/* ─── Nouveau : bloc message modification ─── */
 .rdv-modif-note{font-size:0.82rem;background:#f59e0b10;border:1px solid #f59e0b30;border-radius:8px;padding:0.6rem 0.75rem;color:#f59e0b;display:flex;gap:0.5rem;align-items:flex-start}
-.rdv-actions{display:flex;gap:0.5rem}
+.rdv-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
 .btn-confirm{background:#22c55e18;color:#22c55e;border:1px solid #22c55e40;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
 .btn-confirm:hover{background:#22c55e30}
+.btn-done{background:#3b82f618;color:var(--accent);border:1px solid #3b82f640;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-done:hover{background:#3b82f628}
 .btn-cancel{background:#ef444418;color:#ef4444;border:1px solid #ef444440;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
 .btn-cancel:hover{background:#ef444430}
 
+/* AVIS */
+.avis-admin-list{display:flex;flex-direction:column;gap:0.75rem}
+.avis-admin-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;gap:0.5rem}
+.avis-admin-top{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.avis-stars-display{color:#f59e0b;font-size:0.9rem}
+.avis-nom{font-weight:600;font-size:0.9rem}
+.avis-comment-text{color:var(--muted);font-size:0.85rem;font-style:italic}
+.avis-date-text{color:var(--muted);font-size:0.75rem}
+.btn-delete-avis{background:#ef444415;color:#ef4444;border:1px solid #ef444430;border-radius:6px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-delete-avis:hover{background:#ef444430}
+
 .empty-state{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:0.9rem}
 .empty-icon{font-size:2.5rem;margin-bottom:0.75rem}
-
 .loading{text-align:center;padding:2rem;color:var(--muted)}
 .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .page-loader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100}
 .page-loader.hidden{display:none}
 
+/* Modal détail RDV depuis calendrier */
+.modal-overlay{position:fixed;inset:0;background:#00000080;backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;max-width:420px;width:100%;display:flex;flex-direction:column;gap:1rem}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700}
+.modal-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text)}
+.modal-info-row{display:flex;gap:0.5rem;font-size:0.85rem;align-items:flex-start}
+.modal-info-icon{flex-shrink:0;margin-top:0.1rem}
+.modal-info-val{color:var(--muted)}
+.modal-info-val strong{color:var(--text)}
+
 @media(max-width:480px){
-  .stats{grid-template-columns:repeat(2,1fr)}
   .rdv-info{grid-template-columns:1fr}
   .admin-email{display:none}
+  .cal-cell{min-height:50px}
+  .cal-rdv-chip{display:none}
 }
 </style>
 </head>
@@ -123,34 +198,128 @@ h1,h2{font-family:'Syne',sans-serif}
       <button class="btn-logout" onclick="logout()">Déconnexion</button>
     </div>
   </div>
-  <div class="content">
-    <div class="stats">
+
+  <!-- ONGLETS -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('dashboard', this)">📊 Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('calendrier', this)">📅 Calendrier</button>
+    <button class="tab-btn" onclick="switchTab('reservations', this)">📋 Réservations</button>
+    <button class="tab-btn" onclick="switchTab('avis', this)">⭐ Avis</button>
+  </div>
+
+  <!-- ─── ONGLET DASHBOARD ─────────────────────────────────────────── -->
+  <div class="tab-content active" id="tab-dashboard">
+
+    <div class="stats-row">
       <div class="stat-card"><div class="stat-num" id="statTotal">–</div><div class="stat-label">Total RDV</div></div>
       <div class="stat-card"><div class="stat-num" style="color:var(--warning)" id="statPending">–</div><div class="stat-label">En attente</div></div>
       <div class="stat-card"><div class="stat-num" style="color:var(--success)" id="statConfirmed">–</div><div class="stat-label">Confirmés</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--muted)" id="statDone">–</div><div class="stat-label">Terminés</div></div>
       <div class="stat-card"><div class="stat-num" style="color:var(--warning)" id="statModified">–</div><div class="stat-label">Modifications</div></div>
     </div>
-    <div>
-      <div class="section-title" style="margin-bottom:0.75rem">
-        Rendez-vous
-        <button onclick="loadRdvs()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">↻ Actualiser</button>
+
+    <!-- Revenus estimés -->
+    <div class="revenue-grid">
+      <div class="rev-card">
+        <div class="rev-label">Revenus estimés ce mois</div>
+        <div class="rev-val" id="revMois">–</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem">RDV confirmés × tarif moyen 70€</div>
       </div>
-      <div class="filter-tabs" style="margin-bottom:1rem">
-        <button class="tab active" onclick="setFilter('all',this)">Tous</button>
-        <button class="tab" onclick="setFilter('pending',this)">En attente</button>
-        <button class="tab" onclick="setFilter('confirmed',this)">Confirmés</button>
-        <button class="tab" onclick="setFilter('cancelled',this)">Annulés</button>
-        <button class="tab" onclick="setFilter('modified',this)">✏️ Modifications</button>
+      <div class="rev-card">
+        <div class="rev-label">Revenus estimés total</div>
+        <div class="rev-val" id="revTotal">–</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem">Tous RDV confirmés + terminés</div>
       </div>
-      <div id="rdvList"><div class="loading"><div class="spinner"></div></div></div>
     </div>
+
+    <!-- Graphique RDV par mois -->
+    <div class="chart-card">
+      <div class="chart-title">
+        Réservations par mois
+        <span style="font-size:0.75rem;color:var(--muted);font-weight:400">6 derniers mois</span>
+      </div>
+      <div class="bar-chart" id="barChart">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- Services les plus demandés -->
+    <div class="chart-card">
+      <div class="chart-title">Services les plus demandés</div>
+      <div class="services-chart" id="servicesChart">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- Taux de confirmation -->
+    <div class="chart-card">
+      <div class="chart-title">Taux de confirmation</div>
+      <div id="tauxConfirm" style="font-size:0.88rem;color:var(--muted)">Chargement…</div>
+    </div>
+
+  </div>
+
+  <!-- ─── ONGLET CALENDRIER ────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-calendrier">
+    <div class="cal-nav-row">
+      <button class="cal-nav-btn" onclick="calPrev()">‹</button>
+      <div class="cal-month-title" id="calAdminTitle"></div>
+      <button class="cal-nav-btn" onclick="calNext()">›</button>
+    </div>
+    <div class="cal-grid-admin" id="calAdminGrid"></div>
+    <div style="display:flex;gap:1rem;margin-top:0.75rem;font-size:0.75rem;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:#f59e0b20;border:1px solid #f59e0b40;display:inline-block"></span> En attente</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:#22c55e20;border:1px solid #22c55e40;display:inline-block"></span> Confirmé</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:#3b82f620;border:1px solid #3b82f640;display:inline-block"></span> Terminé</span>
+    </div>
+  </div>
+
+  <!-- ─── ONGLET RÉSERVATIONS ──────────────────────────────────────── -->
+  <div class="tab-content" id="tab-reservations">
+    <div class="section-title-row">
+      Rendez-vous
+      <button onclick="loadAll()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">↻ Actualiser</button>
+    </div>
+    <div class="filter-tabs" style="margin-bottom:1rem">
+      <button class="tab-filter active" onclick="setFilter('all',this)">Tous</button>
+      <button class="tab-filter" onclick="setFilter('pending',this)">En attente</button>
+      <button class="tab-filter" onclick="setFilter('confirmed',this)">Confirmés</button>
+      <button class="tab-filter" onclick="setFilter('done',this)">Terminés</button>
+      <button class="tab-filter" onclick="setFilter('cancelled',this)">Annulés</button>
+      <button class="tab-filter" onclick="setFilter('modified',this)">✏️ Modifications</button>
+    </div>
+    <div id="rdvList"><div class="loading"><div class="spinner"></div></div></div>
+  </div>
+
+  <!-- ─── ONGLET AVIS ──────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-avis">
+    <div class="section-title-row">
+      Avis clients
+      <span id="avisCount" style="font-size:0.8rem;color:var(--muted)"></span>
+    </div>
+    <div class="avis-admin-list" id="avisList">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal détail RDV (calendrier) -->
+<div class="modal-overlay" id="rdvModal">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h3 id="modalTitle">Détail RDV</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+    <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
   </div>
 </div>
 
 <!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, orderBy, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -162,147 +331,315 @@ const firebaseConfig = {
   appId: "1:558314427247:web:83e656344dd79019ccce9a"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
 const auth = getAuth(app);
 
-window._adminDb = db;
-window._adminAuth = auth;
-window._adminFns = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy, signInWithEmailAndPassword, signOut };
+window._db   = db;
+window._auth = auth;
+window._fns  = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy, where, signInWithEmailAndPassword, signOut };
 
 onAuthStateChanged(auth, (user) => {
   document.getElementById('pageLoader').classList.add('hidden');
-  if(user){
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('adminEmail').textContent = user.email;
-    loadRdvs();
+  if (user) {
+    document.getElementById('loginWrap').style.display  = 'none';
+    document.getElementById('dashboard').style.display  = 'block';
+    document.getElementById('adminEmail').textContent   = user.email;
+    loadAll();
+    loadAvis();
   } else {
-    document.getElementById('loginWrap').style.display = 'flex';
-    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginWrap').style.display  = 'flex';
+    document.getElementById('dashboard').style.display  = 'none';
   }
 });
 </script>
 
 <script>
-let allRdvs = [];
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let allRdvs      = [];
+let allAvis      = [];
 let currentFilter = 'all';
+let calYear      = new Date().getFullYear();
+let calMonth     = new Date().getMonth();
 
-async function login(){
+const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+
+// ─── AUTH ──────────────────────────────────────────────────────────────────────
+async function login() {
   const email = document.getElementById('emailInput').value.trim();
-  const pwd = document.getElementById('pwdInput').value;
-  const btn = document.getElementById('loginBtn');
-  const errMsg = document.getElementById('errMsg');
-  if(!email || !pwd){ errMsg.textContent = 'Veuillez remplir tous les champs.'; errMsg.style.display = 'block'; return; }
+  const pwd   = document.getElementById('pwdInput').value;
+  const btn   = document.getElementById('loginBtn');
+  const err   = document.getElementById('errMsg');
+  if (!email || !pwd) { err.textContent = 'Veuillez remplir tous les champs.'; err.style.display = 'block'; return; }
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;margin:0"></div> Connexion...';
-  errMsg.style.display = 'none';
+  err.style.display = 'none';
   try {
-    const { signInWithEmailAndPassword } = window._adminFns;
-    await signInWithEmailAndPassword(window._adminAuth, email, pwd);
+    const { signInWithEmailAndPassword } = window._fns;
+    await signInWithEmailAndPassword(window._auth, email, pwd);
   } catch(e) {
-    btn.disabled = false;
-    btn.innerHTML = 'Se connecter';
-    const errors = {
-      'auth/invalid-email': 'Adresse email invalide.',
-      'auth/user-not-found': 'Aucun compte trouvé avec cet email.',
-      'auth/wrong-password': 'Mot de passe incorrect.',
-      'auth/invalid-credential': 'Email ou mot de passe incorrect.',
-      'auth/too-many-requests': 'Trop de tentatives. Réessayez plus tard.',
-    };
-    errMsg.textContent = errors[e.code] || 'Erreur de connexion. Réessayez.';
-    errMsg.style.display = 'block';
+    btn.disabled = false; btn.innerHTML = 'Se connecter';
+    const msgs = { 'auth/invalid-email':'Email invalide.','auth/user-not-found':'Compte introuvable.','auth/wrong-password':'Mot de passe incorrect.','auth/invalid-credential':'Email ou mot de passe incorrect.','auth/too-many-requests':'Trop de tentatives.' };
+    err.textContent = msgs[e.code] || 'Erreur de connexion.'; err.style.display = 'block';
   }
 }
 
-async function logout(){
-  try {
-    const { signOut } = window._adminFns;
-    await signOut(window._adminAuth);
-    document.getElementById('emailInput').value = '';
-    document.getElementById('pwdInput').value = '';
-  } catch(e){ alert('Erreur lors de la déconnexion.'); }
+async function logout() {
+  const { signOut } = window._fns;
+  await signOut(window._auth);
+  document.getElementById('emailInput').value = '';
+  document.getElementById('pwdInput').value   = '';
 }
 
-async function loadRdvs(){
-  document.getElementById('rdvList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+// ─── TABS ──────────────────────────────────────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'calendrier') renderCalAdmin();
+}
+
+// ─── CHARGEMENT DONNÉES ───────────────────────────────────────────────────────
+async function loadAll() {
   try {
-    const { collection, getDocs, query, orderBy } = window._adminFns;
-    const db = window._adminDb;
-    const q = query(collection(db, "reservations"), orderBy("dateKey", "asc"));
+    const { collection, getDocs, query, orderBy } = window._fns;
+    const q    = query(collection(window._db, 'reservations'), orderBy('dateKey', 'asc'));
     const snap = await getDocs(q);
     allRdvs = [];
     snap.forEach(d => allRdvs.push({ id: d.id, ...d.data() }));
-    allRdvs.sort((a,b) => {
-      const da = a.dateKey+a.time, db2 = b.dateKey+b.time;
-      return da < db2 ? -1 : 1;
-    });
+    allRdvs.sort((a,b) => (a.dateKey+a.time) < (b.dateKey+b.time) ? -1 : 1);
     updateStats();
     renderRdvs();
+    renderDashboardCharts();
+    renderCalAdmin();
     document.getElementById('lastRefresh').textContent = 'Mis à jour ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  } catch(e){
-    console.error('Erreur Firebase:', e);
-    document.getElementById('rdvList').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Erreur de chargement. Vérifiez votre connexion.</div>';
+  } catch(e) {
+    console.error(e);
+    document.getElementById('rdvList').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Erreur de chargement.</div>';
   }
 }
 
-function updateStats(){
-  document.getElementById('statTotal').textContent     = allRdvs.length;
-  document.getElementById('statPending').textContent   = allRdvs.filter(r=>r.status==='pending').length;
-  document.getElementById('statConfirmed').textContent = allRdvs.filter(r=>r.status==='confirmed').length;
-  // Compteur modifications : pending avec modificationNote
-  document.getElementById('statModified').textContent  = allRdvs.filter(r=>r.status==='pending' && r.modificationNote).length;
+async function loadAvis() {
+  try {
+    const { collection, getDocs, query, orderBy } = window._fns;
+    const q    = query(collection(window._db, 'avis'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    allAvis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderAvis();
+  } catch(e) { console.error(e); }
 }
 
-function setFilter(f, btn){
+// ─── STATS ────────────────────────────────────────────────────────────────────
+function updateStats() {
+  const total     = allRdvs.length;
+  const pending   = allRdvs.filter(r => r.status === 'pending').length;
+  const confirmed = allRdvs.filter(r => r.status === 'confirmed').length;
+  const done      = allRdvs.filter(r => r.status === 'done').length;
+  const modified  = allRdvs.filter(r => r.status === 'pending' && r.modificationNote).length;
+
+  document.getElementById('statTotal').textContent     = total;
+  document.getElementById('statPending').textContent   = pending;
+  document.getElementById('statConfirmed').textContent = confirmed;
+  document.getElementById('statDone').textContent      = done;
+  document.getElementById('statModified').textContent  = modified;
+
+  // Revenus estimés (tarif moyen 70€)
+  const now      = new Date();
+  const moisKey  = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const rdvMois  = allRdvs.filter(r => (r.status === 'confirmed' || r.status === 'done') && r.monthKey === moisKey).length;
+  const rdvTotal = allRdvs.filter(r => r.status === 'confirmed' || r.status === 'done').length;
+  document.getElementById('revMois').textContent  = `${rdvMois * 70}€`;
+  document.getElementById('revTotal').textContent = `${rdvTotal * 70}€`;
+
+  // Taux de confirmation
+  const nonCancelled = allRdvs.filter(r => r.status !== 'cancelled').length;
+  const taux = nonCancelled > 0 ? Math.round((confirmed + done) / nonCancelled * 100) : 0;
+  document.getElementById('tauxConfirm').innerHTML = `
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem">
+      <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--success)">${taux}%</div>
+      <div style="color:var(--muted);font-size:0.82rem">des demandes reçues sont confirmées ou terminées</div>
+    </div>
+    <div style="background:var(--card);border-radius:99px;height:8px;overflow:hidden">
+      <div style="width:${taux}%;height:100%;background:var(--success);border-radius:99px;transition:width 0.5s ease"></div>
+    </div>
+  `;
+}
+
+// ─── GRAPHIQUES ───────────────────────────────────────────────────────────────
+function renderDashboardCharts() {
+  // Barres par mois (6 derniers mois)
+  const now    = new Date();
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d   = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    months.push({ key, label: MONTHS[d.getMonth()].slice(0,3) });
+  }
+  const counts = months.map(m => allRdvs.filter(r => r.monthKey === m.key).length);
+  const maxVal = Math.max(...counts, 1);
+  document.getElementById('barChart').innerHTML = counts.map((c, i) => `
+    <div class="bar-wrap">
+      <div class="bar-val">${c || ''}</div>
+      <div class="bar" style="height:${Math.max((c/maxVal)*100,4)}%" title="${c} RDV en ${months[i].label}"></div>
+      <div class="bar-label">${months[i].label}</div>
+    </div>
+  `).join('');
+
+  // Services populaires
+  const svcCount = {};
+  allRdvs.forEach(r => { if (r.service) svcCount[r.service] = (svcCount[r.service] || 0) + 1; });
+  const sorted = Object.entries(svcCount).sort((a,b) => b[1]-a[1]).slice(0,6);
+  const maxSvc = sorted[0]?.[1] || 1;
+  document.getElementById('servicesChart').innerHTML = sorted.length === 0
+    ? '<div style="color:var(--muted);font-size:0.85rem">Aucune donnée</div>'
+    : sorted.map(([name, count]) => `
+      <div class="svc-bar-row">
+        <div class="svc-bar-name">${name}</div>
+        <div class="svc-bar-track"><div class="svc-bar-fill" style="width:${(count/maxSvc)*100}%"></div></div>
+        <div class="svc-bar-count">${count}</div>
+      </div>
+    `).join('');
+}
+
+// ─── CALENDRIER ADMIN ────────────────────────────────────────────────────────
+function renderCalAdmin() {
+  document.getElementById('calAdminTitle').textContent = MONTHS[calMonth] + ' ' + calYear;
+  const grid = document.getElementById('calAdminGrid');
+  grid.innerHTML = '';
+  DAYS.forEach(d => { const el = document.createElement('div'); el.className = 'cal-head'; el.textContent = d; grid.appendChild(el); });
+
+  const first = new Date(calYear, calMonth, 1);
+  let startDay = first.getDay() - 1; if (startDay < 0) startDay = 6;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  for (let i = 0; i < startDay; i++) {
+    const el = document.createElement('div'); el.className = 'cal-cell cal-empty'; grid.appendChild(el);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date    = new Date(calYear, calMonth, d);
+    const dateKey = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isPast  = date < today;
+    const isToday = date.getTime() === today.getTime();
+    const rdvs    = allRdvs.filter(r => r.dateKey === dateKey && r.status !== 'cancelled');
+
+    const el = document.createElement('div');
+    el.className = 'cal-cell' + (isPast ? ' cal-past' : '') + (isToday ? ' cal-today' : '');
+    el.innerHTML = `<div class="cal-day-num">${d}</div>`;
+
+    rdvs.slice(0, 3).forEach(r => {
+      const cls = r.status === 'confirmed' ? 'chip-confirmed' : r.status === 'done' ? 'chip-confirmed' : 'chip-pending';
+      const chip = document.createElement('div');
+      chip.className = `cal-rdv-chip ${cls}`;
+      chip.textContent = (r.timeLabel || r.time || '').replace(' (', ' ').replace(')', '').slice(0, 12) + ' – ' + (r.nom || '').split(' ')[0];
+      chip.onclick = (e) => { e.stopPropagation(); openRdvModal(r); };
+      el.appendChild(chip);
+    });
+
+    if (rdvs.length > 3) {
+      const more = document.createElement('div');
+      more.className = 'cal-more';
+      more.textContent = `+${rdvs.length - 3} de plus`;
+      el.appendChild(more);
+    }
+
+    if (rdvs.length > 0) el.onclick = () => { if (rdvs.length === 1) openRdvModal(rdvs[0]); };
+    grid.appendChild(el);
+  }
+}
+
+function calPrev() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalAdmin(); }
+function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalAdmin(); }
+
+// ─── MODAL RDV ────────────────────────────────────────────────────────────────
+function openRdvModal(r) {
+  const dateLabel = r.dateKey ? new Date(r.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : '–';
+  const timeLabel = r.timeLabel || r.time || '–';
+  const badgeMap  = { pending:'badge-pending', confirmed:'badge-confirmed', cancelled:'badge-cancelled', done:'badge-done' };
+  const labelMap  = { pending:'⏳ En attente', confirmed:'✓ Confirmé', cancelled:'✗ Annulé', done:'✓ Terminé' };
+
+  document.getElementById('modalTitle').innerHTML = `${r.service || '–'} <span class="rdv-badge ${badgeMap[r.status] || 'badge-pending'}" style="font-size:0.7rem;vertical-align:middle">${labelMap[r.status] || r.status}</span>`;
+
+  document.getElementById('modalBody').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:0.5rem">
+      <div class="modal-info-row"><span class="modal-info-icon">👤</span><div class="modal-info-val"><strong>${r.nom||'–'}</strong></div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📞</span><div class="modal-info-val">${r.telephone||'–'}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📧</span><div class="modal-info-val">${r.email||'–'}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📅</span><div class="modal-info-val">${dateLabel}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">🕐</span><div class="modal-info-val">${timeLabel}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📍</span><div class="modal-info-val">${r.adresse||'–'}</div></div>
+      ${r.description ? `<div class="modal-info-row"><span class="modal-info-icon">💬</span><div class="modal-info-val">${r.description}</div></div>` : ''}
+    </div>
+  `;
+
+  const actions = document.getElementById('modalActions');
+  actions.innerHTML = '';
+  if (r.status === 'pending') {
+    const btnC = document.createElement('button'); btnC.className = 'btn-confirm'; btnC.textContent = '✓ Confirmer';
+    btnC.onclick = () => { updateStatus(r.id, 'confirmed'); closeModal(); };
+    actions.appendChild(btnC);
+  }
+  if (r.status === 'confirmed') {
+    const btnD = document.createElement('button'); btnD.className = 'btn-done'; btnD.textContent = '✓ Marquer terminé';
+    btnD.onclick = () => { updateStatus(r.id, 'done'); closeModal(); };
+    actions.appendChild(btnD);
+  }
+  if (r.status !== 'cancelled') {
+    const btnX = document.createElement('button'); btnX.className = 'btn-cancel'; btnX.textContent = '✗ Annuler';
+    btnX.onclick = () => { updateStatus(r.id, 'cancelled'); closeModal(); };
+    actions.appendChild(btnX);
+  }
+
+  document.getElementById('rdvModal').classList.add('show');
+}
+
+function closeModal() { document.getElementById('rdvModal').classList.remove('show'); }
+document.getElementById('rdvModal').addEventListener('click', e => { if (e.target === document.getElementById('rdvModal')) closeModal(); });
+
+// ─── LISTE RDV ────────────────────────────────────────────────────────────────
+function setFilter(f, btn) {
   currentFilter = f;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-filter').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   renderRdvs();
 }
 
-function renderRdvs(){
+function renderRdvs() {
   let filtered;
-  if(currentFilter === 'modified'){
-    // Filtre spécial : pending avec modificationNote
-    filtered = allRdvs.filter(r => r.status === 'pending' && r.modificationNote);
-  } else {
-    filtered = currentFilter === 'all' ? allRdvs : allRdvs.filter(r=>r.status===currentFilter);
-  }
+  if (currentFilter === 'modified') filtered = allRdvs.filter(r => r.status === 'pending' && r.modificationNote);
+  else if (currentFilter === 'all')  filtered = allRdvs;
+  else filtered = allRdvs.filter(r => r.status === currentFilter);
 
   const list = document.getElementById('rdvList');
-  if(filtered.length === 0){
+  if (filtered.length === 0) {
     list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div>Aucun rendez-vous dans cette catégorie</div>';
     return;
   }
   list.innerHTML = '';
   filtered.forEach(rdv => {
-    const hasModif = rdv.modificationNote && rdv.status === 'pending';
-    const card = document.createElement('div');
-    card.className = 'rdv-card'
-      + (rdv.status==='confirmed' ? ' confirmed' : '')
-      + (rdv.status==='cancelled' ? ' cancelled' : '')
-      + (hasModif ? ' modified' : '');
-    card.id = 'card-'+rdv.id;
-
-    const dateLabel = rdv.dateKey
-      ? new Date(rdv.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
-      : rdv.dateKey;
+    const hasModif  = rdv.modificationNote && rdv.status === 'pending';
+    const dateLabel = rdv.dateKey ? new Date(rdv.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : rdv.dateKey;
     const timeDisplay = rdv.timeLabel || rdv.time || '–';
-    const badgeClass = rdv.status==='confirmed' ? 'badge-confirmed' : rdv.status==='cancelled' ? 'badge-cancelled' : 'badge-pending';
-    const badgeLabel = rdv.status==='confirmed' ? '✓ Confirmé' : rdv.status==='cancelled' ? '✗ Annulé' : '⏳ En attente';
+    const badgeMap  = { pending:'badge-pending', confirmed:'badge-confirmed', cancelled:'badge-cancelled', done:'badge-done' };
+    const labelMap  = { pending:'⏳ En attente', confirmed:'✓ Confirmé', cancelled:'✗ Annulé', done:'✓ Terminé' };
 
+    const card = document.createElement('div');
+    card.className = 'rdv-card' + (rdv.status==='confirmed'?' confirmed':'') + (rdv.status==='cancelled'?' cancelled':'') + (hasModif?' modified':'');
+    card.id = 'card-'+rdv.id;
     card.innerHTML = `
       <div class="rdv-top">
         <div class="rdv-service">${rdv.service||'–'}</div>
         <div class="rdv-badges">
-          ${hasModif ? `<div class="badge-modif">✏️ Modification demandée</div>` : ''}
-          <div class="rdv-badge ${badgeClass}">${badgeLabel}</div>
+          ${hasModif ? `<div class="badge-modif">✏️ Modification</div>` : ''}
+          <div class="rdv-badge ${badgeMap[rdv.status]||'badge-pending'}">${labelMap[rdv.status]||rdv.status}</div>
         </div>
       </div>
       <div class="rdv-info">
         <div class="rdv-info-item"><div class="rdv-info-label">📅 Date</div><div>${dateLabel}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">🕐 Plage horaire</div><div>${timeDisplay}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">🕐 Plage</div><div>${timeDisplay}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">👤 Client</div><div>${rdv.nom||'–'}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${rdv.telephone||'–'}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${rdv.email||'–'}</div></div>
@@ -311,42 +648,80 @@ function renderRdvs(){
       </div>
       ${rdv.description ? `<div class="rdv-desc">💬 ${rdv.description}</div>` : ''}
       ${hasModif ? `<div class="rdv-modif-note"><span>✏️</span><div><strong>Message du client :</strong> ${rdv.modificationNote}</div></div>` : ''}
-      ${rdv.status !== 'cancelled' ? `
       <div class="rdv-actions">
-        ${rdv.status !== 'confirmed' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
-        <button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler le RDV</button>
-      </div>` : `
-      <div class="rdv-actions">
-        <button class="btn-confirm" onclick="deleteRdv('${rdv.id}')" style="background:#ef444418;color:#ef4444;border-color:#ef444440">🗑 Supprimer</button>
-      </div>`}
+        ${rdv.status === 'pending' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
+        ${rdv.status === 'confirmed' ? `<button class="btn-done" onclick="updateStatus('${rdv.id}','done')">✓ Terminé</button>` : ''}
+        ${rdv.status !== 'cancelled' ? `<button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler</button>` : `<button class="btn-cancel" style="background:#ef444418;color:#ef4444;border-color:#ef444440" onclick="deleteRdv('${rdv.id}')">🗑 Supprimer</button>`}
+      </div>
     `;
     list.appendChild(card);
   });
 }
 
-async function updateStatus(id, status){
+async function updateStatus(id, status) {
   try {
-    const { doc, updateDoc } = window._adminFns;
-    // Quand on confirme, on efface le modificationNote
+    const { doc, updateDoc } = window._fns;
     const updateData = { status };
-    if(status === 'confirmed') updateData.modificationNote = null;
-    await updateDoc(doc(window._adminDb, "reservations", id), updateData);
-    const rdv = allRdvs.find(r=>r.id===id);
-    if(rdv){ rdv.status = status; if(status === 'confirmed') rdv.modificationNote = null; }
+    if (status === 'confirmed') updateData.modificationNote = null;
+    await updateDoc(doc(window._db, 'reservations', id), updateData);
+    const rdv = allRdvs.find(r => r.id === id);
+    if (rdv) { rdv.status = status; if (status === 'confirmed') rdv.modificationNote = null; }
     updateStats();
     renderRdvs();
-  } catch(e){ alert('Erreur lors de la mise à jour.'); }
+    renderCalAdmin();
+    renderDashboardCharts();
+  } catch(e) { alert('Erreur lors de la mise à jour.'); }
 }
 
-async function deleteRdv(id){
-  if(!confirm('Supprimer définitivement ce rendez-vous ?')) return;
+async function deleteRdv(id) {
+  if (!confirm('Supprimer définitivement ce rendez-vous ?')) return;
   try {
-    const { doc, deleteDoc } = window._adminFns;
-    await deleteDoc(doc(window._adminDb, "reservations", id));
-    allRdvs = allRdvs.filter(r=>r.id!==id);
-    updateStats();
-    renderRdvs();
-  } catch(e){ alert('Erreur lors de la suppression.'); }
+    const { doc, deleteDoc } = window._fns;
+    await deleteDoc(doc(window._db, 'reservations', id));
+    allRdvs = allRdvs.filter(r => r.id !== id);
+    updateStats(); renderRdvs(); renderCalAdmin(); renderDashboardCharts();
+  } catch(e) { alert('Erreur lors de la suppression.'); }
+}
+
+// ─── AVIS ────────────────────────────────────────────────────────────────────
+function renderAvis() {
+  const list = document.getElementById('avisList');
+  document.getElementById('avisCount').textContent = allAvis.length ? `(${allAvis.length} avis)` : '';
+
+  if (allAvis.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">⭐</div>Aucun avis pour le moment.</div>';
+    return;
+  }
+
+  list.innerHTML = allAvis.map(a => {
+    const stars = '★'.repeat(a.note||0) + '☆'.repeat(5-(a.note||0));
+    const date  = a.createdAt?.toDate ? a.createdAt.toDate().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '';
+    return `
+      <div class="avis-admin-card" id="avis-${a.id}">
+        <div class="avis-admin-top">
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <div class="avis-stars-display">${stars}</div>
+            <div class="avis-nom">${a.nom||'–'}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <div class="avis-date-text">${date}</div>
+            <button class="btn-delete-avis" onclick="deleteAvis('${a.id}')">🗑 Supprimer</button>
+          </div>
+        </div>
+        <div class="avis-comment-text">"${a.comment||''}"</div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function deleteAvis(id) {
+  if (!confirm('Supprimer cet avis définitivement ?')) return;
+  try {
+    const { doc, deleteDoc } = window._fns;
+    await deleteDoc(doc(window._db, 'avis', id));
+    allAvis = allAvis.filter(a => a.id !== id);
+    renderAvis();
+  } catch(e) { alert('Erreur lors de la suppression.'); }
 }
 </script>
 </body>
