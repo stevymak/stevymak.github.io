@@ -62,21 +62,27 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .cal-day.past{color:#ffffff20;cursor:default}
 .cal-day.empty{cursor:default}
 .cal-day.full{color:#ffffff30;cursor:default}
-.cal-day .dot{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent)}
 
 /* Plages horaires */
 .slot-list{display:flex;flex-direction:column;gap:0.5rem}
 .slot-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
 .slot-btn:hover:not(.unavail){border-color:#3b82f660;background:#3b82f610}
 .slot-btn.selected{border-color:var(--accent);background:#3b82f618}
-.slot-btn.unavail{opacity:0.35;cursor:not-allowed;border-color:#ef444430}
+.slot-btn.unavail{opacity:0.35;cursor:not-allowed}
 .slot-icon{font-size:1.3rem;flex-shrink:0}
 .slot-info{flex:1}
 .slot-label{font-weight:600;font-size:0.92rem}
 .slot-hours{color:var(--muted);font-size:0.8rem}
 .slot-check{margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s}
 .slot-btn.selected .slot-check{background:var(--accent);border-color:var(--accent);color:#fff}
-.slot-badge-full{font-size:0.72rem;color:#ef4444;margin-left:auto;background:#ef444415;border:1px solid #ef444430;border-radius:99px;padding:2px 8px}
+
+/* Indicateur de remplissage par couleur */
+.slot-fill{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:99px;white-space:nowrap;margin-left:auto}
+.slot-fill.free{background:#22c55e15;color:#22c55e;border:1px solid #22c55e30}
+.slot-fill.low{background:#22c55e15;color:#22c55e;border:1px solid #22c55e30}
+.slot-fill.mid{background:#f59e0b15;color:#f59e0b;border:1px solid #f59e0b30}
+.slot-fill.high{background:#ef444415;color:#ef4444;border:1px solid #ef444430}
+.slot-fill.full{background:#ef444415;color:#ef4444;border:1px solid #ef444430}
 
 .form-group{display:flex;flex-direction:column;gap:0.4rem}
 .form-label{font-size:0.8rem;color:var(--muted);font-weight:500}
@@ -131,7 +137,7 @@ textarea.form-input{resize:none;height:80px}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.legend{display:flex;gap:1rem;font-size:0.75rem;color:var(--muted);margin-top:0.25rem}
+.legend{display:flex;gap:0.75rem;font-size:0.72rem;color:var(--muted);margin-top:0.25rem;flex-wrap:wrap}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:3px}
 </style>
 </head>
@@ -159,7 +165,7 @@ textarea.form-input{resize:none;height:80px}
     <div class="service-list">
       <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€')">
         <div class="svc-icon">💻</div>
-        <div><div class="svc-name">Dépannage PC</div><div class="svc-price">60€ – 80€</div></div>
+        <div><div class="svc-name">Dépannage PC / Mac</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Installation Windows / logiciels','à partir de 60€')">
@@ -182,6 +188,11 @@ textarea.form-input{resize:none;height:80px}
         <div><div class="svc-name">Formation / Accompagnement</div><div class="svc-price">40€/h</div></div>
         <div class="svc-check">✓</div>
       </button>
+      <button class="service-btn" onclick="selectService(this,'Intégration / Développement web','à partir de 150€')">
+        <div class="svc-icon">🌐</div>
+        <div><div class="svc-name">Intégration / Développement web</div><div class="svc-price">à partir de 150€</div></div>
+        <div class="svc-check">✓</div>
+      </button>
     </div>
     <button class="btn-main" id="btn1" disabled onclick="goTo(2)">Choisir une date →</button>
   </div>
@@ -200,8 +211,9 @@ textarea.form-input{resize:none;height:80px}
       </div>
       <div class="cal-grid" id="calGrid"></div>
       <div class="legend" style="margin-top:0.5rem">
-        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#3b82f640;border:1px solid #3b82f660"></div> Disponible</div>
-        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#ef444420;border:1px solid #ef444440"></div> Complet</div>
+        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#22c55e40;border:1px solid #22c55e60"></div> 1-1 résa</div>
+        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#f59e0b40;border:1px solid #f59e0b60"></div> 2-3 résas</div>
+        <div style="display:flex;align-items:center;gap:4px"><div class="legend-dot" style="background:#ef444440;border:1px solid #ef444460"></div> 4+ résas</div>
       </div>
     </div>
     <div id="timeSection" style="display:none">
@@ -221,15 +233,10 @@ textarea.form-input{resize:none;height:80px}
       <div class="screen-sub">Pour confirmer votre réservation</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:0.85rem">
-
       <div class="connected-banner" id="connectedBanner" style="display:none">
         <div class="cb-icon">✅</div>
-        <div>
-          <strong>Compte reconnu</strong>
-          <small id="connectedEmail">—</small>
-        </div>
+        <div><strong>Compte reconnu</strong><small id="connectedEmail">—</small></div>
       </div>
-
       <div class="form-group">
         <label class="form-label">Prénom et nom *</label>
         <input class="form-input" id="fname" type="text" placeholder="Marie Dupont" oninput="checkForm3()">
@@ -252,14 +259,11 @@ textarea.form-input{resize:none;height:80px}
         <label class="form-label">Description du problème</label>
         <textarea class="form-input" id="fdesc" placeholder="Mon PC est très lent depuis quelques jours..."></textarea>
       </div>
-
       <div id="accountSection">
         <div class="account-divider">Espace client (optionnel)</div>
         <div class="account-box">
           <div class="account-box-title">🔐 Suivez votre RDV en temps réel</div>
-          <div class="account-box-hint" id="accountHint">
-            Créez un mot de passe pour accéder à votre espace client avec l'email renseigné ci-dessus. Laissez vide si vous ne souhaitez pas créer de compte.
-          </div>
+          <div class="account-box-hint" id="accountHint">Créez un mot de passe pour accéder à votre espace client. Laissez vide si vous ne souhaitez pas créer de compte.</div>
           <div class="form-group" id="pwdGroup">
             <label class="form-label">Mot de passe (optionnel, min. 6 caractères)</label>
             <div class="pwd-wrap">
@@ -271,7 +275,6 @@ textarea.form-input{resize:none;height:80px}
           </div>
         </div>
       </div>
-
     </div>
     <div style="display:flex;flex-direction:column;gap:0.5rem">
       <button class="btn-main" id="btn3" disabled onclick="goTo(4)">Récapitulatif →</button>
@@ -307,7 +310,7 @@ textarea.form-input{resize:none;height:80px}
   <div class="success-screen" id="sSuccess">
     <div class="success-icon">✓</div>
     <h2>Demande envoyée !</h2>
-    <p>Stevy (Makouez IT) vous confirmera votre rendez-vous. Vous recevrez une notification par email et/ou SMS dès confirmation.</p>
+    <p>Stevy (Makouez IT) vous confirmera votre rendez-vous. Vous recevrez une notification par email dès confirmation.</p>
     <div class="confirm-card" id="confirmCard"></div>
     <a class="btn-account" href="mon-rdv.html" id="linkEspaceClient" style="display:none">→ Voir mon espace client</a>
     <button class="btn-main" onclick="restart()" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.85rem;padding:0.7rem">Prendre un autre RDV</button>
@@ -317,7 +320,7 @@ textarea.form-input{resize:none;height:80px}
 <!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -335,7 +338,7 @@ const auth = getAuth(app);
 
 window._db   = db;
 window._auth = auth;
-window._firestoreFns = { doc, setDoc, getDoc, collection, query, where, getDocs };
+window._firestoreFns = { doc, setDoc, collection, query, where, getDocs };
 window._authFns      = { createUserWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail };
 
 onAuthStateChanged(auth, (user) => {
@@ -354,6 +357,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// Charge les réservations du mois et retourne un objet { dateKey: { slotId: count } }
 window.loadBookings = async function(year, month) {
   const prefix = `${year}-${String(month+1).padStart(2,'0')}`;
   const q = query(collection(db, "reservations"), where("monthKey", "==", prefix));
@@ -361,16 +365,19 @@ window.loadBookings = async function(year, month) {
   const booked = {};
   snap.forEach(d => {
     const data = d.data();
-    if(!booked[data.dateKey]) booked[data.dateKey] = [];
-    booked[data.dateKey].push(data.time);
+    // On ne compte que les réservations non annulées
+    if (data.status === 'cancelled') return;
+    if (!booked[data.dateKey]) booked[data.dateKey] = {};
+    const slot = data.time || 'unknown';
+    booked[data.dateKey][slot] = (booked[data.dateKey][slot] || 0) + 1;
   });
   return booked;
 };
 
 window.saveReservation = async function(data, uid) {
-  // Clé unique : dateKey + identifiant de la plage (matin/aprem/soir)
   const slotKey = data.time.replace(/[^a-z]/gi, '').toLowerCase();
-  const key = `${data.dateKey}_${slotKey}`;
+  const timestamp = Date.now();
+  const key = `${data.dateKey}_${slotKey}_${timestamp}`;
   const { doc, setDoc } = window._firestoreFns;
   await setDoc(doc(db, "reservations", key), { ...data, uid: uid || null });
 };
@@ -395,18 +402,17 @@ window.checkEmailExists = async function(email) {
       hint.style.display = 'block';
       document.getElementById('pwdGroup').style.display = 'flex';
     }
-  } catch(e) {
-    window._emailIsExisting = false;
-  }
+  } catch(e) { window._emailIsExisting = false; }
 };
 </script>
 
 <script>
-// ─── Définition des plages horaires ─────────────────────────────────────────
+const MAX_PER_SLOT = 5;
+
 const ALL_SLOTS = [
-  { id: 'matin',   emoji: '🌅', label: 'Matin',        hours: '8h00 – 12h00', weekendOnly: true  },
-  { id: 'aprem',   emoji: '☀️',  label: 'Après-midi',   hours: '13h00 – 17h00', weekendOnly: false },
-  { id: 'soir',    emoji: '🌆', label: 'Fin de journée', hours: '17h00 – 20h00', weekendOnly: false },
+  { id: 'matin',  emoji: '🌅', label: 'Matin',          hours: '8h00 – 12h00',  weekendOnly: true  },
+  { id: 'aprem',  emoji: '☀️',  label: 'Après-midi',     hours: '13h00 – 17h00', weekendOnly: false },
+  { id: 'soir',   emoji: '🌆', label: 'Fin de journée',  hours: '17h00 – 20h00', weekendOnly: false },
 ];
 
 const days   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
@@ -466,9 +472,38 @@ async function loadAndRender(){
 }
 
 function getSlotsForDay(dow) {
-  // dow : 0=Dimanche, 1=Lundi ... 6=Samedi
   const isWeekend = (dow === 0 || dow === 6);
   return ALL_SLOTS.filter(s => isWeekend || !s.weekendOnly);
+}
+
+// Retourne le total de résas actives pour un jour donné (toutes plages)
+function getDayTotalBookings(dateKey) {
+  if (!state.bookings[dateKey]) return 0;
+  return Object.values(state.bookings[dateKey]).reduce((a,b) => a+b, 0);
+}
+
+// Retourne la classe de couleur selon le nombre de résas sur le jour
+function getDayColorClass(dateKey, dow) {
+  const slots = getSlotsForDay(dow);
+  const maxPossible = slots.length * MAX_PER_SLOT;
+  const booked = state.bookings[dateKey] || {};
+  const total = Object.values(booked).reduce((a,b) => a+b, 0);
+  const allFull = slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
+  if (allFull) return 'full';
+  if (total === 0) return '';
+  if (total >= 1 && total <= 1) return 'booked-low';
+  if (total >= 2 && total <= 3) return 'booked-mid';
+  return 'booked-high';
+}
+
+// Retourne la classe CSS et le label pour l'indicateur de remplissage d'une plage
+function getSlotFillInfo(dateKey, slotId) {
+  const count = (state.bookings[dateKey] && state.bookings[dateKey][slotId]) || 0;
+  if (count === 0) return null; // pas d'indicateur si vide
+  if (count >= MAX_PER_SLOT) return { cls: 'full', label: 'Complet' };
+  if (count >= 4) return { cls: 'high', label: `${count}/${MAX_PER_SLOT} résas` };
+  if (count >= 2) return { cls: 'mid', label: `${count}/${MAX_PER_SLOT} résas` };
+  return { cls: 'low', label: `${count}/${MAX_PER_SLOT} résa` };
 }
 
 function renderCalendar(){
@@ -481,7 +516,9 @@ function renderCalendar(){
   let startDay = first.getDay()-1; if(startDay<0) startDay=6;
   const daysInMonth = new Date(y,m+1,0).getDate();
   const today = new Date(); today.setHours(0,0,0,0);
+
   for(let i=0;i<startDay;i++){ const e=document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
+
   for(let d=1;d<=daysInMonth;d++){
     const el = document.createElement('div');
     const date = new Date(y,m,d); date.setHours(0,0,0,0);
@@ -490,16 +527,35 @@ function renderCalendar(){
     const isSelected = state.selectedDate && state.selectedDate.getTime()===date.getTime();
     const dow        = date.getDay();
     const dateKey    = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const bookedSlots    = state.bookings[dateKey] || [];
-    const availableSlots = getSlotsForDay(dow).filter(s => !bookedSlots.includes(s.id));
-    const isFull = !isPast && availableSlots.length === 0;
 
-    el.className = 'cal-day'+(isPast?' past':'')+(isToday?' today':'')+(isSelected?' selected':'')+(isFull?' full':'');
+    const slots = getSlotsForDay(dow);
+    const booked = state.bookings[dateKey] || {};
+    const allFull = !isPast && slots.every(s => (booked[s.id] || 0) >= MAX_PER_SLOT);
+    const colorClass = getDayColorClass(dateKey, dow);
+
+    let className = 'cal-day';
+    if (isPast) className += ' past';
+    if (isToday) className += ' today';
+    if (isSelected) className += ' selected';
+    if (allFull) className += ' full';
+
+    el.className = className;
     el.textContent = d;
-    if(bookedSlots.length > 0 && !isPast && !isFull){
-      const dot = document.createElement('div'); dot.className='dot'; el.appendChild(dot);
+
+    // Couleur de fond selon occupation (uniquement si pas passé, pas sélectionné, pas plein)
+    if (!isPast && !isSelected && !allFull && colorClass) {
+      const colors = {
+        'booked-low':  { bg: '#22c55e18', border: '#22c55e40' },
+        'booked-mid':  { bg: '#f59e0b18', border: '#f59e0b40' },
+        'booked-high': { bg: '#ef444418', border: '#ef444440' },
+      };
+      if (colors[colorClass]) {
+        el.style.background = colors[colorClass].bg;
+        el.style.borderColor = colors[colorClass].border;
+      }
     }
-    if(!isPast && !isFull){ el.onclick = ()=>selectDate(date, dateKey); }
+
+    if(!isPast && !allFull){ el.onclick = ()=>selectDate(date, dateKey); }
     grid.appendChild(el);
   }
 }
@@ -510,8 +566,8 @@ function selectDate(date, dateKey){
   renderCalendar();
 
   const dow = date.getDay();
-  const bookedSlots = state.bookings[dateKey] || [];
   const slots = getSlotsForDay(dow);
+  const booked = state.bookings[dateKey] || {};
 
   const ts = document.getElementById('timeSection');
   ts.style.display = 'block';
@@ -519,23 +575,26 @@ function selectDate(date, dateKey){
   sl.innerHTML = '';
 
   slots.forEach(slot => {
-    const isTaken = bookedSlots.includes(slot.id);
+    const count = booked[slot.id] || 0;
+    const isFull = count >= MAX_PER_SLOT;
+    const fillInfo = getSlotFillInfo(dateKey, slot.id);
+
     const btn = document.createElement('button');
-    btn.className = 'slot-btn' + (isTaken ? ' unavail' : '');
+    btn.className = 'slot-btn' + (isFull ? ' unavail' : '');
     btn.innerHTML = `
       <span class="slot-icon">${slot.emoji}</span>
       <span class="slot-info">
         <span class="slot-label">${slot.label}</span>
         <span class="slot-hours">${slot.hours}</span>
       </span>
-      ${isTaken
-        ? '<span class="slot-badge-full">Complet</span>'
-        : '<span class="slot-check">✓</span>'
+      ${isFull
+        ? `<span class="slot-fill full">Complet</span>`
+        : fillInfo
+          ? `<span class="slot-fill ${fillInfo.cls}">${fillInfo.label}</span>`
+          : `<span class="slot-check">✓</span>`
       }
     `;
-    if(!isTaken){
-      btn.onclick = () => selectSlot(slot, btn);
-    }
+    if(!isFull){ btn.onclick = () => selectSlot(slot, btn); }
     sl.appendChild(btn);
   });
 }
@@ -543,8 +602,8 @@ function selectDate(date, dateKey){
 function selectSlot(slot, el){
   document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  state.selectedTime       = slot.id;
-  state.selectedSlotLabel  = `${slot.label} (${slot.hours})`;
+  state.selectedTime      = slot.id;
+  state.selectedSlotLabel = `${slot.label} (${slot.hours})`;
   document.getElementById('btn2').disabled = false;
 }
 
@@ -586,10 +645,8 @@ function updatePwdStrength(){
   if(/[A-Z]/.test(pwd)) score++;
   if(/[0-9]/.test(pwd)) score++;
   if(/[^A-Za-z0-9]/.test(pwd)) score++;
-  const pct   = (score/5)*100;
-  const color = score<=1?'#ef4444':score<=3?'#f59e0b':'#22c55e';
-  bar.style.width    = pct+'%';
-  bar.style.background = color;
+  bar.style.width    = (score/5*100)+'%';
+  bar.style.background = score<=1?'#ef4444':score<=3?'#f59e0b':'#22c55e';
 }
 
 function togglePwd(){
@@ -603,9 +660,9 @@ function fillSummary(){
     : '–';
   const pwd = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
   let accountLabel = 'Sans compte';
-  if (window._currentUser)             accountLabel = '✓ Compte existant lié';
-  else if (window._emailIsExisting)    accountLabel = '✓ Email existant — lié automatiquement';
-  else if (pwd.length >= 6)            accountLabel = '✓ Compte créé';
+  if (window._currentUser)          accountLabel = '✓ Compte existant lié';
+  else if (window._emailIsExisting) accountLabel = '✓ Email existant — lié automatiquement';
+  else if (pwd.length >= 6)         accountLabel = '✓ Compte créé';
 
   document.getElementById('sumService').textContent = state.service;
   document.getElementById('sumDate').textContent    = dateStr;
@@ -649,8 +706,7 @@ async function confirmRdv(){
   let uid = null, accountCreated = false;
 
   if (window._currentUser) {
-    uid = window._currentUser.uid;
-    accountCreated = true;
+    uid = window._currentUser.uid; accountCreated = true;
   } else if (window._emailIsExisting) {
     uid = null; accountCreated = false;
   } else if (pwd.length >= 6) {
@@ -665,8 +721,7 @@ async function confirmRdv(){
       if(e.code === 'auth/email-already-in-use'){
         window._emailIsExisting = true; uid = null; accountCreated = false;
       } else {
-        alert('Erreur lors de la création du compte : ' + e.message);
-        return;
+        alert('Erreur lors de la création du compte : ' + e.message); return;
       }
     }
     showSpinner(true);
@@ -675,10 +730,10 @@ async function confirmRdv(){
   try {
     await window.saveReservation({
       dateKey, monthKey,
-      time:        state.selectedTime,        // id de la plage : 'matin' | 'aprem' | 'soir'
-      timeLabel:   state.selectedSlotLabel,   // libellé complet pour les emails
-      service:     state.service,
-      price:       state.servicePrice,
+      time:      state.selectedTime,
+      timeLabel: state.selectedSlotLabel,
+      service:   state.service,
+      price:     state.servicePrice,
       nom, email, telephone,
       adresse:     document.getElementById('faddress').value,
       description: document.getElementById('fdesc').value,
@@ -689,14 +744,14 @@ async function confirmRdv(){
 
   try {
     const formData = new FormData();
-    formData.append('Service',     state.service);
-    formData.append('Tarif',       state.servicePrice);
-    formData.append('Date',        dateStr);
-    formData.append('Plage',       state.selectedSlotLabel);
-    formData.append('Nom',         nom);
-    formData.append('Email',       email);
-    formData.append('Telephone',   telephone);
-    formData.append('Adresse',     document.getElementById('faddress').value);
+    formData.append('Service',   state.service);
+    formData.append('Tarif',     state.servicePrice);
+    formData.append('Date',      dateStr);
+    formData.append('Plage',     state.selectedSlotLabel);
+    formData.append('Nom',       nom);
+    formData.append('Email',     email);
+    formData.append('Telephone', telephone);
+    formData.append('Adresse',   document.getElementById('faddress').value);
     formData.append('Description', document.getElementById('fdesc').value);
     await fetch('https://formspree.io/f/xkopkwrz', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
