@@ -1,51 +1,18 @@
 /**
  * Makouez IT – Widget Chat IA
  * À inclure dans index.html avec : <script src="chat-widget.js"></script>
- * ⚠️ Régénérez votre clé API après l'avoir testée.
+ * L'IA passe maintenant par une Firebase Function proxy (pas de CORS)
  */
 
 (function() {
-  const API_KEY = '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';
-
-  const SYSTEM_PROMPT = `Tu es l'assistant virtuel de Makouez IT, une entreprise de dépannage informatique à domicile en Île-de-France, fondée par Stevy, technicien informatique avec 9 ans d'expérience.
-
-Ton rôle : répondre aux questions des visiteurs sur les services, tarifs, disponibilités et orienter vers la prise de rendez-vous.
-
-SERVICES ET TARIFS :
-- Dépannage PC / Mac : 60€ à 80€
-- Installation Windows / Logiciels : à partir de 60€
-- Réseau Wi-Fi : à partir de 60€
-- Récupération de données : à partir de 80€
-- Sauvegarde & sécurité : à partir de 60€
-- Formation / Accompagnement : 40€/h
-- Intégration / Développement web : à partir de 150€ (devis gratuit)
-
-CONTRATS MENSUELS (sans engagement) :
-- Contrat Sérénité : 39€/mois — interventions illimitées, priorité 24h, support téléphonique
-- Pack Senior+ : 49€/mois — visites régulières, formation progressive, hotline dédiée
-- Pack Famille : 59€/mois — 3 appareils couverts, contrôle parental, interventions illimitées
-
-INFOS PRATIQUES :
-- Zone : Île-de-France, principalement 93 (Seine-Saint-Denis) — Pierrefitte-sur-Seine, Saint-Denis, Stains, Saint-Ouen et environs
-- Délai d'intervention : sous 24h à 48h en général
-- Paiement après intervention, devis gratuit avant de commencer
-- Déplacement inclus dans le tarif
-- Contact : 06 19 51 57 56 | contact@makouezit.org | WhatsApp disponible
-- Prise de RDV en ligne sur le site
-
-CONSIGNES IMPORTANTES :
-- Réponds TOUJOURS en français
-- Sois chaleureux, clair et concis (3-4 phrases max)
-- Si on te demande les tarifs, donne-les clairement et directement
-- Si la question concerne un problème technique, donne un conseil rapide puis propose un RDV
-- Pour les prix, précise que le tarif exact est confirmé après diagnostic sur place
-- Si tu ne sais pas quelque chose, oriente vers le contact direct
-- Ne promets jamais de disponibilités précises sans confirmation de Stevy`;
+  // URL de ta Firebase Function proxy
+  // Format : https://claudeproxy-XXXXXXXX-ew.a.run.app
+  // Tu trouveras cette URL dans Firebase Console → Functions après le déploiement
+  const PROXY_URL = "https://claudeproxy-558314427247-ew.a.run.app";
 
   // ─── STYLES ────────────────────────────────────────────────────────────────
   const style = document.createElement('style');
   style.textContent = `
-    /* Conteneur FAB chat — ne pas interférer avec les clics */
     #makouez-chat-fab {
       position: fixed;
       bottom: 5.5rem;
@@ -56,8 +23,6 @@ CONSIGNES IMPORTANTES :
       align-items: flex-end;
       gap: 0.5rem;
     }
-
-    /* Tooltip — pointer-events:none pour ne pas bloquer les clics */
     #makouez-chat-tooltip {
       background: #111120;
       border: 1px solid #ffffff14;
@@ -70,15 +35,13 @@ CONSIGNES IMPORTANTES :
       opacity: 0;
       transform: translateX(8px);
       transition: opacity 0.2s, transform 0.2s;
-      pointer-events: none; /* CRITIQUE : n'intercepte pas les clics */
+      pointer-events: none;
       user-select: none;
     }
     #makouez-chat-fab:hover #makouez-chat-tooltip {
       opacity: 1;
       transform: translateX(0);
     }
-
-    /* Bouton principal — bien cliquable sur toute sa surface */
     #makouez-chat-btn {
       position: relative;
       width: 52px;
@@ -94,9 +57,9 @@ CONSIGNES IMPORTANTES :
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1; /* au-dessus du tooltip */
+      z-index: 1;
       flex-shrink: 0;
-      -webkit-tap-highlight-color: transparent; /* mobile */
+      -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
     }
     #makouez-chat-btn:hover {
@@ -104,11 +67,7 @@ CONSIGNES IMPORTANTES :
       box-shadow: 0 6px 28px rgba(59,130,246,0.55);
       background: #16162a;
     }
-    #makouez-chat-btn:active {
-      transform: scale(0.96);
-    }
-
-    /* Point de notification */
+    #makouez-chat-btn:active { transform: scale(0.96); }
     #makouez-chat-notif {
       position: absolute;
       top: -3px;
@@ -118,15 +77,13 @@ CONSIGNES IMPORTANTES :
       border-radius: 50%;
       background: #ef4444;
       border: 2px solid #09090f;
-      pointer-events: none; /* ne bloque pas les clics sur le bouton */
+      pointer-events: none;
       animation: chat-notif-pulse 2s infinite;
     }
     @keyframes chat-notif-pulse {
       0%,100% { transform: scale(1); }
       50%      { transform: scale(1.25); }
     }
-
-    /* Fenêtre de chat */
     #makouez-chat-window {
       position: fixed;
       bottom: 9.5rem;
@@ -144,7 +101,6 @@ CONSIGNES IMPORTANTES :
       font-family: 'DM Sans', sans-serif;
     }
     #makouez-chat-window.open { display: flex; }
-
     #makouez-chat-header {
       background: #16162a;
       padding: 0.9rem 1rem;
@@ -168,12 +124,11 @@ CONSIGNES IMPORTANTES :
     .chat-close-btn {
       background: transparent; border: 1px solid #ffffff14; color: #8888aa;
       width: 28px; height: 28px; border-radius: 6px;
-      cursor: pointer; font-size: 0.95rem; display: flex;
-      align-items: center; justify-content: center; transition: color 0.2s;
-      flex-shrink: 0;
+      cursor: pointer; font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.2s; flex-shrink: 0;
     }
     .chat-close-btn:hover { color: #f0f0ff; }
-
     #makouez-chat-messages {
       flex: 1; overflow-y: auto; padding: 1rem;
       display: flex; flex-direction: column; gap: 0.75rem;
@@ -181,7 +136,6 @@ CONSIGNES IMPORTANTES :
     }
     #makouez-chat-messages::-webkit-scrollbar { width: 3px; }
     #makouez-chat-messages::-webkit-scrollbar-thumb { background: #ffffff20; border-radius: 99px; }
-
     .chat-msg {
       max-width: 86%; padding: 0.6rem 0.85rem;
       border-radius: 12px; font-size: 0.85rem;
@@ -197,8 +151,8 @@ CONSIGNES IMPORTANTES :
     }
     .chat-msg.typing {
       background: #ffffff0a; border: 1px solid #ffffff14;
-      align-self: flex-start; display: flex; align-items: center; gap: 5px;
-      padding: 0.7rem 0.85rem;
+      align-self: flex-start; display: flex;
+      align-items: center; gap: 5px; padding: 0.7rem 0.85rem;
     }
     .typing-dot {
       width: 6px; height: 6px; border-radius: 50%;
@@ -210,7 +164,6 @@ CONSIGNES IMPORTANTES :
       0%,60%,100% { transform: translateY(0); }
       30%          { transform: translateY(-6px); }
     }
-
     .chat-suggestions {
       display: flex; flex-wrap: wrap; gap: 0.4rem;
       padding: 0 1rem 0.5rem; flex-shrink: 0;
@@ -223,7 +176,6 @@ CONSIGNES IMPORTANTES :
       transition: background 0.2s; white-space: nowrap;
     }
     .chat-suggestion-btn:hover { background: #3b82f628; }
-
     #makouez-chat-input-row {
       padding: 0.75rem 1rem; border-top: 1px solid #ffffff14;
       display: flex; gap: 0.5rem; align-items: flex-end; flex-shrink: 0;
@@ -247,13 +199,8 @@ CONSIGNES IMPORTANTES :
     }
     #makouez-chat-send:hover { opacity: 0.85; }
     #makouez-chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
-
     @media(max-width: 480px) {
-      #makouez-chat-window {
-        width: calc(100vw - 2rem);
-        right: 1rem;
-        bottom: 8.5rem;
-      }
+      #makouez-chat-window { width: calc(100vw - 2rem); right: 1rem; bottom: 8.5rem; }
     }
   `;
   document.head.appendChild(style);
@@ -306,7 +253,7 @@ CONSIGNES IMPORTANTES :
     'C\'est quoi le Contrat Sérénité ?',
   ];
 
-  // Attachement des événements APRÈS insertion dans le DOM
+  // Événements
   document.getElementById('makouez-chat-btn').addEventListener('click', toggleChat);
   document.getElementById('chatCloseBtn').addEventListener('click', toggleChat);
   document.getElementById('makouez-chat-send').addEventListener('click', sendMessage);
@@ -325,15 +272,11 @@ CONSIGNES IMPORTANTES :
     chatWin.classList.toggle('open', isOpen);
 
     if (isOpen) {
-      btn.textContent = '✕';
-      // Supprimer la notification
-      const notif = document.getElementById('makouez-chat-notif');
-      if (notif) notif.style.display = 'none';
-      // Message de bienvenue
+      btn.innerHTML = '✕<div id="makouez-chat-notif" style="display:none"></div>';
       if (!hasOpened) {
         hasOpened = true;
         setTimeout(() => {
-          addMessage('Bonjour ! 👋 Je suis l\'assistant de Makouez IT. Comment puis-je vous aider ? Tarifs, services, prise de RDV — posez vos questions !', 'bot');
+          addMessage('Bonjour ! 👋 Je suis l\'assistant de Makouez IT. Tarifs, services, prise de RDV — posez vos questions !', 'bot');
           renderSuggestions();
         }, 250);
       }
@@ -342,7 +285,6 @@ CONSIGNES IMPORTANTES :
         if (input) input.focus();
       }, 350);
     } else {
-      // Recréer le bouton avec l'emoji
       btn.innerHTML = '💬<div id="makouez-chat-notif" style="display:none"></div>';
     }
   }
@@ -402,37 +344,25 @@ CONSIGNES IMPORTANTES :
     showTyping();
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      // Appel à la Firebase Function proxy (pas de CORS)
+      const response = await fetch(PROXY_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 350,
-          system: SYSTEM_PROMPT,
-          messages: messages
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages })
       });
 
       removeTyping();
 
       if (!response.ok) {
-        const err = await response.json().catch(() => ({}));
-        console.error('API error:', response.status, err);
-        throw new Error('API error ' + response.status);
+        throw new Error('Proxy error ' + response.status);
       }
 
       const data = await response.json();
-      if (data.content && data.content[0] && data.content[0].text) {
-        const reply = data.content[0].text;
-        addMessage(reply, 'bot');
-        messages.push({ role: 'assistant', content: reply });
+      if (data.reply) {
+        addMessage(data.reply, 'bot');
+        messages.push({ role: 'assistant', content: data.reply });
       } else {
-        throw new Error('No content');
+        throw new Error('No reply');
       }
     } catch(e) {
       removeTyping();
@@ -446,7 +376,7 @@ CONSIGNES IMPORTANTES :
     if (input2) input2.focus();
   }
 
-  // Afficher la notification après 6 secondes
+  // Notification après 6 secondes
   setTimeout(() => {
     if (!isOpen) {
       const notif = document.getElementById('makouez-chat-notif');
@@ -454,7 +384,6 @@ CONSIGNES IMPORTANTES :
     }
   }, 6000);
 
-  // API globale
   window.makouezChatToggle = toggleChat;
   window.makouezChatSend   = sendMessage;
 
