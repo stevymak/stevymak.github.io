@@ -18,7 +18,6 @@
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;min-height:100vh}
 h1,h2{font-family:'Syne',sans-serif}
 
-/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
 .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:360px;display:flex;flex-direction:column;gap:1.25rem}
 .login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;text-align:center}
@@ -31,7 +30,6 @@ h1,h2{font-family:'Syne',sans-serif}
 .btn-main:disabled{opacity:0.5;cursor:not-allowed}
 .error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none;background:#ef444410;border:1px solid #ef444430;border-radius:8px;padding:0.5rem}
 
-/* DASHBOARD */
 .dashboard{display:none}
 .topbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
 .topbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
@@ -43,7 +41,7 @@ h1,h2{font-family:'Syne',sans-serif}
 
 .content{padding:1.5rem;max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
 .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center}
 .stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700}
 .stat-label{color:var(--muted);font-size:0.75rem;margin-top:0.2rem}
@@ -57,16 +55,25 @@ h1,h2{font-family:'Syne',sans-serif}
 .rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;gap:0.75rem}
 .rdv-card.confirmed{border-color:#22c55e30}
 .rdv-card.cancelled{opacity:0.45;border-color:#ef444430}
-.rdv-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem}
+/* ─── Nouveau : style carte avec modification ─── */
+.rdv-card.modified{border-color:#f59e0b60;background:#f59e0b05}
+.rdv-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
 .rdv-service{font-weight:600;font-size:0.95rem}
+.rdv-badges{display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center}
 .rdv-badge{font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:500;white-space:nowrap}
 .badge-pending{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b30}
 .badge-confirmed{background:#22c55e18;color:#22c55e;border:1px solid #22c55e30}
 .badge-cancelled{background:#ef444418;color:#ef4444;border:1px solid #ef444430}
+/* ─── Nouveau : badge modification ─── */
+.badge-modif{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b50;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:600;white-space:nowrap;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+
 .rdv-info{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;font-size:0.83rem}
 .rdv-info-item{display:flex;flex-direction:column;gap:0.1rem}
 .rdv-info-label{color:var(--muted);font-size:0.72rem}
 .rdv-desc{font-size:0.82rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)}
+/* ─── Nouveau : bloc message modification ─── */
+.rdv-modif-note{font-size:0.82rem;background:#f59e0b10;border:1px solid #f59e0b30;border-radius:8px;padding:0.6rem 0.75rem;color:#f59e0b;display:flex;gap:0.5rem;align-items:flex-start}
 .rdv-actions{display:flex;gap:0.5rem}
 .btn-confirm{background:#22c55e18;color:#22c55e;border:1px solid #22c55e40;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
 .btn-confirm:hover{background:#22c55e30}
@@ -84,7 +91,7 @@ h1,h2{font-family:'Syne',sans-serif}
 .page-loader.hidden{display:none}
 
 @media(max-width:480px){
-  .stats{grid-template-columns:repeat(3,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
   .rdv-info{grid-template-columns:1fr}
   .admin-email{display:none}
 }
@@ -92,10 +99,7 @@ h1,h2{font-family:'Syne',sans-serif}
 </head>
 <body>
 
-<!-- Loader initial pendant vérification auth -->
-<div class="page-loader" id="pageLoader">
-  <div class="spinner"></div>
-</div>
+<div class="page-loader" id="pageLoader"><div class="spinner"></div></div>
 
 <!-- LOGIN -->
 <div class="login-wrap" id="loginWrap" style="display:none">
@@ -124,6 +128,7 @@ h1,h2{font-family:'Syne',sans-serif}
       <div class="stat-card"><div class="stat-num" id="statTotal">–</div><div class="stat-label">Total RDV</div></div>
       <div class="stat-card"><div class="stat-num" style="color:var(--warning)" id="statPending">–</div><div class="stat-label">En attente</div></div>
       <div class="stat-card"><div class="stat-num" style="color:var(--success)" id="statConfirmed">–</div><div class="stat-label">Confirmés</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--warning)" id="statModified">–</div><div class="stat-label">Modifications</div></div>
     </div>
     <div>
       <div class="section-title" style="margin-bottom:0.75rem">
@@ -135,6 +140,7 @@ h1,h2{font-family:'Syne',sans-serif}
         <button class="tab" onclick="setFilter('pending',this)">En attente</button>
         <button class="tab" onclick="setFilter('confirmed',this)">Confirmés</button>
         <button class="tab" onclick="setFilter('cancelled',this)">Annulés</button>
+        <button class="tab" onclick="setFilter('modified',this)">✏️ Modifications</button>
       </div>
       <div id="rdvList"><div class="loading"><div class="spinner"></div></div></div>
     </div>
@@ -164,19 +170,14 @@ window._adminDb = db;
 window._adminAuth = auth;
 window._adminFns = { collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy, signInWithEmailAndPassword, signOut };
 
-// ✅ Surveiller automatiquement l'état de connexion
 onAuthStateChanged(auth, (user) => {
-  // Cacher le loader initial
   document.getElementById('pageLoader').classList.add('hidden');
-
   if(user){
-    // Connecté → afficher le dashboard
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     document.getElementById('adminEmail').textContent = user.email;
     loadRdvs();
   } else {
-    // Non connecté → afficher le login
     document.getElementById('loginWrap').style.display = 'flex';
     document.getElementById('dashboard').style.display = 'none';
   }
@@ -192,21 +193,13 @@ async function login(){
   const pwd = document.getElementById('pwdInput').value;
   const btn = document.getElementById('loginBtn');
   const errMsg = document.getElementById('errMsg');
-
-  if(!email || !pwd){
-    errMsg.textContent = 'Veuillez remplir tous les champs.';
-    errMsg.style.display = 'block';
-    return;
-  }
-
+  if(!email || !pwd){ errMsg.textContent = 'Veuillez remplir tous les champs.'; errMsg.style.display = 'block'; return; }
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;margin:0"></div> Connexion...';
   errMsg.style.display = 'none';
-
   try {
     const { signInWithEmailAndPassword } = window._adminFns;
     await signInWithEmailAndPassword(window._adminAuth, email, pwd);
-    // onAuthStateChanged prend le relais automatiquement
   } catch(e) {
     btn.disabled = false;
     btn.innerHTML = 'Se connecter';
@@ -254,9 +247,11 @@ async function loadRdvs(){
 }
 
 function updateStats(){
-  document.getElementById('statTotal').textContent = allRdvs.length;
-  document.getElementById('statPending').textContent = allRdvs.filter(r=>r.status==='pending').length;
+  document.getElementById('statTotal').textContent     = allRdvs.length;
+  document.getElementById('statPending').textContent   = allRdvs.filter(r=>r.status==='pending').length;
   document.getElementById('statConfirmed').textContent = allRdvs.filter(r=>r.status==='confirmed').length;
+  // Compteur modifications : pending avec modificationNote
+  document.getElementById('statModified').textContent  = allRdvs.filter(r=>r.status==='pending' && r.modificationNote).length;
 }
 
 function setFilter(f, btn){
@@ -267,7 +262,14 @@ function setFilter(f, btn){
 }
 
 function renderRdvs(){
-  const filtered = currentFilter === 'all' ? allRdvs : allRdvs.filter(r=>r.status===currentFilter);
+  let filtered;
+  if(currentFilter === 'modified'){
+    // Filtre spécial : pending avec modificationNote
+    filtered = allRdvs.filter(r => r.status === 'pending' && r.modificationNote);
+  } else {
+    filtered = currentFilter === 'all' ? allRdvs : allRdvs.filter(r=>r.status===currentFilter);
+  }
+
   const list = document.getElementById('rdvList');
   if(filtered.length === 0){
     list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div>Aucun rendez-vous dans cette catégorie</div>';
@@ -275,25 +277,40 @@ function renderRdvs(){
   }
   list.innerHTML = '';
   filtered.forEach(rdv => {
+    const hasModif = rdv.modificationNote && rdv.status === 'pending';
     const card = document.createElement('div');
-    card.className = 'rdv-card' + (rdv.status==='confirmed'?' confirmed':'') + (rdv.status==='cancelled'?' cancelled':'');
+    card.className = 'rdv-card'
+      + (rdv.status==='confirmed' ? ' confirmed' : '')
+      + (rdv.status==='cancelled' ? ' cancelled' : '')
+      + (hasModif ? ' modified' : '');
     card.id = 'card-'+rdv.id;
-    const dateLabel = rdv.dateKey ? new Date(rdv.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : rdv.dateKey;
+
+    const dateLabel = rdv.dateKey
+      ? new Date(rdv.dateKey+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
+      : rdv.dateKey;
+    const timeDisplay = rdv.timeLabel || rdv.time || '–';
     const badgeClass = rdv.status==='confirmed' ? 'badge-confirmed' : rdv.status==='cancelled' ? 'badge-cancelled' : 'badge-pending';
     const badgeLabel = rdv.status==='confirmed' ? '✓ Confirmé' : rdv.status==='cancelled' ? '✗ Annulé' : '⏳ En attente';
+
     card.innerHTML = `
       <div class="rdv-top">
         <div class="rdv-service">${rdv.service||'–'}</div>
-        <div class="rdv-badge ${badgeClass}">${badgeLabel}</div>
+        <div class="rdv-badges">
+          ${hasModif ? `<div class="badge-modif">✏️ Modification demandée</div>` : ''}
+          <div class="rdv-badge ${badgeClass}">${badgeLabel}</div>
+        </div>
       </div>
       <div class="rdv-info">
-        <div class="rdv-info-item"><div class="rdv-info-label">📅 Date & heure</div><div>${dateLabel} à ${rdv.time}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📅 Date</div><div>${dateLabel}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">🕐 Plage horaire</div><div>${timeDisplay}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">👤 Client</div><div>${rdv.nom||'–'}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${rdv.telephone||'–'}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${rdv.email||'–'}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">💰 Tarif</div><div>${rdv.price||'–'}</div></div>
         <div class="rdv-info-item" style="grid-column:1/-1"><div class="rdv-info-label">📍 Adresse</div><div>${rdv.adresse||'–'}</div></div>
       </div>
       ${rdv.description ? `<div class="rdv-desc">💬 ${rdv.description}</div>` : ''}
+      ${hasModif ? `<div class="rdv-modif-note"><span>✏️</span><div><strong>Message du client :</strong> ${rdv.modificationNote}</div></div>` : ''}
       ${rdv.status !== 'cancelled' ? `
       <div class="rdv-actions">
         ${rdv.status !== 'confirmed' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
@@ -310,9 +327,12 @@ function renderRdvs(){
 async function updateStatus(id, status){
   try {
     const { doc, updateDoc } = window._adminFns;
-    await updateDoc(doc(window._adminDb, "reservations", id), { status });
+    // Quand on confirme, on efface le modificationNote
+    const updateData = { status };
+    if(status === 'confirmed') updateData.modificationNote = null;
+    await updateDoc(doc(window._adminDb, "reservations", id), updateData);
     const rdv = allRdvs.find(r=>r.id===id);
-    if(rdv){ rdv.status = status; }
+    if(rdv){ rdv.status = status; if(status === 'confirmed') rdv.modificationNote = null; }
     updateStats();
     renderRdvs();
   } catch(e){ alert('Erreur lors de la mise à jour.'); }
