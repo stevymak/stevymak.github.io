@@ -8,7 +8,7 @@
   // URL de ta Firebase Function proxy
   // Format : https://claudeproxy-XXXXXXXX-ew.a.run.app
   // Tu trouveras cette URL dans Firebase Console → Functions après le déploiement
-  const PROXY_URL = "https://claudeproxy-558314427247-ew.a.run.app";
+  const PROXY_URL = "https://claudeproxy-ha46eidtha-ew.a.run.app";
 
   // ─── STYLES ────────────────────────────────────────────────────────────────
   const style = document.createElement('style');
