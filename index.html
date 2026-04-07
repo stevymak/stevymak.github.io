@@ -85,9 +85,11 @@ section{padding:5rem 2rem}
 .tarif-price{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:0.2rem}
 .tarif-price span{font-size:1rem;color:var(--muted);font-weight:400}
 .tarif-desc{color:var(--muted);font-size:0.85rem;margin-bottom:1.25rem}
-.tarif-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.tarif-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.25rem}
 .tarif-features li{display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;color:var(--text)}
 .tarif-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.75rem}
+.btn-souscrire{display:block;text-align:center;background:var(--accent);color:#fff;text-decoration:none;padding:0.7rem 1rem;border-radius:9px;font-size:0.88rem;font-weight:500;transition:opacity 0.2s;margin-top:auto}
+.btn-souscrire:hover{opacity:0.85}
 
 /* ─── SECTION AVIS ─────────────────────────────────────────────── */
 .avis-section{background:var(--bg3)}
@@ -293,6 +295,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Ni surprise, ni mauvaise surprise</h2>
     <p class="section-sub">Des tarifs transparents pour chaque besoin. Devis gratuit avant toute intervention.</p>
     <div class="tarifs-grid">
+
+      <!-- Intervention standard — pas de contrat, pas de bouton souscrire -->
       <div class="tarif-card">
         <div class="tarif-name">Intervention standard</div>
         <div class="tarif-price">60€ <span>à 80€</span></div>
@@ -301,7 +305,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>Diagnostic complet</li><li>Dépannage sur place</li>
           <li>Conseils personnalisés</li><li>Suivi post-intervention</li>
         </ul>
+        <a href="makouez-it-rdv.html" class="btn-souscrire">Prendre rendez-vous →</a>
       </div>
+
+      <!-- Contrat Sérénité -->
       <div class="tarif-card featured">
         <div class="tarif-badge">Le plus demandé</div>
         <div class="tarif-name">Contrat Sérénité</div>
@@ -311,7 +318,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>Interventions illimitées</li><li>Priorité de passage</li>
           <li>Support téléphonique inclus</li><li>Bilan informatique annuel</li>
         </ul>
+        <a href="contrats.html?contrat=serenite" class="btn-souscrire">Souscrire →</a>
       </div>
+
+      <!-- Pack Senior+ -->
       <div class="tarif-card">
         <div class="tarif-name">Pack Senior+</div>
         <div class="tarif-price">49€ <span>/mois</span></div>
@@ -320,7 +330,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>Visites régulières à domicile</li><li>Formation progressive</li>
           <li>Hotline dédiée</li><li>Protection anti-arnaques</li>
         </ul>
+        <a href="contrats.html?contrat=senior" class="btn-souscrire">Souscrire →</a>
       </div>
+
+      <!-- Pack Famille -->
       <div class="tarif-card">
         <div class="tarif-name">Pack Famille</div>
         <div class="tarif-price">59€ <span>/mois</span></div>
@@ -329,7 +342,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>3 appareils couverts</li><li>PC, Mac, smartphone, tablette</li>
           <li>Contrôle parental inclus</li><li>Interventions illimitées</li>
         </ul>
+        <a href="contrats.html?contrat=famille" class="btn-souscrire">Souscrire →</a>
       </div>
+
+      <!-- Développement web -->
       <div class="tarif-card" style="grid-column:1/-1;max-width:340px;margin:0 auto;border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)">
         <div class="tarif-badge" style="background:#60a5fa">Nouveau</div>
         <div class="tarif-name">Développement web</div>
@@ -339,7 +355,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <li>Site vitrine / landing page</li><li>Intégration HTML / CSS / JS</li>
           <li>Application web sur mesure</li><li>Devis gratuit selon projet</li>
         </ul>
+        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="btn-souscrire">Demander un devis →</a>
       </div>
+
     </div>
   </div>
 </section>
@@ -492,9 +510,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem">Makouez <span style="color:#3b82f6">IT</span></div>
     <div>Technicien informatique à domicile • Île-de-France • Micro-entrepreneur</div>
     <div class="footer-links">
-      <a href="#">Mentions légales</a><a href="#">Politique de confidentialité</a>
-      <a href="#">CGV</a><a href="#services">Services</a>
-      <a href="#tarifs">Tarifs</a><a href="#contact">Contact</a>
+      <a href="#">Mentions légales</a>
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">CGV</a>
+      <a href="#services">Services</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="contrats.html">Contrats</a>
+      <a href="blog.html">Blog</a>
+      <a href="#contact">Contact</a>
     </div>
     <div style="margin-top:0.75rem;font-size:0.78rem">© 2025 Makouez IT – Stevy | SIRET : 83955229600023 | Tous droits réservés</div>
     <div style="margin-top:1rem">
@@ -515,7 +538,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <script>
-// FAQ
 document.querySelectorAll('.faq-item').forEach(item=>{
   item.querySelector('.faq-q').addEventListener('click',()=>{ item.classList.toggle('open'); });
 });
@@ -545,13 +567,10 @@ async function loadAvis() {
     const q = query(collection(db, 'avis'), orderBy('createdAt', 'desc'), limit(12));
     const snap = await getDocs(q);
     const avis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
     if (avis.length === 0) {
       grid.innerHTML = '<div class="avis-empty">Aucun avis pour le moment — soyez le premier à en laisser un !</div>';
       return;
     }
-
-    // Moyenne
     const moyenne = avis.reduce((s, a) => s + (a.note || 0), 0) / avis.length;
     moyenneEl.innerHTML = `
       <div class="avis-moyenne-num">${moyenne.toFixed(1)}</div>
@@ -560,8 +579,6 @@ async function loadAvis() {
         <div class="avis-moyenne-count">${avis.length} avis client${avis.length > 1 ? 's' : ''}</div>
       </div>
     `;
-
-    // Cartes
     grid.innerHTML = avis.map(a => {
       const stars = '★'.repeat(a.note || 0) + '☆'.repeat(5 - (a.note || 0));
       const date  = a.createdAt?.toDate
