@@ -64,12 +64,19 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .cal-day.full{color:#ffffff30;cursor:default}
 .cal-day .dot{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent)}
 
-.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem}
-.time-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.6rem;text-align:center;cursor:pointer;font-size:0.85rem;font-weight:500;transition:all 0.2s;color:var(--text)}
-.time-btn:hover:not(.unavail){background:#3b82f618;border-color:#3b82f660;color:var(--accent2)}
-.time-btn.selected{background:var(--accent);color:#fff;border-color:var(--accent)}
-.time-btn.unavail{background:#ef444410;border-color:#ef444430;color:#ef444460;cursor:not-allowed;font-size:0.75rem}
-.time-btn.unavail::after{content:' ✗';font-size:0.7rem}
+/* Plages horaires */
+.slot-list{display:flex;flex-direction:column;gap:0.5rem}
+.slot-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
+.slot-btn:hover:not(.unavail){border-color:#3b82f660;background:#3b82f610}
+.slot-btn.selected{border-color:var(--accent);background:#3b82f618}
+.slot-btn.unavail{opacity:0.35;cursor:not-allowed;border-color:#ef444430}
+.slot-icon{font-size:1.3rem;flex-shrink:0}
+.slot-info{flex:1}
+.slot-label{font-weight:600;font-size:0.92rem}
+.slot-hours{color:var(--muted);font-size:0.8rem}
+.slot-check{margin-left:auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s}
+.slot-btn.selected .slot-check{background:var(--accent);border-color:var(--accent);color:#fff}
+.slot-badge-full{font-size:0.72rem;color:#ef4444;margin-left:auto;background:#ef444415;border:1px solid #ef444430;border-radius:99px;padding:2px 8px}
 
 .form-group{display:flex;flex-direction:column;gap:0.4rem}
 .form-label{font-size:0.8rem;color:var(--muted);font-weight:500}
@@ -79,13 +86,11 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .form-input:disabled{opacity:0.5;cursor:not-allowed}
 textarea.form-input{resize:none;height:80px}
 
-/* Bannière utilisateur connecté */
 .connected-banner{background:#22c55e12;border:1px solid #22c55e30;border-radius:var(--r);padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;font-size:0.85rem}
 .connected-banner .cb-icon{font-size:1.2rem}
 .connected-banner strong{color:var(--success)}
 .connected-banner small{color:var(--muted);font-size:0.78rem;display:block;margin-top:0.1rem}
 
-/* Séparateur compte */
 .account-divider{display:flex;align-items:center;gap:0.75rem;color:var(--muted);font-size:0.78rem}
 .account-divider::before,.account-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .account-box{background:#3b82f608;border:1px solid #3b82f620;border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;gap:0.75rem}
@@ -96,7 +101,6 @@ textarea.form-input{resize:none;height:80px}
 .pwd-strength{height:3px;border-radius:99px;background:var(--border);margin-top:0.4rem;overflow:hidden}
 .pwd-strength-bar{height:100%;border-radius:99px;transition:width 0.3s,background 0.3s;width:0%}
 
-/* Email hint */
 .email-hint{font-size:0.75rem;padding:0.4rem 0.6rem;border-radius:6px;margin-top:0.25rem;display:none}
 .email-hint.existing{background:#3b82f610;border:1px solid #3b82f630;color:var(--accent2)}
 .email-hint.new{background:#22c55e10;border:1px solid #22c55e30;color:var(--success)}
@@ -155,7 +159,7 @@ textarea.form-input{resize:none;height:80px}
     <div class="service-list">
       <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€')">
         <div class="svc-icon">💻</div>
-        <div><div class="svc-name">Dépannage PC / Mac</div><div class="svc-price">60€ – 80€</div></div>
+        <div><div class="svc-name">Dépannage PC</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Installation Windows / logiciels','à partir de 60€')">
@@ -182,7 +186,7 @@ textarea.form-input{resize:none;height:80px}
     <button class="btn-main" id="btn1" disabled onclick="goTo(2)">Choisir une date →</button>
   </div>
 
-  <!-- Étape 2 : Date & heure -->
+  <!-- Étape 2 : Date & plage horaire -->
   <div class="screen" id="s2">
     <div>
       <div class="screen-title">Choisir une date</div>
@@ -201,8 +205,8 @@ textarea.form-input{resize:none;height:80px}
       </div>
     </div>
     <div id="timeSection" style="display:none">
-      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem">Créneaux disponibles</div>
-      <div class="time-grid" id="timeGrid"></div>
+      <div style="font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem">Plages horaires disponibles</div>
+      <div class="slot-list" id="slotList"></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:0.5rem">
       <button class="btn-main" id="btn2" disabled onclick="goTo(3)">Continuer →</button>
@@ -218,7 +222,6 @@ textarea.form-input{resize:none;height:80px}
     </div>
     <div style="display:flex;flex-direction:column;gap:0.85rem">
 
-      <!-- Bannière si connecté (masquée par défaut) -->
       <div class="connected-banner" id="connectedBanner" style="display:none">
         <div class="cb-icon">✅</div>
         <div>
@@ -239,7 +242,6 @@ textarea.form-input{resize:none;height:80px}
         <label class="form-label">Email *</label>
         <input class="form-input" id="femail" type="email" placeholder="marie@email.com"
                oninput="checkForm3(); onEmailInput()" onblur="onEmailBlur()">
-        <!-- Hint dynamique selon si l'email est connu ou nouveau -->
         <div class="email-hint" id="emailHint"></div>
       </div>
       <div class="form-group">
@@ -251,7 +253,6 @@ textarea.form-input{resize:none;height:80px}
         <textarea class="form-input" id="fdesc" placeholder="Mon PC est très lent depuis quelques jours..."></textarea>
       </div>
 
-      <!-- SECTION MOT DE PASSE — masquée si déjà connecté -->
       <div id="accountSection">
         <div class="account-divider">Espace client (optionnel)</div>
         <div class="account-box">
@@ -287,7 +288,7 @@ textarea.form-input{resize:none;height:80px}
     <div class="summary-card">
       <div class="summary-row"><span class="summary-label">Service</span><span id="sumService">–</span></div>
       <div class="summary-row"><span class="summary-label">Date</span><span id="sumDate">–</span></div>
-      <div class="summary-row"><span class="summary-label">Heure</span><span id="sumTime">–</span></div>
+      <div class="summary-row"><span class="summary-label">Plage horaire</span><span id="sumTime">–</span></div>
       <div class="summary-row"><span class="summary-label">Nom</span><span id="sumName">–</span></div>
       <div class="summary-row"><span class="summary-label">Téléphone</span><span id="sumPhone">–</span></div>
       <div class="summary-row"><span class="summary-label">Email</span><span id="sumEmail">–</span></div>
@@ -337,25 +338,17 @@ window._auth = auth;
 window._firestoreFns = { doc, setDoc, getDoc, collection, query, where, getDocs };
 window._authFns      = { createUserWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail };
 
-// ─── Détection connexion existante ──────────────────────────────────────────
 onAuthStateChanged(auth, (user) => {
   window._currentUser = user || null;
   if (user) {
-    // Pré-remplir les champs et masquer la section mot de passe
     const displayName = user.displayName || user.email.split('@')[0];
     document.getElementById('fname').value   = displayName;
     document.getElementById('femail').value  = user.email;
-    document.getElementById('fname').disabled  = false; // laisser modifiable
-    document.getElementById('femail').disabled = true;  // email verrouillé = déjà lié au compte
-
-    // Bannière verte
+    document.getElementById('fname').disabled  = false;
+    document.getElementById('femail').disabled = true;
     document.getElementById('connectedBanner').style.display = 'flex';
     document.getElementById('connectedEmail').textContent    = user.email;
-
-    // Masquer toute la section mot de passe
     document.getElementById('accountSection').style.display = 'none';
-
-    // Marquer que l'email est un compte existant
     window._emailIsExisting = true;
     checkForm3();
   }
@@ -375,21 +368,21 @@ window.loadBookings = async function(year, month) {
 };
 
 window.saveReservation = async function(data, uid) {
-  const key = `${data.dateKey}_${data.time.replace(':','')}`;
+  // Clé unique : dateKey + identifiant de la plage (matin/aprem/soir)
+  const slotKey = data.time.replace(/[^a-z]/gi, '').toLowerCase();
+  const key = `${data.dateKey}_${slotKey}`;
   const { doc, setDoc } = window._firestoreFns;
   await setDoc(doc(db, "reservations", key), { ...data, uid: uid || null });
 };
 
-// ─── Vérification email existant (appelée au blur du champ email) ──────────
 window.checkEmailExists = async function(email) {
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
-  if (window._currentUser) return; // déjà connecté, pas besoin
+  if (window._currentUser) return;
   try {
     const { fetchSignInMethodsForEmail } = window._authFns;
     const methods = await fetchSignInMethodsForEmail(auth, email);
     const hint    = document.getElementById('emailHint');
     if (methods && methods.length > 0) {
-      // Compte existant → on le signale, on masque le champ mot de passe
       window._emailIsExisting = true;
       hint.textContent = '✓ Email reconnu — votre RDV sera lié à votre compte existant.';
       hint.className   = 'email-hint existing';
@@ -409,21 +402,26 @@ window.checkEmailExists = async function(email) {
 </script>
 
 <script>
-const ALL_TIMES = ['08:00','09:00','10:00','11:00','14:00','15:00','16:00','17:00','18:00'];
-const days      = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-const months    = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+// ─── Définition des plages horaires ─────────────────────────────────────────
+const ALL_SLOTS = [
+  { id: 'matin',   emoji: '🌅', label: 'Matin',        hours: '8h00 – 12h00', weekendOnly: true  },
+  { id: 'aprem',   emoji: '☀️',  label: 'Après-midi',   hours: '13h00 – 17h00', weekendOnly: false },
+  { id: 'soir',    emoji: '🌆', label: 'Fin de journée', hours: '17h00 – 20h00', weekendOnly: false },
+];
+
+const days   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 window._emailIsExisting = false;
 
 let state = {
   service:'', servicePrice:'',
-  selectedDate:null, selectedTime:'',
+  selectedDate:null, selectedTime:'', selectedSlotLabel:'',
   currentYear:new Date().getFullYear(),
   currentMonth:new Date().getMonth(),
   bookings:{}
 };
 
-// ─── Email input handlers ──────────────────────────────────────────────────
 let _emailCheckTimer = null;
 function onEmailInput(){
   window._emailIsExisting = false;
@@ -467,6 +465,12 @@ async function loadAndRender(){
   renderCalendar();
 }
 
+function getSlotsForDay(dow) {
+  // dow : 0=Dimanche, 1=Lundi ... 6=Samedi
+  const isWeekend = (dow === 0 || dow === 6);
+  return ALL_SLOTS.filter(s => isWeekend || !s.weekendOnly);
+}
+
 function renderCalendar(){
   const y = state.currentYear, m = state.currentMonth;
   document.getElementById('calTitle').textContent = months[m]+' '+y;
@@ -485,57 +489,75 @@ function renderCalendar(){
     const isToday    = date.getTime()===today.getTime();
     const isSelected = state.selectedDate && state.selectedDate.getTime()===date.getTime();
     const dow        = date.getDay();
-    const isWeekend  = dow===0||dow===6;
     const dateKey    = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const bookedTimes    = state.bookings[dateKey] || [];
-    const availableSlots = ALL_TIMES.filter(t => !bookedTimes.includes(t));
-    const isFull = !isPast && !isWeekend && availableSlots.length===0;
-    el.className = 'cal-day'+(isPast||isWeekend?' past':'')+(isToday?' today':'')+(isSelected?' selected':'')+(isFull?' full':'');
+    const bookedSlots    = state.bookings[dateKey] || [];
+    const availableSlots = getSlotsForDay(dow).filter(s => !bookedSlots.includes(s.id));
+    const isFull = !isPast && availableSlots.length === 0;
+
+    el.className = 'cal-day'+(isPast?' past':'')+(isToday?' today':'')+(isSelected?' selected':'')+(isFull?' full':'');
     el.textContent = d;
-    if(bookedTimes.length>0 && !isPast && !isWeekend && !isFull){
+    if(bookedSlots.length > 0 && !isPast && !isFull){
       const dot = document.createElement('div'); dot.className='dot'; el.appendChild(dot);
     }
-    if(!isPast && !isWeekend && !isFull){ el.onclick = ()=>selectDate(date, dateKey); }
+    if(!isPast && !isFull){ el.onclick = ()=>selectDate(date, dateKey); }
     grid.appendChild(el);
   }
 }
 
 function selectDate(date, dateKey){
-  state.selectedDate = date; state.selectedTime = '';
+  state.selectedDate = date; state.selectedTime = ''; state.selectedSlotLabel = '';
   document.getElementById('btn2').disabled = true;
   renderCalendar();
-  const bookedTimes = state.bookings[dateKey] || [];
+
+  const dow = date.getDay();
+  const bookedSlots = state.bookings[dateKey] || [];
+  const slots = getSlotsForDay(dow);
+
   const ts = document.getElementById('timeSection');
   ts.style.display = 'block';
-  const tg = document.getElementById('timeGrid');
-  tg.innerHTML = '';
-  ALL_TIMES.forEach(t=>{
-    const el = document.createElement('div');
-    const isTaken = bookedTimes.includes(t);
-    el.className = 'time-btn'+(isTaken?' unavail':'');
-    el.textContent = t;
-    if(!isTaken){ el.onclick = ()=>selectTime(t, el); }
-    tg.appendChild(el);
+  const sl = document.getElementById('slotList');
+  sl.innerHTML = '';
+
+  slots.forEach(slot => {
+    const isTaken = bookedSlots.includes(slot.id);
+    const btn = document.createElement('button');
+    btn.className = 'slot-btn' + (isTaken ? ' unavail' : '');
+    btn.innerHTML = `
+      <span class="slot-icon">${slot.emoji}</span>
+      <span class="slot-info">
+        <span class="slot-label">${slot.label}</span>
+        <span class="slot-hours">${slot.hours}</span>
+      </span>
+      ${isTaken
+        ? '<span class="slot-badge-full">Complet</span>'
+        : '<span class="slot-check">✓</span>'
+      }
+    `;
+    if(!isTaken){
+      btn.onclick = () => selectSlot(slot, btn);
+    }
+    sl.appendChild(btn);
   });
 }
 
-function selectTime(t, el){
-  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+function selectSlot(slot, el){
+  document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  state.selectedTime = t;
+  state.selectedTime       = slot.id;
+  state.selectedSlotLabel  = `${slot.label} (${slot.hours})`;
   document.getElementById('btn2').disabled = false;
 }
 
 async function prevMonth(){
   state.currentMonth--; if(state.currentMonth<0){ state.currentMonth=11; state.currentYear--; }
-  state.selectedDate=null; state.selectedTime='';
+  state.selectedDate=null; state.selectedTime=''; state.selectedSlotLabel='';
   document.getElementById('timeSection').style.display='none';
   document.getElementById('btn2').disabled=true;
   await loadAndRender();
 }
 async function nextMonth(){
   state.currentMonth++; if(state.currentMonth>11){ state.currentMonth=0; state.currentYear++; }
-  state.selectedDate=null; state.selectedTime='';
+  state.selectedDate=null; state.selectedTime=''; state.selectedSlotLabel='';
   document.getElementById('timeSection').style.display='none';
   document.getElementById('btn2').disabled=true;
   await loadAndRender();
@@ -545,15 +567,8 @@ function checkForm3(){
   const email  = document.getElementById('femail').value.trim();
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const pwd    = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
-
-  // Mot de passe : OK si
-  // 1. Déjà connecté (section masquée)
-  // 2. Email déjà existant (compte lié automatiquement, pas besoin de password)
-  // 3. Pas de mot de passe saisi (veut pas de compte)
-  // 4. Mot de passe saisi >= 6 chars
   const accountSectionHidden = document.getElementById('accountSection').style.display === 'none';
   const pwdOk = accountSectionHidden || window._emailIsExisting || pwd === '' || pwd.length >= 6;
-
   const ok = document.getElementById('fname').value.trim()
     && document.getElementById('fphone').value.trim()
     && document.getElementById('faddress').value.trim()
@@ -587,8 +602,6 @@ function fillSummary(){
     ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})
     : '–';
   const pwd = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
-  const accountSectionHidden = document.getElementById('accountSection').style.display === 'none';
-
   let accountLabel = 'Sans compte';
   if (window._currentUser)             accountLabel = '✓ Compte existant lié';
   else if (window._emailIsExisting)    accountLabel = '✓ Email existant — lié automatiquement';
@@ -596,7 +609,7 @@ function fillSummary(){
 
   document.getElementById('sumService').textContent = state.service;
   document.getElementById('sumDate').textContent    = dateStr;
-  document.getElementById('sumTime').textContent    = state.selectedTime;
+  document.getElementById('sumTime').textContent    = state.selectedSlotLabel || state.selectedTime;
   document.getElementById('sumName').textContent    = document.getElementById('fname').value;
   document.getElementById('sumPhone').textContent   = document.getElementById('fphone').value;
   document.getElementById('sumEmail').textContent   = document.getElementById('femail').value;
@@ -633,21 +646,14 @@ async function confirmRdv(){
 
   showSpinner(true);
 
-  // ─── 1. Gestion du compte Firebase Auth ───────────────────────────────────
-  let uid            = null;
-  let accountCreated = false;
+  let uid = null, accountCreated = false;
 
   if (window._currentUser) {
-    // Déjà connecté → on réutilise son uid directement
     uid = window._currentUser.uid;
     accountCreated = true;
   } else if (window._emailIsExisting) {
-    // Email connu mais pas connecté → on sauvegarde sans uid
-    // (le RDV sera quand même lié à l'email, visible dans son espace après connexion)
-    uid = null;
-    accountCreated = false;
+    uid = null; accountCreated = false;
   } else if (pwd.length >= 6) {
-    // Nouveau compte à créer
     try {
       const { createUserWithEmailAndPassword, updateProfile } = window._authFns;
       const userCred = await createUserWithEmailAndPassword(window._auth, email, pwd);
@@ -657,30 +663,23 @@ async function confirmRdv(){
     } catch(e) {
       hideSpinner();
       if(e.code === 'auth/email-already-in-use'){
-        // Race condition : l'email existait mais fetchSignInMethods n'a pas répondu à temps
-        window._emailIsExisting = true;
-        uid = null;
-        accountCreated = false;
-        // On continue quand même la réservation
+        window._emailIsExisting = true; uid = null; accountCreated = false;
       } else {
         alert('Erreur lors de la création du compte : ' + e.message);
         return;
       }
     }
-    showSpinner(true); // réafficher si caché par le catch
+    showSpinner(true);
   }
 
-  // ─── 2. Sauvegarde Firestore ───────────────────────────────────────────────
   try {
     await window.saveReservation({
-      dateKey,
-      monthKey,
-      time:        state.selectedTime,
+      dateKey, monthKey,
+      time:        state.selectedTime,        // id de la plage : 'matin' | 'aprem' | 'soir'
+      timeLabel:   state.selectedSlotLabel,   // libellé complet pour les emails
       service:     state.service,
       price:       state.servicePrice,
-      nom,
-      email,
-      telephone,
+      nom, email, telephone,
       adresse:     document.getElementById('faddress').value,
       description: document.getElementById('fdesc').value,
       status:      'pending',
@@ -688,13 +687,12 @@ async function confirmRdv(){
     }, uid);
   } catch(e){ console.error('Firestore error:', e); }
 
-  // ─── 3. Notification admin via Formspree ──────────────────────────────────
   try {
     const formData = new FormData();
     formData.append('Service',     state.service);
     formData.append('Tarif',       state.servicePrice);
     formData.append('Date',        dateStr);
-    formData.append('Heure',       state.selectedTime);
+    formData.append('Plage',       state.selectedSlotLabel);
     formData.append('Nom',         nom);
     formData.append('Email',       email);
     formData.append('Telephone',   telephone);
@@ -707,13 +705,13 @@ async function confirmRdv(){
 
   hideSpinner();
 
-  // Afficher ou masquer le lien espace client
   const linkEspaceClient = document.getElementById('linkEspaceClient');
   linkEspaceClient.style.display = (accountCreated || window._emailIsExisting) ? 'block' : 'none';
 
   document.getElementById('confirmCard').innerHTML = `
     <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
-    <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateStr} à ${state.selectedTime}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateStr}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">🕐</div><div>${state.selectedSlotLabel}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📍</div><div>${document.getElementById('faddress').value}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📧</div><div>Confirmation envoyée à ${email}</div></div>
     <div class="confirm-row"><div class="confirm-icon">💰</div><div>${state.servicePrice} (devis confirmé sur place)</div></div>
@@ -723,13 +721,11 @@ async function confirmRdv(){
 
 function restart(){
   state = {
-    service:'', servicePrice:'', selectedDate:null, selectedTime:'',
+    service:'', servicePrice:'', selectedDate:null, selectedTime:'', selectedSlotLabel:'',
     currentYear:new Date().getFullYear(), currentMonth:new Date().getMonth(), bookings:{}
   };
   window._emailIsExisting = false;
   document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
-
-  // Ne réinitialiser les champs que si pas connecté
   if (!window._currentUser) {
     ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id=>{
       const el = document.getElementById(id); if(el) el.value='';
@@ -741,7 +737,6 @@ function restart(){
   } else {
     ['faddress','fdesc'].forEach(id=>{ const el = document.getElementById(id); if(el) el.value=''; });
   }
-
   document.getElementById('btn1').disabled = true;
   document.getElementById('btn2').disabled = true;
   document.getElementById('btn3').disabled = true;
