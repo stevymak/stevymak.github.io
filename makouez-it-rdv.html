@@ -76,7 +76,14 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
 .form-input:focus{border-color:#3b82f660}
 .form-input::placeholder{color:var(--muted)}
+.form-input:disabled{opacity:0.5;cursor:not-allowed}
 textarea.form-input{resize:none;height:80px}
+
+/* Bannière utilisateur connecté */
+.connected-banner{background:#22c55e12;border:1px solid #22c55e30;border-radius:var(--r);padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;font-size:0.85rem}
+.connected-banner .cb-icon{font-size:1.2rem}
+.connected-banner strong{color:var(--success)}
+.connected-banner small{color:var(--muted);font-size:0.78rem;display:block;margin-top:0.1rem}
 
 /* Séparateur compte */
 .account-divider{display:flex;align-items:center;gap:0.75rem;color:var(--muted);font-size:0.78rem}
@@ -88,6 +95,11 @@ textarea.form-input{resize:none;height:80px}
 .pwd-toggle{position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:0.25rem}
 .pwd-strength{height:3px;border-radius:99px;background:var(--border);margin-top:0.4rem;overflow:hidden}
 .pwd-strength-bar{height:100%;border-radius:99px;transition:width 0.3s,background 0.3s;width:0%}
+
+/* Email hint */
+.email-hint{font-size:0.75rem;padding:0.4rem 0.6rem;border-radius:6px;margin-top:0.25rem;display:none}
+.email-hint.existing{background:#3b82f610;border:1px solid #3b82f630;color:var(--accent2)}
+.email-hint.new{background:#22c55e10;border:1px solid #22c55e30;color:var(--success)}
 
 .summary-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
 .summary-row{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.88rem}
@@ -143,7 +155,7 @@ textarea.form-input{resize:none;height:80px}
     <div class="service-list">
       <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€')">
         <div class="svc-icon">💻</div>
-        <div><div class="svc-name">Dépannage PC </div><div class="svc-price">60€ – 80€</div></div>
+        <div><div class="svc-name">Dépannage PC / Mac</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Installation Windows / logiciels','à partir de 60€')">
@@ -206,7 +218,15 @@ textarea.form-input{resize:none;height:80px}
     </div>
     <div style="display:flex;flex-direction:column;gap:0.85rem">
 
-      <!-- Infos de base -->
+      <!-- Bannière si connecté (masquée par défaut) -->
+      <div class="connected-banner" id="connectedBanner" style="display:none">
+        <div class="cb-icon">✅</div>
+        <div>
+          <strong>Compte reconnu</strong>
+          <small id="connectedEmail">—</small>
+        </div>
+      </div>
+
       <div class="form-group">
         <label class="form-label">Prénom et nom *</label>
         <input class="form-input" id="fname" type="text" placeholder="Marie Dupont" oninput="checkForm3()">
@@ -215,13 +235,13 @@ textarea.form-input{resize:none;height:80px}
         <label class="form-label">Téléphone *</label>
         <input class="form-input" id="fphone" type="tel" placeholder="06 XX XX XX XX" oninput="checkForm3()">
       </div>
-
-      <!-- Email ici, dans les coordonnées de base -->
       <div class="form-group">
         <label class="form-label">Email *</label>
-        <input class="form-input" id="femail" type="email" placeholder="marie@email.com" oninput="checkForm3()">
+        <input class="form-input" id="femail" type="email" placeholder="marie@email.com"
+               oninput="checkForm3(); onEmailInput()" onblur="onEmailBlur()">
+        <!-- Hint dynamique selon si l'email est connu ou nouveau -->
+        <div class="email-hint" id="emailHint"></div>
       </div>
-
       <div class="form-group">
         <label class="form-label">Adresse d'intervention *</label>
         <input class="form-input" id="faddress" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm3()">
@@ -231,18 +251,23 @@ textarea.form-input{resize:none;height:80px}
         <textarea class="form-input" id="fdesc" placeholder="Mon PC est très lent depuis quelques jours..."></textarea>
       </div>
 
-      <!-- COMPTE CLIENT OPTIONNEL -->
-      <div class="account-divider">Espace client (optionnel)</div>
-      <div class="account-box">
-        <div class="account-box-title">🔐 Suivez votre RDV en temps réel</div>
-        <div class="account-box-hint">Créez un mot de passe pour accéder à votre espace client avec l'email renseigné ci-dessus. Laissez vide si vous ne souhaitez pas créer de compte.</div>
-        <div class="form-group">
-          <label class="form-label">Mot de passe (optionnel, min. 6 caractères)</label>
-          <div class="pwd-wrap">
-            <input class="form-input" id="fpwd" type="password" placeholder="Laissez vide pour ignorer" oninput="checkForm3(); updatePwdStrength()" style="padding-right:2.5rem">
-            <button class="pwd-toggle" type="button" onclick="togglePwd()">👁</button>
+      <!-- SECTION MOT DE PASSE — masquée si déjà connecté -->
+      <div id="accountSection">
+        <div class="account-divider">Espace client (optionnel)</div>
+        <div class="account-box">
+          <div class="account-box-title">🔐 Suivez votre RDV en temps réel</div>
+          <div class="account-box-hint" id="accountHint">
+            Créez un mot de passe pour accéder à votre espace client avec l'email renseigné ci-dessus. Laissez vide si vous ne souhaitez pas créer de compte.
           </div>
-          <div class="pwd-strength"><div class="pwd-strength-bar" id="pwdBar"></div></div>
+          <div class="form-group" id="pwdGroup">
+            <label class="form-label">Mot de passe (optionnel, min. 6 caractères)</label>
+            <div class="pwd-wrap">
+              <input class="form-input" id="fpwd" type="password" placeholder="Laissez vide pour ignorer"
+                     oninput="checkForm3(); updatePwdStrength()" style="padding-right:2.5rem">
+              <button class="pwd-toggle" type="button" onclick="togglePwd()">👁</button>
+            </div>
+            <div class="pwd-strength"><div class="pwd-strength-bar" id="pwdBar"></div></div>
+          </div>
         </div>
       </div>
 
@@ -292,7 +317,7 @@ textarea.form-input{resize:none;height:80px}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -303,14 +328,38 @@ const firebaseConfig = {
   appId: "1:558314427247:web:83e656344dd79019ccce9a"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
 const auth = getAuth(app);
 
-window._db = db;
+window._db   = db;
 window._auth = auth;
 window._firestoreFns = { doc, setDoc, getDoc, collection, query, where, getDocs };
-window._authFns = { createUserWithEmailAndPassword, updateProfile };
+window._authFns      = { createUserWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail };
+
+// ─── Détection connexion existante ──────────────────────────────────────────
+onAuthStateChanged(auth, (user) => {
+  window._currentUser = user || null;
+  if (user) {
+    // Pré-remplir les champs et masquer la section mot de passe
+    const displayName = user.displayName || user.email.split('@')[0];
+    document.getElementById('fname').value   = displayName;
+    document.getElementById('femail').value  = user.email;
+    document.getElementById('fname').disabled  = false; // laisser modifiable
+    document.getElementById('femail').disabled = true;  // email verrouillé = déjà lié au compte
+
+    // Bannière verte
+    document.getElementById('connectedBanner').style.display = 'flex';
+    document.getElementById('connectedEmail').textContent    = user.email;
+
+    // Masquer toute la section mot de passe
+    document.getElementById('accountSection').style.display = 'none';
+
+    // Marquer que l'email est un compte existant
+    window._emailIsExisting = true;
+    checkForm3();
+  }
+});
 
 window.loadBookings = async function(year, month) {
   const prefix = `${year}-${String(month+1).padStart(2,'0')}`;
@@ -328,14 +377,43 @@ window.loadBookings = async function(year, month) {
 window.saveReservation = async function(data, uid) {
   const key = `${data.dateKey}_${data.time.replace(':','')}`;
   const { doc, setDoc } = window._firestoreFns;
-  await setDoc(doc(db, "reservations", key), { ...data, uid });
+  await setDoc(doc(db, "reservations", key), { ...data, uid: uid || null });
+};
+
+// ─── Vérification email existant (appelée au blur du champ email) ──────────
+window.checkEmailExists = async function(email) {
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+  if (window._currentUser) return; // déjà connecté, pas besoin
+  try {
+    const { fetchSignInMethodsForEmail } = window._authFns;
+    const methods = await fetchSignInMethodsForEmail(auth, email);
+    const hint    = document.getElementById('emailHint');
+    if (methods && methods.length > 0) {
+      // Compte existant → on le signale, on masque le champ mot de passe
+      window._emailIsExisting = true;
+      hint.textContent = '✓ Email reconnu — votre RDV sera lié à votre compte existant.';
+      hint.className   = 'email-hint existing';
+      hint.style.display = 'block';
+      document.getElementById('pwdGroup').style.display = 'none';
+    } else {
+      window._emailIsExisting = false;
+      hint.textContent = '✓ Nouvel email — vous pouvez créer un compte ci-dessous.';
+      hint.className   = 'email-hint new';
+      hint.style.display = 'block';
+      document.getElementById('pwdGroup').style.display = 'flex';
+    }
+  } catch(e) {
+    window._emailIsExisting = false;
+  }
 };
 </script>
 
 <script>
 const ALL_TIMES = ['08:00','09:00','10:00','11:00','14:00','15:00','16:00','17:00','18:00'];
-const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const days      = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const months    = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+window._emailIsExisting = false;
 
 let state = {
   service:'', servicePrice:'',
@@ -344,6 +422,20 @@ let state = {
   currentMonth:new Date().getMonth(),
   bookings:{}
 };
+
+// ─── Email input handlers ──────────────────────────────────────────────────
+let _emailCheckTimer = null;
+function onEmailInput(){
+  window._emailIsExisting = false;
+  document.getElementById('emailHint').style.display = 'none';
+  document.getElementById('pwdGroup').style.display  = 'flex';
+  clearTimeout(_emailCheckTimer);
+}
+function onEmailBlur(){
+  const email = document.getElementById('femail').value.trim();
+  clearTimeout(_emailCheckTimer);
+  _emailCheckTimer = setTimeout(() => window.checkEmailExists(email), 300);
+}
 
 function selectService(btn, name, price){
   document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
@@ -389,13 +481,13 @@ function renderCalendar(){
   for(let d=1;d<=daysInMonth;d++){
     const el = document.createElement('div');
     const date = new Date(y,m,d); date.setHours(0,0,0,0);
-    const isPast = date < today;
-    const isToday = date.getTime()===today.getTime();
+    const isPast     = date < today;
+    const isToday    = date.getTime()===today.getTime();
     const isSelected = state.selectedDate && state.selectedDate.getTime()===date.getTime();
-    const dow = date.getDay();
-    const isWeekend = dow===0||dow===6;
-    const dateKey = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const bookedTimes = state.bookings[dateKey] || [];
+    const dow        = date.getDay();
+    const isWeekend  = dow===0||dow===6;
+    const dateKey    = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const bookedTimes    = state.bookings[dateKey] || [];
     const availableSlots = ALL_TIMES.filter(t => !bookedTimes.includes(t));
     const isFull = !isPast && !isWeekend && availableSlots.length===0;
     el.className = 'cal-day'+(isPast||isWeekend?' past':'')+(isToday?' today':'')+(isSelected?' selected':'')+(isFull?' full':'');
@@ -450,10 +542,18 @@ async function nextMonth(){
 }
 
 function checkForm3(){
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('femail').value);
-  const pwd = document.getElementById('fpwd').value;
-  // Mot de passe optionnel : OK si vide, ou si >= 6 caractères
-  const pwdOk = pwd === '' || pwd.length >= 6;
+  const email  = document.getElementById('femail').value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const pwd    = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
+
+  // Mot de passe : OK si
+  // 1. Déjà connecté (section masquée)
+  // 2. Email déjà existant (compte lié automatiquement, pas besoin de password)
+  // 3. Pas de mot de passe saisi (veut pas de compte)
+  // 4. Mot de passe saisi >= 6 chars
+  const accountSectionHidden = document.getElementById('accountSection').style.display === 'none';
+  const pwdOk = accountSectionHidden || window._emailIsExisting || pwd === '' || pwd.length >= 6;
+
   const ok = document.getElementById('fname').value.trim()
     && document.getElementById('fphone').value.trim()
     && document.getElementById('faddress').value.trim()
@@ -471,29 +571,38 @@ function updatePwdStrength(){
   if(/[A-Z]/.test(pwd)) score++;
   if(/[0-9]/.test(pwd)) score++;
   if(/[^A-Za-z0-9]/.test(pwd)) score++;
-  const pct = (score/5)*100;
+  const pct   = (score/5)*100;
   const color = score<=1?'#ef4444':score<=3?'#f59e0b':'#22c55e';
-  bar.style.width = pct+'%';
+  bar.style.width    = pct+'%';
   bar.style.background = color;
 }
 
 function togglePwd(){
   const input = document.getElementById('fpwd');
-  input.type = input.type === 'password' ? 'text' : 'password';
+  input.type  = input.type === 'password' ? 'text' : 'password';
 }
 
 function fillSummary(){
-  const dateStr = state.selectedDate ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) : '–';
-  const pwd = document.getElementById('fpwd').value;
+  const dateStr = state.selectedDate
+    ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})
+    : '–';
+  const pwd = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
+  const accountSectionHidden = document.getElementById('accountSection').style.display === 'none';
+
+  let accountLabel = 'Sans compte';
+  if (window._currentUser)             accountLabel = '✓ Compte existant lié';
+  else if (window._emailIsExisting)    accountLabel = '✓ Email existant — lié automatiquement';
+  else if (pwd.length >= 6)            accountLabel = '✓ Compte créé';
+
   document.getElementById('sumService').textContent = state.service;
-  document.getElementById('sumDate').textContent = dateStr;
-  document.getElementById('sumTime').textContent = state.selectedTime;
-  document.getElementById('sumName').textContent = document.getElementById('fname').value;
-  document.getElementById('sumPhone').textContent = document.getElementById('fphone').value;
-  document.getElementById('sumEmail').textContent = document.getElementById('femail').value;
-  document.getElementById('sumAddr').textContent = document.getElementById('faddress').value;
-  document.getElementById('sumAccount').textContent = pwd.length >= 6 ? '✓ Compte créé' : 'Sans compte';
-  document.getElementById('sumPrice').textContent = state.servicePrice;
+  document.getElementById('sumDate').textContent    = dateStr;
+  document.getElementById('sumTime').textContent    = state.selectedTime;
+  document.getElementById('sumName').textContent    = document.getElementById('fname').value;
+  document.getElementById('sumPhone').textContent   = document.getElementById('fphone').value;
+  document.getElementById('sumEmail').textContent   = document.getElementById('femail').value;
+  document.getElementById('sumAddr').textContent    = document.getElementById('faddress').value;
+  document.getElementById('sumAccount').textContent = accountLabel;
+  document.getElementById('sumPrice').textContent   = state.servicePrice;
   const btn = document.getElementById('btnConfirm');
   if(btn) btn.disabled = false;
 }
@@ -509,23 +618,36 @@ function showSpinner(lockConfirm=false){
 function hideSpinner(){ const o = document.getElementById('sendingOverlay'); if(o) o.remove(); }
 
 async function confirmRdv(){
-  const dateStr = state.selectedDate ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) : '–';
+  const dateStr = state.selectedDate
+    ? state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})
+    : '–';
   const y = state.selectedDate.getFullYear();
   const m = state.selectedDate.getMonth();
   const d = state.selectedDate.getDate();
-  const dateKey = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  const dateKey  = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   const monthKey = `${y}-${String(m+1).padStart(2,'0')}`;
-  const email = document.getElementById('femail').value.trim();
-  const pwd = document.getElementById('fpwd').value;
-  const nom = document.getElementById('fname').value.trim();
+  const email    = document.getElementById('femail').value.trim();
+  const pwd      = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
+  const nom      = document.getElementById('fname').value.trim();
   const telephone = document.getElementById('fphone').value.trim();
 
   showSpinner(true);
 
-  // 1. Créer le compte Firebase Auth SEULEMENT si mot de passe renseigné (>= 6 chars)
-  let uid = null;
+  // ─── 1. Gestion du compte Firebase Auth ───────────────────────────────────
+  let uid            = null;
   let accountCreated = false;
-  if(pwd.length >= 6){
+
+  if (window._currentUser) {
+    // Déjà connecté → on réutilise son uid directement
+    uid = window._currentUser.uid;
+    accountCreated = true;
+  } else if (window._emailIsExisting) {
+    // Email connu mais pas connecté → on sauvegarde sans uid
+    // (le RDV sera quand même lié à l'email, visible dans son espace après connexion)
+    uid = null;
+    accountCreated = false;
+  } else if (pwd.length >= 6) {
+    // Nouveau compte à créer
     try {
       const { createUserWithEmailAndPassword, updateProfile } = window._authFns;
       const userCred = await createUserWithEmailAndPassword(window._auth, email, pwd);
@@ -535,53 +657,59 @@ async function confirmRdv(){
     } catch(e) {
       hideSpinner();
       if(e.code === 'auth/email-already-in-use'){
-        alert('Cet email est déjà utilisé. Connectez-vous sur mon-rdv.html pour voir vos RDV.');
+        // Race condition : l'email existait mais fetchSignInMethods n'a pas répondu à temps
+        window._emailIsExisting = true;
+        uid = null;
+        accountCreated = false;
+        // On continue quand même la réservation
       } else {
         alert('Erreur lors de la création du compte : ' + e.message);
+        return;
       }
-      return;
     }
+    showSpinner(true); // réafficher si caché par le catch
   }
 
-  // 2. Sauvegarder dans Firestore (email toujours présent, uid peut être null)
+  // ─── 2. Sauvegarde Firestore ───────────────────────────────────────────────
   try {
     await window.saveReservation({
       dateKey,
       monthKey,
-      time: state.selectedTime,
-      service: state.service,
-      price: state.servicePrice,
+      time:        state.selectedTime,
+      service:     state.service,
+      price:       state.servicePrice,
       nom,
-      email,        // ← toujours sauvegardé pour les notifications
-      telephone,    // ← toujours sauvegardé pour les notifications SMS
-      adresse: document.getElementById('faddress').value,
+      email,
+      telephone,
+      adresse:     document.getElementById('faddress').value,
       description: document.getElementById('fdesc').value,
-      status: 'pending',
-      createdAt: new Date().toISOString()
+      status:      'pending',
+      createdAt:   new Date().toISOString()
     }, uid);
   } catch(e){ console.error('Firestore error:', e); }
 
-  // 3. Email de notification admin via Formspree
+  // ─── 3. Notification admin via Formspree ──────────────────────────────────
   try {
     const formData = new FormData();
-    formData.append('Service', state.service);
-    formData.append('Tarif', state.servicePrice);
-    formData.append('Date', dateStr);
-    formData.append('Heure', state.selectedTime);
-    formData.append('Nom', nom);
-    formData.append('Email', email);
-    formData.append('Telephone', telephone);
-    formData.append('Adresse', document.getElementById('faddress').value);
+    formData.append('Service',     state.service);
+    formData.append('Tarif',       state.servicePrice);
+    formData.append('Date',        dateStr);
+    formData.append('Heure',       state.selectedTime);
+    formData.append('Nom',         nom);
+    formData.append('Email',       email);
+    formData.append('Telephone',   telephone);
+    formData.append('Adresse',     document.getElementById('faddress').value);
     formData.append('Description', document.getElementById('fdesc').value);
-    await fetch('https://formspree.io/f/xkopkwrz', { method:'POST', body:formData, headers:{'Accept':'application/json'} });
+    await fetch('https://formspree.io/f/xkopkwrz', {
+      method:'POST', body:formData, headers:{'Accept':'application/json'}
+    });
   } catch(e){ console.error('Formspree error:', e); }
 
   hideSpinner();
 
-  // Afficher ou masquer le lien espace client selon si un compte a été créé
+  // Afficher ou masquer le lien espace client
   const linkEspaceClient = document.getElementById('linkEspaceClient');
-  if(accountCreated){ linkEspaceClient.style.display = 'block'; }
-  else { linkEspaceClient.style.display = 'none'; }
+  linkEspaceClient.style.display = (accountCreated || window._emailIsExisting) ? 'block' : 'none';
 
   document.getElementById('confirmCard').innerHTML = `
     <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
@@ -594,17 +722,35 @@ async function confirmRdv(){
 }
 
 function restart(){
-  state = {service:'',servicePrice:'',selectedDate:null,selectedTime:'',currentYear:new Date().getFullYear(),currentMonth:new Date().getMonth(),bookings:{}};
+  state = {
+    service:'', servicePrice:'', selectedDate:null, selectedTime:'',
+    currentYear:new Date().getFullYear(), currentMonth:new Date().getMonth(), bookings:{}
+  };
+  window._emailIsExisting = false;
   document.querySelectorAll('.service-btn').forEach(b=>b.classList.remove('selected'));
-  ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('pwdBar').style.width='0%';
-  document.getElementById('btn1').disabled=true;
-  document.getElementById('btn2').disabled=true;
-  document.getElementById('btn3').disabled=true;
+
+  // Ne réinitialiser les champs que si pas connecté
+  if (!window._currentUser) {
+    ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id=>{
+      const el = document.getElementById(id); if(el) el.value='';
+    });
+    document.getElementById('pwdBar').style.width='0%';
+    document.getElementById('emailHint').style.display='none';
+    document.getElementById('accountSection').style.display='block';
+    document.getElementById('pwdGroup').style.display='flex';
+  } else {
+    ['faddress','fdesc'].forEach(id=>{ const el = document.getElementById(id); if(el) el.value=''; });
+  }
+
+  document.getElementById('btn1').disabled = true;
+  document.getElementById('btn2').disabled = true;
+  document.getElementById('btn3').disabled = true;
   goTo(1);
 }
 
-if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }); }
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
 </script>
 </body>
 </html>
