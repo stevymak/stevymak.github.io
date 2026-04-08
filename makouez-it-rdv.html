@@ -38,7 +38,6 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .screen-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700}
 .screen-sub{color:var(--muted);font-size:0.85rem;margin-top:0.2rem}
 
-/* Services */
 .service-list{display:flex;flex-direction:column;gap:0.6rem}
 .service-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;cursor:pointer;display:flex;align-items:center;gap:0.85rem;transition:border-color 0.2s,background 0.2s;text-align:left;color:var(--text);width:100%}
 .service-btn:hover,.service-btn.selected{border-color:#3b82f660;background:#3b82f610}
@@ -49,10 +48,8 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .service-btn.selected .svc-check{background:var(--accent);border-color:var(--accent);color:#fff}
 .service-btn.web-dev{border-color:#60a5fa30;background:linear-gradient(135deg,#3b82f608,#60a5fa05)}
 
-/* Badge presélection */
 .preselect-banner{background:#3b82f610;border:1px solid #3b82f630;border-radius:var(--r);padding:0.75rem 1rem;font-size:0.82rem;color:var(--accent2);display:flex;align-items:center;gap:0.5rem}
 
-/* Calendrier */
 .calendar-header{display:flex;align-items:center;justify-content:space-between}
 .cal-nav{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1rem;transition:background 0.2s}
 .cal-nav:hover{background:var(--border)}
@@ -84,7 +81,6 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 .legend{display:flex;gap:0.75rem;font-size:0.72rem;color:var(--muted);margin-top:0.25rem;flex-wrap:wrap}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:3px}
 
-/* Formulaire */
 .form-group{display:flex;flex-direction:column;gap:0.4rem}
 .form-label{font-size:0.8rem;color:var(--muted);font-weight:500}
 .form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
@@ -94,13 +90,11 @@ textarea.form-input{resize:none;height:80px}
 select.form-input{cursor:pointer}
 select.form-input option{background:var(--bg2);color:var(--text)}
 
-/* Bannière web dev */
 .webdev-banner{background:linear-gradient(135deg,#3b82f610,#60a5fa08);border:1px solid #3b82f640;border-radius:var(--r);padding:1rem;display:flex;gap:0.75rem;align-items:flex-start}
 .webdev-banner-icon{font-size:1.5rem;flex-shrink:0}
 .webdev-banner-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem;margin-bottom:0.2rem}
 .webdev-banner-sub{color:var(--muted);font-size:0.78rem;line-height:1.4}
 
-/* Compte */
 .connected-banner{background:#22c55e12;border:1px solid #22c55e30;border-radius:var(--r);padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;font-size:0.85rem}
 .connected-banner .cb-icon{font-size:1.2rem}
 .connected-banner strong{color:var(--success)}
@@ -118,20 +112,17 @@ select.form-input option{background:var(--bg2);color:var(--text)}
 .email-hint.existing{background:#3b82f610;border:1px solid #3b82f630;color:var(--accent2)}
 .email-hint.new{background:#22c55e10;border:1px solid #22c55e30;color:var(--success)}
 
-/* Récap */
 .summary-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
 .summary-row{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.88rem}
 .summary-row:last-child{border-bottom:none;font-weight:600;color:var(--accent);font-size:0.95rem}
 .summary-label{color:var(--muted)}
 
-/* Boutons */
 .btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;width:100%}
 .btn-main:hover{opacity:0.85}
 .btn-main:disabled{opacity:0.4;cursor:not-allowed}
 .btn-back{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:0.7rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.2s;width:100%}
 .btn-back:hover{color:var(--text);border-color:#3b82f640}
 
-/* Succès */
 .success-screen{padding:2rem 1.5rem;display:none;flex-direction:column;align-items:center;text-align:center;gap:1.25rem}
 .success-screen.active{display:flex}
 .success-icon{width:72px;height:72px;border-radius:50%;background:#22c55e20;border:2px solid #22c55e60;display:flex;align-items:center;justify-content:center;font-size:2rem}
@@ -146,7 +137,6 @@ select.form-input option{background:var(--bg2);color:var(--text)}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Web dev form spécifique */
 .form-section-title{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--accent2);margin-top:0.25rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border)}
 .budget-chips{display:flex;flex-wrap:wrap;gap:0.5rem}
 .budget-chip{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:0.35rem 0.85rem;font-size:0.82rem;color:var(--muted);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
@@ -186,9 +176,9 @@ select.form-input option{background:var(--bg2);color:var(--text)}
         <div><div class="svc-name">Dépannage PC</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Installation Windows/Logiciel(s)','à partir de 60€',false)">
+      <button class="service-btn" onclick="selectService(this,'Installation Windows et logiciels','à partir de 60€',false)">
         <div class="svc-icon">🪟</div>
-        <div><div class="svc-name">Installation Windows/Logiciel(s)</div><div class="svc-price">à partir de 60€</div></div>
+        <div><div class="svc-name">Installation Windows et logiciels</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Réseau Wi-Fi','à partir de 60€',false)">
@@ -220,7 +210,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
     <button class="btn-main" id="btn1" disabled onclick="goToStep2()">Continuer →</button>
   </div>
 
-  <!-- Étape 2A : Date & créneau (services classiques) -->
+  <!-- Étape 2A : Date & créneau -->
   <div class="screen" id="s2">
     <div>
       <div class="screen-title">Choisir une date</div>
@@ -255,12 +245,10 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       <div class="webdev-banner-icon">🌐</div>
       <div>
         <div class="webdev-banner-title">Demande de développement web</div>
-        <div class="webdev-banner-sub">Décrivez votre projet en quelques mots — Stevy vous recontactera avec un devis gratuit sous 24h.</div>
+        <div class="webdev-banner-sub">Décrivez votre projet — Stevy vous recontactera avec un devis gratuit sous 24h.</div>
       </div>
     </div>
-
     <div class="form-section-title">Votre projet</div>
-
     <div class="form-group">
       <label class="form-label">Type de projet *</label>
       <select class="form-input" id="webType" onchange="checkWebForm()">
@@ -274,12 +262,10 @@ select.form-input option{background:var(--bg2);color:var(--text)}
         <option>Autre</option>
       </select>
     </div>
-
     <div class="form-group">
       <label class="form-label">Description courte du projet *</label>
-      <textarea class="form-input" id="webDesc" placeholder="Ex : Site vitrine pour mon auto-école avec formulaire de contact et page tarifs…" oninput="checkWebForm()" style="height:90px"></textarea>
+      <textarea class="form-input" id="webDesc" placeholder="Ex : Site vitrine pour mon auto-école avec formulaire de contact…" oninput="checkWebForm()" style="height:90px"></textarea>
     </div>
-
     <div class="form-group">
       <label class="form-label">Budget envisagé</label>
       <div class="budget-chips" id="budgetChips">
@@ -291,7 +277,6 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       </div>
       <input type="hidden" id="webBudget" value="">
     </div>
-
     <div class="form-group">
       <label class="form-label">Délai souhaité</label>
       <div class="delai-chips" id="delaiChips">
@@ -302,9 +287,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       </div>
       <input type="hidden" id="webDelai" value="">
     </div>
-
     <div class="form-section-title" style="margin-top:0.25rem">Vos coordonnées</div>
-
     <div class="form-group">
       <label class="form-label">Prénom et nom *</label>
       <input class="form-input" id="webNom" type="text" placeholder="Marie Dupont" oninput="checkWebForm()">
@@ -317,7 +300,6 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       <label class="form-label">Téléphone</label>
       <input class="form-input" id="webTel" type="tel" placeholder="06 XX XX XX XX">
     </div>
-
     <div style="display:flex;flex-direction:column;gap:0.5rem">
       <button class="btn-main" id="btnWebSubmit" disabled onclick="submitWebForm()">
         <span id="btnWebText">Envoyer ma demande →</span>
@@ -326,7 +308,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
     </div>
   </div>
 
-  <!-- Étape 3 : Infos client (services classiques) -->
+  <!-- Étape 3 : Infos client -->
   <div class="screen" id="s3">
     <div>
       <div class="screen-title">Vos coordonnées</div>
@@ -380,7 +362,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
     </div>
   </div>
 
-  <!-- Étape 4 : Récapitulatif (services classiques) -->
+  <!-- Étape 4 : Récapitulatif -->
   <div class="screen" id="s4">
     <div>
       <div class="screen-title">Récapitulatif</div>
@@ -539,13 +521,13 @@ let state = {
   const sp = params.get('service');
   if (!sp) return;
   const serviceMap = {
-    'Dépannage PC':                 { name:'Dépannage PC',                 price:'60-80€',            webdev:false },
-    'Installation Windows / logiciels': { name:'Installation Windows/Logiciel(s)', price:'à partir de 60€',   webdev:false },
-    'Réseau Wi-Fi':                      { name:'Réseau Wi-Fi',                      price:'à partir de 60€',   webdev:false },
-    'Récupération de données':           { name:'Récupération de données',           price:'à partir de 80€',   webdev:false },
-    'Sauvegarde & sécurité':            { name:'Sauvegarde & sécurité',            price:'à partir de 60€',   webdev:false },
-    'Formation et accompagnement':        { name:'Formation et accompagnement',        price:'40€/h',             webdev:false },
-    'Intégration / Développement web':   { name:'Intégration / Développement web',   price:'à partir de 150€',  webdev:true  },
+    'Dépannage PC':                       { name:'Dépannage PC',                       price:'60-80€',           webdev:false },
+    'Installation Windows et logiciels':  { name:'Installation Windows et logiciels',  price:'à partir de 60€',  webdev:false },
+    'Réseau Wi-Fi':                       { name:'Réseau Wi-Fi',                       price:'à partir de 60€',  webdev:false },
+    'Récupération de données':            { name:'Récupération de données',            price:'à partir de 80€',  webdev:false },
+    'Sauvegarde & sécurité':              { name:'Sauvegarde & sécurité',              price:'à partir de 60€',  webdev:false },
+    'Formation et accompagnement':        { name:'Formation et accompagnement',        price:'40€/h',            webdev:false },
+    'Intégration / Développement web':    { name:'Intégration / Développement web',   price:'à partir de 150€', webdev:true  },
   };
   const match = serviceMap[sp];
   if (!match) return;
@@ -574,17 +556,12 @@ function selectService(btn, name, price, isWebDev) {
 }
 
 function goToStep2() {
-  if (state.isWebDev) {
-    goToWebDev();
-  } else {
-    goTo(2);
-  }
+  if (state.isWebDev) { goToWebDev(); } else { goTo(2); }
 }
 
 function goToWebDev() {
-  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); s.style.display=''; });
+  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); });
   document.getElementById('s2web').classList.add('active');
-  // Étapes : on affiche 3 dots pour ce flow
   [1,2,3,4].forEach(i => {
     const d = document.getElementById('dot'+i);
     d.classList.remove('active','done');
@@ -610,34 +587,25 @@ function checkWebForm() {
 }
 
 async function submitWebForm() {
-  const btn     = document.getElementById('btnWebSubmit');
+  const btn = document.getElementById('btnWebSubmit');
   const btnText = document.getElementById('btnWebText');
-  btn.disabled  = true;
+  btn.disabled = true;
   btnText.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle"></span>';
-
   const formData = new FormData();
-  formData.append('Service',      'Intégration / Développement web');
-  formData.append('Type_projet',  document.getElementById('webType').value);
-  formData.append('Description',  document.getElementById('webDesc').value.trim());
-  formData.append('Budget',       document.getElementById('webBudget').value || 'Non précisé');
-  formData.append('Délai',        document.getElementById('webDelai').value || 'Non précisé');
-  formData.append('Nom',          document.getElementById('webNom').value.trim());
-  formData.append('Email',        document.getElementById('webEmail').value.trim());
-  formData.append('Téléphone',    document.getElementById('webTel').value.trim() || 'Non renseigné');
-
+  formData.append('Service',     'Intégration / Développement web');
+  formData.append('Type_projet', document.getElementById('webType').value);
+  formData.append('Description', document.getElementById('webDesc').value.trim());
+  formData.append('Budget',      document.getElementById('webBudget').value || 'Non précisé');
+  formData.append('Délai',       document.getElementById('webDelai').value || 'Non précisé');
+  formData.append('Nom',         document.getElementById('webNom').value.trim());
+  formData.append('Email',       document.getElementById('webEmail').value.trim());
+  formData.append('Téléphone',   document.getElementById('webTel').value.trim() || 'Non renseigné');
   try {
-    await fetch('https://formspree.io/f/xkopkwrz', {
-      method:'POST', body:formData, headers:{'Accept':'application/json'}
-    });
+    await fetch('https://formspree.io/f/xkopkwrz', { method:'POST', body:formData, headers:{'Accept':'application/json'} });
   } catch(e) { console.error(e); }
-
   document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); });
   document.getElementById('sSuccessWeb').classList.add('active');
-  [1,2,3,4].forEach(i => {
-    const d = document.getElementById('dot'+i);
-    d.classList.remove('active','done');
-    d.classList.add('done');
-  });
+  [1,2,3,4].forEach(i => { const d = document.getElementById('dot'+i); d.classList.remove('active','done'); d.classList.add('done'); });
 }
 
 // ─── CALENDRIER ───────────────────────────────────────────────────────────────
@@ -709,7 +677,7 @@ function renderCalendar() {
     el.className = className;
     el.textContent = d;
     if (!isPast && !isSelected && !allFull && colorCls) {
-      const colors = { low:'#22c55e18', mid:'#f59e0b18', high:'#ef444418' };
+      const colors  = { low:'#22c55e18', mid:'#f59e0b18', high:'#ef444418' };
       const borders = { low:'#22c55e40', mid:'#f59e0b40', high:'#ef444440' };
       if (colors[colorCls]) { el.style.background = colors[colorCls]; el.style.borderColor = borders[colorCls]; }
     }
