@@ -308,7 +308,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="label">Mon Espace</span>
     </a>
-    <button class="nav-suivi" onclick="openSuiviModal()" id="btnSuiviNav">🔍 <span class="label">Suivre ma demande</span></button>
+    <button class="nav-suivi" id="btnSuiviNav">🔍 <span class="label">Suivre ma demande</span></button>
     <a href="#rdv" class="nav-cta">Prendre RDV</a>
   </div>
 </nav>
@@ -717,6 +717,7 @@ function closeSuiviModal(){
   document.getElementById('suiviModal').classList.remove('open');
   document.body.style.overflow='';
 }
+document.getElementById('btnSuiviNav').addEventListener('click', openSuiviModal);
 document.getElementById('suiviModal').addEventListener('click',e=>{if(e.target===document.getElementById('suiviModal'))closeSuiviModal();});
 
 function checkSuiviForm(){
