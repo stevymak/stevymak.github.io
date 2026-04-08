@@ -206,9 +206,9 @@ select.form-input option{background:var(--bg2);color:var(--text)}
         <div><div class="svc-name">Sauvegarde &amp; sécurité</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Formation / accompagnement','40€/h',false)">
+      <button class="service-btn" onclick="selectService(this,'Formation et accompagnement','40€/h',false)">
         <div class="svc-icon">🎓</div>
-        <div><div class="svc-name">Formation / Accompagnement</div><div class="svc-price">40€/h</div></div>
+        <div><div class="svc-name">Formation et accompagnement</div><div class="svc-price">40€/h</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn web-dev" onclick="selectService(this,'Intégration / Développement web','à partir de 150€',true)">
@@ -544,7 +544,7 @@ let state = {
     'Réseau Wi-Fi':                      { name:'Réseau Wi-Fi',                      price:'à partir de 60€',   webdev:false },
     'Récupération de données':           { name:'Récupération de données',           price:'à partir de 80€',   webdev:false },
     'Sauvegarde & sécurité':            { name:'Sauvegarde & sécurité',            price:'à partir de 60€',   webdev:false },
-    'Formation / accompagnement':        { name:'Formation / accompagnement',        price:'40€/h',             webdev:false },
+    'Formation et accompagnement':        { name:'Formation et accompagnement',        price:'40€/h',             webdev:false },
     'Intégration / Développement web':   { name:'Intégration / Développement web',   price:'à partir de 150€',  webdev:true  },
   };
   const match = serviceMap[sp];
