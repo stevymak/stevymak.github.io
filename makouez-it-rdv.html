@@ -133,6 +133,10 @@ select.form-input option{background:var(--bg2);color:var(--text)}
 .btn-account{background:#3b82f618;color:var(--accent2);border:1px solid #3b82f640;border-radius:10px;padding:0.8rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;width:100%;transition:all 0.2s;text-decoration:none;display:block;text-align:center}
 .btn-account:hover{background:#3b82f628}
 
+/* Erreur banner */
+.error-banner{background:#ef444415;border:1px solid #ef444440;border-radius:var(--r);padding:0.85rem 1rem;font-size:0.83rem;color:#ef4444;display:none;align-items:center;gap:0.5rem}
+.error-banner.show{display:flex}
+
 .sending-overlay{position:absolute;inset:0;background:#09090fcc;display:flex;align-items:center;justify-content:center;border-radius:28px;z-index:10}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -191,9 +195,9 @@ select.form-input option{background:var(--bg2);color:var(--text)}
         <div><div class="svc-name">Récupération de données</div><div class="svc-price">à partir de 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Sauvegarde & sécurité','à partir de 60€',false)">
+      <button class="service-btn" onclick="selectService(this,'Sauvegarde et sécurité','à partir de 60€',false)">
         <div class="svc-icon">🔒</div>
-        <div><div class="svc-name">Sauvegarde &amp; sécurité</div><div class="svc-price">à partir de 60€</div></div>
+        <div><div class="svc-name">Sauvegarde et sécurité</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Formation et accompagnement','40€/h',false)">
@@ -287,7 +291,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       </div>
       <input type="hidden" id="webDelai" value="">
     </div>
-    <div class="form-section-title" style="margin-top:0.25rem">Vos coordonnées</div>
+    <div class="form-section-title">Vos coordonnées</div>
     <div class="form-group">
       <label class="form-label">Prénom et nom *</label>
       <input class="form-input" id="webNom" type="text" placeholder="Marie Dupont" oninput="checkWebForm()">
@@ -300,10 +304,9 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       <label class="form-label">Téléphone</label>
       <input class="form-input" id="webTel" type="tel" placeholder="06 XX XX XX XX">
     </div>
+    <div class="error-banner" id="webErrorBanner">⚠️ <span id="webErrorMsg">Une erreur est survenue.</span></div>
     <div style="display:flex;flex-direction:column;gap:0.5rem">
-      <button class="btn-main" id="btnWebSubmit" disabled onclick="submitWebForm()">
-        <span id="btnWebText">Envoyer ma demande →</span>
-      </button>
+      <button class="btn-main" id="btnWebSubmit" disabled onclick="submitWebForm()">Envoyer ma demande →</button>
       <button class="btn-back" onclick="goTo(1)">← Retour</button>
     </div>
   </div>
@@ -380,17 +383,18 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       <div class="summary-row"><span class="summary-label">Tarif indicatif</span><span id="sumPrice">–</span></div>
     </div>
     <p style="font-size:0.78rem;color:var(--muted);text-align:center">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT).</p>
+    <div class="error-banner" id="rdvErrorBanner">⚠️ <span id="rdvErrorMsg">Une erreur est survenue.</span></div>
     <div style="display:flex;flex-direction:column;gap:0.5rem">
       <button class="btn-main" id="btnConfirm" onclick="confirmRdv()">✓ Confirmer le rendez-vous</button>
       <button class="btn-back" onclick="goTo(3)">← Modifier</button>
     </div>
   </div>
 
-  <!-- Succès RDV classique -->
+  <!-- Succès RDV -->
   <div class="success-screen" id="sSuccess">
     <div class="success-icon">✓</div>
     <h2>Demande envoyée !</h2>
-    <p>Stevy vous confirmera votre rendez-vous par email dès que possible.</p>
+    <p>Stevy vous confirmera votre rendez-vous par email ou téléphone dès que possible.</p>
     <div class="confirm-card" id="confirmCard"></div>
     <a class="btn-account" href="mon-rdv.html" id="linkEspaceClient" style="display:none">→ Voir mon espace client</a>
     <button class="btn-main" onclick="restart()" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.85rem;padding:0.7rem">Prendre un autre RDV</button>
@@ -400,7 +404,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
   <div class="success-screen" id="sSuccessWeb">
     <div class="success-icon">🌐</div>
     <h2>Demande envoyée !</h2>
-    <p>Stevy a bien reçu votre demande de projet web. Il vous recontactera sous 24h avec un devis gratuit.</p>
+    <p>Stevy a bien reçu votre demande. Il vous recontactera sous 24h avec un devis gratuit.</p>
     <div style="background:var(--card);border:1px solid #22c55e30;border-radius:var(--r);padding:1rem;width:100%;font-size:0.85rem;color:var(--muted);text-align:left">
       <div style="margin-bottom:0.5rem;font-weight:600;color:var(--text)">Ce qui se passe ensuite :</div>
       <div style="display:flex;flex-direction:column;gap:0.4rem">
@@ -439,12 +443,12 @@ onAuthStateChanged(auth, (user) => {
   window._currentUser = user || null;
   if (user) {
     const displayName = user.displayName || user.email.split('@')[0];
-    document.getElementById('fname').value   = displayName;
-    document.getElementById('femail').value  = user.email;
+    document.getElementById('fname').value    = displayName;
+    document.getElementById('femail').value   = user.email;
     document.getElementById('femail').disabled = true;
     document.getElementById('connectedBanner').style.display = 'flex';
     document.getElementById('connectedEmail').textContent    = user.email;
-    document.getElementById('accountSection').style.display = 'none';
+    document.getElementById('accountSection').style.display  = 'none';
     window._emailIsExisting = true;
     checkForm3();
   }
@@ -515,19 +519,20 @@ let state = {
   bookings:{}
 };
 
-// ─── PRÉ-SÉLECTION URL ────────────────────────────────────────────────────────
+// PRÉ-SÉLECTION URL
 (function(){
   const params = new URLSearchParams(window.location.search);
   const sp = params.get('service');
   if (!sp) return;
   const serviceMap = {
-    'Dépannage PC':                       { name:'Dépannage PC',                       price:'60-80€',           webdev:false },
-    'Installation Windows et logiciels':  { name:'Installation Windows et logiciels',  price:'à partir de 60€',  webdev:false },
-    'Réseau Wi-Fi':                       { name:'Réseau Wi-Fi',                       price:'à partir de 60€',  webdev:false },
-    'Récupération de données':            { name:'Récupération de données',            price:'à partir de 80€',  webdev:false },
-    'Sauvegarde & sécurité':              { name:'Sauvegarde & sécurité',              price:'à partir de 60€',  webdev:false },
-    'Formation et accompagnement':        { name:'Formation et accompagnement',        price:'40€/h',            webdev:false },
-    'Intégration / Développement web':    { name:'Intégration / Développement web',   price:'à partir de 150€', webdev:true  },
+    'Dépannage PC':                      { name:'Dépannage PC',                      price:'60-80€',           webdev:false },
+    'Installation Windows et logiciels': { name:'Installation Windows et logiciels', price:'à partir de 60€',  webdev:false },
+    'Réseau Wi-Fi':                      { name:'Réseau Wi-Fi',                      price:'à partir de 60€',  webdev:false },
+    'Récupération de données':           { name:'Récupération de données',           price:'à partir de 80€',  webdev:false },
+    'Sauvegarde & sécurité':             { name:'Sauvegarde et sécurité',            price:'à partir de 60€',  webdev:false },
+    'Sauvegarde et sécurité':            { name:'Sauvegarde et sécurité',            price:'à partir de 60€',  webdev:false },
+    'Formation et accompagnement':       { name:'Formation et accompagnement',       price:'40€/h',            webdev:false },
+    'Intégration / Développement web':   { name:'Intégration / Développement web',  price:'à partir de 150€', webdev:true  },
   };
   const match = serviceMap[sp];
   if (!match) return;
@@ -545,7 +550,6 @@ let state = {
   });
 })();
 
-// ─── SÉLECTION SERVICE ────────────────────────────────────────────────────────
 function selectService(btn, name, price, isWebDev) {
   document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
@@ -556,7 +560,8 @@ function selectService(btn, name, price, isWebDev) {
 }
 
 function goToStep2() {
-  if (state.isWebDev) { goToWebDev(); } else { goTo(2); }
+  if (state.isWebDev) goToWebDev();
+  else goTo(2);
 }
 
 function goToWebDev() {
@@ -570,9 +575,8 @@ function goToWebDev() {
   });
 }
 
-// ─── FORMULAIRE WEB DEV ───────────────────────────────────────────────────────
 function selectChip(el, groupId, hiddenId, value) {
-  document.querySelectorAll('#' + groupId + ' .budget-chip, #' + groupId + ' .delai-chip').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('#'+groupId+' .budget-chip, #'+groupId+' .delai-chip').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById(hiddenId).value = value;
   checkWebForm();
@@ -588,9 +592,11 @@ function checkWebForm() {
 
 async function submitWebForm() {
   const btn = document.getElementById('btnWebSubmit');
-  const btnText = document.getElementById('btnWebText');
   btn.disabled = true;
-  btnText.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle"></span>';
+  btn.textContent = 'Envoi en cours…';
+  const errorBanner = document.getElementById('webErrorBanner');
+  errorBanner.classList.remove('show');
+
   const formData = new FormData();
   formData.append('Service',     'Intégration / Développement web');
   formData.append('Type_projet', document.getElementById('webType').value);
@@ -600,19 +606,27 @@ async function submitWebForm() {
   formData.append('Nom',         document.getElementById('webNom').value.trim());
   formData.append('Email',       document.getElementById('webEmail').value.trim());
   formData.append('Téléphone',   document.getElementById('webTel').value.trim() || 'Non renseigné');
+
   try {
-    await fetch('https://formspree.io/f/xkopkwrz', { method:'POST', body:formData, headers:{'Accept':'application/json'} });
-  } catch(e) { console.error(e); }
-  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); });
-  document.getElementById('sSuccessWeb').classList.add('active');
-  [1,2,3,4].forEach(i => { const d = document.getElementById('dot'+i); d.classList.remove('active','done'); d.classList.add('done'); });
+    const res = await fetch('https://formspree.io/f/xkopkwrz', {
+      method:'POST', body:formData, headers:{'Accept':'application/json'}
+    });
+    if (!res.ok) throw new Error('Formspree error ' + res.status);
+    document.querySelectorAll('.screen,.success-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('sSuccessWeb').classList.add('active');
+    [1,2,3,4].forEach(i => { const d = document.getElementById('dot'+i); d.classList.remove('active','done'); d.classList.add('done'); });
+  } catch(e) {
+    document.getElementById('webErrorMsg').textContent = 'Erreur lors de l\'envoi. Vérifiez votre connexion et réessayez.';
+    errorBanner.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Envoyer ma demande →';
+  }
 }
 
-// ─── CALENDRIER ───────────────────────────────────────────────────────────────
 async function goTo(step) {
-  document.querySelectorAll('.screen,.success-screen').forEach(s => { s.classList.remove('active'); });
-  if (step === 5) { document.getElementById('sSuccess').classList.add('active'); }
-  else { document.getElementById('s'+step).classList.add('active'); }
+  document.querySelectorAll('.screen,.success-screen').forEach(s => s.classList.remove('active'));
+  if (step === 5) document.getElementById('sSuccess').classList.add('active');
+  else document.getElementById('s'+step).classList.add('active');
   [1,2,3,4].forEach(i => {
     const d = document.getElementById('dot'+i);
     d.classList.remove('active','done');
@@ -652,14 +666,14 @@ function renderCalendar() {
   const grid = document.getElementById('calGrid');
   grid.innerHTML = '';
   days.forEach(d => { const el = document.createElement('div'); el.className = 'cal-day-label'; el.textContent = d; grid.appendChild(el); });
-  const first    = new Date(y, m, 1);
-  let startDay   = first.getDay() - 1; if (startDay < 0) startDay = 6;
+  const first = new Date(y, m, 1);
+  let startDay = first.getDay() - 1; if (startDay < 0) startDay = 6;
   const daysInMonth = new Date(y, m+1, 0).getDate();
-  const today    = new Date(); today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0,0,0,0);
   for (let i = 0; i < startDay; i++) { const e = document.createElement('div'); e.className = 'cal-day empty'; grid.appendChild(e); }
   for (let d = 1; d <= daysInMonth; d++) {
-    const el    = document.createElement('div');
-    const date  = new Date(y, m, d); date.setHours(0,0,0,0);
+    const el   = document.createElement('div');
+    const date = new Date(y, m, d); date.setHours(0,0,0,0);
     const isPast    = date < today;
     const isToday   = date.getTime() === today.getTime();
     const isSelected = state.selectedDate && state.selectedDate.getTime() === date.getTime();
@@ -681,7 +695,7 @@ function renderCalendar() {
       const borders = { low:'#22c55e40', mid:'#f59e0b40', high:'#ef444440' };
       if (colors[colorCls]) { el.style.background = colors[colorCls]; el.style.borderColor = borders[colorCls]; }
     }
-    if (!isPast && !allFull) { el.onclick = () => selectDate(date, dateKey); }
+    if (!isPast && !allFull) el.onclick = () => selectDate(date, dateKey);
     grid.appendChild(el);
   }
 }
@@ -690,8 +704,8 @@ function selectDate(date, dateKey) {
   state.selectedDate = date; state.selectedTime = ''; state.selectedSlotLabel = '';
   document.getElementById('btn2').disabled = true;
   renderCalendar();
-  const dow   = date.getDay();
-  const slots = getSlotsForDay(dow);
+  const dow    = date.getDay();
+  const slots  = getSlotsForDay(dow);
   const booked = state.bookings[dateKey] || {};
   const ts = document.getElementById('timeSection');
   ts.style.display = 'block';
@@ -708,8 +722,16 @@ function selectDate(date, dateKey) {
     else if (count >= 2) fillHTML = `<span class="slot-fill mid">${count}/${MAX_PER_SLOT}</span>`;
     else if (count >= 1) fillHTML = `<span class="slot-fill low">${count}/${MAX_PER_SLOT}</span>`;
     else fillHTML = `<span class="slot-check">✓</span>`;
-    btn.innerHTML = `<span class="slot-icon">${slot.emoji}</span><span class="slot-info"><span class="slot-label">${slot.label}</span><span class="slot-hours">${slot.hours}</span></span>${fillHTML}`;
-    if (!isFull) { btn.onclick = () => { document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); state.selectedTime = slot.id; state.selectedSlotLabel = `${slot.label} (${slot.hours})`; document.getElementById('btn2').disabled = false; }; }
+    btn.innerHTML = `<span class="slot-icon">${slot.emoji}</span><span class="slot-info"><span class="slot-label">${slot.label}</span><br><span class="slot-hours">${slot.hours}</span></span>${fillHTML}`;
+    if (!isFull) {
+      btn.onclick = () => {
+        document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.selectedTime      = slot.id;
+        state.selectedSlotLabel = `${slot.label} (${slot.hours})`;
+        document.getElementById('btn2').disabled = false;
+      };
+    }
     sl.appendChild(btn);
   });
 }
@@ -717,7 +739,6 @@ function selectDate(date, dateKey) {
 async function prevMonth() { state.currentMonth--; if (state.currentMonth < 0) { state.currentMonth = 11; state.currentYear--; } state.selectedDate = null; state.selectedTime = ''; document.getElementById('timeSection').style.display = 'none'; document.getElementById('btn2').disabled = true; await loadAndRender(); }
 async function nextMonth() { state.currentMonth++; if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; } state.selectedDate = null; state.selectedTime = ''; document.getElementById('timeSection').style.display = 'none'; document.getElementById('btn2').disabled = true; await loadAndRender(); }
 
-// ─── FORMULAIRE CLIENT ────────────────────────────────────────────────────────
 let _emailCheckTimer = null;
 function onEmailInput() { window._emailIsExisting = false; document.getElementById('emailHint').style.display = 'none'; document.getElementById('pwdGroup').style.display = 'flex'; clearTimeout(_emailCheckTimer); }
 function onEmailBlur() { const email = document.getElementById('femail').value.trim(); clearTimeout(_emailCheckTimer); _emailCheckTimer = setTimeout(() => window.checkEmailExists(email), 300); }
@@ -762,23 +783,31 @@ function fillSummary() {
   document.getElementById('sumPrice').textContent   = state.servicePrice;
 }
 
-function showSpinner(lock=false) {
+function showSpinner() {
   if (document.getElementById('sendingOverlay')) return;
   const overlay = document.createElement('div'); overlay.className = 'sending-overlay'; overlay.id = 'sendingOverlay';
   overlay.innerHTML = '<div class="spinner"></div>';
   document.querySelector('.phone-frame').appendChild(overlay);
-  if (lock) { const btn = document.getElementById('btnConfirm'); if (btn) btn.disabled = true; }
+  document.getElementById('btnConfirm').disabled = true;
 }
 function hideSpinner() { const o = document.getElementById('sendingOverlay'); if (o) o.remove(); }
 
+function showRdvError(msg) {
+  document.getElementById('rdvErrorMsg').textContent = msg;
+  document.getElementById('rdvErrorBanner').classList.add('show');
+  document.getElementById('btnConfirm').disabled = false;
+}
+
 async function confirmRdv() {
+  document.getElementById('rdvErrorBanner').classList.remove('show');
   const y = state.selectedDate.getFullYear(), m = state.selectedDate.getMonth(), d = state.selectedDate.getDate();
   const dateKey  = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   const monthKey = `${y}-${String(m+1).padStart(2,'0')}`;
   const email    = document.getElementById('femail').value.trim();
   const pwd      = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
   const nom      = document.getElementById('fname').value.trim();
-  showSpinner(true);
+  showSpinner();
+
   let uid = null, accountCreated = false;
   if (window._currentUser) { uid = window._currentUser.uid; accountCreated = true; }
   else if (window._emailIsExisting) { uid = null; accountCreated = false; }
@@ -791,32 +820,59 @@ async function confirmRdv() {
       accountCreated = true;
     } catch(e) {
       hideSpinner();
-      if (e.code === 'auth/email-already-in-use') { window._emailIsExisting = true; uid = null; accountCreated = false; }
-      else { alert('Erreur : ' + e.message); return; }
-      showSpinner(true);
+      if (e.code === 'auth/email-already-in-use') { window._emailIsExisting = true; uid = null; accountCreated = false; showSpinner(); }
+      else { showRdvError('Erreur création compte : ' + e.message); return; }
     }
   }
+
+  // Sauvegarde Firebase
   try {
-    await window.saveReservation({ dateKey, monthKey, time:state.selectedTime, timeLabel:state.selectedSlotLabel, service:state.service, price:state.servicePrice, nom, email, telephone:document.getElementById('fphone').value, adresse:document.getElementById('faddress').value, description:document.getElementById('fdesc').value, status:'pending', createdAt:new Date().toISOString() }, uid);
-  } catch(e) { console.error(e); }
+    await window.saveReservation({
+      dateKey, monthKey,
+      time: state.selectedTime,
+      timeLabel: state.selectedSlotLabel,
+      service: state.service,
+      price: state.servicePrice,
+      nom, email,
+      telephone: document.getElementById('fphone').value,
+      adresse: document.getElementById('faddress').value,
+      description: document.getElementById('fdesc').value,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    }, uid);
+  } catch(e) {
+    hideSpinner();
+    showRdvError('Erreur lors de la sauvegarde : ' + e.message + '. Vérifiez votre connexion et réessayez.');
+    return;
+  }
+
+  // Envoi email Formspree
   try {
     const formData = new FormData();
-    ['Service','Tarif','Date','Plage','Nom','Email','Telephone','Adresse','Description'].forEach((k,i) => {
-      const vals = [state.service, state.servicePrice, state.selectedDate?.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}), state.selectedSlotLabel, nom, email, document.getElementById('fphone').value, document.getElementById('faddress').value, document.getElementById('fdesc').value];
-      formData.append(k, vals[i]);
+    formData.append('Service',     state.service);
+    formData.append('Tarif',       state.servicePrice);
+    formData.append('Date',        state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}));
+    formData.append('Plage',       state.selectedSlotLabel);
+    formData.append('Nom',         nom);
+    formData.append('Email',       email);
+    formData.append('Telephone',   document.getElementById('fphone').value);
+    formData.append('Adresse',     document.getElementById('faddress').value);
+    formData.append('Description', document.getElementById('fdesc').value);
+    const res = await fetch('https://formspree.io/f/xkopkwrz', {
+      method:'POST', body:formData, headers:{'Accept':'application/json'}
     });
-    await fetch('https://formspree.io/f/xkopkwrz', { method:'POST', body:formData, headers:{'Accept':'application/json'} });
-  } catch(e) { console.error(e); }
+    if (!res.ok) console.warn('Formspree warning:', res.status);
+  } catch(e) { console.warn('Formspree non disponible:', e); }
+
   hideSpinner();
-  const linkEspaceClient = document.getElementById('linkEspaceClient');
-  linkEspaceClient.style.display = (accountCreated || window._emailIsExisting) ? 'block' : 'none';
+  document.getElementById('linkEspaceClient').style.display = (accountCreated || window._emailIsExisting) ? 'block' : 'none';
   const dateFormatted = state.selectedDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   document.getElementById('confirmCard').innerHTML = `
     <div class="confirm-row"><div class="confirm-icon">🔧</div><div>${state.service}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📅</div><div>${dateFormatted}</div></div>
     <div class="confirm-row"><div class="confirm-icon">🕐</div><div>${state.selectedSlotLabel}</div></div>
     <div class="confirm-row"><div class="confirm-icon">📍</div><div>${document.getElementById('faddress').value}</div></div>
-    <div class="confirm-row"><div class="confirm-icon">📧</div><div>Confirmation envoyée à ${email}</div></div>
+    <div class="confirm-row"><div class="confirm-icon">📧</div><div>Stevy vous confirmera à ${email}</div></div>
   `;
   goTo(5);
 }
@@ -838,6 +894,7 @@ function restart() {
   document.getElementById('btn1').disabled = true;
   document.getElementById('btn2').disabled = true;
   document.getElementById('btn3').disabled = true;
+  document.getElementById('rdvErrorBanner').classList.remove('show');
   goTo(1);
 }
 </script>
