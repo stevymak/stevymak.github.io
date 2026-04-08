@@ -563,7 +563,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux.</p>
         <div class="contact-methods">
           <a href="tel:+33619515756" class="contact-method"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>06 19 51 57 56</strong></div></a>
-          <a href="#" class="contact-method" id="emailLink"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay">contact@makouezit.org</strong></div></a>
+          <a href="#" class="contact-method" id="emailLink"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay"><span class="__cf_email__" data-cfemail="9ffcf0f1ebfefcebdff2fef4f0eafae5f6ebb1f0edf8">[email&#160;protected]</span></strong></div></a>
           <a href="https://wa.me/33619515756" class="contact-method"><div class="contact-method-icon">💬</div><div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div></a>
         </div>
       </div>
@@ -644,7 +644,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // EMAIL anti-obfuscation
 (function(){
   const u='contact';const d='makouezit.org';
@@ -854,19 +854,10 @@ document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
   btn.disabled = true;
   btn.textContent = 'Envoi en cours…';
   try {
-    await addDoc(collection(db,'avis'),{
-      nom, comment, note: parseInt(noteEl.value), createdAt: serverTimestamp()
+    await addDoc(collection(db,'avis_en_attente'),{
+      nom, comment, note: parseInt(noteEl.value), createdAt: serverTimestamp(), statut: 'en_attente'
     });
     document.getElementById('avisFormWrap').style.display='none';
     document.getElementById('avisSuccessWrap').style.display='block';
     loadAvis();
-  } catch(e){
-    alert('Une erreur est survenue, veuillez réessayer.');
-    btn.disabled=false;
-    btn.textContent='Envoyer mon avis';
-  }
-});
-</script>
-<script src="chat-widget.js"></script>
-</body>
-</html>
+  } catc
