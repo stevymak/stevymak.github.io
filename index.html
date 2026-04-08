@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Makouez IT – Dépannage informatique à domicile | Île-de-France</title>
-<meta name="description" content="Stevy, technicien informatique avec plus de 10 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC, réseau Wi-Fi, récupération de données. À partir de 60€. Intervention rapide sous 24h.">
-<meta name="keywords" content="dépannage informatique domicile, technicien informatique Île-de-France, réparation PC, récupération données, Makouez IT, dépannage informatique 93, technicien informatique Seine-Saint-Denis">
+<meta name="description" content="Stevy, technicien informatique avec plus de 10 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC/Mac, réseau Wi-Fi, récupération de données. À partir de 60€. Intervention rapide sous 24h.">
+<meta name="keywords" content="dépannage informatique domicile, technicien informatique Île-de-France, réparation PC Mac, récupération données, Makouez IT, dépannage informatique 93, technicien informatique Seine-Saint-Denis">
 <meta name="author" content="Stevy – Makouez IT">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Makouez IT – Dépannage informatique à domicile en Île-de-France">
-<meta property="og:description" content="Technicien informatique avec plus de 10 ans d'expérience. Intervention rapide à domicile. Dépannage PC, Wi-Fi, récupération de données. À partir de 60€.">
+<meta property="og:description" content="Technicien informatique avec plus de 10 ans d'expérience. Intervention rapide à domicile. Dépannage PC/Mac, Wi-Fi, récupération de données. À partir de 60€.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,6 +221,34 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   .hero h1{font-size:1.75rem}
 }
 
+/* BOUTON LAISSER UN AVIS */
+.btn-avis{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid #3b82f640;color:var(--accent2);padding:0.65rem 1.5rem;border-radius:10px;font-size:0.9rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:1.5rem}
+.btn-avis:hover{background:#3b82f615;border-color:#3b82f680}
+
+/* MODALE AVIS */
+.avis-modal-overlay{position:fixed;inset:0;background:#000000cc;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.avis-modal-overlay.open{opacity:1;pointer-events:all}
+.avis-modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:480px;width:100%;padding:2rem;position:relative}
+.avis-modal-close{position:absolute;top:1rem;right:1rem;background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:1rem;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.2s}
+.avis-modal-close:hover{color:var(--text)}
+.avis-modal h3{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:0.3rem}
+.avis-modal p{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem}
+.avis-form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem}
+.avis-form-group label{font-size:0.85rem;font-weight:500;color:var(--text)}
+.avis-form-group input,.avis-form-group textarea{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;resize:none}
+.avis-form-group input:focus,.avis-form-group textarea:focus{border-color:#3b82f660}
+.star-rating{display:flex;gap:0.4rem;flex-direction:row-reverse;justify-content:flex-end}
+.star-rating input{display:none}
+.star-rating label{font-size:1.8rem;color:var(--border);cursor:pointer;transition:color 0.15s}
+.star-rating input:checked ~ label,.star-rating label:hover,.star-rating label:hover ~ label{color:#f59e0b}
+.btn-submit-avis{width:100%;background:var(--accent);color:#fff;border:none;padding:0.8rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;margin-top:0.5rem}
+.btn-submit-avis:hover{opacity:0.85}
+.btn-submit-avis:disabled{opacity:0.5;cursor:not-allowed}
+.avis-success{text-align:center;padding:1rem 0}
+.avis-success-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.avis-success h4{font-family:'Syne',sans-serif;font-size:1.1rem;margin-bottom:0.5rem}
+.avis-success p{color:var(--muted);font-size:0.85rem}
+
 /* MODAL ARTICLE BLOG */
 .blog-modal-overlay{position:fixed;inset:0;background:#000000cc;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.25s}
 .blog-modal-overlay.open{opacity:1;pointer-events:all}
@@ -357,7 +385,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <div class="tarif-name">Pack Famille</div>
         <div class="tarif-price">59€ <span>/mois</span></div>
         <div class="tarif-desc">Jusqu'à 3 appareils, toute la famille</div>
-        <ul class="tarif-features"><li>3 appareils couverts</li><li>PC, smartphone, tablette</li><li>Contrôle parental inclus</li><li>Interventions illimitées</li></ul>
+        <ul class="tarif-features"><li>3 appareils couverts</li><li>PC, Mac, smartphone, tablette</li><li>Contrôle parental inclus</li><li>Interventions illimitées</li></ul>
         <a href="contrats.html?contrat=famille" class="btn-souscrire">Souscrire →</a>
       </div>
       <div class="tarif-card" style="grid-column:1/-1;max-width:340px;margin:0 auto;border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)">
@@ -378,6 +406,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Ce que disent mes clients</h2>
     <div class="avis-moyenne" id="avisMoyenne"></div>
     <div class="avis-grid" id="avisGrid"><div class="avis-loading">Chargement des avis…</div></div>
+    <button class="btn-avis" id="btnLaisserAvis">⭐ Laisser un avis</button>
   </div>
 </section>
 
@@ -456,7 +485,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <p style="color:var(--muted);margin-bottom:1.5rem">Fondateur de Makouez IT, technicien informatique depuis plus de 10 ans. Formé à Saint-Denis et Nanterre, j'ai exercé en itinérance pour de grandes entreprises — LCL, BNP Paribas, SPIE, Neurones IT, Safran — en support de proximité N1/N2, déploiement Windows et assistance VIP, partout en Île-de-France.</p>
         <p style="color:var(--muted);margin-bottom:1.5rem">Aujourd'hui je mets cette expérience terrain au service des particuliers : intervenir chez vous avec la même rigueur professionnelle, sans jargon et sans surprise.</p>
         <div class="about-tags">
-          <span class="tag">Dépannage PC</span><span class="tag">Réseaux</span>
+          <span class="tag">Dépannage PC/Mac</span><span class="tag">Réseaux</span>
           <span class="tag">Windows</span><span class="tag">Sécurité</span>
           <span class="tag">Formation</span><span class="tag">Développement web</span>
           <span class="tag">Micro-entrepreneur</span>
@@ -569,6 +598,41 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </a>
 </div>
 
+<!-- MODALE LAISSER UN AVIS -->
+<div class="avis-modal-overlay" id="avisModal">
+  <div class="avis-modal">
+    <button class="avis-modal-close" id="avisModalClose">✕</button>
+    <div id="avisFormWrap">
+      <h3>Laisser un avis</h3>
+      <p>Votre retour m'aide à m'améliorer et à rassurer de futurs clients.</p>
+      <div class="avis-form-group">
+        <label>Votre prénom</label>
+        <input type="text" id="avisNom" placeholder="Ex : Marie" maxlength="40">
+      </div>
+      <div class="avis-form-group">
+        <label>Note</label>
+        <div class="star-rating">
+          <input type="radio" name="note" id="s5" value="5"><label for="s5">★</label>
+          <input type="radio" name="note" id="s4" value="4"><label for="s4">★</label>
+          <input type="radio" name="note" id="s3" value="3"><label for="s3">★</label>
+          <input type="radio" name="note" id="s2" value="2"><label for="s2">★</label>
+          <input type="radio" name="note" id="s1" value="1"><label for="s1">★</label>
+        </div>
+      </div>
+      <div class="avis-form-group">
+        <label>Votre commentaire</label>
+        <textarea id="avisComment" rows="4" placeholder="Décrivez votre expérience…" maxlength="500"></textarea>
+      </div>
+      <button class="btn-submit-avis" id="btnSubmitAvis">Envoyer mon avis</button>
+    </div>
+    <div id="avisSuccessWrap" class="avis-success" style="display:none">
+      <div class="avis-success-icon">🎉</div>
+      <h4>Merci pour votre avis !</h4>
+      <p>Votre retour a bien été enregistré. Il apparaîtra prochainement sur le site.</p>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL ARTICLES BLOG -->
 <div class="blog-modal-overlay" id="blogModal">
   <div class="blog-modal">
@@ -580,7 +644,22 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// FAQ
+// MODALE AVIS
+const avisModal = document.getElementById('avisModal');
+const avisModalClose = document.getElementById('avisModalClose');
+const btnLaisserAvis = document.getElementById('btnLaisserAvis');
+const btnSubmitAvis = document.getElementById('btnSubmitAvis');
+const avisFormWrap = document.getElementById('avisFormWrap');
+const avisSuccessWrap = document.getElementById('avisSuccessWrap');
+
+function openAvisModal(){ avisModal.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeAvisModal(){ avisModal.classList.remove('open'); document.body.style.overflow=''; }
+
+btnLaisserAvis.addEventListener('click', openAvisModal);
+avisModalClose.addEventListener('click', closeAvisModal);
+avisModal.addEventListener('click', e=>{ if(e.target===avisModal) closeAvisModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAvisModal(); });
+
 document.querySelectorAll('.faq-item').forEach(item=>{
   item.querySelector('.faq-q').addEventListener('click',()=>{ item.classList.toggle('open'); });
 });
@@ -727,7 +806,7 @@ function closeModal() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, orderBy, query, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const firebaseConfig = { apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a" };
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
@@ -738,10 +817,45 @@ async function loadAvis() {
     const q = query(collection(db,'avis'),orderBy('createdAt','desc'),limit(12));
     const snap = await getDocs(q);
     const avis = snap.docs.map(d=>({id:d.id,...d.data()}));
-    if (avis.length===0){grid.innerHTML='<div class="avis-empty">Aucun avis pour le moment — soyez le premier à en laisser un !</div>';return;}
+    if (avis.length===0){grid.innerHTML='<div class="avis-empty">Aucun avis pour le moment.<br>Vous avez fait appel à Makouez IT ? N\'hésitez pas à laisser le vôtre, ça m\'aide beaucoup !</div>';return;}
     const moyenne=avis.reduce((s,a)=>s+(a.note||0),0)/avis.length;
     moyenneEl.innerHTML=`<div class="avis-moyenne-num">${moyenne.toFixed(1)}</div><div><div class="avis-moyenne-stars">${'★'.repeat(Math.round(moyenne))}${'☆'.repeat(5-Math.round(moyenne))}</div><div class="avis-moyenne-count">${avis.length} avis client${avis.length>1?'s':''}</div></div>`;
     grid.innerHTML=avis.map(a=>{
       const stars='★'.repeat(a.note||0)+'☆'.repeat(5-(a.note||0));
       const date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'';
-      return`<div class="avis-card"><div class="avis-stars">${stars}</div><div class="avis-comment">"${a.comment}"</div><div style="display:flex;justify-content:space-between;align-items:center"><div class="avis-author">— ${a.nom}
+</div><div class="avis-date">${date}</div></div></div>`;
+    }).join('');
+  } catch(e){grid.innerHTML='<div class="avis-empty">Impossible de charger les avis.</div>';}
+}
+loadAvis();
+
+// ENVOI AVIS
+document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
+  const nom = document.getElementById('avisNom').value.trim();
+  const comment = document.getElementById('avisComment').value.trim();
+  const noteEl = document.querySelector('input[name="note"]:checked');
+  const btn = document.getElementById('btnSubmitAvis');
+
+  if(!nom){ alert('Merci d\'indiquer votre prénom.'); return; }
+  if(!noteEl){ alert('Merci de sélectionner une note.'); return; }
+  if(!comment){ alert('Merci d\'écrire un commentaire.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+  try {
+    await addDoc(collection(db,'avis'),{
+      nom, comment, note: parseInt(noteEl.value), createdAt: serverTimestamp()
+    });
+    document.getElementById('avisFormWrap').style.display='none';
+    document.getElementById('avisSuccessWrap').style.display='block';
+    loadAvis();
+  } catch(e){
+    alert('Une erreur est survenue, veuillez réessayer.');
+    btn.disabled=false;
+    btn.textContent='Envoyer mon avis';
+  }
+});
+</script>
+<script src="chat-widget.js"></script>
+</body>
+</html>
