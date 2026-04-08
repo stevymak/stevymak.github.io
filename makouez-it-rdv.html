@@ -181,7 +181,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       ✓ Service pré-sélectionné — vous pouvez modifier votre choix ci-dessous.
     </div>
     <div class="service-list">
-      <button class="service-btn" onclick="selectService(this,'Dépannage PC/Mac','60-80€',false)">
+      <button class="service-btn" onclick="selectService(this,'Dépannage PC','60-80€',false)">
         <div class="svc-icon">💻</div>
         <div><div class="svc-name">Dépannage PC</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
@@ -539,7 +539,7 @@ let state = {
   const sp = params.get('service');
   if (!sp) return;
   const serviceMap = {
-    'Dépannage PC/Mac':                 { name:'Dépannage PC/Mac',                 price:'60-80€',            webdev:false },
+    'Dépannage PC':                 { name:'Dépannage PC',                 price:'60-80€',            webdev:false },
     'Installation Windows / logiciels': { name:'Installation Windows / logiciels', price:'à partir de 60€',   webdev:false },
     'Réseau Wi-Fi':                      { name:'Réseau Wi-Fi',                      price:'à partir de 60€',   webdev:false },
     'Récupération de données':           { name:'Récupération de données',           price:'à partir de 80€',   webdev:false },
