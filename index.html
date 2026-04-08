@@ -103,7 +103,7 @@ section{padding:5rem 2rem}
 .avis-author{color:var(--muted);font-size:0.8rem;font-weight:500}
 .avis-date{color:var(--muted);font-size:0.75rem}
 .avis-loading{color:var(--muted);font-size:0.9rem;padding:1.5rem 0}
-.avis-empty{color:var(--muted);font-size:0.9rem;padding:1.5rem 0;text-align:center}
+.avis-empty{color:var(--muted);font-size:0.9rem;padding:1.5rem 0;text-align:center;width:100%;grid-column:1/-1}
 .avis-moyenne{display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap;justify-content:center}
 .avis-moyenne-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--text);line-height:1}
 .avis-moyenne-stars{color:#f59e0b;font-size:1.3rem}
@@ -285,12 +285,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Des solutions pour chaque problème</h2>
     <p class="section-sub">Cliquez sur un service pour réserver directement avec ce service pré-sélectionné.</p>
     <div class="services-grid">
-      <a href="makouez-it-rdv.html" class="service-card">
-        <div class="service-icon">💻</div><h3>PC</h3>
+      <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC" class="service-card">
+        <div class="service-icon">💻</div><h3>Dépannage PC</h3>
         <p>Lenteur, virus, écran noir, plantages, Windows qui ne démarre plus, je diagnostique et répare rapidement.</p>
         <div class="service-cta">Réserver ce service →</div>
       </a>
-      <a href="makouez-it-rdv.html" class="service-card">
+      <a href="makouez-it-rdv.html?service=Installation+Windows+et+logiciels" class="service-card">
         <div class="service-icon">🪟</div><h3>Installation Windows et logiciels</h3>
         <p>Réinstallation de Windows, configuration initiale, installation de vos logiciels et mises à jour.</p>
         <div class="service-cta">Réserver ce service →</div>
@@ -310,7 +310,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <p>Mise en place de sauvegardes automatiques, antivirus, protection contre les arnaques en ligne.</p>
         <div class="service-cta">Réserver ce service →</div>
       </a>
-      <a href="makouez-it-rdv.html" class="service-card">
+      <a href="makouez-it-rdv.html?service=Formation+et+accompagnement" class="service-card">
         <div class="service-icon">🎓</div><h3>Formation et accompagnement</h3>
         <p>Apprenez à maîtriser votre PC, smartphone ou tablette à votre rythme, sans jargon technique.</p>
         <div class="service-cta">Réserver ce service →</div>
@@ -533,7 +533,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux.</p>
         <div class="contact-methods">
           <a href="tel:+33619515756" class="contact-method"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>06 19 51 57 56</strong></div></a>
-          <a href="mailto:contact@makouezit.org" class="contact-method"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong>contact@makouezit.org</strong></div></a>
+          <a href="/cdn-cgi/l/email-protection#1b7874756f7a786f5b767a70746e7e61726f3574697c" class="contact-method"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong><span class="__cf_email__" data-cfemail="0c6f6362786d6f784c616d6763796976657822637e6b">[email&#160;protected]</span></strong></div></a>
           <a href="https://wa.me/33619515756" class="contact-method"><div class="contact-method-icon">💬</div><div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div></a>
         </div>
       </div>
@@ -579,7 +579,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // FAQ
 document.querySelectorAll('.faq-item').forEach(item=>{
   item.querySelector('.faq-q').addEventListener('click',()=>{ item.classList.toggle('open'); });
@@ -744,12 +744,4 @@ async function loadAvis() {
     grid.innerHTML=avis.map(a=>{
       const stars='★'.repeat(a.note||0)+'☆'.repeat(5-(a.note||0));
       const date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'';
-      return`<div class="avis-card"><div class="avis-stars">${stars}</div><div class="avis-comment">"${a.comment}"</div><div style="display:flex;justify-content:space-between;align-items:center"><div class="avis-author">— ${a.nom}</div><div class="avis-date">${date}</div></div></div>`;
-    }).join('');
-  } catch(e){grid.innerHTML='<div class="avis-empty">Impossible de charger les avis.</div>';}
-}
-loadAvis();
-</script>
-<script src="chat-widget.js"></script>
-</body>
-</html>
+      return`<div class="avis-card"><div class="avis-stars">${stars}</div><div class="avis-comment">"${a.comment}"</div><div style="display:flex;justify-content:space-between;align-items:center"><div class="avis-author">— ${a.nom}
