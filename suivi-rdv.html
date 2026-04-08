@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi de réservation – Makouez IT</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
+  --accent:#3b82f6;--accent2:#60a5fa;
+  --text:#f0f0ff;--muted:#8888aa;
+  --border:#ffffff14;--card:#ffffff08;--r:12px;
+  --green:#22c55e;--orange:#f97316;--red:#ef4444;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem}
+h1,h2{font-family:'Syne',sans-serif}
+
+.logo-wrap{margin-bottom:2rem;text-align:center}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem}
+.logo span{color:var(--accent)}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:480px}
+
+/* État chargement */
+.loader{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:2rem 0;color:var(--muted)}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* État erreur */
+.error-state{text-align:center;padding:1.5rem 0}
+.error-icon{font-size:2.5rem;margin-bottom:1rem}
+.error-state h2{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
+.error-state p{color:var(--muted);font-size:0.88rem}
+
+/* Header RDV */
+.rdv-header{margin-bottom:1.5rem}
+.rdv-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:0.3rem}
+.rdv-sub{color:var(--muted);font-size:0.85rem}
+
+/* Badge statut */
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:0.4rem 1rem;border-radius:99px;font-size:0.82rem;font-weight:600;margin:1rem 0}
+.status-badge.pending{background:#f9731620;color:var(--orange);border:1px solid #f9731640}
+.status-badge.confirmed{background:#22c55e18;color:var(--green);border:1px solid #22c55e30}
+.status-badge.cancelled{background:#ef444418;color:var(--red);border:1px solid #ef444430}
+.status-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+
+/* Timeline statut */
+.timeline{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+.tl-item{display:flex;gap:1rem;align-items:flex-start;position:relative}
+.tl-item:not(:last-child)::after{content:'';position:absolute;left:15px;top:32px;width:2px;height:calc(100% - 8px);background:var(--border)}
+.tl-dot{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.85rem;border:2px solid var(--border);background:var(--bg2);z-index:1}
+.tl-dot.done{background:#22c55e20;border-color:#22c55e60;color:var(--green)}
+.tl-dot.active{background:#3b82f620;border-color:#3b82f660;color:var(--accent2);animation:pulse-border 2s infinite}
+@keyframes pulse-border{0%,100%{border-color:#3b82f660}50%{border-color:#3b82f6}}
+.tl-dot.waiting{background:var(--card);border-color:var(--border);color:var(--muted)}
+.tl-content{padding:0.35rem 0 1.25rem}
+.tl-label{font-weight:600;font-size:0.88rem}
+.tl-desc{color:var(--muted);font-size:0.78rem;margin-top:0.1rem}
+
+/* Infos RDV */
+.info-grid{display:flex;flex-direction:column;gap:0.75rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;margin-bottom:1.5rem}
+.info-row{display:flex;align-items:flex-start;gap:0.75rem;font-size:0.88rem}
+.info-icon{font-size:1rem;flex-shrink:0;margin-top:0.1rem}
+.info-label{color:var(--muted);font-size:0.75rem;display:block}
+.info-value{font-weight:500}
+
+/* Message annulation */
+.cancelled-msg{background:#ef444410;border:1px solid #ef444430;border-radius:var(--r);padding:1rem;font-size:0.85rem;color:#fca5a5;margin-bottom:1rem}
+
+/* Boutons contact */
+.contact-row{display:flex;gap:0.75rem;flex-wrap:wrap}
+.btn-contact{display:flex;align-items:center;gap:0.4rem;padding:0.55rem 1rem;border-radius:8px;font-size:0.83rem;font-weight:500;text-decoration:none;border:1px solid var(--border);color:var(--text);background:var(--card);transition:border-color 0.2s}
+.btn-contact:hover{border-color:#3b82f640}
+.btn-new-rdv{display:block;text-align:center;background:var(--accent);color:#fff;padding:0.75rem;border-radius:10px;text-decoration:none;font-weight:500;font-size:0.9rem;margin-top:1rem;transition:opacity 0.2s}
+.btn-new-rdv:hover{opacity:0.85}
+.btn-back{display:block;text-align:center;color:var(--muted);font-size:0.82rem;text-decoration:none;margin-top:0.75rem;transition:color 0.2s}
+.btn-back:hover{color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="logo-wrap">
+  <div class="logo">Makouez <span>IT</span></div>
+</div>
+
+<div class="card" id="mainCard">
+  <div class="loader" id="loaderState">
+    <div class="spinner"></div>
+    <span>Chargement de votre réservation…</span>
+  </div>
+  <div id="rdvState" style="display:none"></div>
+  <div class="error-state" id="errorState" style="display:none">
+    <div class="error-icon">🔍</div>
+    <h2>Réservation introuvable</h2>
+    <p>Le lien est invalide ou expiré. Vérifiez votre email de confirmation.</p>
+    <a href="makouez-it-rdv.html" class="btn-new-rdv" style="margin-top:1.5rem">Prendre un nouveau RDV →</a>
+    <a href="index.html" class="btn-back">← Retour au site</a>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+  authDomain: "makouez-it.firebaseapp.com",
+  projectId: "makouez-it",
+  storageBucket: "makouez-it.firebasestorage.app",
+  messagingSenderId: "558314427247",
+  appId: "1:558314427247:web:83e656344dd79019ccce9a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// Récupère l'ID depuis l'URL
+const params = new URLSearchParams(window.location.search);
+const rdvId  = params.get('id');
+
+if (!rdvId) {
+  showError();
+} else {
+  loadRdv(rdvId);
+}
+
+async function loadRdv(id) {
+  try {
+    const snap = await getDoc(doc(db, 'reservations', id));
+    if (!snap.exists()) { showError(); return; }
+    renderRdv(id, snap.data());
+  } catch(e) {
+    showError();
+  }
+}
+
+function renderRdv(id, r) {
+  document.getElementById('loaderState').style.display = 'none';
+  const el = document.getElementById('rdvState');
+  el.style.display = 'block';
+
+  // Formatage date
+  const dateFormatted = r.dateKey
+    ? new Date(r.dateKey + 'T12:00:00').toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'})
+    : '–';
+  const timeLabel = r.timeLabel || r.time || '–';
+
+  // Config statut
+  const statusConfig = {
+    pending:   { label: '⏳ En attente de confirmation', cls: 'pending',   tl: 1 },
+    confirmed: { label: '✓ Confirmé',                   cls: 'confirmed', tl: 2 },
+    cancelled: { label: '✗ Annulé',                     cls: 'cancelled', tl: -1 },
+  };
+  const st = statusConfig[r.status] || statusConfig.pending;
+
+  // Timeline items
+  const tlItems = [
+    { label: 'Demande envoyée',      desc: 'Votre réservation a bien été reçue',     step: 0 },
+    { label: 'En attente',           desc: 'Stevy examine votre demande',            step: 1 },
+    { label: 'Confirmé',             desc: 'Votre rendez-vous est validé',           step: 2 },
+    { label: 'Intervention réalisée', desc: 'Merci pour votre confiance !',          step: 3 },
+  ];
+
+  const tlHTML = r.status === 'cancelled'
+    ? `<div class="cancelled-msg">⚠️ Ce rendez-vous a été annulé. Vous pouvez en prendre un nouveau à tout moment.</div>`
+    : `<div class="timeline">
+        ${tlItems.map(item => {
+          let dotClass = 'waiting';
+          if (item.step < st.tl) dotClass = 'done';
+          if (item.step === st.tl) dotClass = 'active';
+          const icon = item.step < st.tl ? '✓' : item.step === st.tl ? '→' : '○';
+          return `<div class="tl-item">
+            <div class="tl-dot ${dotClass}">${icon}</div>
+            <div class="tl-content">
+              <div class="tl-label">${item.label}</div>
+              <div class="tl-desc">${item.desc}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+
+  el.innerHTML = `
+    <div class="rdv-header">
+      <div class="rdv-title">Votre réservation</div>
+      <div class="rdv-sub">Bonjour ${r.nom || ''} — voici l'état de votre demande</div>
+      <div class="status-badge ${st.cls}">
+        <span class="status-dot"></span>${st.label}
+      </div>
+    </div>
+
+    ${tlHTML}
+
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-icon">🔧</span>
+        <div><span class="info-label">Service</span><span class="info-value">${r.service || '–'}</span></div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📅</span>
+        <div><span class="info-label">Date</span><span class="info-value">${dateFormatted}</span></div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🕐</span>
+        <div><span class="info-label">Plage horaire</span><span class="info-value">${timeLabel}</span></div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📍</span>
+        <div><span class="info-label">Adresse</span><span class="info-value">${r.adresse || '–'}</span></div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">💰</span>
+        <div><span class="info-label">Tarif indicatif</span><span class="info-value">${r.price || '–'}</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem">Une question ? Contactez directement Stevy :</div>
+    <div class="contact-row">
+      <a href="tel:+33619515756" class="btn-contact">📞 Appeler</a>
+      <a href="https://wa.me/33619515756" class="btn-contact">💬 WhatsApp</a>
+      <a href="mailto:contact@makouezit.org" class="btn-contact">✉️ Email</a>
+    </div>
+
+    ${r.status === 'cancelled'
+      ? `<a href="makouez-it-rdv.html" class="btn-new-rdv">Prendre un nouveau rendez-vous →</a>`
+      : ''
+    }
+    <a href="index.html" class="btn-back">← Retour au site</a>
+  `;
+}
+
+function showError() {
+  document.getElementById('loaderState').style.display  = 'none';
+  document.getElementById('errorState').style.display   = 'block';
+}
+</script>
+</body>
+</html>
