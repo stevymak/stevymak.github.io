@@ -563,7 +563,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux.</p>
         <div class="contact-methods">
           <a href="tel:+33619515756" class="contact-method"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>06 19 51 57 56</strong></div></a>
-          <a href="#" class="contact-method" id="emailLink"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay"><span class="__cf_email__" data-cfemail="9ffcf0f1ebfefcebdff2fef4f0eafae5f6ebb1f0edf8">[email&#160;protected]</span></strong></div></a>
+          <a href="#" class="contact-method" id="emailLink"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay"></strong></div></a>
           <a href="https://wa.me/33619515756" class="contact-method"><div class="contact-method-icon">💬</div><div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div></a>
         </div>
       </div>
@@ -645,11 +645,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// EMAIL anti-obfuscation
+// EMAIL anti-obfuscation Cloudflare
 (function(){
   const u='contact';const d='makouezit.org';
-  const el=document.getElementById('emailLink');
-  if(el){ el.href='mailto:'+u+'@'+d; }
+  const email = u+'@'+d;
+  const el = document.getElementById('emailLink');
+  const display = document.getElementById('emailDisplay');
+  if(el){ el.href = 'mailto:'+email; }
+  if(display){ display.textContent = email; }
 })();
 
 // MODALE AVIS
