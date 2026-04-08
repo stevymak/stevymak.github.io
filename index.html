@@ -741,7 +741,7 @@ async function submitSuivi(){
     const data = await res.json();
     if(!res.ok || data.error){
       if(res.status===404){
-        errEl.textContent='Aucune réservation trouvée pour cet email. Vérifiez l'adresse ou prenez rendez-vous.';
+        errEl.textContent='Aucune réservation trouvée pour cet email. Vérifiez votre adresse ou prenez rendez-vous.';
       } else {
         errEl.textContent='Une erreur est survenue. Réessayez ou contactez-nous directement.';
       }
