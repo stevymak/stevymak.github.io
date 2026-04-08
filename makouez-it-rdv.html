@@ -186,9 +186,9 @@ select.form-input option{background:var(--bg2);color:var(--text)}
         <div><div class="svc-name">Dépannage PC</div><div class="svc-price">60€ – 80€</div></div>
         <div class="svc-check">✓</div>
       </button>
-      <button class="service-btn" onclick="selectService(this,'Installation Windows/Logiciels','à partir de 60€',false)">
+      <button class="service-btn" onclick="selectService(this,'Installation Windows/Logiciel(s)','à partir de 60€',false)">
         <div class="svc-icon">🪟</div>
-        <div><div class="svc-name">Installation Windows/Logiciels</div><div class="svc-price">à partir de 60€</div></div>
+        <div><div class="svc-name">Installation Windows/Logiciel(s)</div><div class="svc-price">à partir de 60€</div></div>
         <div class="svc-check">✓</div>
       </button>
       <button class="service-btn" onclick="selectService(this,'Réseau Wi-Fi','à partir de 60€',false)">
@@ -540,7 +540,7 @@ let state = {
   if (!sp) return;
   const serviceMap = {
     'Dépannage PC':                 { name:'Dépannage PC',                 price:'60-80€',            webdev:false },
-    'Installation Windows / logiciels': { name:'Installation Windows/logiciels', price:'à partir de 60€',   webdev:false },
+    'Installation Windows / logiciels': { name:'Installation Windows/Logiciel(s)', price:'à partir de 60€',   webdev:false },
     'Réseau Wi-Fi':                      { name:'Réseau Wi-Fi',                      price:'à partir de 60€',   webdev:false },
     'Récupération de données':           { name:'Récupération de données',           price:'à partir de 80€',   webdev:false },
     'Sauvegarde & sécurité':            { name:'Sauvegarde & sécurité',            price:'à partir de 60€',   webdev:false },
