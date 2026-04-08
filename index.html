@@ -838,15 +838,16 @@ async function loadAvis() {
 }
 loadAvis();
 
+
 // ENVOI AVIS
 document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
-  const nom = document.getElementById('avisNom').value.trim();
+  const nom     = document.getElementById('avisNom').value.trim();
   const comment = document.getElementById('avisComment').value.trim();
-  const noteEl = document.querySelector('input[name="note"]:checked');
-  const btn = document.getElementById('btnSubmitAvis');
+  const noteEl  = document.querySelector('input[name="note"]:checked');
+  const btn     = document.getElementById('btnSubmitAvis');
 
-  if(!nom){ alert('Merci d\'indiquer votre prénom.'); return; }
-  if(!noteEl){ alert('Merci de sélectionner une note.'); return; }
+  if(!nom)    { alert('Merci d\'indiquer votre prénom.'); return; }
+  if(!noteEl) { alert('Merci de sélectionner une note.'); return; }
   if(!comment){ alert('Merci d\'écrire un commentaire.'); return; }
 
   btn.disabled = true;
@@ -857,5 +858,13 @@ document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
     });
     document.getElementById('avisFormWrap').style.display='none';
     document.getElementById('avisSuccessWrap').style.display='block';
-    loadAvis();
-  } catc
+  } catch(e){
+    alert('Une erreur est survenue, veuillez réessayer.');
+    btn.disabled = false;
+    btn.textContent = 'Envoyer mon avis';
+  }
+});
+</script>
+<script src="chat-widget.js"></script>
+</body>
+</html>
