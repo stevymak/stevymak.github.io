@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Makouez IT – Dépannage informatique à domicile | Île-de-France</title>
-<meta name="description" content="Stevy, technicien informatique avec 9 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC/Mac, réseau Wi-Fi, récupération de données. À partir de 60€. Intervention rapide sous 24h.">
+<meta name="description" content="Stevy, technicien informatique avec plus de 10 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC/Mac, réseau Wi-Fi, récupération de données. À partir de 60€. Intervention rapide sous 24h.">
 <meta name="keywords" content="dépannage informatique domicile, technicien informatique Île-de-France, réparation PC Mac, récupération données, Makouez IT, dépannage informatique 93, technicien informatique Seine-Saint-Denis">
 <meta name="author" content="Stevy – Makouez IT">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Makouez IT – Dépannage informatique à domicile en Île-de-France">
-<meta property="og:description" content="Technicien informatique avec 9 ans d'expérience. Intervention rapide à domicile. Dépannage PC/Mac, Wi-Fi, récupération de données. À partir de 60€.">
+<meta property="og:description" content="Technicien informatique avec plus de 10 ans d'expérience. Intervention rapide à domicile. Dépannage PC/Mac, Wi-Fi, récupération de données. À partir de 60€.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +64,7 @@ section{padding:5rem 2rem}
 .section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem;line-height:1.2}
 .section-sub{color:var(--muted);font-size:1.05rem;max-width:560px;line-height:1.6}
 
+/* SERVICES */
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
 .service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:border-color 0.2s,background 0.2s,transform 0.2s;position:relative;overflow:hidden;text-decoration:none;color:var(--text);display:block;cursor:pointer}
 .service-card:hover{border-color:#3b82f660;background:#3b82f610;transform:translateY(-2px)}
@@ -75,6 +76,7 @@ section{padding:5rem 2rem}
 .service-card.new-service{border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)}
 .service-new-badge{display:inline-block;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:99px;margin-left:0.5rem;vertical-align:middle}
 
+/* TARIFS */
 .tarifs-section{background:var(--bg2)}
 .tarifs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem;max-width:720px;margin-left:auto;margin-right:auto}
 @media(max-width:600px){.tarifs-grid{grid-template-columns:1fr}}
@@ -91,8 +93,10 @@ section{padding:5rem 2rem}
 .btn-souscrire{display:block;text-align:center;background:var(--accent);color:#fff;text-decoration:none;padding:0.7rem 1rem;border-radius:9px;font-size:0.88rem;font-weight:500;transition:opacity 0.2s;margin-top:auto}
 .btn-souscrire:hover{opacity:0.85}
 
-.avis-section{background:var(--bg3)}
-.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem}
+/* AVIS — centré */
+.avis-section{background:var(--bg3);text-align:center}
+.avis-section .section-sub{margin:0 auto}
+.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem;text-align:left}
 .avis-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem}
 .avis-stars{color:#f59e0b;font-size:1rem;letter-spacing:2px}
 .avis-comment{color:var(--text);font-size:0.9rem;line-height:1.6;font-style:italic}
@@ -100,13 +104,17 @@ section{padding:5rem 2rem}
 .avis-date{color:var(--muted);font-size:0.75rem}
 .avis-loading{color:var(--muted);font-size:0.9rem;padding:1.5rem 0}
 .avis-empty{color:var(--muted);font-size:0.9rem;padding:1.5rem 0;text-align:center}
-.avis-moyenne{display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.avis-moyenne{display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap;justify-content:center}
 .avis-moyenne-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--text);line-height:1}
 .avis-moyenne-stars{color:#f59e0b;font-size:1.3rem}
 .avis-moyenne-count{color:var(--muted);font-size:0.85rem}
 
-.blog-section{background:var(--bg2)}
-.blog-mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-top:2.5rem}
+/* BLOG — centré, 3 colonnes */
+.blog-section{background:var(--bg2);text-align:center}
+.blog-section .section-sub{margin:0 auto}
+.blog-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem;text-align:left}
+@media(max-width:900px){.blog-mini-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.blog-mini-grid{grid-template-columns:1fr}}
 .blog-mini-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color 0.2s,transform 0.2s;text-decoration:none;color:var(--text);display:block}
 .blog-mini-card:hover{border-color:#3b82f640;transform:translateY(-2px)}
 .blog-mini-thumb{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,#16162a,#1e1e3a)}
@@ -118,6 +126,7 @@ section{padding:5rem 2rem}
 .blog-voir-plus{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);text-decoration:none;padding:0.65rem 1.5rem;border-radius:10px;font-size:0.9rem;font-weight:500;transition:all 0.2s;margin-top:2rem}
 .blog-voir-plus:hover{color:var(--text);border-color:#3b82f640}
 
+/* ABOUT */
 .about-section{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 @media(max-width:768px){.about-section{grid-template-columns:1fr}}
 .about-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
@@ -130,27 +139,31 @@ section{padding:5rem 2rem}
 .value-item h4{font-size:0.95rem;font-weight:600;margin-bottom:0.2rem;font-family:'Syne',sans-serif}
 .value-item p{font-size:0.85rem;color:var(--muted)}
 
+/* ZONE */
 .zone-section{background:var(--bg2)}
 .zone-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem}
 .zone-chip{background:var(--card);border:1px solid var(--border);padding:0.4rem 1rem;border-radius:99px;font-size:0.85rem;color:var(--muted)}
 .zone-chip.main{background:#3b82f618;border-color:#3b82f640;color:var(--accent2)}
 
+/* SEO */
 .seo-section{background:var(--bg3)}
 .seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:2rem}
 .seo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
 .seo-card h4{font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;color:var(--accent2)}
 .seo-card p{font-size:0.82rem;color:var(--muted);line-height:1.5}
 
+/* FAQ */
 .faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:1rem;max-width:740px}
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;cursor:pointer}
-.faq-q{font-weight:500;font-size:0.95rem;display:flex;justify-content:space-between;align-items:center}
+.faq-q{font-weight:500;font-size:0.95rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
 .faq-a{color:var(--muted);font-size:0.9rem;margin-top:0.75rem;line-height:1.6;display:none}
 .faq-item.open .faq-a{display:block}
-.faq-arrow{color:var(--accent);font-size:1.2rem;transition:transform 0.2s}
+.faq-arrow{color:var(--accent);font-size:1.2rem;transition:transform 0.2s;flex-shrink:0}
 .faq-item.open .faq-arrow{transform:rotate(45deg)}
 
+/* CONTACT — aligné */
 .contact-section{background:linear-gradient(135deg,#0d1a3e,var(--bg))}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 @media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
 .contact-methods{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
 .contact-method{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;text-decoration:none;color:var(--text);transition:border-color 0.2s}
@@ -162,6 +175,7 @@ section{padding:5rem 2rem}
 .contact-cta-box h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.75rem}
 .contact-cta-box p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem}
 
+/* FOOTER */
 footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text-align:center}
 .footer-content{color:var(--muted);font-size:0.85rem}
 .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-top:0.75rem;flex-wrap:wrap}
@@ -170,6 +184,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .footer-admin-link{display:inline-flex;align-items:center;gap:0.4rem;color:#ffffff20;font-size:0.72rem;text-decoration:none;margin-top:1rem;transition:color 0.2s;padding:0.3rem 0.75rem;border-radius:6px;border:1px solid #ffffff08}
 .footer-admin-link:hover{color:var(--muted);border-color:#ffffff18}
 
+/* WHATSAPP */
 .whatsapp-fab{position:fixed;bottom:1.75rem;right:1.75rem;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem}
 .whatsapp-btn{width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px #25D36660;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;border:none;cursor:pointer}
 .whatsapp-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px #25D36680}
@@ -205,6 +220,18 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   .hero{padding-top:5.5rem}
   .hero h1{font-size:1.75rem}
 }
+
+/* MODAL ARTICLE BLOG */
+.blog-modal-overlay{position:fixed;inset:0;background:#000000cc;z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.blog-modal-overlay.open{opacity:1;pointer-events:all}
+.blog-modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:720px;width:100%;max-height:88vh;overflow-y:auto;padding:2.5rem;position:relative}
+.blog-modal-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:1.1rem;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.2s}
+.blog-modal-close:hover{color:var(--text)}
+.blog-modal-tag{display:inline-block;background:#3b82f618;color:var(--accent2);font-size:0.75rem;font-weight:600;padding:0.15rem 0.65rem;border-radius:99px;margin-bottom:1rem;border:1px solid #3b82f630}
+.blog-modal h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem;line-height:1.3}
+.blog-modal-body{color:var(--muted);font-size:0.92rem;line-height:1.8}
+.blog-modal-body p{margin-bottom:1rem}
+.blog-modal-body h3{font-family:'Syne',sans-serif;color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.5rem}
 </style>
 </head>
 <body>
@@ -238,14 +265,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div style="position:relative;z-index:1">
     <div class="badge fade-up"><span class="badge-dot"></span> Disponible en Île-de-France</div>
     <h1 class="fade-up delay-1">Votre technicien<br>informatique <span class="hl">à domicile</span></h1>
-    <p class="fade-up delay-2">9 ans d'expérience.<br>Des solutions concrètes, sans jargon, sans mauvaises surprises. J'interviens chez vous rapidement en Île-de-France.</p>
+    <p class="fade-up delay-2">Plus de 10 ans d'expérience.<br>Des solutions concrètes, sans jargon, sans mauvaises surprises. J'interviens chez vous rapidement en Île-de-France.</p>
     <div class="hero-btns fade-up delay-3">
       <a href="#rdv" class="btn-primary">Prendre rendez-vous</a>
       <a href="tel:+33619515756" class="btn-outline">Appeler maintenant</a>
     </div>
     <div class="hero-stats fade-up delay-4">
-      <div class="stat"><div class="stat-num">9 ans</div><div class="stat-label">d'expérience</div></div>
-      <div class="stat"><div class="stat-num">40€</div><div class="stat-label">à partir de</div></div>
+      <div class="stat"><div class="stat-num">10 ans</div><div class="stat-label">d'expérience</div></div>
+      <div class="stat"><div class="stat-num">60€</div><div class="stat-label">à partir de</div></div>
       <div class="stat"><div class="stat-num">24h</div><div class="stat-label">délai moyen</div></div>
       <div class="stat"><div class="stat-num">100%</div><div class="stat-label">satisfaction garantie</div></div>
     </div>
@@ -258,13 +285,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Des solutions pour chaque problème</h2>
     <p class="section-sub">Cliquez sur un service pour réserver directement avec ce service pré-sélectionné.</p>
     <div class="services-grid">
-      <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC%2FMac" class="service-card">
-        <div class="service-icon">💻</div><h3>Dépannage PC / Mac</h3>
+      <a href="makouez-it-rdv.html" class="service-card">
+        <div class="service-icon">💻</div><h3>PC</h3>
         <p>Lenteur, virus, écran noir, plantages, Windows qui ne démarre plus, je diagnostique et répare rapidement.</p>
         <div class="service-cta">Réserver ce service →</div>
       </a>
-      <a href="makouez-it-rdv.html?service=Installation+Windows+%2F+logiciels" class="service-card">
-        <div class="service-icon">🪟</div><h3>Installation Windows &amp; logiciels</h3>
+      <a href="makouez-it-rdv.html" class="service-card">
+        <div class="service-icon">🪟</div><h3>Installation Windows et logiciels</h3>
         <p>Réinstallation de Windows, configuration initiale, installation de vos logiciels et mises à jour.</p>
         <div class="service-cta">Réserver ce service →</div>
       </a>
@@ -279,18 +306,18 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <div class="service-cta">Réserver ce service →</div>
       </a>
       <a href="makouez-it-rdv.html?service=Sauvegarde+%26+s%C3%A9curit%C3%A9" class="service-card">
-        <div class="service-icon">🔒</div><h3>Sauvegarde &amp; sécurité</h3>
+        <div class="service-icon">🔒</div><h3>Sauvegarde et sécurité</h3>
         <p>Mise en place de sauvegardes automatiques, antivirus, protection contre les arnaques en ligne.</p>
         <div class="service-cta">Réserver ce service →</div>
       </a>
-      <a href="makouez-it-rdv.html?service=Formation+%2F+accompagnement" class="service-card">
-        <div class="service-icon">🎓</div><h3>Formation &amp; accompagnement</h3>
+      <a href="makouez-it-rdv.html" class="service-card">
+        <div class="service-icon">🎓</div><h3>Formation et accompagnement</h3>
         <p>Apprenez à maîtriser votre PC, smartphone ou tablette à votre rythme, sans jargon technique.</p>
         <div class="service-cta">Réserver ce service →</div>
       </a>
       <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="service-card new-service">
         <div class="service-icon">🌐</div>
-        <h3>Intégration &amp; Développement web <span class="service-new-badge">Nouveau</span></h3>
+        <h3>Intégration et Développement web <span class="service-new-badge">Nouveau</span></h3>
         <p>Création de sites vitrines, landing pages, intégration HTML/CSS/JS, développement d'applications web sur mesure.</p>
         <div class="service-cta">Demander un devis →</div>
       </a>
@@ -307,7 +334,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <div class="tarif-card">
         <div class="tarif-name">Intervention standard</div>
         <div class="tarif-price">60€ <span>à 80€</span></div>
-        <div class="tarif-desc">Déplacement inclus • Paiement après intervention</div>
+        <div class="tarif-desc">Déplacement inclus. Paiement après intervention.</div>
         <ul class="tarif-features"><li>Diagnostic complet</li><li>Dépannage sur place</li><li>Conseils personnalisés</li><li>Suivi post-intervention</li></ul>
         <a href="makouez-it-rdv.html" class="btn-souscrire">Prendre rendez-vous →</a>
       </div>
@@ -354,13 +381,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
 </section>
 
+<!-- BLOG -->
 <section id="blog" class="blog-section">
   <div class="container">
-    <div class="section-label">Conseils & Astuces</div>
+    <div class="section-label">Conseils et Astuces</div>
     <h2 class="section-title">Blog informatique</h2>
-    <p class="section-sub">Des guides pratiques pour résoudre vos problèmes du quotidien — sans jargon.</p>
+    <p class="section-sub">Des guides pratiques pour résoudre vos problèmes du quotidien, sans jargon.</p>
     <div class="blog-mini-grid">
-      <a href="blog.html" class="blog-mini-card">
+      <a href="#" class="blog-mini-card" data-article="pc-lent">
         <div class="blog-mini-thumb">🐢</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Performance</div>
@@ -369,7 +397,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card">
+      <a href="#" class="blog-mini-card" data-article="virus">
         <div class="blog-mini-thumb">🦠</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Sécurité</div>
@@ -378,7 +406,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card">
+      <a href="#" class="blog-mini-card" data-article="wifi">
         <div class="blog-mini-thumb">📶</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Réseau</div>
@@ -387,7 +415,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card">
+      <a href="#" class="blog-mini-card" data-article="arnaques">
         <div class="blog-mini-thumb">📧</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Arnaque</div>
@@ -396,7 +424,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card">
+      <a href="#" class="blog-mini-card" data-article="sauvegarde">
         <div class="blog-mini-thumb">💾</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Données</div>
@@ -405,7 +433,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card">
+      <a href="#" class="blog-mini-card" data-article="booster-windows">
         <div class="blog-mini-thumb">⚡</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Optimisation</div>
@@ -415,7 +443,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         </div>
       </a>
     </div>
-    <a href="blog.html" class="blog-voir-plus">Voir tous les articles (10) →</a>
+    <a href="blog.html" class="blog-voir-plus">Voir tous les articles →</a>
   </div>
 </section>
 
@@ -475,7 +503,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="section-label">Pourquoi Makouez IT ?</div>
     <h2 class="section-title">Ce qui me différencie</h2>
     <div class="seo-grid">
-      <div class="seo-card"><h4>Technicien certifié, pas un amateur</h4><p>9 ans d'expérience professionnelle dont en milieu hospitalier.</p></div>
+      <div class="seo-card"><h4>Technicien expérimenté, pas un amateur</h4><p>Plus de 10 ans d'expérience professionnelle en itinérance pour de grandes entreprises en Île-de-France.</p></div>
       <div class="seo-card"><h4>Intervention à domicile uniquement</h4><p>Pas besoin de démonter votre ordinateur. Je viens chez vous.</p></div>
       <div class="seo-card"><h4>Paiement après intervention</h4><p>Vous ne payez qu'une fois satisfait. Devis gratuit.</p></div>
       <div class="seo-card"><h4>Disponible rapidement</h4><p>Disponible en semaine et souvent le week-end. Délai moyen : moins de 24h.</p></div>
@@ -501,7 +529,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="contact-grid">
       <div>
         <div class="section-label">Contact</div>
-        <h2 class="section-title">Besoin d'aide ?<br>Je suis là.</h2>
+        <h2 class="section-title">Besoin d'aide ? Je suis là.</h2>
         <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux.</p>
         <div class="contact-methods">
           <a href="tel:+33619515756" class="contact-method"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>06 19 51 57 56</strong></div></a>
@@ -523,7 +551,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 <footer>
   <div class="footer-content">
     <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem">Makouez <span style="color:#3b82f6">IT</span></div>
-    <div>Technicien informatique à domicile • Île-de-France • Micro-entrepreneur</div>
+    <div>Technicien informatique à domicile · Île-de-France · Micro-entrepreneur</div>
     <div class="footer-links">
       <a href="#">Mentions légales</a><a href="#">Politique de confidentialité</a><a href="#">CGV</a>
       <a href="#services">Services</a><a href="#tarifs">Tarifs</a>
@@ -541,10 +569,160 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </a>
 </div>
 
+<!-- MODAL ARTICLES BLOG -->
+<div class="blog-modal-overlay" id="blogModal">
+  <div class="blog-modal">
+    <button class="blog-modal-close" id="blogModalClose">✕</button>
+    <div class="blog-modal-tag" id="blogModalTag"></div>
+    <h2 id="blogModalTitle"></h2>
+    <div class="blog-modal-body" id="blogModalBody"></div>
+  </div>
+</div>
+
 <script>
+// FAQ
 document.querySelectorAll('.faq-item').forEach(item=>{
   item.querySelector('.faq-q').addEventListener('click',()=>{ item.classList.toggle('open'); });
 });
+
+// ARTICLES BLOG
+const articles = {
+  'pc-lent': {
+    tag: 'Performance',
+    title: 'Pourquoi mon PC est lent et comment y remédier',
+    body: `
+      <p>Un PC qui rame, c'est souvent le signe d'un ou plusieurs problèmes courants que l'on peut régler sans technicien. Voici les 5 causes les plus fréquentes.</p>
+      <h3>1. Trop de programmes au démarrage</h3>
+      <p>Windows lance automatiquement de nombreuses applications sans que vous le sachiez. Ouvrez le Gestionnaire des tâches (Ctrl+Maj+Échap), allez dans l'onglet "Démarrage" et désactivez tout ce qui n'est pas indispensable.</p>
+      <h3>2. Disque dur presque plein</h3>
+      <p>Un disque à plus de 90% de capacité ralentit considérablement le système. Videz la corbeille, supprimez les fichiers temporaires et désinstallez les logiciels inutilisés.</p>
+      <h3>3. Présence d'un virus ou malware</h3>
+      <p>Un logiciel malveillant peut utiliser vos ressources en arrière-plan. Faites un scan complet avec Windows Defender ou Malwarebytes (gratuit).</p>
+      <h3>4. Manque de RAM</h3>
+      <p>Si vous avez moins de 8 Go de RAM et que vous utilisez plusieurs applications simultanément, votre PC sera forcément lent. Une mise à niveau de la mémoire peut transformer votre machine.</p>
+      <h3>5. Windows n'est pas à jour</h3>
+      <p>Les mises à jour contiennent souvent des correctifs de performance. Allez dans Paramètres, Windows Update, et installez tout ce qui est disponible.</p>
+      <p>Si malgré ces vérifications votre PC reste lent, il est peut-être temps de faire appel à un technicien pour un diagnostic complet.</p>
+    `
+  },
+  'virus': {
+    tag: 'Sécurité',
+    title: 'Comment savoir si mon PC a un virus',
+    body: `
+      <p>Un PC infecté ne montre pas toujours des signes évidents. Voici les symptômes à surveiller et comment réagir.</p>
+      <h3>Les signes qui ne trompent pas</h3>
+      <p>PC soudainement très lent, pop-ups publicitaires qui apparaissent sans raison, navigateur qui redirige vers des sites inconnus, programmes qui s'ouvrent seuls ou antivirus qui se désactive tout seul.</p>
+      <h3>Comment vérifier</h3>
+      <p>Lancez un scan complet avec Windows Defender (intégré à Windows 10/11) : allez dans Paramètres, Mise à jour et sécurité, Sécurité Windows, Protection contre les virus. Vous pouvez aussi utiliser Malwarebytes en version gratuite pour un deuxième avis.</p>
+      <h3>Si un virus est détecté</h3>
+      <p>Suivez les instructions de votre antivirus pour mettre en quarantaine ou supprimer la menace. Changez ensuite vos mots de passe importants depuis un autre appareil par précaution.</p>
+      <h3>Prévenir plutôt que guérir</h3>
+      <p>Ne téléchargez que depuis des sources officielles, méfiez-vous des pièces jointes par email et gardez Windows et vos logiciels à jour. Si vous avez un doute, contactez-moi pour un diagnostic.</p>
+    `
+  },
+  'wifi': {
+    tag: 'Réseau',
+    title: 'Wi-Fi lent ou qui coupe : les solutions',
+    body: `
+      <p>Un Wi-Fi capricieux peut venir de plusieurs sources. Avant d'appeler votre opérateur, essayez ces solutions simples.</p>
+      <h3>Redémarrez votre box</h3>
+      <p>Débranchez votre box électriquement pendant 30 secondes puis rebranchez-la. Attendez 2 minutes qu'elle se reconnecte pleinement. C'est la solution la plus efficace dans 40% des cas.</p>
+      <h3>Vérifiez la distance et les obstacles</h3>
+      <p>Les murs épais, les appareils électroménagers et les miroirs affaiblissent le signal Wi-Fi. Rapprochez-vous de votre box ou repositionnez-la dans un endroit central et surélevé.</p>
+      <h3>Changez de canal Wi-Fi</h3>
+      <p>Si de nombreux voisins utilisent le même canal, cela crée des interférences. Connectez-vous à l'interface de votre box (souvent via 192.168.1.1) et changez le canal Wi-Fi manuellement.</p>
+      <h3>Utilisez la bande 5 GHz</h3>
+      <p>Si votre box et votre appareil le supportent, connectez-vous au réseau 5 GHz plutôt que 2,4 GHz. C'est plus rapide, même si la portée est légèrement réduite.</p>
+      <h3>Envisagez un répéteur Wi-Fi</h3>
+      <p>Pour les grands appartements ou maisons, un répéteur Wi-Fi (entre 20€ et 60€) peut étendre votre réseau facilement. Je peux vous aider à en choisir et configurer un.</p>
+    `
+  },
+  'arnaques': {
+    tag: 'Arnaque',
+    title: 'Reconnaître et éviter les arnaques en ligne',
+    body: `
+      <p>Les arnaques en ligne sont de plus en plus sophistiquées. Voici comment les repérer avant qu'il ne soit trop tard.</p>
+      <h3>Le phishing (hameçonnage)</h3>
+      <p>Vous recevez un email qui semble venir de votre banque, de La Poste ou d'Amazon vous demandant de vous connecter en urgence. Vérifiez toujours l'adresse email de l'expéditeur : si elle ne correspond pas exactement au domaine officiel, c'est une arnaque.</p>
+      <h3>Le faux support technique</h3>
+      <p>Un message s'affiche sur votre écran disant que votre PC est infecté et vous demande d'appeler un numéro. Microsoft, Apple ou votre antivirus ne vous contacteront jamais de cette façon. Fermez simplement la fenêtre.</p>
+      <h3>Les fausses livraisons</h3>
+      <p>Un SMS ou email vous informe d'un colis bloqué et vous demande de payer des frais. Vérifiez directement sur le site officiel du transporteur en tapant le numéro de suivi manuellement.</p>
+      <h3>Les règles d'or</h3>
+      <p>Ne cliquez jamais sur un lien dans un email urgent. Ne communiquez jamais vos mots de passe ou codes bancaires. En cas de doute, raccrochez et rappelez le numéro officiel de l'organisme. Si vous pensez avoir été victime d'une arnaque, contactez votre banque immédiatement.</p>
+    `
+  },
+  'sauvegarde': {
+    tag: 'Données',
+    title: 'Sauvegarder ses données : le guide complet',
+    body: `
+      <p>Perdre ses photos, documents et fichiers importants est une expérience traumatisante. La bonne nouvelle : c'est entièrement évitable avec une stratégie de sauvegarde simple.</p>
+      <h3>La règle du 3-2-1</h3>
+      <p>Conservez 3 copies de vos données, sur 2 supports différents, dont 1 hors de chez vous. Par exemple : votre PC, un disque dur externe et un service cloud.</p>
+      <h3>Les outils gratuits</h3>
+      <p>Google Photos sauvegarde automatiquement vos photos sur votre téléphone. OneDrive (intégré à Windows) synchronise vos documents en temps réel. Pour les sauvegardes complètes du PC, utilisez l'outil intégré "Historique des fichiers" de Windows.</p>
+      <h3>Un disque dur externe</h3>
+      <p>Un disque externe de 1 To coûte environ 50€ et peut contenir des années de données. Branchez-le régulièrement et lancez une sauvegarde. Débranchez-le ensuite pour le protéger des virus et des pannes.</p>
+      <h3>La fréquence idéale</h3>
+      <p>Pour des documents professionnels : sauvegarde quotidienne. Pour des photos et fichiers personnels : hebdomadaire. L'automatisation est votre meilleure alliée pour ne pas oublier.</p>
+    `
+  },
+  'booster-windows': {
+    tag: 'Optimisation',
+    title: '10 astuces pour booster Windows',
+    body: `
+      <p>Votre PC n'a pas besoin d'être remplacé pour aller plus vite. Ces 10 réglages peuvent faire une vraie différence.</p>
+      <h3>1. Désactiver les effets visuels</h3>
+      <p>Recherchez "Ajuster l'apparence et les performances de Windows" et sélectionnez "Ajuster afin d'obtenir les meilleures performances".</p>
+      <h3>2. Nettoyer le disque dur</h3>
+      <p>Utilisez l'outil "Nettoyage de disque" intégré à Windows pour supprimer les fichiers temporaires, les anciennes mises à jour et la corbeille.</p>
+      <h3>3. Désactiver les programmes au démarrage</h3>
+      <p>Gestionnaire des tâches, onglet Démarrage : désactivez tout ce que vous ne reconnaissez pas ou n'utilisez pas dès l'allumage.</p>
+      <h3>4. Vérifier les mises à jour</h3>
+      <p>Un Windows à jour est un Windows plus stable et plus rapide. Paramètres, Windows Update, vérifiez et installez toutes les mises à jour.</p>
+      <h3>5. Défragmenter le disque dur (HDD uniquement)</h3>
+      <p>Si votre PC a un disque dur classique (pas un SSD), la défragmentation mensuelle améliore les performances. Recherchez "Défragmenter et optimiser les lecteurs".</p>
+      <h3>6. Augmenter la mémoire virtuelle</h3>
+      <p>Si vous manquez de RAM, augmentez le fichier d'échange dans les paramètres système avancés.</p>
+      <h3>7. Mettre à jour les pilotes</h3>
+      <p>Des pilotes obsolètes peuvent ralentir votre PC. Le Gestionnaire de périphériques vous permet de vérifier et mettre à jour tous vos composants.</p>
+      <h3>8. Changer le mode d'alimentation</h3>
+      <p>Dans Paramètres, Alimentation, choisissez "Performances élevées" pour libérer toute la puissance de votre processeur.</p>
+      <h3>9. Désinstaller les logiciels inutiles</h3>
+      <p>Paramètres, Applications : passez en revue la liste et désinstallez tout ce que vous n'utilisez plus depuis plus de 6 mois.</p>
+      <h3>10. Réinstaller Windows</h3>
+      <p>Après plusieurs années, une réinstallation propre de Windows peut transformer un PC lent en machine quasi neuve. Je peux m'en charger pour vous en conservant vos données.</p>
+    `
+  }
+};
+
+const modal = document.getElementById('blogModal');
+const modalTag = document.getElementById('blogModalTag');
+const modalTitle = document.getElementById('blogModalTitle');
+const modalBody = document.getElementById('blogModalBody');
+const modalClose = document.getElementById('blogModalClose');
+
+document.querySelectorAll('.blog-mini-card').forEach(card => {
+  card.addEventListener('click', e => {
+    e.preventDefault();
+    const key = card.dataset.article;
+    const art = articles[key];
+    if (!art) return;
+    modalTag.textContent = art.tag;
+    modalTitle.textContent = art.title;
+    modalBody.innerHTML = art.body;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
 </script>
 
 <script type="module">
