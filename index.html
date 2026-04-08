@@ -826,7 +826,7 @@ async function loadAvis() {
     grid.innerHTML=avis.map(a=>{
       const stars='★'.repeat(a.note||0)+'☆'.repeat(5-(a.note||0));
       const date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'';
-</div><div class="avis-date">${date}</div></div></div>`;
+      return`<div class="avis-card"><div class="avis-stars">${stars}</div><div class="avis-comment">"${a.comment}"</div><div style="display:flex;justify-content:space-between;align-items:center"><div class="avis-author">— ${a.nom}</div><div class="avis-date">${date}</div></div></div>`;
     }).join('');
   } catch(e){ clearTimeout(timeout); grid.innerHTML=MSG_VIDE; }
 }
