@@ -810,14 +810,17 @@ import { getFirestore, collection, getDocs, addDoc, orderBy, query, limit, serve
 const firebaseConfig = { apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a" };
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
+const MSG_VIDE = '<div class="avis-empty">Aucun avis pour le moment.<br>Vous avez fait appel à Makouez IT ? N\'hésitez pas à laisser le vôtre, ça m\'aide beaucoup !</div>';
 async function loadAvis() {
   const grid = document.getElementById('avisGrid');
   const moyenneEl = document.getElementById('avisMoyenne');
+  const timeout = setTimeout(()=>{ grid.innerHTML = MSG_VIDE; }, 5000);
   try {
     const q = query(collection(db,'avis'),orderBy('createdAt','desc'),limit(12));
     const snap = await getDocs(q);
+    clearTimeout(timeout);
     const avis = snap.docs.map(d=>({id:d.id,...d.data()}));
-    if (avis.length===0){grid.innerHTML='<div class="avis-empty">Aucun avis pour le moment.<br>Vous avez fait appel à Makouez IT ? N\'hésitez pas à laisser le vôtre, ça m\'aide beaucoup !</div>';return;}
+    if (avis.length===0){grid.innerHTML=MSG_VIDE;return;}
     const moyenne=avis.reduce((s,a)=>s+(a.note||0),0)/avis.length;
     moyenneEl.innerHTML=`<div class="avis-moyenne-num">${moyenne.toFixed(1)}</div><div><div class="avis-moyenne-stars">${'★'.repeat(Math.round(moyenne))}${'☆'.repeat(5-Math.round(moyenne))}</div><div class="avis-moyenne-count">${avis.length} avis client${avis.length>1?'s':''}</div></div>`;
     grid.innerHTML=avis.map(a=>{
@@ -825,7 +828,7 @@ async function loadAvis() {
       const date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'';
 </div><div class="avis-date">${date}</div></div></div>`;
     }).join('');
-  } catch(e){grid.innerHTML='<div class="avis-empty">Impossible de charger les avis.</div>';}
+  } catch(e){ clearTimeout(timeout); grid.innerHTML=MSG_VIDE; }
 }
 loadAvis();
 
