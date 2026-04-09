@@ -339,6 +339,16 @@ select.form-input option{background:var(--bg2);color:var(--text)}
         <label class="form-label">Adresse d'intervention *</label>
         <input class="form-input" id="faddress" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm3()">
       </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group">
+          <label class="form-label">Code postal *</label>
+          <input class="form-input" id="fcodepostal" type="text" placeholder="93380" maxlength="5" oninput="checkForm3()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ville *</label>
+          <input class="form-input" id="fville" type="text" placeholder="Pierrefitte" oninput="checkForm3()">
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-label">Description du problème</label>
         <textarea class="form-input" id="fdesc" placeholder="Mon PC est très lent depuis quelques jours..."></textarea>
@@ -379,6 +389,7 @@ select.form-input option{background:var(--bg2);color:var(--text)}
       <div class="summary-row"><span class="summary-label">Téléphone</span><span id="sumPhone">–</span></div>
       <div class="summary-row"><span class="summary-label">Email</span><span id="sumEmail">–</span></div>
       <div class="summary-row"><span class="summary-label">Adresse</span><span id="sumAddr">–</span></div>
+      <div class="summary-row"><span class="summary-label">Code postal / Ville</span><span id="sumCpVille">–</span></div>
       <div class="summary-row"><span class="summary-label">Espace client</span><span id="sumAccount">–</span></div>
       <div class="summary-row"><span class="summary-label">Tarif indicatif</span><span id="sumPrice">–</span></div>
     </div>
@@ -749,7 +760,7 @@ function checkForm3() {
   const pwd   = document.getElementById('fpwd') ? document.getElementById('fpwd').value : '';
   const accountHidden = document.getElementById('accountSection').style.display === 'none';
   const pwdOk = accountHidden || window._emailIsExisting || pwd === '' || pwd.length >= 6;
-  const ok = document.getElementById('fname').value.trim() && document.getElementById('fphone').value.trim() && document.getElementById('faddress').value.trim() && emailOk && pwdOk;
+  const ok = document.getElementById('fname').value.trim() && document.getElementById('fphone').value.trim() && document.getElementById('faddress').value.trim() && document.getElementById('fcodepostal').value.trim() && document.getElementById('fville').value.trim() && emailOk && pwdOk;
   document.getElementById('btn3').disabled = !ok;
 }
 
@@ -779,6 +790,7 @@ function fillSummary() {
   document.getElementById('sumPhone').textContent   = document.getElementById('fphone').value;
   document.getElementById('sumEmail').textContent   = document.getElementById('femail').value;
   document.getElementById('sumAddr').textContent    = document.getElementById('faddress').value;
+  document.getElementById('sumCpVille').textContent = (document.getElementById('fcodepostal').value + ' ' + document.getElementById('fville').value).trim() || '–';
   document.getElementById('sumAccount').textContent = accountLabel;
   document.getElementById('sumPrice').textContent   = state.servicePrice;
 }
@@ -835,7 +847,9 @@ async function confirmRdv() {
       price: state.servicePrice,
       nom, email,
       telephone: document.getElementById('fphone').value,
-      adresse: document.getElementById('faddress').value,
+      adresse: document.getElementById('faddress').value + ', ' + document.getElementById('fcodepostal').value + ' ' + document.getElementById('fville').value,
+      codePostal: document.getElementById('fcodepostal').value,
+      ville: document.getElementById('fville').value,
       description: document.getElementById('fdesc').value,
       status: 'pending',
       createdAt: new Date().toISOString()
@@ -857,6 +871,8 @@ async function confirmRdv() {
     formData.append('Email',       email);
     formData.append('Telephone',   document.getElementById('fphone').value);
     formData.append('Adresse',     document.getElementById('faddress').value);
+    formData.append('Code_postal', document.getElementById('fcodepostal').value);
+    formData.append('Ville',       document.getElementById('fville').value);
     formData.append('Description', document.getElementById('fdesc').value);
     const res = await fetch('https://formspree.io/f/xkopkwrz', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
@@ -883,7 +899,7 @@ function restart() {
   document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('preselectBanner').style.display = 'none';
   if (!window._currentUser) {
-    ['fname','fphone','faddress','fdesc','femail','fpwd'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    ['fname','fphone','faddress','fcodepostal','fville','fdesc','femail','fpwd'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     document.getElementById('pwdBar').style.width = '0%';
     document.getElementById('emailHint').style.display = 'none';
     document.getElementById('accountSection').style.display = 'block';
