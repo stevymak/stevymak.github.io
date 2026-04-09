@@ -4,34 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contrats & Forfaits – Makouez IT</title>
-<meta name="description" content="Souscrivez à un contrat Makouez IT : Sérénité, Senior+ ou Pack Famille. Assistance informatique illimitée à domicile en Île-de-France.">
+<meta name="description" content="Souscrivez à un contrat Makouez IT : Sérénité, Senior+ ou Pack Famille.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
-  --accent:#3b82f6;--accent2:#60a5fa;
-  --text:#f0f0ff;--muted:#8888aa;
-  --border:#ffffff14;--card:#ffffff08;--r:12px;
-  --green:#22c55e;
-}
+:root{--bg:#09090f;--bg2:#111120;--bg3:#16162a;--accent:#3b82f6;--accent2:#60a5fa;--text:#f0f0ff;--muted:#8888aa;--border:#ffffff14;--card:#ffffff08;--r:12px;--green:#22c55e}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
 h1,h2,h3{font-family:'Syne',sans-serif}
-
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(9,9,15,0.9);border-bottom:1px solid var(--border)}
 .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);text-decoration:none}
 .logo span{color:var(--accent)}
 .nav-back{display:flex;align-items:center;gap:0.5rem;color:var(--muted);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
 .nav-back:hover{color:var(--text)}
-
 .page{padding:7rem 2rem 5rem;max-width:1100px;margin:0 auto}
 .page-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);font-weight:600;margin-bottom:0.75rem}
 .page-title{font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:1rem}
 .page-sub{color:var(--muted);font-size:1.05rem;max-width:560px;line-height:1.6;margin-bottom:3rem}
-
-/* Grille contrats */
 .contrats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:4rem}
 .contrat-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;transition:border-color 0.2s,transform 0.2s;display:flex;flex-direction:column;gap:1rem}
 .contrat-card:hover{border-color:#3b82f640;transform:translateY(-3px)}
@@ -48,31 +38,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .btn-souscrire{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.85rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;width:100%;margin-top:auto}
 .btn-souscrire:hover{opacity:0.85}
 .contrat-card.featured .btn-souscrire{background:linear-gradient(135deg,#3b82f6,#60a5fa)}
-
-/* Section comparaison */
 .compare-section{margin-bottom:4rem}
 .compare-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1.5rem}
 .compare-table{width:100%;border-collapse:collapse;font-size:0.88rem}
 .compare-table th{background:var(--bg3);padding:0.85rem 1rem;text-align:left;font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;border-bottom:1px solid var(--border)}
-.compare-table th:first-child{border-radius:8px 0 0 0}
-.compare-table th:last-child{border-radius:0 8px 0 0}
 .compare-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--muted)}
 .compare-table tr:hover td{background:#ffffff04}
-.compare-table .check{color:var(--green);font-size:1rem}
-.compare-table .cross{color:#ef444460;font-size:0.9rem}
+.compare-table .check{color:var(--green)}
+.compare-table .cross{color:#ef444460}
 .compare-table .feat{color:var(--text);font-weight:500}
-
-/* Modal formulaire */
 .modal-overlay{position:fixed;inset:0;background:#00000090;backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.show{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:1.25rem}
 .modal-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
 .modal-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700}
 .modal-sub{color:var(--muted);font-size:0.85rem;margin-top:0.2rem}
-.modal-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:color 0.2s}
+.modal-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .modal-close:hover{color:var(--text)}
-.contrat-recap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;justify-content:space-between}
-.contrat-recap-name{font-weight:600;font-size:0.95rem}
+.contrat-recap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.contrat-recap-name{font-weight:600}
 .contrat-recap-price{color:var(--accent);font-weight:700;font-family:'Syne',sans-serif}
 .field{display:flex;flex-direction:column;gap:0.4rem}
 .field label{font-size:0.8rem;color:var(--muted);font-weight:500}
@@ -84,13 +68,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .btn-submit:hover{opacity:0.85}
 .btn-submit:disabled{opacity:0.4;cursor:not-allowed}
 .btn-cancel{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:0.7rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;width:100%;transition:all 0.2s}
-.btn-cancel:hover{color:var(--text);border-color:#ffffff30}
+.btn-cancel:hover{color:var(--text)}
 .err-msg{background:#ef444410;border:1px solid #ef444430;color:#fca5a5;font-size:0.82rem;padding:0.6rem 0.9rem;border-radius:8px;display:none}
-.success-view{display:none;flex-direction:column;align-items:center;text-align:center;gap:1rem;padding:1rem 0}
+.success-view{display:none;flex-direction:column;align-items:center;text-align:center;gap:1.25rem;padding:0.5rem 0}
 .success-icon{width:64px;height:64px;border-radius:50%;background:#22c55e20;border:2px solid #22c55e60;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.success-info{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;font-size:0.82rem;color:var(--muted);text-align:left;width:100%;line-height:1.6}
+.success-info strong{color:var(--text)}
+.btn-suivi{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#3b82f618;border:1px solid #3b82f640;color:var(--accent2);padding:0.75rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;width:100%}
+.btn-suivi:hover{background:#3b82f628}
+.btn-espace{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.75rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:all 0.2s;width:100%}
+.btn-espace:hover{color:var(--text)}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .faq-mini{margin-bottom:3rem}
 .faq-mini-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1.25rem}
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;cursor:pointer;margin-bottom:0.75rem}
@@ -99,88 +88,62 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .faq-item.open .faq-a{display:block}
 .faq-arrow{color:var(--accent);font-size:1.2rem;transition:transform 0.2s}
 .faq-item.open .faq-arrow{transform:rotate(45deg)}
-
 @media(max-width:600px){.form-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">← Retour au site</a>
 </nav>
-
 <div class="page">
   <div class="page-label">Nos forfaits</div>
   <h1 class="page-title">Choisissez votre contrat</h1>
   <p class="page-sub">Un accompagnement informatique illimité, à domicile, adapté à votre situation. Sans engagement, résiliable à tout moment.</p>
-
   <div class="contrats-grid">
-
-    <div class="contrat-card featured" id="card-serenite">
+    <div class="contrat-card featured">
       <div class="contrat-badge">Le plus demandé</div>
       <div class="contrat-icon">🛡️</div>
       <div class="contrat-name">Contrat Sérénité</div>
-      <div class="contrat-price">39€ <span>/mois</span></div>
+      <div class="contrat-price">45€ <span>/mois</span></div>
       <div class="contrat-desc">Assistance prioritaire toute l'année pour particuliers</div>
       <ul class="contrat-features">
-        <li>Interventions illimitées à domicile</li>
-        <li>Priorité de passage (sous 24h)</li>
-        <li>Support téléphonique inclus</li>
-        <li>Bilan informatique annuel</li>
-        <li>Mises à jour & maintenance</li>
-        <li>Sans engagement</li>
+        <li>Interventions illimitées à domicile</li><li>Priorité de passage (sous 24h)</li>
+        <li>Support téléphonique inclus</li><li>Bilan informatique annuel</li>
+        <li>Mises à jour & maintenance</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('Contrat Sérénité','39€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','45€/mois')">Souscrire maintenant →</button>
     </div>
-
-    <div class="contrat-card" id="card-senior">
+    <div class="contrat-card">
       <div class="contrat-icon">👴</div>
       <div class="contrat-name">Pack Senior+</div>
       <div class="contrat-price">49€ <span>/mois</span></div>
       <div class="contrat-desc">Accompagnement doux et pédagogique pour les seniors</div>
       <ul class="contrat-features">
-        <li>Visites régulières à domicile</li>
-        <li>Formation progressive à votre rythme</li>
-        <li>Hotline dédiée (lun-sam)</li>
-        <li>Protection anti-arnaques</li>
-        <li>Aide à l'utilisation smartphone/tablette</li>
-        <li>Sans engagement</li>
+        <li>Visites régulières à domicile</li><li>Formation progressive à votre rythme</li>
+        <li>Hotline dédiée (lun-sam)</li><li>Protection anti-arnaques</li>
+        <li>Aide smartphone/tablette</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('Pack Senior+','49€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','49€/mois')">Souscrire maintenant →</button>
     </div>
-
-    <div class="contrat-card" id="card-famille">
+    <div class="contrat-card">
       <div class="contrat-icon">👨‍👩‍👧‍👦</div>
       <div class="contrat-name">Pack Famille</div>
       <div class="contrat-price">59€ <span>/mois</span></div>
       <div class="contrat-desc">Toute la famille couverte sur 3 appareils</div>
       <ul class="contrat-features">
-        <li>3 appareils couverts (PC, Mac, tablette…)</li>
-        <li>Interventions illimitées</li>
-        <li>Contrôle parental inclus et configuré</li>
-        <li>Support pour tous les membres</li>
-        <li>Sauvegarde automatique mise en place</li>
-        <li>Sans engagement</li>
+        <li>3 appareils couverts</li><li>Interventions illimitées</li>
+        <li>Contrôle parental inclus</li><li>Support pour tous les membres</li>
+        <li>Sauvegarde automatique</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('Pack Famille','59€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','59€/mois')">Souscrire maintenant →</button>
     </div>
-
   </div>
-
-  <!-- Tableau comparatif -->
   <div class="compare-section">
     <div class="compare-title">Comparatif détaillé</div>
     <div style="overflow-x:auto">
       <table class="compare-table">
-        <thead>
-          <tr>
-            <th style="width:40%">Fonctionnalité</th>
-            <th>Sérénité</th>
-            <th>Senior+</th>
-            <th>Famille</th>
-          </tr>
-        </thead>
+        <thead><tr><th style="width:40%">Fonctionnalité</th><th>Sérénité</th><th>Senior+</th><th>Famille</th></tr></thead>
         <tbody>
           <tr><td class="feat">Interventions illimitées</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr><td class="feat">Priorité sous 24h</td><td><span class="check">✓</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
@@ -191,9 +154,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <tr><td class="feat">Bilan annuel</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr><td class="feat">Protection anti-arnaques</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr>
-            <td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">39€</td>
+          <tr><td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">45€</td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">49€</td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">59€</td>
           </tr>
@@ -201,35 +163,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       </table>
     </div>
   </div>
-
-  <!-- FAQ -->
   <div class="faq-mini">
     <div class="faq-mini-title">Questions fréquentes sur les contrats</div>
-    <div class="faq-item">
-      <div class="faq-q">Comment fonctionne l'abonnement ? <span class="faq-arrow">+</span></div>
-      <div class="faq-a">Après validation de votre demande, Stevy vous contacte pour confirmer les modalités. Le paiement est mensuel, par virement ou prélèvement. Vous pouvez résilier à tout moment avec un préavis de 30 jours.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div>
-      <div class="faq-a">Non, aucun engagement. Vous êtes libre de résilier à tout moment avec un simple email. Le premier mois est intégralement dû.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Combien d'interventions puis-je demander par mois ? <span class="faq-arrow">+</span></div>
-      <div class="faq-a">Les interventions sont illimitées dans le cadre d'une utilisation raisonnable. Il n'y a pas de limite fixe — si vous avez un problème, appelez.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Puis-je changer de formule ? <span class="faq-arrow">+</span></div>
-      <div class="faq-a">Oui, vous pouvez passer d'une formule à une autre à tout moment. Le changement prend effet le mois suivant.</div>
-    </div>
+    <div class="faq-item"><div class="faq-q">Comment fonctionne l'abonnement ? <span class="faq-arrow">+</span></div><div class="faq-a">Après validation de votre demande, Stevy vous contacte pour confirmer les modalités. Le paiement est mensuel, par virement ou prélèvement. Vous pouvez résilier à tout moment avec un préavis de 30 jours.</div></div>
+    <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous êtes libre de résilier à tout moment avec un simple email. Le premier mois est intégralement dû.</div></div>
+    <div class="faq-item"><div class="faq-q">Combien d'interventions puis-je demander par mois ? <span class="faq-arrow">+</span></div><div class="faq-a">Les interventions sont illimitées dans le cadre d'une utilisation raisonnable. Il n'y a pas de limite fixe.</div></div>
+    <div class="faq-item"><div class="faq-q">Puis-je changer de formule ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, vous pouvez passer d'une formule à une autre à tout moment. Le changement prend effet le mois suivant.</div></div>
+    <div class="faq-item"><div class="faq-q">Comment suivre ma demande après souscription ? <span class="faq-arrow">+</span></div><div class="faq-a">Après soumission du formulaire, vous recevez un email avec un lien de suivi unique. Ce lien vous permet de voir l'état de votre demande en temps réel. Vous pouvez aussi créer un espace client sur le site.</div></div>
   </div>
-
 </div>
 
-<!-- MODAL SOUSCRIPTION -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-
-    <div id="formView">
+    <div id="formView" style="display:flex;flex-direction:column;gap:1.25rem">
       <div class="modal-header">
         <div>
           <div class="modal-title">Souscrire à un contrat</div>
@@ -237,151 +184,108 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
         </div>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-
       <div class="contrat-recap">
         <div class="contrat-recap-name" id="recapName">–</div>
         <div class="contrat-recap-price" id="recapPrice">–</div>
       </div>
-
       <div class="err-msg" id="errMsg"></div>
-
       <div class="form-row">
-        <div class="field">
-          <label>Prénom *</label>
-          <input class="form-input" id="fPrenom" type="text" placeholder="Marie" oninput="checkForm()">
-        </div>
-        <div class="field">
-          <label>Nom *</label>
-          <input class="form-input" id="fNom" type="text" placeholder="Dupont" oninput="checkForm()">
-        </div>
+        <div class="field"><label>Prénom *</label><input class="form-input" id="fPrenom" type="text" placeholder="Marie" oninput="checkForm()"></div>
+        <div class="field"><label>Nom *</label><input class="form-input" id="fNom" type="text" placeholder="Dupont" oninput="checkForm()"></div>
       </div>
-
-      <div class="field">
-        <label>Email *</label>
-        <input class="form-input" id="fEmail" type="email" placeholder="marie@email.com" oninput="checkForm()">
-      </div>
-
-      <div class="field">
-        <label>Téléphone *</label>
-        <input class="form-input" id="fTel" type="tel" placeholder="06 XX XX XX XX" oninput="checkForm()">
-      </div>
-
-      <div class="field">
-        <label>Adresse *</label>
-        <input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm()">
-      </div>
-
-      <div class="field">
-        <label>Message (optionnel)</label>
-        <input class="form-input" id="fMessage" type="text" placeholder="Précisions, questions...">
-      </div>
-
-      <button class="btn-submit" id="btnSubmit" disabled onclick="submitForm()">
-        <span id="btnText">Envoyer ma demande →</span>
-      </button>
+      <div class="field"><label>Email *</label><input class="form-input" id="fEmail" type="email" placeholder="marie@email.com" oninput="checkForm()"></div>
+      <div class="field"><label>Téléphone *</label><input class="form-input" id="fTel" type="tel" placeholder="06 XX XX XX XX" oninput="checkForm()"></div>
+      <div class="field"><label>Adresse *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm()"></div>
+      <div class="field"><label>Message (optionnel)</label><input class="form-input" id="fMessage" type="text" placeholder="Précisions, questions..."></div>
+      <button class="btn-submit" id="btnSubmit" disabled onclick="submitForm()"><span id="btnText">Envoyer ma demande →</span></button>
       <button class="btn-cancel" onclick="closeModal()">Annuler</button>
     </div>
-
     <div class="success-view" id="successView">
       <div class="success-icon">✓</div>
       <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700">Demande envoyée !</div>
-      <div style="color:var(--muted);font-size:0.88rem;max-width:300px">Stevy vous contactera sous 24h pour finaliser votre contrat.</div>
-      <button class="btn-submit" style="max-width:240px;margin-top:0.5rem" onclick="closeModal()">Fermer</button>
+      <div style="color:var(--muted);font-size:0.88rem;max-width:320px;line-height:1.6">Stevy vous contactera sous 24h. Un email de confirmation avec votre lien de suivi vient de vous être envoyé.</div>
+      <div class="success-info">
+        <strong>📧 Vérifiez votre boîte mail</strong><br>
+        Vous avez reçu un email contenant votre <strong>lien de suivi unique</strong> pour suivre l'état de votre demande en temps réel (Nouvelle → Contacté → Actif).
+      </div>
+      <a id="btnSuiviLink" href="suivi-contrat.html" class="btn-suivi">🔍 Suivre ma demande →</a>
+      <a href="mon-rdv.html" class="btn-espace">👤 Créer / accéder à mon espace client</a>
+      <button class="btn-cancel" onclick="closeModal()">Fermer</button>
     </div>
-
   </div>
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const firebaseConfig = {apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a"};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+window._db = db;
+window._fns = {collection, addDoc, serverTimestamp};
+</script>
 <script>
-let selectedContrat = '';
-let selectedPrice   = '';
+let selectedContrat='', selectedLabel='', selectedPrice='';
 
-function openModal(nom, price) {
-  selectedContrat = nom;
-  selectedPrice   = price;
-  document.getElementById('recapName').textContent  = nom;
-  document.getElementById('recapPrice').textContent = price;
-  document.getElementById('formView').style.display    = 'flex';
-  document.getElementById('formView').style.flexDirection = 'column';
-  document.getElementById('formView').style.gap        = '1rem';
-  document.getElementById('successView').style.display = 'none';
-  document.getElementById('errMsg').style.display      = 'none';
-  document.getElementById('btnText').textContent       = 'Envoyer ma demande →';
-  document.getElementById('btnSubmit').disabled        = true;
+function openModal(key,label,price){
+  selectedContrat=key; selectedLabel=label; selectedPrice=price;
+  document.getElementById('recapName').textContent=label;
+  document.getElementById('recapPrice').textContent=price;
+  document.getElementById('formView').style.display='flex';
+  document.getElementById('successView').style.display='none';
+  document.getElementById('errMsg').style.display='none';
+  document.getElementById('btnText').textContent='Envoyer ma demande →';
+  document.getElementById('btnSubmit').disabled=true;
   document.getElementById('modalOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
-
-function closeModal() {
+function closeModal(){
   document.getElementById('modalOverlay').classList.remove('show');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
+  ['fPrenom','fNom','fEmail','fTel','fAdresse','fMessage'].forEach(id=>document.getElementById(id).value='');
 }
-
-document.getElementById('modalOverlay').addEventListener('click', e => {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-});
-
-function checkForm() {
-  const ok = document.getElementById('fPrenom').value.trim()
-    && document.getElementById('fNom').value.trim()
-    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('fEmail').value.trim())
-    && document.getElementById('fTel').value.trim()
-    && document.getElementById('fAdresse').value.trim();
-  document.getElementById('btnSubmit').disabled = !ok;
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();});
+function checkForm(){
+  const ok=document.getElementById('fPrenom').value.trim()&&document.getElementById('fNom').value.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('fEmail').value.trim())&&document.getElementById('fTel').value.trim()&&document.getElementById('fAdresse').value.trim();
+  document.getElementById('btnSubmit').disabled=!ok;
 }
-
-async function submitForm() {
-  const btn     = document.getElementById('btnSubmit');
-  const btnText = document.getElementById('btnText');
-  const errMsg  = document.getElementById('errMsg');
-  btn.disabled  = true;
-  btnText.innerHTML = '<span class="spinner"></span>';
-  errMsg.style.display = 'none';
-
-  const formData = new FormData();
-  formData.append('Contrat',  selectedContrat);
-  formData.append('Prix',     selectedPrice);
-  formData.append('Prénom',   document.getElementById('fPrenom').value.trim());
-  formData.append('Nom',      document.getElementById('fNom').value.trim());
-  formData.append('Email',    document.getElementById('fEmail').value.trim());
-  formData.append('Téléphone', document.getElementById('fTel').value.trim());
-  formData.append('Adresse',  document.getElementById('fAdresse').value.trim());
-  formData.append('Message',  document.getElementById('fMessage').value.trim());
-
+async function submitForm(){
+  const btn=document.getElementById('btnSubmit');
+  const btnText=document.getElementById('btnText');
+  const errMsg=document.getElementById('errMsg');
+  btn.disabled=true;
+  btnText.innerHTML='<span class="spinner"></span>';
+  errMsg.style.display='none';
+  const prenom=document.getElementById('fPrenom').value.trim();
+  const nom=document.getElementById('fNom').value.trim();
+  const email=document.getElementById('fEmail').value.trim().toLowerCase();
   try {
-    const res = await fetch('https://formspree.io/f/xkopkwrz', {
-      method: 'POST', body: formData, headers: { 'Accept': 'application/json' }
+    const {collection,addDoc,serverTimestamp}=window._fns;
+    const docRef=await addDoc(collection(window._db,'contrats'),{
+      contrat:selectedContrat,
+      nom:`${prenom} ${nom}`,
+      email,
+      telephone:document.getElementById('fTel').value.trim(),
+      adresse:document.getElementById('fAdresse').value.trim(),
+      note:document.getElementById('fMessage').value.trim()||null,
+      status:'new',
+      createdAt:serverTimestamp()
     });
-    if (res.ok) {
-      document.getElementById('formView').style.display    = 'none';
-      document.getElementById('successView').style.display = 'flex';
-    } else {
-      throw new Error('Erreur');
-    }
-  } catch(e) {
-    btn.disabled = false;
-    btnText.textContent = 'Envoyer ma demande →';
-    errMsg.textContent  = 'Une erreur est survenue. Réessayez ou contactez Stevy directement.';
-    errMsg.style.display = 'block';
+    document.getElementById('btnSuiviLink').href=`suivi-contrat.html?id=${docRef.id}`;
+    document.getElementById('formView').style.display='none';
+    document.getElementById('successView').style.display='flex';
+  } catch(e){
+    console.error(e);
+    btn.disabled=false;
+    btnText.textContent='Envoyer ma demande →';
+    errMsg.textContent='Une erreur est survenue. Réessayez ou contactez Stevy au 06 19 51 57 56.';
+    errMsg.style.display='block';
   }
 }
-
-// FAQ
-document.querySelectorAll('.faq-item').forEach(item => {
-  item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
-});
-
-// Ouvre directement le modal si paramètre URL ?contrat=serenite|senior|famille
-const params = new URLSearchParams(window.location.search);
-const contratParam = params.get('contrat');
-if (contratParam) {
-  const map = {
-    serenite: ['Contrat Sérénité', '39€/mois'],
-    senior:   ['Pack Senior+',     '49€/mois'],
-    famille:  ['Pack Famille',     '59€/mois'],
-  };
-  if (map[contratParam]) openModal(...map[contratParam]);
-}
+document.querySelectorAll('.faq-item').forEach(item=>{item.querySelector('.faq-q').addEventListener('click',()=>item.classList.toggle('open'));});
+const params=new URLSearchParams(window.location.search);
+const cp=params.get('contrat');
+if(cp){const map={serenite:['serenite','Contrat Sérénité','45€/mois'],senior:['senior','Pack Senior+','49€/mois'],famille:['famille','Pack Famille','59€/mois']};if(map[cp])openModal(...map[cp]);}
 </script>
 </body>
 </html>
