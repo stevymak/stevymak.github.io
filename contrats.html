@@ -74,12 +74,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .success-icon{width:64px;height:64px;border-radius:50%;background:#22c55e20;border:2px solid #22c55e60;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
 .success-info{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;font-size:0.82rem;color:var(--muted);text-align:left;width:100%;line-height:1.6}
 .success-info strong{color:var(--text)}
-.btn-suivi{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#3b82f618;border:1px solid #3b82f640;color:var(--accent2);padding:0.75rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;width:100%}
+.btn-suivi{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#3b82f618;border:1px solid #3b82f640;color:var(--accent2);padding:0.75rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;text-decoration:none;transition:all 0.2s;width:100%}
 .btn-suivi:hover{background:#3b82f628}
-.btn-espace{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.75rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:all 0.2s;width:100%}
+.btn-espace{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.75rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.88rem;text-decoration:none;transition:all 0.2s;width:100%}
 .btn-espace:hover{color:var(--text)}
-.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
+.firebase-loading{display:flex;align-items:center;justify-content:center;gap:0.5rem;color:var(--muted);font-size:0.82rem;padding:0.5rem}
 .faq-mini{margin-bottom:3rem}
 .faq-mini-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1.25rem}
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;cursor:pointer;margin-bottom:0.75rem}
@@ -139,6 +140,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','59€/mois')">Souscrire maintenant →</button>
     </div>
   </div>
+
   <div class="compare-section">
     <div class="compare-title">Comparatif détaillé</div>
     <div style="overflow-x:auto">
@@ -163,6 +165,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       </table>
     </div>
   </div>
+
   <div class="faq-mini">
     <div class="faq-mini-title">Questions fréquentes sur les contrats</div>
     <div class="faq-item"><div class="faq-q">Comment fonctionne l'abonnement ? <span class="faq-arrow">+</span></div><div class="faq-a">Après validation de votre demande, Stevy vous contacte pour confirmer les modalités. Le paiement est mensuel, par virement ou prélèvement. Vous pouvez résilier à tout moment avec un préavis de 30 jours.</div></div>
@@ -182,7 +185,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <div class="modal-title">Souscrire à un contrat</div>
           <div class="modal-sub">Remplissez le formulaire, Stevy vous contactera sous 24h</div>
         </div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
+        <button class="modal-close" id="btnModalClose">✕</button>
       </div>
       <div class="contrat-recap">
         <div class="contrat-recap-name" id="recapName">–</div>
@@ -190,15 +193,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       </div>
       <div class="err-msg" id="errMsg"></div>
       <div class="form-row">
-        <div class="field"><label>Prénom *</label><input class="form-input" id="fPrenom" type="text" placeholder="Marie" oninput="checkForm()"></div>
-        <div class="field"><label>Nom *</label><input class="form-input" id="fNom" type="text" placeholder="Dupont" oninput="checkForm()"></div>
+        <div class="field"><label>Prénom *</label><input class="form-input" id="fPrenom" type="text" placeholder="Marie"></div>
+        <div class="field"><label>Nom *</label><input class="form-input" id="fNom" type="text" placeholder="Dupont"></div>
       </div>
-      <div class="field"><label>Email *</label><input class="form-input" id="fEmail" type="email" placeholder="marie@email.com" oninput="checkForm()"></div>
-      <div class="field"><label>Téléphone *</label><input class="form-input" id="fTel" type="tel" placeholder="06 XX XX XX XX" oninput="checkForm()"></div>
-      <div class="field"><label>Adresse *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine" oninput="checkForm()"></div>
+      <div class="field"><label>Email *</label><input class="form-input" id="fEmail" type="email" placeholder="marie@email.com"></div>
+      <div class="field"><label>Téléphone *</label><input class="form-input" id="fTel" type="tel" placeholder="06 XX XX XX XX"></div>
+      <div class="field"><label>Adresse *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine"></div>
       <div class="field"><label>Message (optionnel)</label><input class="form-input" id="fMessage" type="text" placeholder="Précisions, questions..."></div>
-      <button class="btn-submit" id="btnSubmit" disabled onclick="submitForm()"><span id="btnText">Envoyer ma demande →</span></button>
-      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn-submit" id="btnSubmit" disabled><span id="btnText">Envoyer ma demande →</span></button>
+      <button class="btn-cancel" id="btnCancel">Annuler</button>
     </div>
     <div class="success-view" id="successView">
       <div class="success-icon">✓</div>
@@ -210,82 +213,138 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       </div>
       <a id="btnSuiviLink" href="suivi-contrat.html" class="btn-suivi">🔍 Suivre ma demande →</a>
       <a href="mon-rdv.html" class="btn-espace">👤 Créer / accéder à mon espace client</a>
-      <button class="btn-cancel" onclick="closeModal()">Fermer</button>
+      <button class="btn-cancel" id="btnFermer">Fermer</button>
     </div>
   </div>
 </div>
 
+<!-- TOUT dans un seul script type="module" pour éviter le problème d'initialisation async -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-const firebaseConfig = {apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a"};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window._db = db;
-window._fns = {collection, addDoc, serverTimestamp};
-</script>
-<script>
-let selectedContrat='', selectedLabel='', selectedPrice='';
 
-function openModal(key,label,price){
-  selectedContrat=key; selectedLabel=label; selectedPrice=price;
-  document.getElementById('recapName').textContent=label;
-  document.getElementById('recapPrice').textContent=price;
-  document.getElementById('formView').style.display='flex';
-  document.getElementById('successView').style.display='none';
-  document.getElementById('errMsg').style.display='none';
-  document.getElementById('btnText').textContent='Envoyer ma demande →';
-  document.getElementById('btnSubmit').disabled=true;
-  document.getElementById('modalOverlay').classList.add('show');
-  document.body.style.overflow='hidden';
+// ── Init Firebase ──
+const firebaseConfig = {
+  apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+  authDomain:        "makouez-it.firebaseapp.com",
+  projectId:         "makouez-it",
+  storageBucket:     "makouez-it.firebasestorage.app",
+  messagingSenderId: "558314427247",
+  appId:             "1:558314427247:web:83e656344dd79019ccce9a"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ── État ──
+let selectedContrat = '';
+
+// ── Helpers DOM ──
+const $  = id => document.getElementById(id);
+const on = (id, ev, fn) => $(id).addEventListener(ev, fn);
+
+// ── Validation formulaire ──
+function checkForm() {
+  const ok = $('fPrenom').value.trim()
+    && $('fNom').value.trim()
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('fEmail').value.trim())
+    && $('fTel').value.trim()
+    && $('fAdresse').value.trim();
+  $('btnSubmit').disabled = !ok;
 }
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('show');
-  document.body.style.overflow='';
-  ['fPrenom','fNom','fEmail','fTel','fAdresse','fMessage'].forEach(id=>document.getElementById(id).value='');
+
+// ── Ouvrir modal ──
+window.openModal = function(key, label, price) {
+  selectedContrat = key;
+  $('recapName').textContent  = label;
+  $('recapPrice').textContent = price;
+  $('formView').style.display    = 'flex';
+  $('successView').style.display = 'none';
+  $('errMsg').style.display      = 'none';
+  $('btnText').textContent       = 'Envoyer ma demande →';
+  $('btnSubmit').disabled        = true;
+  // Reset champs
+  ['fPrenom','fNom','fEmail','fTel','fAdresse','fMessage'].forEach(id => $(id).value = '');
+  $('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+};
+
+// ── Fermer modal ──
+function closeModal() {
+  $('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
 }
-document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();});
-function checkForm(){
-  const ok=document.getElementById('fPrenom').value.trim()&&document.getElementById('fNom').value.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('fEmail').value.trim())&&document.getElementById('fTel').value.trim()&&document.getElementById('fAdresse').value.trim();
-  document.getElementById('btnSubmit').disabled=!ok;
-}
-async function submitForm(){
-  const btn=document.getElementById('btnSubmit');
-  const btnText=document.getElementById('btnText');
-  const errMsg=document.getElementById('errMsg');
-  btn.disabled=true;
-  btnText.innerHTML='<span class="spinner"></span>';
-  errMsg.style.display='none';
-  const prenom=document.getElementById('fPrenom').value.trim();
-  const nom=document.getElementById('fNom').value.trim();
-  const email=document.getElementById('fEmail').value.trim().toLowerCase();
+
+// ── Submit ──
+async function submitForm() {
+  const btn     = $('btnSubmit');
+  const btnText = $('btnText');
+  const errMsg  = $('errMsg');
+
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner"></span> Envoi en cours…';
+  errMsg.style.display = 'none';
+
+  const prenom  = $('fPrenom').value.trim();
+  const nom     = $('fNom').value.trim();
+  const email   = $('fEmail').value.trim().toLowerCase();
+  const tel     = $('fTel').value.trim();
+  const adresse = $('fAdresse').value.trim();
+  const note    = $('fMessage').value.trim() || null;
+
   try {
-    const {collection,addDoc,serverTimestamp}=window._fns;
-    const docRef=await addDoc(collection(window._db,'contrats'),{
-      contrat:selectedContrat,
-      nom:`${prenom} ${nom}`,
+    const docRef = await addDoc(collection(db, 'contrats'), {
+      contrat:   selectedContrat,
+      nom:       `${prenom} ${nom}`,
       email,
-      telephone:document.getElementById('fTel').value.trim(),
-      adresse:document.getElementById('fAdresse').value.trim(),
-      note:document.getElementById('fMessage').value.trim()||null,
-      status:'new',
-      createdAt:serverTimestamp()
+      telephone: tel,
+      adresse,
+      note,
+      status:    'new',
+      createdAt: serverTimestamp(),
     });
-    document.getElementById('btnSuiviLink').href=`suivi-contrat.html?id=${docRef.id}`;
-    document.getElementById('formView').style.display='none';
-    document.getElementById('successView').style.display='flex';
-  } catch(e){
-    console.error(e);
-    btn.disabled=false;
-    btnText.textContent='Envoyer ma demande →';
-    errMsg.textContent='Une erreur est survenue. Réessayez ou contactez Stevy au 06 19 51 57 56.';
-    errMsg.style.display='block';
+
+    // Mettre à jour le lien de suivi avec l'ID du document
+    $('btnSuiviLink').href = `suivi-contrat.html?id=${docRef.id}`;
+
+    // Afficher la vue succès
+    $('formView').style.display    = 'none';
+    $('successView').style.display = 'flex';
+
+  } catch (e) {
+    console.error('Erreur Firebase :', e);
+    btn.disabled = false;
+    btnText.textContent = 'Envoyer ma demande →';
+    errMsg.textContent  = 'Une erreur est survenue. Réessayez ou contactez Stevy au 06 19 51 57 56.';
+    errMsg.style.display = 'block';
   }
 }
-document.querySelectorAll('.faq-item').forEach(item=>{item.querySelector('.faq-q').addEventListener('click',()=>item.classList.toggle('open'));});
-const params=new URLSearchParams(window.location.search);
-const cp=params.get('contrat');
-if(cp){const map={serenite:['serenite','Contrat Sérénité','45€/mois'],senior:['senior','Pack Senior+','49€/mois'],famille:['famille','Pack Famille','59€/mois']};if(map[cp])openModal(...map[cp]);}
+
+// ── Listeners (attachés après chargement du DOM) ──
+on('btnModalClose', 'click', closeModal);
+on('btnCancel',     'click', closeModal);
+on('btnFermer',     'click', closeModal);
+on('btnSubmit',     'click', submitForm);
+$('modalOverlay').addEventListener('click', e => { if (e.target === $('modalOverlay')) closeModal(); });
+
+// Validation en temps réel
+['fPrenom','fNom','fEmail','fTel','fAdresse'].forEach(id => $(id).addEventListener('input', checkForm));
+
+// ── FAQ ──
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+});
+
+// ── Ouverture auto via URL (?contrat=serenite|senior|famille) ──
+const params = new URLSearchParams(window.location.search);
+const cp = params.get('contrat');
+if (cp) {
+  const map = {
+    serenite: ['serenite', 'Contrat Sérénité', '45€/mois'],
+    senior:   ['senior',   'Pack Senior+',     '49€/mois'],
+    famille:  ['famille',  'Pack Famille',      '59€/mois'],
+  };
+  if (map[cp]) window.openModal(...map[cp]);
+}
 </script>
 </body>
 </html>
