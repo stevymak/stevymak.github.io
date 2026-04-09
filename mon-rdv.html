@@ -9,38 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#09090f;
-  --bg2:#111120;
-  --bg3:#16162a;
-  --accent:#3b82f6;
-  --accent2:#60a5fa;
-  --text:#f0f0ff;
-  --muted:#8888aa;
-  --border:#ffffff14;
-  --card:#ffffff08;
-  --r:12px;
-  --green:#22c55e;
-  --orange:#f97316;
-  --red:#ef4444;
-  --purple:#a855f7;
-}
+:root{--bg:#09090f;--bg2:#111120;--bg3:#16162a;--accent:#3b82f6;--accent2:#60a5fa;--text:#f0f0ff;--muted:#8888aa;--border:#ffffff14;--card:#ffffff08;--r:12px;--green:#22c55e;--orange:#f97316;--red:#ef4444;--purple:#a855f7}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;min-height:100vh}
 h1,h2,h3,.logo{font-family:'Syne',sans-serif}
-
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(9,9,15,0.9);border-bottom:1px solid var(--border)}
-.logo{font-size:1.4rem;font-weight:800;color:var(--text);letter-spacing:-0.02em;text-decoration:none}
-.logo span{color:var(--accent)}
-.nav-back{display:flex;align-items:center;gap:0.5rem;color:var(--muted);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
-.nav-back:hover{color:var(--text)}
-.nav-back svg{width:16px;height:16px}
-
+.logo{font-size:1.4rem;font-weight:800;color:var(--text);letter-spacing:-0.02em;text-decoration:none}.logo span{color:var(--accent)}
+.nav-back{display:flex;align-items:center;gap:0.5rem;color:var(--muted);text-decoration:none;font-size:0.88rem;transition:color 0.2s}.nav-back:hover{color:var(--text)}
 .page{padding:7rem 2rem 4rem;max-width:860px;margin:0 auto}
 .page-header{margin-bottom:2.5rem}
 .page-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);font-weight:600;margin-bottom:0.5rem}
 .page-title{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;letter-spacing:-0.03em;line-height:1.15}
-
 .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;max-width:440px;margin:0 auto}
 .login-card h2{font-size:1.3rem;font-weight:700;margin-bottom:0.4rem}
 .login-card p{color:var(--muted);font-size:0.9rem;margin-bottom:2rem}
@@ -49,66 +28,45 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .field input,.field select,.field textarea{width:100%;background:#ffffff0a;border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#3b82f660}
 .field input::placeholder,.field textarea::placeholder{color:var(--muted)}
-.field select{appearance:none;cursor:pointer}
-.field select option{background:var(--bg2);color:var(--text)}
+.field select{appearance:none;cursor:pointer}.field select option{background:var(--bg2);color:var(--text)}
 .field textarea{resize:vertical;min-height:80px}
-
-.field-password{position:relative}
-.field-password input{padding-right:3rem}
-.toggle-pw{position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;transition:color 0.2s}
-.toggle-pw:hover{color:var(--text)}
-.toggle-pw svg{width:18px;height:18px}
-
+.field-password{position:relative}.field-password input{padding-right:3rem}
+.toggle-pw{position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;transition:color 0.2s}.toggle-pw:hover{color:var(--text)}.toggle-pw svg{width:18px;height:18px}
 .btn-login{width:100%;background:var(--accent);color:#fff;border:none;padding:0.85rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:opacity 0.2s,transform 0.15s;margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:0.5rem}
-.btn-login:hover{opacity:0.85}
-.btn-login:active{transform:scale(0.98)}
-.btn-login:disabled{opacity:0.5;cursor:not-allowed}
-
+.btn-login:hover{opacity:0.85}.btn-login:active{transform:scale(0.98)}.btn-login:disabled{opacity:0.5;cursor:not-allowed}
 .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-.login-hint{text-align:center;margin-top:1.25rem;font-size:0.83rem;color:var(--muted)}
-.login-hint a{color:var(--accent2);text-decoration:none}
-.link-forgot{text-align:right;margin-top:-0.75rem;margin-bottom:1rem;font-size:0.8rem}
-.link-forgot a{color:var(--muted);text-decoration:none;transition:color 0.2s}
-.link-forgot a:hover{color:var(--accent2)}
-
-.error-msg{background:#ef444420;border:1px solid #ef444440;color:#fca5a5;font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem}
-.error-msg.show{display:flex}
-.success-msg{background:#22c55e18;border:1px solid #22c55e30;color:var(--green);font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem}
-.success-msg.show{display:flex}
-
+.login-hint{text-align:center;margin-top:1.25rem;font-size:0.83rem;color:var(--muted)}.login-hint a{color:var(--accent2);text-decoration:none}
+.link-forgot{text-align:right;margin-top:-0.75rem;margin-bottom:1rem;font-size:0.8rem}.link-forgot a{color:var(--muted);text-decoration:none;transition:color 0.2s}.link-forgot a:hover{color:var(--accent2)}
+.error-msg{background:#ef444420;border:1px solid #ef444440;color:#fca5a5;font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem}.error-msg.show{display:flex}
+.success-msg{background:#22c55e18;border:1px solid #22c55e30;color:var(--green);font-size:0.85rem;padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;display:none;align-items:center;gap:0.5rem}.success-msg.show{display:flex}
 #reset-view{display:none}
 #dashboard{display:none}
-
-.greeting-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
-.greeting-info h2{font-size:1.3rem;font-weight:700}
-.greeting-info p{color:var(--muted);font-size:0.88rem}
+.greeting-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.greeting-info h2{font-size:1.3rem;font-weight:700}.greeting-info p{color:var(--muted);font-size:0.88rem}
 .avatar-sm{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:#fff}
-.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.4rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;cursor:pointer;transition:color 0.2s,border-color 0.2s}
-.btn-logout:hover{color:var(--text);border-color:#ffffff30}
-
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.4rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;cursor:pointer;transition:color 0.2s,border-color 0.2s}.btn-logout:hover{color:var(--text);border-color:#ffffff30}
+/* Onglets principaux */
+.tabs-nav-main{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:2rem;overflow-x:auto}
+.tab-btn-main{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:0.85rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:color 0.2s,border-color 0.2s;white-space:nowrap}
+.tab-btn-main:hover{color:var(--text)}.tab-btn-main.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-section{display:none}.tab-section.active{display:block}
+/* Stats */
 .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2.5rem}
 .sum-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
-.sum-card .num{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:700;line-height:1}
-.sum-card .lbl{font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem}
-.sum-card.accent .num{color:var(--accent2)}
-.sum-card.green .num{color:var(--green)}
-.sum-card.orange .num{color:var(--orange)}
-
+.sum-card .num{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:700;line-height:1}.sum-card .lbl{font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.3rem}
+.sum-card.accent .num{color:var(--accent2)}.sum-card.green .num{color:var(--green)}.sum-card.orange .num{color:var(--orange)}
 .sec-title{font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;font-family:'Syne',sans-serif}
 .sec-title span{font-size:0.75rem;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
-
+/* RDV */
 .rdv-list{display:flex;flex-direction:column;gap:1rem;margin-bottom:2.5rem}
-.rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1.25rem;align-items:start;transition:border-color 0.2s}
-.rdv-card:hover{border-color:#ffffff22}
+.rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1.25rem;align-items:start;transition:border-color 0.2s}.rdv-card:hover{border-color:#ffffff22}
 .rdv-date-block{text-align:center;min-width:52px}
 .rdv-day{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;line-height:1;color:var(--text)}
 .rdv-month{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted)}
 .rdv-info h4{font-size:0.97rem;font-weight:600;margin-bottom:0.15rem}
-.rdv-info .rdv-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;font-size:0.83rem;color:var(--muted)}
-.rdv-meta-item{display:flex;align-items:center;gap:0.3rem}
-.rdv-meta-item svg{width:13px;height:13px;opacity:0.7}
+.rdv-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;font-size:0.83rem;color:var(--muted)}
+.rdv-meta-item{display:flex;align-items:center;gap:0.3rem}.rdv-meta-item svg{width:13px;height:13px;opacity:0.7}
 .rdv-status{text-align:right}
 .badge-status{display:inline-flex;align-items:center;gap:5px;padding:0.3rem 0.75rem;border-radius:99px;font-size:0.75rem;font-weight:600;white-space:nowrap}
 .badge-status.confirmed{background:#22c55e18;color:var(--green);border:1px solid #22c55e30}
@@ -118,66 +76,85 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .badge-dot-s{width:6px;height:6px;border-radius:50%;background:currentColor}
 .rdv-actions{margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap}
 .btn-sm{padding:0.3rem 0.75rem;border-radius:7px;font-size:0.8rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:color 0.2s,border-color 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem}
-.btn-sm:hover{color:var(--text);border-color:#ffffff30}
-.btn-sm.danger:hover{color:#fca5a5;border-color:#ef444440}
-.btn-sm.primary{border-color:#3b82f640;color:var(--accent2)}
-.btn-sm.primary:hover{border-color:#3b82f680;background:#3b82f610}
-
+.btn-sm:hover{color:var(--text);border-color:#ffffff30}.btn-sm.danger:hover{color:#fca5a5;border-color:#ef444440}
+.btn-sm.primary{border-color:#3b82f640;color:var(--accent2)}.btn-sm.primary:hover{border-color:#3b82f680;background:#3b82f610}
+/* Contrats */
+.contrat-suivi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;gap:1rem;margin-bottom:1rem}
+.contrat-suivi-card.cs-active-border{border-color:#22c55e30}
+.contrat-suivi-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.contrat-suivi-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:0.5rem}
+.contrat-pill{font-size:0.7rem;padding:0.15rem 0.55rem;border-radius:99px;font-weight:600;border:1px solid}
+.pill-serenite{background:#3b82f615;color:#3b82f6;border-color:#3b82f630}
+.pill-senior{background:#f59e0b15;color:#f59e0b;border-color:#f59e0b30}
+.pill-famille{background:#22c55e15;color:#22c55e;border-color:#22c55e30}
+.cs-badge{font-size:0.75rem;padding:0.25rem 0.75rem;border-radius:99px;font-weight:600;white-space:nowrap;border:1px solid}
+.cs-new{background:#a855f715;color:#a855f7;border-color:#a855f730}
+.cs-contacted{background:#3b82f615;color:#3b82f6;border-color:#3b82f630}
+.cs-active{background:#22c55e15;color:#22c55e;border-color:#22c55e30}
+.cs-cancelled{background:#ef444415;color:#ef4444;border-color:#ef444430}
+/* Barre de progression contrat */
+.contrat-progress-bar{display:flex;align-items:flex-start;gap:0;margin:0.5rem 0;position:relative}
+.cp-step{display:flex;flex-direction:column;align-items:center;gap:0.4rem;flex:1;position:relative}
+.cp-step:not(:last-child)::after{content:'';position:absolute;top:11px;left:50%;width:100%;height:2px;background:var(--border);z-index:0}
+.cp-step.done::after,.cp-step.current::after{background:var(--accent)}
+.cp-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:0.6rem;z-index:1;transition:all 0.3s}
+.cp-step.done .cp-dot{border-color:var(--accent);background:#3b82f620;color:var(--accent)}
+.cp-step.current .cp-dot{border-color:var(--accent);background:var(--accent);color:#fff;box-shadow:0 0 0 4px #3b82f620}
+.cp-label{font-size:0.65rem;color:var(--muted);text-align:center}
+.cp-step.current .cp-label,.cp-step.done .cp-label{color:var(--accent);font-weight:600}
+.ci-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;font-size:0.83rem}
+.ci-item{display:flex;flex-direction:column;gap:0.1rem}.ci-label{color:var(--muted);font-size:0.72rem}
+.btn-resilier{background:#ef444415;color:#ef4444;border:1px solid #ef444430;border-radius:8px;padding:0.45rem 1rem;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;align-self:flex-start}
+.btn-resilier:hover{background:#ef444425}
+/* Contact Stevy */
+.contact-stevy-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:1rem}
+.contact-methods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem}
+.contact-method-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;text-decoration:none;color:var(--text);transition:border-color 0.2s,background 0.2s;display:flex;flex-direction:column;align-items:center;gap:0.4rem}
+.contact-method-card:hover{border-color:#3b82f640;background:#3b82f608}
+.contact-method-icon{font-size:1.5rem}.contact-method-label{font-size:0.78rem;font-weight:600}.contact-method-detail{font-size:0.72rem;color:var(--muted)}
+.msg-form-box{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.msg-form-box h3{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700}
+.msg-form-box select,.msg-form-box textarea{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.7rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;width:100%;transition:border-color 0.2s}
+.msg-form-box select{appearance:none;cursor:pointer}.msg-form-box select option{background:var(--bg2)}
+.msg-form-box textarea{resize:vertical;min-height:100px}.msg-form-box textarea::placeholder{color:var(--muted)}
+.msg-form-box select:focus,.msg-form-box textarea:focus{border-color:#3b82f660}
+.btn-send-msg{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:0.75rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;align-self:flex-start}
+.btn-send-msg:hover{opacity:0.85}.btn-send-msg:disabled{opacity:0.4;cursor:not-allowed}
+.msg-success{background:#22c55e15;border:1px solid #22c55e30;border-radius:8px;padding:0.75rem 1rem;font-size:0.85rem;color:#22c55e;display:none}
+/* Vides + contact box */
 .empty-state{text-align:center;padding:3rem 2rem;background:var(--card);border:1px dashed var(--border);border-radius:var(--r)}
 .empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.5}
-.empty-state h3{font-size:1rem;font-weight:600;margin-bottom:0.4rem}
-.empty-state p{color:var(--muted);font-size:0.88rem;margin-bottom:1.25rem}
-.btn-new-rdv{display:inline-block;background:var(--accent);color:#fff;padding:0.6rem 1.4rem;border-radius:9px;font-size:0.9rem;font-weight:500;text-decoration:none;transition:opacity 0.2s}
-.btn-new-rdv:hover{opacity:0.85}
-
-.contact-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.contact-box-info h4{font-size:0.95rem;font-weight:600;margin-bottom:0.2rem}
-.contact-box-info p{font-size:0.83rem;color:var(--muted)}
-.contact-box-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
-.btn-contact{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 1rem;border-radius:8px;font-size:0.83rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;border:1px solid var(--border);color:var(--text);background:var(--card)}
-.btn-contact:hover{opacity:0.8}
-
+.empty-state h3{font-size:1rem;font-weight:600;margin-bottom:0.4rem}.empty-state p{color:var(--muted);font-size:0.88rem;margin-bottom:1.25rem}
+.btn-new-rdv{display:inline-block;background:var(--accent);color:#fff;padding:0.6rem 1.4rem;border-radius:9px;font-size:0.9rem;font-weight:500;text-decoration:none;transition:opacity 0.2s}.btn-new-rdv:hover{opacity:0.85}
+/* Modals */
 .modal-overlay{position:fixed;inset:0;background:#00000080;backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.show{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:420px;width:100%}
-.modal h3{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
-.modal p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem}
+.modal h3{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}.modal p{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem}
 .modal-btns{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem}
-.btn-modal-cancel{padding:0.5rem 1.2rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;transition:color 0.2s}
-.btn-modal-cancel:hover{color:var(--text)}
+.btn-modal-cancel{padding:0.5rem 1.2rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;transition:color 0.2s}.btn-modal-cancel:hover{color:var(--text)}
 .btn-modal-confirm{padding:0.5rem 1.2rem;border-radius:8px;border:none;background:#ef4444;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer}
-.btn-modal-save{padding:0.5rem 1.2rem;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem}
-.btn-modal-save:hover{opacity:0.85}
-.btn-modal-save:disabled{opacity:0.5;cursor:not-allowed}
-
+.btn-modal-save{padding:0.5rem 1.2rem;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem}.btn-modal-save:hover{opacity:0.85}.btn-modal-save:disabled{opacity:0.5;cursor:not-allowed}
 #modal-edit .modal{max-width:500px}
 .edit-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .field-hint{font-size:0.77rem;color:var(--muted);margin-top:0.3rem}
-
 .toast{position:fixed;bottom:2rem;right:2rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1.25rem;font-size:0.88rem;box-shadow:0 8px 32px #00000060;z-index:300;transform:translateY(120%);transition:transform 0.3s ease;max-width:280px}
-.toast.show{transform:translateY(0)}
-.toast.success{border-color:#22c55e30;color:var(--green)}
-.toast.info{border-color:#3b82f640;color:var(--accent2)}
-.toast.error{border-color:#ef444430;color:#fca5a5}
-
+.toast.show{transform:translateY(0)}.toast.success{border-color:#22c55e30;color:var(--green)}.toast.info{border-color:#3b82f640;color:var(--accent2)}.toast.error{border-color:#ef444430;color:#fca5a5}
 @media(max-width:600px){
-  .rdv-card{grid-template-columns:auto 1fr;gap:1rem}
-  .rdv-status{grid-column:1/-1;text-align:left}
-  .greeting-bar{flex-direction:column;align-items:flex-start}
-  .edit-row{grid-template-columns:1fr}
+  .rdv-card{grid-template-columns:auto 1fr;gap:1rem}.rdv-status{grid-column:1/-1;text-align:left}
+  .greeting-bar{flex-direction:column;align-items:flex-start}.edit-row{grid-template-columns:1fr}
+  .contact-methods-grid{grid-template-columns:1fr 1fr}.ci-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
     Retour au site
   </a>
 </nav>
-
 <div class="page">
 
   <!-- LOGIN -->
@@ -189,31 +166,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="login-card">
       <h2>Connexion</h2>
       <p>Connectez-vous avec l'email et le mot de passe de votre compte client.</p>
-      <div class="error-msg" id="error-msg">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span id="error-text">Email ou mot de passe incorrect.</span>
-      </div>
-      <div class="field">
-        <label>Adresse email</label>
-        <input type="email" id="input-email" placeholder="votre@email.com" autocomplete="email">
-      </div>
-      <div class="field">
-        <label>Mot de passe</label>
-        <div class="field-password">
-          <input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password">
-          <button class="toggle-pw" type="button" onclick="togglePassword()" aria-label="Afficher/masquer le mot de passe">
-            <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-        </div>
-      </div>
+      <div class="error-msg" id="error-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="error-text">Email ou mot de passe incorrect.</span></div>
+      <div class="field"><label>Adresse email</label><input type="email" id="input-email" placeholder="votre@email.com" autocomplete="email"></div>
+      <div class="field"><label>Mot de passe</label><div class="field-password"><input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password"><button class="toggle-pw" type="button" onclick="togglePassword()"><svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <div class="link-forgot"><a href="#" onclick="showResetView(event)">Mot de passe oublié ?</a></div>
-      <button class="btn-login" id="btn-login" onclick="doLogin()">
-        <span id="btn-login-text">Accéder à mon espace →</span>
-      </button>
-      <div class="login-hint">
-        Pas encore de compte ?
-        <a href="makouez-it-rdv.html">Prendre un RDV →</a>
-      </div>
+      <button class="btn-login" id="btn-login" onclick="doLogin()"><span id="btn-login-text">Accéder à mon espace →</span></button>
+      <div class="login-hint">Pas encore de compte ? <a href="makouez-it-rdv.html">Prendre un RDV →</a></div>
     </div>
   </div>
 
@@ -225,25 +183,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     </div>
     <div class="login-card">
       <h2>Mot de passe oublié</h2>
-      <p>Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
-      <div class="error-msg" id="reset-error-msg">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span id="reset-error-text">Une erreur est survenue.</span>
-      </div>
-      <div class="success-msg" id="reset-success-msg">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        <span>Email envoyé ! Vérifiez votre boîte mail.</span>
-      </div>
-      <div class="field">
-        <label>Adresse email</label>
-        <input type="email" id="reset-email" placeholder="votre@email.com" autocomplete="email">
-      </div>
-      <button class="btn-login" id="btn-reset" onclick="doResetPassword()">
-        <span id="btn-reset-text">Envoyer le lien →</span>
-      </button>
-      <div class="login-hint">
-        <a href="#" onclick="showLoginView(event)">← Retour à la connexion</a>
-      </div>
+      <p>Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
+      <div class="error-msg" id="reset-error-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="reset-error-text">Une erreur est survenue.</span></div>
+      <div class="success-msg" id="reset-success-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Email envoyé ! Vérifiez votre boîte mail.</span></div>
+      <div class="field"><label>Adresse email</label><input type="email" id="reset-email" placeholder="votre@email.com" autocomplete="email"></div>
+      <button class="btn-login" id="btn-reset" onclick="doResetPassword()"><span id="btn-reset-text">Envoyer le lien →</span></button>
+      <div class="login-hint"><a href="#" onclick="showLoginView(event)">← Retour à la connexion</a></div>
     </div>
   </div>
 
@@ -252,41 +197,86 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="greeting-bar">
       <div style="display:flex;align-items:center;gap:1rem">
         <div class="avatar-sm" id="avatar-initials">?</div>
-        <div class="greeting-info">
-          <h2 id="greeting-name">Bonjour !</h2>
-          <p id="greeting-email">—</p>
-        </div>
+        <div class="greeting-info"><h2 id="greeting-name">Bonjour !</h2><p id="greeting-email">—</p></div>
       </div>
       <button class="btn-logout" onclick="doLogout()">Se déconnecter</button>
     </div>
 
-    <div class="summary-grid" id="summary-grid"></div>
+    <!-- Navigation onglets -->
+    <div class="tabs-nav-main">
+      <button class="tab-btn-main active" onclick="switchMainTab('rdv',this)">📅 Mes rendez-vous</button>
+      <button class="tab-btn-main" onclick="switchMainTab('contrats',this)">📄 Mes contrats</button>
+      <button class="tab-btn-main" onclick="switchMainTab('contact',this)">✉️ Contacter Stevy</button>
+    </div>
 
-    <div class="sec-title">📅 Rendez-vous à venir <span id="count-upcoming"></span></div>
-    <div class="rdv-list" id="list-upcoming"></div>
+    <!-- ── ONGLET RDV ── -->
+    <div class="tab-section active" id="tab-rdv">
+      <div class="summary-grid" id="summary-grid"></div>
+      <div class="sec-title">📅 Rendez-vous à venir <span id="count-upcoming"></span></div>
+      <div class="rdv-list" id="list-upcoming"></div>
+      <div class="sec-title" style="margin-top:1rem">🕓 Historique <span id="count-past"></span></div>
+      <div class="rdv-list" id="list-past"></div>
+    </div>
 
-    <div class="sec-title" style="margin-top:1rem">🕓 Historique <span id="count-past"></span></div>
-    <div class="rdv-list" id="list-past"></div>
-
-    <div class="contact-box">
-      <div class="contact-box-info">
-        <h4>Besoin d'aide ou d'une modification urgente ?</h4>
-        <p>Contactez directement Stevy pour toute question sur vos réservations.</p>
+    <!-- ── ONGLET CONTRATS ── -->
+    <div class="tab-section" id="tab-contrats">
+      <div class="sec-title">📄 Mes contrats <span id="count-contrats"></span></div>
+      <div id="list-contrats">
+        <div style="text-align:center;padding:2rem;color:var(--muted)"><div class="spinner" style="width:24px;height:24px;border-width:2px;margin:0 auto 1rem"></div>Chargement…</div>
       </div>
-      <div class="contact-box-actions">
-        <a href="tel:+33619515756" class="btn-contact">📞 Appeler</a>
-        <a href="https://wa.me/33619515756" class="btn-contact">💬 WhatsApp</a>
-        <a href="mailto:contact@makouezit.org" class="btn-contact">✉️ Email</a>
+      <div style="margin-top:1.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.2rem">Vous souhaitez souscrire à un contrat ?</div><div style="color:var(--muted);font-size:0.83rem">Assistance informatique illimitée à domicile dès 45€/mois</div></div>
+        <a href="contrats.html" class="btn-new-rdv" style="white-space:nowrap">Voir nos contrats →</a>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- ── ONGLET CONTACT ── -->
+    <div class="tab-section" id="tab-contact">
+      <div class="contact-stevy-title">Contacter Stevy</div>
+      <div class="contact-methods-grid">
+        <a href="tel:+33619515756" class="contact-method-card">
+          <div class="contact-method-icon">📞</div>
+          <div class="contact-method-label">Appel direct</div>
+          <div class="contact-method-detail">06 19 51 57 56</div>
+        </a>
+        <a href="https://wa.me/33619515756" class="contact-method-card" target="_blank">
+          <div class="contact-method-icon">💬</div>
+          <div class="contact-method-label">WhatsApp</div>
+          <div class="contact-method-detail">Message rapide</div>
+        </a>
+        <a href="mailto:contact@makouezit.org" class="contact-method-card">
+          <div class="contact-method-icon">✉️</div>
+          <div class="contact-method-label">Email</div>
+          <div class="contact-method-detail">contact@makouezit.org</div>
+        </a>
+      </div>
+
+      <div class="msg-form-box">
+        <h3>💬 Envoyer un message depuis votre espace</h3>
+        <p style="font-size:0.82rem;color:var(--muted)">Stevy vous répondra sous 24h par email ou téléphone.</p>
+        <select id="msgSujet" oninput="checkMsg()">
+          <option value="">— Sujet du message —</option>
+          <option value="question-rdv">Question sur un rendez-vous</option>
+          <option value="question-contrat">Question sur mon contrat</option>
+          <option value="modification">Demande de modification</option>
+          <option value="resiliation">Demande de résiliation de contrat</option>
+          <option value="urgence">Problème urgent</option>
+          <option value="autre">Autre</option>
+        </select>
+        <textarea id="msgTexte" placeholder="Décrivez votre question ou demande..." oninput="checkMsg()"></textarea>
+        <div class="msg-success" id="msgSuccess">✅ Votre message a bien été envoyé à Stevy. Il vous répondra sous 24h.</div>
+        <button class="btn-send-msg" id="btnSendMsg" disabled onclick="sendMessage()">Envoyer le message →</button>
+      </div>
+    </div>
+
+  </div><!-- /dashboard -->
+</div><!-- /page -->
 
 <!-- MODAL ANNULATION -->
 <div class="modal-overlay" id="modal-cancel">
   <div class="modal">
     <h3>Annuler ce rendez-vous ?</h3>
-    <p>Cette action est irréversible. Stevy sera notifié automatiquement. Vous pouvez reprendre un RDV à tout moment.</p>
+    <p>Cette action est irréversible. Stevy sera notifié automatiquement.</p>
     <div class="modal-btns">
       <button class="btn-modal-cancel" onclick="closeModal('modal-cancel')">Garder le RDV</button>
       <button class="btn-modal-confirm" onclick="confirmCancel()">Oui, annuler</button>
@@ -298,438 +288,372 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <div class="modal-overlay" id="modal-edit">
   <div class="modal" style="max-width:500px">
     <h3>✏️ Modifier le rendez-vous</h3>
-    <p>Modifiez les informations souhaitées. Stevy sera notifié et confirmera les changements.</p>
+    <p>Stevy sera notifié et confirmera les changements.</p>
     <div class="field">
       <label>Service</label>
       <select id="edit-service">
         <option value="">— Sélectionner —</option>
-        <option>Diagnostic & Dépannage PC</option>
-        <option>Suppression de virus / malwares</option>
-        <option>Installation logicielle</option>
-        <option>Sauvegarde & récupération de données</option>
-        <option>Configuration réseau / Wi-Fi</option>
-        <option>Optimisation & nettoyage PC</option>
-        <option>Formation informatique</option>
-        <option>Autre</option>
+        <option>Diagnostic & Dépannage PC</option><option>Suppression de virus / malwares</option>
+        <option>Installation logicielle</option><option>Sauvegarde & récupération de données</option>
+        <option>Configuration réseau / Wi-Fi</option><option>Optimisation & nettoyage PC</option>
+        <option>Formation informatique</option><option>Autre</option>
       </select>
     </div>
     <div class="edit-row">
-      <div class="field">
-        <label>Date souhaitée</label>
-        <input type="date" id="edit-date">
-      </div>
-      <div class="field">
-        <label>Heure souhaitée</label>
-        <input type="time" id="edit-time" min="09:00" max="19:00">
-      </div>
+      <div class="field"><label>Date souhaitée</label><input type="date" id="edit-date"></div>
+      <div class="field"><label>Heure souhaitée</label><input type="time" id="edit-time" min="09:00" max="19:00"></div>
     </div>
-    <div class="field">
-      <label>Adresse d'intervention</label>
-      <input type="text" id="edit-adresse" placeholder="Ex : 12 rue de la Paix, Pierrefitte-sur-Seine">
-    </div>
+    <div class="field"><label>Adresse d'intervention</label><input type="text" id="edit-adresse" placeholder="Ex : 12 rue de la Paix, Pierrefitte"></div>
     <div class="field">
       <label>Message pour Stevy <span style="font-size:0.75rem;color:var(--muted);text-transform:none;letter-spacing:0">(optionnel)</span></label>
-      <textarea id="edit-note" placeholder="Précisez vos modifications ou ajoutez un commentaire..."></textarea>
-      <div class="field-hint">⚠️ La modification reste soumise à la disponibilité de Stevy. Vous serez contacté pour confirmation.</div>
+      <textarea id="edit-note" placeholder="Précisez vos modifications…"></textarea>
+      <div class="field-hint">⚠️ La modification reste soumise à la disponibilité de Stevy.</div>
     </div>
     <div class="modal-btns">
       <button class="btn-modal-cancel" onclick="closeModal('modal-edit')">Annuler</button>
-      <button class="btn-modal-save" id="btn-save-edit" onclick="confirmEdit()">
-        <span id="btn-save-text">Enregistrer la demande →</span>
-      </button>
+      <button class="btn-modal-save" id="btn-save-edit" onclick="confirmEdit()"><span id="btn-save-text">Enregistrer →</span></button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- MODAL RÉSILIATION -->
+<div class="modal-overlay" id="modal-resilier">
+  <div class="modal">
+    <h3>Résilier ce contrat ?</h3>
+    <p>Votre demande de résiliation sera envoyée à Stevy. Le contrat prendra fin après un préavis de 30 jours. Le mois en cours reste dû.</p>
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" onclick="closeModal('modal-resilier')">Annuler</button>
+      <button class="btn-modal-confirm" onclick="confirmResilier()">Demander la résiliation</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<!-- Firebase SDK -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-  import {
-    getFirestore,
-    collection,
-    query,
-    where,
-    getDocs,
-    doc,
-    updateDoc
-  } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
-    authDomain: "makouez-it.firebaseapp.com",
-    projectId: "makouez-it",
-    storageBucket: "makouez-it.firebasestorage.app",
-    messagingSenderId: "558314427247",
-    appId: "1:558314427247:web:83e656344dd79019ccce9a"
-  };
+const firebaseConfig = {apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a"};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+let cancelTarget=null, editTarget=null, resilierTarget=null;
+let currentReservations=[], currentContrats=[], currentUser=null;
 
-  let cancelTarget = null;
-  let editTarget   = null;
-  let currentReservations = [];
+onAuthStateChanged(auth, async (user) => {
+  if (user) { currentUser=user; await loadDashboard(user); }
+});
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) await loadDashboard(user);
-  });
+function getReservationDate(r) {
+  try {
+    if (r.date && typeof r.date.toDate==='function') return r.date.toDate();
+    if (r.dateKey) { const t=(!r.time||['matin','aprem','soir'].includes(r.time))?'12:00':r.time; return new Date(`${r.dateKey}T${t.replace('h',':')}`); }
+    if (r.date && typeof r.date==='string') return new Date(r.date);
+  } catch(e){}
+  return new Date(0);
+}
 
-  // ─── FIX : getReservationDate gère les ids de plages (matin/aprem/soir) ───
-  function getReservationDate(r) {
-    try {
-      if (r.date && typeof r.date.toDate === 'function') {
-        return r.date.toDate();
-      }
-      if (r.dateKey) {
-        const slotIds = ['matin', 'aprem', 'soir'];
-        // Si time est un id de plage ou absent, on utilise midi comme heure de référence
-        const timeStr = (!r.time || slotIds.includes(r.time)) ? '12:00' : r.time;
-        const normalized = timeStr.replace('h', ':');
-        return new Date(`${r.dateKey}T${normalized}`);
-      }
-      if (r.date && typeof r.date === 'string') return new Date(r.date);
-      if (r.date && typeof r.date === 'number') return new Date(r.date);
-    } catch(e) {}
-    return new Date(0);
-  }
+window.doLogin = async function() {
+  const email=document.getElementById('input-email').value.trim();
+  const password=document.getElementById('input-password').value;
+  const btn=document.getElementById('btn-login');
+  const btnText=document.getElementById('btn-login-text');
+  if(!email||!password){showError('error-msg','error-text','Veuillez remplir tous les champs.');return;}
+  btn.disabled=true;
+  btnText.innerHTML='<span class="spinner"></span>';
+  document.getElementById('error-msg').classList.remove('show');
+  try { const cred=await signInWithEmailAndPassword(auth,email,password); await loadDashboard(cred.user); }
+  catch(err){ btn.disabled=false; btnText.textContent='Accéder à mon espace →'; showError('error-msg','error-text',firebaseErrorMessage(err.code)); }
+};
 
-  window.doLogin = async function () {
-    const email    = document.getElementById('input-email').value.trim();
-    const password = document.getElementById('input-password').value;
-    const btn      = document.getElementById('btn-login');
-    const btnText  = document.getElementById('btn-login-text');
-    if (!email || !password) { showError('error-msg', 'error-text', 'Veuillez remplir tous les champs.'); return; }
-    btn.disabled = true;
-    btnText.innerHTML = '<span class="spinner"></span>';
-    document.getElementById('error-msg').classList.remove('show');
-    try {
-      const credential = await signInWithEmailAndPassword(auth, email, password);
-      await loadDashboard(credential.user);
-    } catch (err) {
-      btn.disabled = false;
-      btnText.textContent = 'Accéder à mon espace →';
-      showError('error-msg', 'error-text', firebaseErrorMessage(err.code));
-    }
-  };
+window.doLogout = async function() {
+  await signOut(auth);
+  currentReservations=[]; currentContrats=[]; currentUser=null;
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('login-view').style.display='block';
+  document.getElementById('input-email').value='';
+  document.getElementById('input-password').value='';
+  document.getElementById('btn-login').disabled=false;
+  document.getElementById('btn-login-text').textContent='Accéder à mon espace →';
+};
 
-  window.doLogout = async function () {
-    await signOut(auth);
-    currentReservations = [];
-    document.getElementById('dashboard').style.display    = 'none';
-    document.getElementById('login-view').style.display   = 'block';
-    document.getElementById('input-email').value          = '';
-    document.getElementById('input-password').value       = '';
-    document.getElementById('btn-login').disabled         = false;
-    document.getElementById('btn-login-text').textContent = 'Accéder à mon espace →';
-  };
+window.doResetPassword = async function() {
+  const email=document.getElementById('reset-email').value.trim();
+  const btn=document.getElementById('btn-reset');
+  const btnText=document.getElementById('btn-reset-text');
+  if(!email){showError('reset-error-msg','reset-error-text','Veuillez entrer votre adresse email.');return;}
+  btn.disabled=true; btnText.innerHTML='<span class="spinner"></span>';
+  document.getElementById('reset-error-msg').classList.remove('show');
+  document.getElementById('reset-success-msg').classList.remove('show');
+  try { await sendPasswordResetEmail(auth,email); document.getElementById('reset-success-msg').classList.add('show'); btnText.textContent='Email envoyé'; }
+  catch(err){ btn.disabled=false; btnText.textContent='Envoyer le lien →'; showError('reset-error-msg','reset-error-text',firebaseErrorMessage(err.code)); }
+};
 
-  window.doResetPassword = async function () {
-    const email   = document.getElementById('reset-email').value.trim();
-    const btn     = document.getElementById('btn-reset');
-    const btnText = document.getElementById('btn-reset-text');
-    if (!email) { showError('reset-error-msg', 'reset-error-text', 'Veuillez entrer votre adresse email.'); return; }
-    btn.disabled = true;
-    btnText.innerHTML = '<span class="spinner"></span>';
-    document.getElementById('reset-error-msg').classList.remove('show');
-    document.getElementById('reset-success-msg').classList.remove('show');
-    try {
-      await sendPasswordResetEmail(auth, email);
-      document.getElementById('reset-success-msg').classList.add('show');
-      btnText.textContent = 'Email envoyé';
-    } catch (err) {
-      btn.disabled = false;
-      btnText.textContent = 'Envoyer le lien →';
-      showError('reset-error-msg', 'reset-error-text', firebaseErrorMessage(err.code));
-    }
-  };
+async function loadDashboard(user) {
+  document.getElementById('login-view').style.display='none';
+  document.getElementById('reset-view').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  const displayName=user.displayName||user.email.split('@')[0];
+  const initials=displayName.split(/[\s._-]+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('avatar-initials').textContent=initials;
+  document.getElementById('greeting-name').textContent=`Bonjour, ${displayName.split(' ')[0]} 👋`;
+  document.getElementById('greeting-email').textContent=user.email;
+  await Promise.all([fetchReservations(user.uid), fetchContrats(user.email)]);
+}
 
-  async function loadDashboard(user) {
-    document.getElementById('login-view').style.display  = 'none';
-    document.getElementById('reset-view').style.display  = 'none';
-    document.getElementById('dashboard').style.display   = 'block';
-    const displayName = user.displayName || user.email.split('@')[0];
-    const initials    = displayName.split(/[\s._-]+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
-    document.getElementById('avatar-initials').textContent = initials;
-    document.getElementById('greeting-name').textContent   = `Bonjour, ${displayName.split(' ')[0]} 👋`;
-    document.getElementById('greeting-email').textContent  = user.email;
-    await fetchReservations(user.uid);
-  }
+async function fetchReservations(uid) {
+  try {
+    const q=query(collection(db,'reservations'),where('uid','==',uid));
+    const snap=await getDocs(q);
+    currentReservations=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderRdvs();
+  } catch(err){ console.error(err); showToast('Impossible de charger vos rendez-vous.','error'); currentReservations=[]; renderRdvs(); }
+}
 
-  async function fetchReservations(uid) {
-    try {
-      const q = query(collection(db, 'reservations'), where('uid', '==', uid));
-      const snap = await getDocs(q);
-      currentReservations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderAll();
-    } catch (err) {
-      console.error('Erreur Firestore :', err);
-      showToast('Impossible de charger vos rendez-vous.', 'error');
-      currentReservations = [];
-      renderAll();
-    }
-  }
+async function fetchContrats(email) {
+  try {
+    const q=query(collection(db,'contrats'),where('email','==',email.toLowerCase()),orderBy('createdAt','desc'));
+    const snap=await getDocs(q);
+    currentContrats=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderContrats();
+  } catch(err){ console.error(err); currentContrats=[]; renderContrats(); }
+}
 
-  window.askCancel = function (id) {
-    cancelTarget = id;
-    document.getElementById('modal-cancel').classList.add('show');
-  };
+// ── SWITCH TABS ──
+window.switchMainTab = function(id, btn) {
+  document.querySelectorAll('.tab-section').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn-main').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+};
 
-  window.confirmCancel = async function () {
-    if (!cancelTarget) return;
-    try {
-      await updateDoc(doc(db, 'reservations', cancelTarget), { status: 'cancelled' });
-      const rdv = currentReservations.find(r => r.id === cancelTarget);
-      if (rdv) rdv.status = 'cancelled';
-      closeModal('modal-cancel');
-      renderAll();
-      showToast('Rendez-vous annulé. Stevy a été notifié.', 'info');
-    } catch (err) {
-      closeModal('modal-cancel');
-      showToast("Erreur lors de l'annulation. Contactez Stevy.", 'error');
-    }
-  };
+// ── RENDER RDV ──
+window.renderAll = function() { renderRdvs(); };
 
-  window.askEdit = function (id) {
-    editTarget = id;
-    const rdv  = currentReservations.find(r => r.id === id);
-    if (!rdv) return;
-    const serviceEl = document.getElementById('edit-service');
-    for (let opt of serviceEl.options) { if (opt.value === rdv.service) { opt.selected = true; break; } }
-    if (rdv.dateKey) document.getElementById('edit-date').value = rdv.dateKey;
-    const heureRaw = rdv.time || rdv.heure || '';
-    const slotIds = ['matin', 'aprem', 'soir'];
-    document.getElementById('edit-time').value = slotIds.includes(heureRaw) ? '' : heureRaw.replace('h', ':');
-    document.getElementById('edit-adresse').value = rdv.adresse || '';
-    document.getElementById('edit-note').value = '';
-    document.getElementById('btn-save-text').textContent = 'Enregistrer la demande →';
-    document.getElementById('btn-save-edit').disabled = false;
-    document.getElementById('modal-edit').classList.add('show');
-  };
+function renderRdvs() {
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const upcoming=currentReservations.filter(r=>{if(r.status==='done'||r.status==='cancelled')return false;return getReservationDate(r)>=today;});
+  const past=currentReservations.filter(r=>{if(r.status==='done'||r.status==='cancelled')return true;return getReservationDate(r)<today;});
+  upcoming.sort((a,b)=>getReservationDate(a)-getReservationDate(b));
+  past.sort((a,b)=>getReservationDate(b)-getReservationDate(a));
+  const total=currentReservations.filter(r=>r.status!=='cancelled').length;
+  const done=currentReservations.filter(r=>r.status==='done').length;
+  const pending=currentReservations.filter(r=>r.status==='pending').length;
+  document.getElementById('summary-grid').innerHTML=`
+    <div class="sum-card accent"><div class="num">${upcoming.length}</div><div class="lbl">À venir</div></div>
+    <div class="sum-card green"><div class="num">${done}</div><div class="lbl">Terminés</div></div>
+    <div class="sum-card orange"><div class="num">${pending}</div><div class="lbl">En attente</div></div>
+    <div class="sum-card"><div class="num">${total}</div><div class="lbl">Total</div></div>`;
+  document.getElementById('count-upcoming').textContent=upcoming.length?`(${upcoming.length})`:'';
+  document.getElementById('count-past').textContent=past.length?`(${past.length})`:'';
+  const upEl=document.getElementById('list-upcoming');
+  const paEl=document.getElementById('list-past');
+  if(upcoming.length===0){ upEl.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Aucun rendez-vous à venir</h3><p>Prenez un nouveau rendez-vous en quelques secondes.</p><a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a></div>`; }
+  else { upEl.innerHTML=upcoming.map(r=>rdvCard(r,false)).join(''); }
+  paEl.innerHTML=past.length?past.map(r=>rdvCard(r,true)).join(''):`<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Aucun historique pour le moment.</div>`;
+}
 
-  window.confirmEdit = async function () {
-    if (!editTarget) return;
-    const newService = document.getElementById('edit-service').value;
-    const newDate    = document.getElementById('edit-date').value;
-    const newTime    = document.getElementById('edit-time').value;
-    const newAdresse = document.getElementById('edit-adresse').value.trim();
-    const newNote    = document.getElementById('edit-note').value.trim();
-    if (!newService || !newDate || !newTime || !newAdresse) { showToast('Veuillez remplir tous les champs obligatoires.', 'error'); return; }
-    const btn     = document.getElementById('btn-save-edit');
-    const btnText = document.getElementById('btn-save-text');
-    btn.disabled = true;
-    btnText.innerHTML = '<span class="spinner"></span> Enregistrement…';
-    const updateData = {
-      service: newService, dateKey: newDate, time: newTime, heure: newTime,
-      adresse: newAdresse, status: 'pending',
-      modificationNote: newNote || null, modifiedAt: new Date().toISOString()
-    };
-    try {
-      await updateDoc(doc(db, 'reservations', editTarget), updateData);
-      const rdv = currentReservations.find(r => r.id === editTarget);
-      if (rdv) Object.assign(rdv, updateData);
-      closeModal('modal-edit');
-      renderAll();
-      showToast('Demande de modification envoyée ! Stevy vous confirmera les changements.', 'success');
-    } catch (err) {
-      btn.disabled = false;
-      btnText.textContent = 'Enregistrer la demande →';
-      showToast('Erreur lors de la modification. Contactez Stevy.', 'error');
-    }
-  };
-
-  window.closeModal = function (id) {
-    document.getElementById(id).classList.remove('show');
-    if (id === 'modal-cancel') cancelTarget = null;
-    if (id === 'modal-edit')   editTarget   = null;
-  };
-
-  ['modal-cancel', 'modal-edit'].forEach(id => {
-    document.getElementById(id).addEventListener('click', e => {
-      if (e.target === document.getElementById(id)) closeModal(id);
-    });
-  });
-
-  window.renderAll = function () {
-    const now   = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    const upcoming = currentReservations.filter(r => {
-      if (r.status === 'done' || r.status === 'cancelled') return false;
-      return getReservationDate(r) >= today;
-    });
-
-    const past = currentReservations.filter(r => {
-      if (r.status === 'done' || r.status === 'cancelled') return true;
-      return getReservationDate(r) < today;
-    });
-
-    upcoming.sort((a, b) => getReservationDate(a) - getReservationDate(b));
-    past.sort((a, b)     => getReservationDate(b) - getReservationDate(a));
-
-    const total   = currentReservations.filter(r => r.status !== 'cancelled').length;
-    const done    = currentReservations.filter(r => r.status === 'done').length;
-    const pending = currentReservations.filter(r => r.status === 'pending').length;
-
-    document.getElementById('summary-grid').innerHTML = `
-      <div class="sum-card accent"><div class="num">${upcoming.length}</div><div class="lbl">À venir</div></div>
-      <div class="sum-card green"><div class="num">${done}</div><div class="lbl">Terminés</div></div>
-      <div class="sum-card orange"><div class="num">${pending}</div><div class="lbl">En attente</div></div>
-      <div class="sum-card"><div class="num">${total}</div><div class="lbl">Total</div></div>
-    `;
-
-    document.getElementById('count-upcoming').textContent = upcoming.length ? `(${upcoming.length})` : '';
-    document.getElementById('count-past').textContent     = past.length ? `(${past.length})` : '';
-
-    const upEl = document.getElementById('list-upcoming');
-    const paEl = document.getElementById('list-past');
-
-    if (upcoming.length === 0) {
-      upEl.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">📅</div>
-          <h3>Aucun rendez-vous à venir</h3>
-          <p>Prenez un nouveau rendez-vous en quelques secondes.</p>
-          <a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a>
-        </div>`;
-    } else {
-      upEl.innerHTML = upcoming.map(r => rdvCard(r, false)).join('');
-    }
-
-    paEl.innerHTML = past.length
-      ? past.map(r => rdvCard(r, true)).join('')
-      : `<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Aucun historique pour le moment.</div>`;
-  };
-
-  function rdvCard(r, isPast) {
-    const d      = getReservationDate(r);
-    const day    = d.getDate();
-    const months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-    const mon    = months[d.getMonth()];
-    const year   = d.getFullYear();
-
-    // ─── FIX : utilise timeLabel en priorité pour l'affichage ───
-    const heureDisplay = r.timeLabel || r.time || r.heure || '—';
-    const dureeDisplay = r.duree ? ` · ${r.duree}` : '';
-
-    const statusMap = {
-      confirmed: { label: 'Confirmé',   cls: 'confirmed' },
-      pending:   { label: 'En attente', cls: 'pending'   },
-      done:      { label: 'Terminé',    cls: 'done'      },
-      cancelled: { label: 'Annulé',     cls: 'cancelled' }
-    };
-    const st = statusMap[r.status] || statusMap.pending;
-
-    const canAct = !isPast && r.status !== 'cancelled';
-
-    const modifBadge = r.modificationNote !== undefined && r.status === 'pending'
-      ? `<div style="margin-top:0.4rem;font-size:0.78rem;color:var(--orange);display:flex;align-items:center;gap:0.3rem">
-           <span>⏳</span> Modification en attente de confirmation par Stevy
-         </div>`
-      : '';
-
-    return `
-    <div class="rdv-card" id="card-${r.id}">
-      <div class="rdv-date-block">
-        <div class="rdv-day">${day}</div>
-        <div class="rdv-month">${mon} ${year}</div>
+function rdvCard(r,isPast) {
+  const d=getReservationDate(r);
+  const day=d.getDate();
+  const months=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  const mon=months[d.getMonth()]; const year=d.getFullYear();
+  const heureDisplay=r.timeLabel||r.time||r.heure||'—';
+  const statusMap={confirmed:{label:'Confirmé',cls:'confirmed'},pending:{label:'En attente',cls:'pending'},done:{label:'Terminé',cls:'done'},cancelled:{label:'Annulé',cls:'cancelled'}};
+  const st=statusMap[r.status]||statusMap.pending;
+  const canAct=!isPast&&r.status!=='cancelled';
+  const modifBadge=r.modificationNote!==undefined&&r.status==='pending'?`<div style="margin-top:0.4rem;font-size:0.78rem;color:var(--orange)">⏳ Modification en attente de confirmation</div>`:'';
+  return `<div class="rdv-card" id="card-${r.id}">
+    <div class="rdv-date-block"><div class="rdv-day">${day}</div><div class="rdv-month">${mon} ${year}</div></div>
+    <div class="rdv-info">
+      <h4>${r.service||'—'}</h4>
+      <div class="rdv-meta">
+        <span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${heureDisplay}</span>
+        ${r.adresse?`<span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${r.adresse}</span>`:''}
       </div>
-      <div class="rdv-info">
-        <h4>${r.service || '—'}</h4>
-        <div class="rdv-meta">
-          <span class="rdv-meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            ${heureDisplay}${dureeDisplay}
-          </span>
-          ${r.adresse ? `
-          <span class="rdv-meta-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${r.adresse}
-          </span>` : ''}
-          ${r.prix ? `<span class="rdv-meta-item">💶 ${r.prix}</span>` : ''}
-        </div>
-        ${r.note ? `<div style="margin-top:0.4rem;font-size:0.8rem;color:var(--muted);font-style:italic">📝 ${r.note}</div>` : ''}
-        ${modifBadge}
-        ${canAct ? `
-        <div class="rdv-actions">
-          <button class="btn-sm primary" onclick="askEdit('${r.id}')">✏️ Modifier</button>
-          <button class="btn-sm danger" onclick="askCancel('${r.id}')">Annuler ce RDV</button>
-        </div>` : ''}
+      ${modifBadge}
+      ${canAct?`<div class="rdv-actions"><button class="btn-sm primary" onclick="askEdit('${r.id}')">✏️ Modifier</button><button class="btn-sm danger" onclick="askCancel('${r.id}')">Annuler ce RDV</button></div>`:''}
+    </div>
+    <div class="rdv-status"><div class="badge-status ${st.cls}"><span class="badge-dot-s"></span>${st.label}</div></div>
+  </div>`;
+}
+
+// ── RENDER CONTRATS ──
+function renderContrats() {
+  const list=document.getElementById('list-contrats');
+  document.getElementById('count-contrats').textContent=currentContrats.length?`(${currentContrats.length})`:'';
+  if(currentContrats.length===0){
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📄</div><h3>Aucun contrat trouvé</h3><p>Souscrivez à un contrat pour bénéficier d'une assistance illimitée.</p><a href="contrats.html" class="btn-new-rdv">Voir nos contrats →</a></div>`;
+    return;
+  }
+  const LABELS={serenite:'Contrat Sérénité',senior:'Pack Senior+',famille:'Pack Famille'};
+  const PILLS={serenite:'pill-serenite',senior:'pill-senior',famille:'pill-famille'};
+  const TARIFS={serenite:'45€/mois',senior:'49€/mois',famille:'59€/mois'};
+  const STATUS_MAP={new:{label:'🆕 Nouvelle demande',cls:'cs-new'},contacted:{label:'📞 Contacté',cls:'cs-contacted'},active:{label:'✅ Actif',cls:'cs-active'},cancelled:{label:'Résilié',cls:'cs-cancelled'}};
+  const STEPS=['new','contacted','active'];
+  list.innerHTML=currentContrats.map(c=>{
+    const st=STATUS_MAP[c.status]||STATUS_MAP.new;
+    const label=LABELS[c.contrat]||c.contrat||'–';
+    const pill=PILLS[c.contrat]||'';
+    const tarif=TARIFS[c.contrat]||'–';
+    const date=c.createdAt?.toDate?c.createdAt.toDate().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):'–';
+    const dateActive=c.dateActive?.toDate?c.dateActive.toDate().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):null;
+    const curStepIdx=STEPS.indexOf(c.status);
+    const progress=c.status==='cancelled'?'':`
+      <div class="contrat-progress-bar">
+        ${STEPS.map((s,i)=>{
+          const isDone=i<curStepIdx||(i===curStepIdx&&c.status==='active');
+          const isCurrent=i===curStepIdx&&c.status!=='active';
+          const labels={new:'Reçue',contacted:'Contacté',active:'Actif'};
+          return `<div class="cp-step ${isDone?'done':''} ${isCurrent?'current':''}">
+            <div class="cp-dot">${isDone?'✓':i+1}</div>
+            <div class="cp-label">${labels[s]}</div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    return `<div class="contrat-suivi-card ${c.status==='active'?'cs-active-border':''}">
+      <div class="contrat-suivi-header">
+        <div class="contrat-suivi-name">${label} <span class="contrat-pill ${pill}">${tarif}</span></div>
+        <div class="cs-badge ${st.cls}">${st.label}</div>
       </div>
-      <div class="rdv-status">
-        <div class="badge-status ${st.cls}">
-          <span class="badge-dot-s"></span>${st.label}
-        </div>
+      ${progress}
+      <div class="ci-grid">
+        <div class="ci-item"><div class="ci-label">📅 Demande reçue</div><div>${date}</div></div>
+        ${dateActive?`<div class="ci-item"><div class="ci-label">✅ Actif depuis</div><div>${dateActive}</div></div>`:''}
+        <div class="ci-item"><div class="ci-label">💰 Tarif mensuel</div><div>${tarif}</div></div>
+        <div class="ci-item"><div class="ci-label">📋 Référence</div><div style="font-size:0.75rem;color:var(--muted)">${c.id.slice(0,8)}…</div></div>
       </div>
+      ${c.note?`<div style="font-size:0.82rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)">💬 ${c.note}</div>`:''}
+      ${c.status!=='cancelled'?`<button class="btn-resilier" onclick="askResilier('${c.id}')">Demander la résiliation</button>`:''}
     </div>`;
+  }).join('');
+}
+
+// ── SEND MESSAGE ──
+window.checkMsg = function() {
+  const ok=document.getElementById('msgSujet').value&&document.getElementById('msgTexte').value.trim().length>10;
+  document.getElementById('btnSendMsg').disabled=!ok;
+};
+
+window.sendMessage = async function() {
+  const sujet=document.getElementById('msgSujet').value;
+  const texte=document.getElementById('msgTexte').value.trim();
+  const btn=document.getElementById('btnSendMsg');
+  btn.disabled=true;
+  btn.textContent='Envoi en cours…';
+  try {
+    await addDoc(collection(db,'messages_clients'),{
+      uid:currentUser?.uid||null,
+      email:currentUser?.email||null,
+      sujet, texte,
+      createdAt:serverTimestamp(),
+      lu:false
+    });
+    document.getElementById('msgSuccess').style.display='block';
+    document.getElementById('msgTexte').value='';
+    document.getElementById('msgSujet').value='';
+    btn.textContent='Message envoyé ✓';
+    setTimeout(()=>{btn.disabled=true;btn.textContent='Envoyer le message →';document.getElementById('msgSuccess').style.display='none';},4000);
+  } catch(e){
+    btn.disabled=false;
+    btn.textContent='Envoyer le message →';
+    showToast('Erreur lors de l\'envoi. Contactez Stevy directement.','error');
   }
+};
 
-  function showError(msgId, textId, message) {
-    document.getElementById(textId).textContent = message;
-    document.getElementById(msgId).classList.add('show');
-  }
+// ── RESILIER ──
+window.askResilier = function(id) { resilierTarget=id; document.getElementById('modal-resilier').classList.add('show'); };
+window.confirmResilier = async function() {
+  if(!resilierTarget) return;
+  try {
+    await addDoc(collection(db,'messages_clients'),{
+      uid:currentUser?.uid||null, email:currentUser?.email||null,
+      sujet:'resiliation', texte:`Demande de résiliation du contrat ID: ${resilierTarget}`,
+      contratId:resilierTarget, createdAt:serverTimestamp(), lu:false
+    });
+    closeModal('modal-resilier');
+    showToast('Demande de résiliation envoyée. Stevy vous contactera sous 48h.','info');
+  } catch(e){ closeModal('modal-resilier'); showToast('Erreur. Contactez Stevy directement.','error'); }
+};
 
-  window.showToast = function (msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className   = `toast ${type} show`;
-    setTimeout(() => t.classList.remove('show'), 4000);
-  };
+// ── CANCEL RDV ──
+window.askCancel = function(id) { cancelTarget=id; document.getElementById('modal-cancel').classList.add('show'); };
+window.confirmCancel = async function() {
+  if(!cancelTarget) return;
+  try {
+    await updateDoc(doc(db,'reservations',cancelTarget),{status:'cancelled'});
+    const rdv=currentReservations.find(r=>r.id===cancelTarget);
+    if(rdv) rdv.status='cancelled';
+    closeModal('modal-cancel'); renderRdvs(); showToast('Rendez-vous annulé. Stevy a été notifié.','info');
+  } catch(err){ closeModal('modal-cancel'); showToast("Erreur lors de l'annulation. Contactez Stevy.",'error'); }
+};
 
-  function firebaseErrorMessage(code) {
-    const messages = {
-      'auth/invalid-email':          'Adresse email invalide.',
-      'auth/user-not-found':         'Aucun compte trouvé avec cet email.',
-      'auth/wrong-password':         'Mot de passe incorrect.',
-      'auth/invalid-credential':     'Email ou mot de passe incorrect.',
-      'auth/too-many-requests':      'Trop de tentatives. Réessayez dans quelques minutes.',
-      'auth/user-disabled':          'Ce compte a été désactivé.',
-      'auth/network-request-failed': 'Erreur réseau. Vérifiez votre connexion.',
-    };
-    return messages[code] || 'Une erreur est survenue. Réessayez.';
-  }
+// ── EDIT RDV ──
+window.askEdit = function(id) {
+  editTarget=id;
+  const rdv=currentReservations.find(r=>r.id===id);
+  if(!rdv) return;
+  const serviceEl=document.getElementById('edit-service');
+  for(let opt of serviceEl.options){if(opt.value===rdv.service){opt.selected=true;break;}}
+  if(rdv.dateKey) document.getElementById('edit-date').value=rdv.dateKey;
+  const hr=rdv.time||rdv.heure||'';
+  document.getElementById('edit-time').value=['matin','aprem','soir'].includes(hr)?'':hr.replace('h',':');
+  document.getElementById('edit-adresse').value=rdv.adresse||'';
+  document.getElementById('edit-note').value='';
+  document.getElementById('btn-save-text').textContent='Enregistrer →';
+  document.getElementById('btn-save-edit').disabled=false;
+  document.getElementById('modal-edit').classList.add('show');
+};
 
-  document.getElementById('input-password').addEventListener('keydown', e => { if (e.key === 'Enter') window.doLogin(); });
-  document.getElementById('input-email').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('input-password').focus(); });
-  document.getElementById('reset-email').addEventListener('keydown', e => { if (e.key === 'Enter') window.doResetPassword(); });
+window.confirmEdit = async function() {
+  if(!editTarget) return;
+  const newService=document.getElementById('edit-service').value;
+  const newDate=document.getElementById('edit-date').value;
+  const newTime=document.getElementById('edit-time').value;
+  const newAdresse=document.getElementById('edit-adresse').value.trim();
+  const newNote=document.getElementById('edit-note').value.trim();
+  if(!newService||!newDate||!newTime||!newAdresse){showToast('Veuillez remplir tous les champs.','error');return;}
+  const btn=document.getElementById('btn-save-edit');
+  const btnText=document.getElementById('btn-save-text');
+  btn.disabled=true; btnText.innerHTML='<span class="spinner"></span> …';
+  try {
+    const upd={service:newService,dateKey:newDate,time:newTime,heure:newTime,adresse:newAdresse,status:'pending',modificationNote:newNote||null,modifiedAt:new Date().toISOString()};
+    await updateDoc(doc(db,'reservations',editTarget),upd);
+    const rdv=currentReservations.find(r=>r.id===editTarget);
+    if(rdv) Object.assign(rdv,upd);
+    closeModal('modal-edit'); renderRdvs(); showToast('Demande de modification envoyée ! Stevy vous confirmera.','success');
+  } catch(err){ btn.disabled=false; btnText.textContent='Enregistrer →'; showToast('Erreur. Contactez Stevy.','error'); }
+};
+
+window.closeModal = function(id) {
+  document.getElementById(id).classList.remove('show');
+  if(id==='modal-cancel') cancelTarget=null;
+  if(id==='modal-edit') editTarget=null;
+  if(id==='modal-resilier') resilierTarget=null;
+};
+
+['modal-cancel','modal-edit','modal-resilier'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{if(e.target===document.getElementById(id))closeModal(id);});
+});
+
+function showError(msgId,textId,message){ document.getElementById(textId).textContent=message; document.getElementById(msgId).classList.add('show'); }
+window.showToast = function(msg,type='success'){ const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; setTimeout(()=>t.classList.remove('show'),4000); };
+function firebaseErrorMessage(code){ const m={'auth/invalid-email':'Email invalide.','auth/user-not-found':'Aucun compte trouvé.','auth/wrong-password':'Mot de passe incorrect.','auth/invalid-credential':'Email ou mot de passe incorrect.','auth/too-many-requests':'Trop de tentatives. Réessayez plus tard.','auth/user-disabled':'Ce compte a été désactivé.','auth/network-request-failed':'Erreur réseau.'}; return m[code]||'Une erreur est survenue.'; }
+
+document.getElementById('input-password').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
+document.getElementById('input-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('input-password').focus();});
+document.getElementById('reset-email').addEventListener('keydown',e=>{if(e.key==='Enter')window.doResetPassword();});
 </script>
 
 <script>
-  let pwVisible = false;
-
-  function togglePassword() {
-    pwVisible = !pwVisible;
-    const input = document.getElementById('input-password');
-    input.type  = pwVisible ? 'text' : 'password';
-    document.getElementById('eye-icon').innerHTML = pwVisible
-      ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`
-      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
-  }
-
-  function showResetView(e) {
-    e.preventDefault();
-    document.getElementById('login-view').style.display = 'none';
-    document.getElementById('reset-view').style.display = 'block';
-    document.getElementById('reset-email').value = document.getElementById('input-email').value;
-  }
-
-  function showLoginView(e) {
-    e.preventDefault();
-    document.getElementById('reset-view').style.display = 'none';
-    document.getElementById('login-view').style.display = 'block';
-  }
+let pwVisible=false;
+function togglePassword(){ pwVisible=!pwVisible; const input=document.getElementById('input-password'); input.type=pwVisible?'text':'password'; document.getElementById('eye-icon').innerHTML=pwVisible?`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`:`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`; }
+function showResetView(e){ e.preventDefault(); document.getElementById('login-view').style.display='none'; document.getElementById('reset-view').style.display='block'; document.getElementById('reset-email').value=document.getElementById('input-email').value; }
+function showLoginView(e){ e.preventDefault(); document.getElementById('reset-view').style.display='none'; document.getElementById('login-view').style.display='block'; }
 </script>
-
 </body>
-  <script src="push-notifications.js"></script>
 </html>
