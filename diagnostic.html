@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnostic en ligne – Makouez IT</title>
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #eff6ff;
+      --green: #16a34a;
+      --green-light: #f0fdf4;
+      --orange: #ea580c;
+      --orange-light: #fff7ed;
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { font-weight: 800; font-size: 1.1rem; color: var(--gray-900); text-decoration: none; }
+    .logo span { color: var(--blue); }
+    .back-link { color: var(--gray-500); text-decoration: none; font-size: 0.875rem; }
+    .back-link:hover { color: var(--blue); }
+
+    main { max-width: 640px; margin: 0 auto; padding: 32px 16px 80px; }
+
+    /* HERO */
+    .diag-hero {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .diag-hero .icon-wrap {
+      width: 80px;
+      height: 80px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 16px;
+    }
+    .diag-hero h1 { font-size: 1.75rem; font-weight: 800; color: var(--gray-900); margin-bottom: 8px; }
+    .diag-hero p { color: var(--gray-500); font-size: 0.9rem; }
+
+    /* PROGRESS */
+    .progress-bar-wrap {
+      background: var(--gray-200);
+      border-radius: 8px;
+      height: 6px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), #60a5fa);
+      border-radius: 8px;
+      transition: width .5s ease;
+    }
+    .progress-label {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      margin-bottom: 24px;
+    }
+
+    /* CARD */
+    .diag-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      display: none;
+      animation: fadeIn .4s ease;
+    }
+    .diag-card.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .question-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .question-hint {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      margin-bottom: 20px;
+    }
+
+    /* OPTIONS */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: left;
+    }
+    .option:hover { border-color: var(--blue); background: var(--blue-light); }
+    .option .opt-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .option .opt-text { flex: 1; }
+    .option .opt-label { font-weight: 600; font-size: 0.9rem; color: var(--gray-800); }
+    .option .opt-sub { font-size: 0.78rem; color: var(--gray-500); margin-top: 2px; }
+    .option .opt-arrow { color: var(--gray-300); font-size: 1rem; transition: color .2s; }
+    .option:hover .opt-arrow { color: var(--blue); }
+
+    /* BACK BTN */
+    .back-btn {
+      background: none;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all .2s;
+    }
+    .back-btn:hover { background: var(--gray-100); color: var(--gray-700); }
+
+    /* RESULT */
+    .result-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      display: none;
+      animation: fadeIn .4s ease;
+    }
+    .result-card.active { display: block; }
+
+    .result-severity {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .severity-low { background: var(--green-light); color: var(--green); }
+    .severity-medium { background: var(--orange-light); color: var(--orange); }
+    .severity-high { background: var(--red-light); color: var(--red); }
+
+    .result-title { font-size: 1.3rem; font-weight: 800; color: var(--gray-900); margin-bottom: 8px; }
+    .result-desc { color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+
+    .result-tips { margin-bottom: 24px; }
+    .result-tips h4 { font-size: 0.9rem; font-weight: 700; color: var(--gray-700); margin-bottom: 12px; }
+    .tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.875rem;
+      color: var(--gray-600);
+    }
+    .tip:last-child { border-bottom: none; }
+    .tip .tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .result-service {
+      background: var(--blue-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .result-service h4 { font-size: 0.85rem; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+    .result-service p { font-size: 0.82rem; color: var(--gray-600); }
+
+    .result-actions { display: flex; flex-direction: column; gap: 10px; }
+    .btn-rdv {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all .2s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-rdv:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-call {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all .2s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-call:hover { background: var(--gray-200); }
+    .btn-restart {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+      padding: 8px;
+      transition: color .2s;
+    }
+    .btn-restart:hover { color: var(--gray-600); }
+
+    /* INTRO CARD */
+    .intro-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      text-align: center;
+    }
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all .2s;
+    }
+    .start-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+    @media (max-width: 480px) {
+      .option { padding: 13px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">Makouez <span>IT</span></a>
+  <a href="index.html" class="back-link">← Retour au site</a>
+</header>
+
+<main>
+  <div class="diag-hero">
+    <div class="icon-wrap">🔍</div>
+    <h1>Diagnostic en ligne</h1>
+    <p>Répondez à quelques questions pour identifier votre problème et le service adapté.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">Prêt à démarrer</div>
+
+  <!-- INTRO -->
+  <div class="intro-card" id="introCard">
+    <div style="font-size:2.5rem;margin-bottom:16px;">💻</div>
+    <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Quel est votre problème ?</h2>
+    <p style="color:var(--gray-500);font-size:0.9rem;line-height:1.6;">En 2 minutes, identifiez votre panne et obtenez une estimation de prix. Sans inscription, sans jargon.</p>
+    <button class="start-btn" onclick="startDiag()">🚀 Démarrer le diagnostic</button>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="questionArea"></div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="resultCard">
+    <div class="result-severity" id="resultSeverity"></div>
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-desc" id="resultDesc"></div>
+    <div class="result-tips">
+      <h4>💡 Ce que vous pouvez essayer vous-même :</h4>
+      <div id="resultTips"></div>
+    </div>
+    <div class="result-service" id="resultService"></div>
+    <div class="result-actions" id="resultActions"></div>
+  </div>
+
+</main>
+
+<script>
+// =====================
+// DIAGNOSTIC TREE
+// =====================
+const tree = {
+  start: {
+    q: "Quel type d'appareil pose problème ?",
+    hint: "Choisissez l'appareil concerné",
+    options: [
+      { icon: '💻', label: 'Mon PC ou ordinateur portable', sub: 'Windows, Mac, lenteur, plantage…', next: 'pc' },
+      { icon: '📶', label: 'Ma connexion internet / Wi-Fi', sub: 'Coupures, lenteur, box…', next: 'wifi' },
+      { icon: '💾', label: 'Mes fichiers / données', sub: 'Suppression accidentelle, disque endommagé…', next: 'data' },
+      { icon: '🌐', label: 'Je veux un site web', sub: 'Création, refonte, développement…', next: 'web' },
+      { icon: '📱', label: 'Mon smartphone / tablette', sub: 'Lenteur, batterie, applications…', next: 'mobile' },
+    ]
+  },
+  pc: {
+    q: "Quel est le symptôme principal ?",
+    hint: "Décrivez le mieux votre situation",
+    options: [
+      { icon: '🐢', label: 'Mon PC est très lent', sub: 'Il met du temps à démarrer ou à exécuter les programmes', next: 'pc_slow' },
+      { icon: '⬛', label: 'Écran noir ou PC qui ne démarre plus', sub: 'Le PC refuse de démarrer ou affiche un écran noir', next: 'pc_boot' },
+      { icon: '🦠', label: 'Virus ou comportements étranges', sub: 'Pop-ups, redirections, programme inconnu…', next: 'pc_virus' },
+      { icon: '🔄', label: 'Windows plante ou se redémarre tout seul', sub: 'Écran bleu, redémarrages aléatoires…', next: 'pc_crash' },
+      { icon: '🪟', label: 'Je veux réinstaller Windows', sub: 'Remise à zéro, migration, nouveau PC…', next: 'pc_windows' },
+    ]
+  },
+  wifi: {
+    q: "Quel est le problème de connexion ?",
+    hint: "",
+    options: [
+      { icon: '🔴', label: 'Pas de connexion du tout', sub: 'Aucun accès internet, pas de réseau détecté', next: 'wifi_none' },
+      { icon: '⚡', label: 'Connexion très lente', sub: 'Pages longues à charger, vidéos qui buffèrent', next: 'wifi_slow' },
+      { icon: '🔁', label: 'Connexion qui coupe régulièrement', sub: 'Internet qui se déconnecte et se reconnecte', next: 'wifi_drops' },
+      { icon: '📡', label: 'Wi-Fi ne couvre pas toute la maison', sub: 'Signal faible dans certaines pièces', next: 'wifi_range' },
+    ]
+  },
+  data: {
+    q: "Quel est le problème avec vos données ?",
+    hint: "",
+    options: [
+      { icon: '🗑️', label: 'J\'ai supprimé des fichiers par erreur', sub: 'Photos, documents, vidéos effacés accidentellement', next: 'data_deleted' },
+      { icon: '💿', label: 'Mon disque dur fait du bruit / est défaillant', sub: 'Cliquetis, disque non reconnu, données inaccessibles', next: 'data_hdd' },
+      { icon: '☁️', label: 'Je veux mettre en place des sauvegardes', sub: 'Protection automatique de mes données', next: 'data_backup' },
+    ]
+  },
+
+  // RESULTS
+  pc_slow: { result: 'slow' },
+  pc_boot: { result: 'boot' },
+  pc_virus: { result: 'virus' },
+  pc_crash: { result: 'crash' },
+  pc_windows: { result: 'windows' },
+  wifi_none: { result: 'wifi_none' },
+  wifi_slow: { result: 'wifi_slow' },
+  wifi_drops: { result: 'wifi_drops' },
+  wifi_range: { result: 'wifi_range' },
+  data_deleted: { result: 'data_deleted' },
+  data_hdd: { result: 'data_hdd' },
+  data_backup: { result: 'backup' },
+  web: { result: 'web' },
+  mobile: { result: 'mobile' },
+};
+
+const results = {
+  slow: {
+    severity: 'medium', icon: '🟡',
+    title: 'PC lent – Optimisation recommandée',
+    desc: 'Un PC lent est souvent causé par trop de programmes au démarrage, un disque dur presque plein, un manque de RAM ou un logiciel malveillant. Dans la plupart des cas, une intervention de 1h suffit à retrouver de bonnes performances.',
+    tips: [
+      { icon: '🔄', text: 'Redémarrez votre PC (pas juste mise en veille)' },
+      { icon: '🗑️', text: 'Videz la corbeille et supprimez les fichiers inutiles' },
+      { icon: '📋', text: 'Vérifiez le gestionnaire des tâches (Ctrl+Maj+Échap) pour voir quel programme consomme' },
+    ],
+    service: 'Dépannage PC', servicePrice: '60€ – 80€',
+    serviceDesc: 'Diagnostic complet, nettoyage des programmes inutiles, optimisation du démarrage, vérification du disque. Intervention à domicile.',
+  },
+  boot: {
+    severity: 'high', icon: '🔴',
+    title: 'PC qui ne démarre pas – Urgence',
+    desc: 'Un PC qui refuse de démarrer peut avoir plusieurs causes : problème de démarrage Windows, disque dur défaillant, RAM défectueuse. Une intervention rapide est conseillée pour éviter la perte de données.',
+    tips: [
+      { icon: '🔌', text: 'Débranchez tous les périphériques USB et réessayez' },
+      { icon: '⏰', text: 'Laissez le PC débranché 30 secondes, rebranchez et réessayez' },
+      { icon: '🚨', text: 'Si vous entendez un bip au démarrage, notez le nombre de bips' },
+    ],
+    service: 'Dépannage PC – Urgence', servicePrice: '60€ – 80€',
+    serviceDesc: 'Diagnostic matériel et logiciel, réparation du démarrage Windows, vérification disque. Intervention prioritaire sous 24h.',
+    urgency: true,
+  },
+  virus: {
+    severity: 'high', icon: '🔴',
+    title: 'Virus détecté – Intervention conseillée',
+    desc: 'Un virus ou logiciel malveillant peut voler vos données, chiffrer vos fichiers (ransomware) ou utiliser votre PC pour des activités malveillantes. Il est conseillé de ne pas faire d\'achats en ligne ou saisir des mots de passe jusqu\'à résolution.',
+    tips: [
+      { icon: '🌐', text: 'Déconnectez votre PC d\'internet le temps de l\'intervention' },
+      { icon: '🔐', text: 'Ne saisissez pas vos mots de passe ou CB sur ce PC' },
+      { icon: '💾', text: 'N\'installez pas de logiciel antivirus téléchargé depuis ce PC infecté' },
+    ],
+    service: 'Sauvegarde & sécurité', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Suppression complète des virus, nettoyage approfondi, mise en place d\'une protection antivirus, conseils de sécurité.',
+    urgency: true,
+  },
+  crash: {
+    severity: 'medium', icon: '🟡',
+    title: 'Plantages Windows – Diagnostic nécessaire',
+    desc: 'Les écrans bleus (BSOD) et redémarrages aléatoires indiquent généralement un problème de pilotes, de RAM ou de disque dur. Un diagnostic permet d\'identifier la cause précise.',
+    tips: [
+      { icon: '📋', text: 'Notez le code d\'erreur affiché sur l\'écran bleu si possible' },
+      { icon: '🔄', text: 'Essayez de lancer Windows en mode sans échec (F8 au démarrage)' },
+      { icon: '⏰', text: 'Notez quand les plantages surviennent (au démarrage, sous charge…)' },
+    ],
+    service: 'Dépannage PC', servicePrice: '60€ – 80€',
+    serviceDesc: 'Analyse des journaux d\'erreurs, diagnostic RAM et disque, mise à jour ou réinstallation des pilotes problématiques.',
+  },
+  windows: {
+    severity: 'low', icon: '🟢',
+    title: 'Réinstallation Windows',
+    desc: 'La réinstallation de Windows est une opération délicate qui nécessite de sauvegarder vos données au préalable. Stevy s\'occupe de tout : sauvegarde, installation propre, récupération de vos données et logiciels.',
+    tips: [
+      { icon: '💾', text: 'Préparez une liste de vos logiciels importants (navigateur, antivirus, Office…)' },
+      { icon: '🔑', text: 'Notez vos identifiants importants (email, licences logiciels)' },
+    ],
+    service: 'Installation Windows et logiciels', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Sauvegarde de vos données, installation propre de Windows, récupération de vos fichiers, configuration initiale.',
+  },
+  wifi_none: {
+    severity: 'high', icon: '🔴',
+    title: 'Pas de connexion – Diagnostic réseau',
+    desc: 'Une absence totale de connexion peut venir de la box internet, du câble, d\'un paramètre réseau ou de votre fournisseur d\'accès. Stevy peut diagnostiquer rapidement la cause.',
+    tips: [
+      { icon: '🔌', text: 'Éteignez votre box 30 secondes, rallumez-la et attendez 2 minutes' },
+      { icon: '📞', text: 'Vérifiez si vos voisins ont aussi internet (panne opérateur ?)' },
+      { icon: '💡', text: 'Vérifiez les voyants de votre box (rouge = problème ligne)' },
+    ],
+    service: 'Réseau Wi-Fi', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Diagnostic complet de votre installation réseau, test de ligne, configuration box et appareils.',
+    urgency: true,
+  },
+  wifi_slow: {
+    severity: 'medium', icon: '🟡',
+    title: 'Internet lent – Optimisation réseau',
+    desc: 'Une connexion lente peut être due au placement de votre box, à une interférence Wi-Fi, à trop d\'appareils connectés, ou à un problème de configuration.',
+    tips: [
+      { icon: '📏', text: 'Rapprochez-vous de la box pour tester si la vitesse s\'améliore' },
+      { icon: '🔌', text: 'Essayez avec un câble ethernet branché directement sur la box' },
+      { icon: '🌐', text: 'Testez votre débit sur speedtest.net' },
+    ],
+    service: 'Réseau Wi-Fi', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Analyse du réseau, optimisation du placement de la box, configuration des canaux Wi-Fi, mise en place d\'amplificateurs si nécessaire.',
+  },
+  wifi_drops: {
+    severity: 'medium', icon: '🟡',
+    title: 'Connexion instable – Problème réseau',
+    desc: 'Les coupures répétées viennent souvent d\'une ligne de mauvaise qualité, d\'un problème de câble ou d\'une interférence. Stevy peut réaliser un diagnostic complet pour identifier la cause.',
+    tips: [
+      { icon: '🔌', text: 'Vérifiez le câble téléphonique entre la prise et la box' },
+      { icon: '📋', text: 'Notez les horaires des coupures (si c\'est le soir, c\'est souvent la charge du réseau)' },
+    ],
+    service: 'Réseau Wi-Fi', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Test de stabilité de ligne, diagnostic câblage, configuration avancée, contact opérateur si nécessaire.',
+  },
+  wifi_range: {
+    severity: 'low', icon: '🟢',
+    title: 'Couverture Wi-Fi insuffisante',
+    desc: 'Si le Wi-Fi ne couvre pas toute votre maison, plusieurs solutions existent : répéteur Wi-Fi, point d\'accès supplémentaire ou réseau mesh. Stevy peut installer et configurer la solution adaptée.',
+    tips: [
+      { icon: '📱', text: 'Identifiez les zones mortes dans votre logement' },
+      { icon: '💡', text: 'Un répéteur Wi-Fi à 30-50€ peut suffire pour un appartement' },
+    ],
+    service: 'Réseau Wi-Fi', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Étude de votre logement, conseil et installation de la solution la plus adaptée (répéteur, mesh, CPL…).',
+  },
+  data_deleted: {
+    severity: 'medium', icon: '🟡',
+    title: 'Récupération de fichiers supprimés',
+    desc: 'Des fichiers supprimés ne sont pas forcément perdus définitivement. Le taux de récupération dépend du temps écoulé et de l\'utilisation du disque depuis la suppression. Plus vous agissez vite, mieux c\'est.',
+    tips: [
+      { icon: '🛑', text: 'N\'utilisez plus ce disque/appareil jusqu\'à l\'intervention pour maximiser les chances' },
+      { icon: '📂', text: 'Vérifiez d\'abord la corbeille si vous n\'avez pas encore vidé' },
+    ],
+    service: 'Récupération de données', servicePrice: 'à partir de 80€',
+    serviceDesc: 'Utilisation de logiciels spécialisés pour récupérer vos fichiers. Devis après diagnostic (récupération non garantie).',
+    urgency: true,
+  },
+  data_hdd: {
+    severity: 'high', icon: '🔴',
+    title: 'Disque dur défaillant – Urgence',
+    desc: 'Un disque dur qui fait du bruit ou n\'est plus reconnu peut lâcher définitivement à tout moment. Il est urgent d\'agir pour sauver vos données avant que le disque ne soit irrécupérable.',
+    tips: [
+      { icon: '🛑', text: 'Éteignez le PC immédiatement pour éviter d\'aggraver les dommages' },
+      { icon: '🚫', text: 'Ne lancez pas de scan ou défragmentation sur un disque qui clique' },
+    ],
+    service: 'Récupération de données – URGENT', servicePrice: 'à partir de 80€',
+    serviceDesc: 'Clonage d\'urgence du disque, récupération des données critiques, remplacement du disque.',
+    urgency: true,
+  },
+  backup: {
+    severity: 'low', icon: '🟢',
+    title: 'Mise en place de sauvegardes',
+    desc: 'Une bonne stratégie de sauvegarde protège vos données contre la perte accidentelle, les pannes matérielles et les ransomwares. La règle 3-2-1 : 3 copies, 2 supports différents, 1 hors site.',
+    tips: [
+      { icon: '☁️', text: 'Google Drive et OneDrive offrent 15 Go gratuits pour commencer' },
+      { icon: '💿', text: 'Un disque externe pour 40-80€ est une bonne base' },
+    ],
+    service: 'Sauvegarde & sécurité', servicePrice: 'à partir de 60€',
+    serviceDesc: 'Mise en place de sauvegardes automatiques locales et cloud, configuration et test du système.',
+  },
+  web: {
+    severity: 'low', icon: '🟢',
+    title: 'Création de site web',
+    desc: 'Que ce soit un site vitrine, une boutique en ligne ou une application web, Stevy peut créer votre site sur mesure. Des projets modernes, rapides et adaptés à vos besoins.',
+    tips: [
+      { icon: '📝', text: 'Préparez vos textes, logo et images si vous en avez déjà' },
+      { icon: '🎨', text: 'Pensez à des sites que vous aimez pour donner une référence visuelle' },
+    ],
+    service: 'Développement web', servicePrice: 'à partir de 1000€',
+    serviceDesc: 'Devis gratuit selon votre projet. Site vitrine, landing page, e-commerce, application web sur mesure.',
+  },
+  mobile: {
+    severity: 'medium', icon: '🟡',
+    title: 'Problème smartphone / tablette',
+    desc: 'Les smartphones et tablettes peuvent être dépannés à domicile : lenteur, batterie défaillante, application bloquée, stockage plein… Stevy intervient sur Android et iOS.',
+    tips: [
+      { icon: '🔄', text: 'Redémarrez l\'appareil (maintien du bouton power 10 secondes)' },
+      { icon: '🗑️', text: 'Vérifiez si votre stockage est plein (Réglages > Stockage)' },
+      { icon: '🔄', text: 'Vérifiez si les applications et le système sont à jour' },
+    ],
+    service: 'Dépannage PC', servicePrice: '40€ – 60€',
+    serviceDesc: 'Diagnostic et dépannage de votre smartphone ou tablette à domicile.',
+  },
+};
+
+// =====================
+// STATE
+// =====================
+let history = [];
+let currentNode = null;
+let totalSteps = 3;
+
+function startDiag() {
+  document.getElementById('introCard').style.display = 'none';
+  showNode('start');
+}
+
+function showNode(nodeId) {
+  currentNode = nodeId;
+  const node = tree[nodeId];
+
+  if (node.result) {
+    showResult(node.result);
+    return;
+  }
+
+  history.push(nodeId);
+  updateProgress();
+
+  const area = document.getElementById('questionArea');
+  const stepNum = history.length;
+
+  area.innerHTML = `
+    <div class="diag-card active" id="currentCard">
+      <div class="question-num">Question ${stepNum}</div>
+      <div class="question-text">${node.q}</div>
+      ${node.hint ? `<div class="question-hint">${node.hint}</div>` : ''}
+      <div class="options">
+        ${node.options.map(opt => `
+          <div class="option" onclick="chooseOption('${opt.next}')">
+            <span class="opt-icon">${opt.icon}</span>
+            <div class="opt-text">
+              <div class="opt-label">${opt.label}</div>
+              ${opt.sub ? `<div class="opt-sub">${opt.sub}</div>` : ''}
+            </div>
+            <span class="opt-arrow">›</span>
+          </div>
+        `).join('')}
+      </div>
+      ${history.length > 1 ? `<button class="back-btn" onclick="goBack()">← Précédent</button>` : ''}
+    </div>
+  `;
+}
+
+function chooseOption(nextId) {
+  showNode(nextId);
+}
+
+function goBack() {
+  if (history.length <= 1) return;
+  history.pop();
+  const prevId = history[history.length - 1];
+  history.pop();
+  showNode(prevId);
+}
+
+function updateProgress() {
+  const pct = Math.min((history.length / totalSteps) * 100, 90);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Question ${history.length} sur ~${totalSteps}`;
+}
+
+function showResult(resultId) {
+  document.getElementById('questionArea').innerHTML = '';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressLabel').textContent = 'Diagnostic terminé ✓';
+
+  const r = results[resultId];
+  const card = document.getElementById('resultCard');
+  card.classList.add('active');
+
+  const severityMap = {
+    low: { cls: 'severity-low', label: '🟢 Situation stable' },
+    medium: { cls: 'severity-medium', label: '🟡 Intervention recommandée' },
+    high: { cls: 'severity-high', label: '🔴 Intervention urgente' },
+  };
+  const sev = severityMap[r.severity];
+
+  document.getElementById('resultSeverity').className = `result-severity ${sev.cls}`;
+  document.getElementById('resultSeverity').textContent = sev.label;
+  document.getElementById('resultTitle').textContent = r.title;
+  document.getElementById('resultDesc').textContent = r.desc;
+
+  document.getElementById('resultTips').innerHTML = r.tips.map(t =>
+    `<div class="tip"><span class="tip-icon">${t.icon}</span><span>${t.text}</span></div>`
+  ).join('');
+
+  const svcParam = encodeURIComponent(r.service);
+  document.getElementById('resultService').innerHTML = `
+    <h4>🔧 Service recommandé : ${r.service}</h4>
+    <p>Tarif indicatif : <strong>${r.servicePrice}</strong> · ${r.serviceDesc}</p>
+  `;
+
+  const urgencyMsg = r.urgency ? `<a href="tel:+33619515756" class="btn-call">📞 Appel direct – urgence 06 19 51 57 56</a>` : '';
+  document.getElementById('resultActions').innerHTML = `
+    <a href="makouez-it-rdv.html?service=${svcParam}" class="btn-rdv">📅 Prendre rendez-vous</a>
+    ${urgencyMsg}
+    <a href="https://wa.me/33619515756?text=${encodeURIComponent('Bonjour Stevy, j\'ai fait le diagnostic en ligne. Mon problème : ' + r.title)}" class="btn-call" target="_blank">💬 Envoyer le diagnostic par WhatsApp</a>
+    <button class="btn-restart" onclick="restart()">🔄 Recommencer le diagnostic</button>
+  `;
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restart() {
+  history = [];
+  document.getElementById('resultCard').classList.remove('active');
+  document.getElementById('questionArea').innerHTML = '';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('progressLabel').textContent = 'Prêt à démarrer';
+  document.getElementById('introCard').style.display = 'block';
+}
+</script>
+
+</body>
+</html>

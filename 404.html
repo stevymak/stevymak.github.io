@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page introuvable – Makouez IT</title>
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #eff6ff;
+      --gray-50: #f9fafb;
+      --gray-200: #e5e7eb;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 16px 24px;
+    }
+    .logo { font-weight: 800; font-size: 1.1rem; color: var(--gray-900); text-decoration: none; }
+    .logo span { color: var(--blue); }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .error-container {
+      text-align: center;
+      max-width: 480px;
+    }
+
+    /* ANIMATED PC ICON */
+    .pc-wrap {
+      width: 120px;
+      height: 120px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .pc-icon { font-size: 3.5rem; }
+    .error-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ef4444;
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      border: 3px solid var(--gray-50);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .error-code {
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -4px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 10px;
+    }
+
+    .error-desc {
+      color: var(--gray-500);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* QUICK LINKS */
+    .quick-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: #fff;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--gray-700);
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all .2s;
+    }
+    .quick-link:hover {
+      border-color: var(--blue);
+      background: var(--blue-light);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
+    .quick-link .icon { font-size: 1.2rem; }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all .2s;
+    }
+    .home-btn:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--gray-500);
+      font-size: 0.8rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    /* CONTACT BAR */
+    .contact-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      text-decoration: none;
+    }
+    .contact-item:hover { color: var(--blue); }
+
+    footer {
+      background: #fff;
+      border-top: 1px solid var(--gray-200);
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--gray-500);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">Makouez <span>IT</span></a>
+</header>
+
+<main>
+  <div class="error-container">
+
+    <div class="pc-wrap">
+      <span class="pc-icon">💻</span>
+      <span class="error-badge">!</span>
+    </div>
+
+    <div class="error-code">404</div>
+    <h1>Page introuvable</h1>
+    <p class="error-desc">
+      Oups ! Cette page n'existe pas ou a été déplacée.<br>
+      Pas de panique — je peux réparer ça aussi. 😄
+    </p>
+
+    <!-- QUICK LINKS -->
+    <div class="quick-links">
+      <a href="index.html#services" class="quick-link">
+        <span class="icon">🔧</span>
+        <span>Nos services</span>
+      </a>
+      <a href="makouez-it-rdv.html" class="quick-link">
+        <span class="icon">📅</span>
+        <span>Prendre RDV</span>
+      </a>
+      <a href="index.html#tarifs" class="quick-link">
+        <span class="icon">💰</span>
+        <span>Tarifs</span>
+      </a>
+      <a href="index.html#contact" class="quick-link">
+        <span class="icon">📞</span>
+        <span>Contact</span>
+      </a>
+    </div>
+
+    <a href="index.html" class="home-btn">🏠 Retour à l'accueil</a>
+
+    <div class="divider">ou contactez directement Stevy</div>
+
+    <div class="contact-bar">
+      <a href="tel:+33619515756" class="contact-item">📞 06 19 51 57 56</a>
+      <a href="https://wa.me/33619515756" class="contact-item" target="_blank">💬 WhatsApp</a>
+      <a href="mailto:contact@makouezit.org" class="contact-item">✉️ Email</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  © 2025 Makouez IT – Stevy · Technicien informatique à domicile · Île-de-France
+</footer>
+
+</body>
+</html>
