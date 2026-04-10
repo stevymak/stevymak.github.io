@@ -6,10 +6,10 @@
   <title>Makouez IT – Réserver un rendez-vous</title>
   <link rel="icon" href="favicon.ico" />
 
-  <!-- ✅ Firebase SDK -->
+  <!-- Firebase SDK -->
   <script type="module">
-    import { initializeApp }                        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { initializeApp }                                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -23,335 +23,220 @@
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    // Expose sur window pour que le JS classique y accède
-    window._db         = db;
-    window._addDoc     = addDoc;
-    window._collection = collection;
+    window._db            = db;
+    window._addDoc        = addDoc;
+    window._collection    = collection;
+    window._query         = query;
+    window._where         = where;
+    window._getDocs       = getDocs;
     window._firebaseReady = true;
   </script>
 
   <style>
     :root {
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
+      --blue:       #2563eb;
+      --blue-dark:  #1d4ed8;
       --blue-light: #eff6ff;
-      --red: #dc2626;
-      --red-light: #fef2f2;
-      --orange: #ea580c;
-      --orange-light: #fff7ed;
-      --green: #16a34a;
-      --green-light: #f0fdf4;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-300: #d1d5db;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-      --gray-800: #1f2937;
-      --gray-900: #111827;
-      --radius: 12px;
-      --shadow: 0 4px 24px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+      --red:        #dc2626;
+      --red-light:  #fef2f2;
+      --green:      #16a34a;
+      --green-light:#f0fdf4;
+      --gray-50:    #f9fafb;
+      --gray-100:   #f3f4f6;
+      --gray-200:   #e5e7eb;
+      --gray-300:   #d1d5db;
+      --gray-400:   #9ca3af;
+      --gray-500:   #6b7280;
+      --gray-600:   #4b5563;
+      --gray-700:   #374151;
+      --gray-800:   #1f2937;
+      --gray-900:   #111827;
+      --radius:     12px;
+      --shadow:     0 4px 24px rgba(0,0,0,0.08);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--gray-50);
-      color: var(--gray-800);
-      min-height: 100vh;
-    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-50); color: var(--gray-800); min-height: 100vh; }
 
-    /* HEADER */
-    header {
-      background: #fff;
-      border-bottom: 1px solid var(--gray-200);
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo { font-weight: 800; font-size: 1.1rem; color: var(--gray-900); text-decoration: none; }
-    .logo span { color: var(--blue); }
-    .back-link {
-      color: var(--gray-500);
-      text-decoration: none;
-      font-size: 0.875rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color .2s;
-    }
-    .back-link:hover { color: var(--blue); }
+    header { background:#fff; border-bottom:1px solid var(--gray-200); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .logo { font-weight:800; font-size:1.1rem; color:var(--gray-900); text-decoration:none; }
+    .logo span { color:var(--blue); }
+    .back-link { color:var(--gray-500); text-decoration:none; font-size:0.875rem; display:flex; align-items:center; gap:6px; transition:color .2s; }
+    .back-link:hover { color:var(--blue); }
 
-    /* URGENCY BANNER */
-    .urgency-banner {
-      background: linear-gradient(135deg, #dc2626, #b91c1c);
-      color: #fff;
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .urgency-banner .left { display: flex; align-items: center; gap: 12px; }
-    .urgency-banner .icon { font-size: 1.4rem; animation: pulse-icon 1.5s infinite; }
-    @keyframes pulse-icon {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-    .urgency-banner h3 { font-size: 0.95rem; font-weight: 700; }
-    .urgency-banner p { font-size: 0.8rem; opacity: 0.9; margin-top: 2px; }
-    .urgency-banner .btn-urgency {
-      background: #fff;
-      color: var(--red);
-      font-weight: 700;
-      font-size: 0.875rem;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      white-space: nowrap;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all .2s;
-    }
-    .urgency-banner .btn-urgency:hover { transform: scale(1.04); }
+    .urgency-banner { background:linear-gradient(135deg,#dc2626,#b91c1c); color:#fff; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .urgency-banner .left { display:flex; align-items:center; gap:12px; }
+    .urgency-banner .icon { font-size:1.4rem; animation:pulse-icon 1.5s infinite; }
+    @keyframes pulse-icon { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+    .urgency-banner h3 { font-size:0.95rem; font-weight:700; }
+    .urgency-banner p  { font-size:0.8rem; opacity:0.9; margin-top:2px; }
+    .btn-urgency { background:#fff; font-weight:700; font-size:0.875rem; padding:10px 20px; border-radius:8px; text-decoration:none; white-space:nowrap; border:none; cursor:pointer; display:flex; align-items:center; gap:8px; transition:all .2s; }
+    .btn-urgency-phone { color:var(--red); }
+    .btn-urgency:hover { transform:scale(1.04); }
 
-    /* MAIN */
-    main { max-width: 640px; margin: 0 auto; padding: 32px 16px 80px; }
+    main { max-width:640px; margin:0 auto; padding:32px 16px 80px; }
+    .page-title { text-align:center; margin-bottom:32px; }
+    .page-title h1 { font-size:1.75rem; font-weight:800; color:var(--gray-900); margin-bottom:6px; }
+    .page-title p  { color:var(--gray-500); font-size:0.95rem; }
 
-    /* PAGE TITLE */
-    .page-title { text-align: center; margin-bottom: 32px; }
-    .page-title h1 { font-size: 1.75rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px; }
-    .page-title p { color: var(--gray-500); font-size: 0.95rem; }
+    .urgency-toggle { background:var(--red-light); border:2px solid #fca5a5; border-radius:var(--radius); padding:16px 20px; margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; transition:all .2s; }
+    .urgency-toggle:hover { border-color:var(--red); }
+    .urgency-toggle .left { display:flex; align-items:center; gap:12px; }
+    .urgency-toggle h4 { font-size:0.95rem; font-weight:700; color:var(--red); }
+    .urgency-toggle p  { font-size:0.8rem; color:var(--gray-600); margin-top:2px; }
+    .urgency-toggle .toggle-icon { font-size:1.4rem; transition:transform .3s; }
+    .urgency-toggle.active .toggle-icon { transform:rotate(180deg); }
+    .urgency-panel { background:#fff; border:2px solid var(--red); border-radius:var(--radius); padding:24px; margin-bottom:24px; display:none; animation:slideDown .3s ease; }
+    .urgency-panel.visible { display:block; }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+    .urgency-panel h4 { color:var(--red); font-weight:700; font-size:1rem; margin-bottom:16px; }
+    .urgency-options { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+    .urgency-option { display:flex; flex-direction:column; align-items:center; text-align:center; padding:16px 12px; border-radius:10px; text-decoration:none; font-weight:600; font-size:0.875rem; transition:all .2s; border:2px solid transparent; }
+    .urgency-option .emoji { font-size:1.5rem; margin-bottom:6px; }
+    .urgency-option.phone   { background:var(--blue-light); color:var(--blue); border-color:#bfdbfe; }
+    .urgency-option.phone:hover { background:var(--blue); color:#fff; }
+    .urgency-option.whatsapp { background:#dcfce7; color:#15803d; border-color:#bbf7d0; }
+    .urgency-option.whatsapp:hover { background:#16a34a; color:#fff; }
+    .urgency-note { font-size:0.8rem; color:var(--gray-500); text-align:center; padding-top:12px; border-top:1px solid var(--gray-200); }
 
-    /* URGENCY TOGGLE */
-    .urgency-toggle {
-      background: var(--red-light);
-      border: 2px solid #fca5a5;
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      cursor: pointer;
-      transition: all .2s;
-    }
-    .urgency-toggle:hover { border-color: var(--red); }
-    .urgency-toggle .left { display: flex; align-items: center; gap: 12px; }
-    .urgency-toggle h4 { font-size: 0.95rem; font-weight: 700; color: var(--red); }
-    .urgency-toggle p { font-size: 0.8rem; color: var(--gray-600); margin-top: 2px; }
-    .urgency-toggle .toggle-icon { font-size: 1.4rem; transition: transform .3s; }
-    .urgency-toggle.active .toggle-icon { transform: rotate(180deg); }
+    .steps { display:flex; align-items:center; gap:8px; margin-bottom:28px; padding:0 4px; }
+    .step  { display:flex; align-items:center; gap:8px; flex:1; }
+    .step-num { width:28px; height:28px; border-radius:50%; background:var(--gray-200); color:var(--gray-500); font-size:0.8rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .3s; }
+    .step-num.active { background:var(--blue); color:#fff; }
+    .step-num.done   { background:var(--green); color:#fff; }
+    .step-label { font-size:0.75rem; color:var(--gray-500); font-weight:500; transition:color .3s; }
+    .step-label.active { color:var(--blue); font-weight:600; }
+    .step-divider { flex:1; height:2px; background:var(--gray-200); border-radius:2px; transition:background .3s; }
+    .step-divider.done { background:var(--green); }
 
-    /* URGENCY PANEL */
-    .urgency-panel {
-      background: #fff;
-      border: 2px solid var(--red);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 24px;
-      display: none;
-      animation: slideDown .3s ease;
-    }
-    .urgency-panel.visible { display: block; }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .urgency-panel h4 { color: var(--red); font-weight: 700; font-size: 1rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .urgency-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    .urgency-option {
-      display: flex; flex-direction: column; align-items: center; text-align: center;
-      padding: 16px 12px; border-radius: 10px; text-decoration: none;
-      font-weight: 600; font-size: 0.875rem; transition: all .2s; border: 2px solid transparent;
-    }
-    .urgency-option .emoji { font-size: 1.5rem; margin-bottom: 6px; }
-    .urgency-option.phone { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
-    .urgency-option.phone:hover { background: var(--blue); color: #fff; }
-    .urgency-option.whatsapp { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
-    .urgency-option.whatsapp:hover { background: #16a34a; color: #fff; }
-    .urgency-note { font-size: 0.8rem; color: var(--gray-500); text-align: center; padding-top: 12px; border-top: 1px solid var(--gray-200); }
+    .card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:28px; margin-bottom:16px; display:none; animation:fadeIn .35s ease; }
+    .card.active { display:block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .card h2 { font-size:1.1rem; font-weight:700; margin-bottom:4px; color:var(--gray-900); }
+    .card .subtitle { font-size:0.85rem; color:var(--gray-500); margin-bottom:20px; }
 
-    /* STEPS */
-    .steps { display: flex; align-items: center; gap: 8px; margin-bottom: 28px; padding: 0 4px; }
-    .step { display: flex; align-items: center; gap: 8px; flex: 1; }
-    .step-num {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--gray-200); color: var(--gray-500);
-      font-size: 0.8rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; transition: all .3s;
-    }
-    .step-num.active { background: var(--blue); color: #fff; }
-    .step-num.done   { background: var(--green); color: #fff; }
-    .step-label { font-size: 0.75rem; color: var(--gray-500); font-weight: 500; transition: color .3s; }
-    .step-label.active { color: var(--blue); font-weight: 600; }
-    .step-divider { flex: 1; height: 2px; background: var(--gray-200); border-radius: 2px; transition: background .3s; }
-    .step-divider.done { background: var(--green); }
+    .services-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .service-card { border:2px solid var(--gray-200); border-radius:10px; padding:14px 12px; cursor:pointer; transition:all .2s; display:flex; flex-direction:column; gap:4px; }
+    .service-card:hover   { border-color:var(--blue); background:var(--blue-light); }
+    .service-card.selected { border-color:var(--blue); background:var(--blue-light); }
+    .service-card .emoji { font-size:1.3rem; }
+    .service-card .name  { font-weight:600; font-size:0.875rem; color:var(--gray-800); }
+    .service-card .price { font-size:0.75rem; color:var(--gray-500); }
+    .service-card.selected .name { color:var(--blue); }
+    .service-selected-info { display:none; align-items:center; gap:10px; padding:10px 14px; background:var(--blue-light); border-radius:8px; margin-bottom:16px; font-size:0.85rem; color:var(--blue); font-weight:600; }
+    .service-selected-info.visible { display:flex; }
 
-    /* CARD */
-    .card {
-      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 28px; margin-bottom: 16px; display: none; animation: fadeIn .35s ease;
-    }
-    .card.active { display: block; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; color: var(--gray-900); }
-    .card .subtitle { font-size: 0.85rem; color: var(--gray-500); margin-bottom: 20px; }
-
-    /* SERVICE GRID */
-    .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .service-card {
-      border: 2px solid var(--gray-200); border-radius: 10px; padding: 14px 12px;
-      cursor: pointer; transition: all .2s; display: flex; flex-direction: column; gap: 4px;
-    }
-    .service-card:hover { border-color: var(--blue); background: var(--blue-light); }
-    .service-card.selected { border-color: var(--blue); background: var(--blue-light); }
-    .service-card .emoji { font-size: 1.3rem; }
-    .service-card .name { font-weight: 600; font-size: 0.875rem; color: var(--gray-800); }
-    .service-card .price { font-size: 0.75rem; color: var(--gray-500); }
-    .service-card.selected .name { color: var(--blue); }
-    .service-selected-info {
-      display: none; align-items: center; gap: 10px;
-      padding: 10px 14px; background: var(--blue-light); border-radius: 8px;
-      margin-bottom: 16px; font-size: 0.85rem; color: var(--blue); font-weight: 600;
-    }
-    .service-selected-info.visible { display: flex; }
-
-    /* CALENDAR */
-    .calendar-wrap { border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
-    .cal-header { background: var(--gray-50); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
-    .cal-header .month-label { font-weight: 700; font-size: 0.95rem; }
-    .cal-nav {
-      background: none; border: 1px solid var(--gray-300); border-radius: 6px;
-      width: 30px; height: 30px; cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center; transition: all .2s;
-    }
-    .cal-nav:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--gray-200); }
-    .cal-day-label { background: var(--gray-50); text-align: center; font-size: 0.7rem; font-weight: 600; color: var(--gray-500); padding: 8px 4px; text-transform: uppercase; }
+    /* ── CALENDAR ── */
+    .calendar-wrap { border:1px solid var(--gray-200); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+    .cal-header { background:var(--gray-50); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; }
+    .cal-header .month-label { font-weight:700; font-size:0.95rem; }
+    .cal-nav { background:none; border:1px solid var(--gray-300); border-radius:6px; width:30px; height:30px; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .cal-nav:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
+    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(--gray-200); }
+    .cal-day-label { background:var(--gray-50); text-align:center; font-size:0.7rem; font-weight:600; color:var(--gray-500); padding:8px 4px; text-transform:uppercase; }
     .cal-day {
-      background: #fff; text-align: center; padding: 10px 4px; font-size: 0.875rem;
-      cursor: pointer; transition: all .2s; min-height: 44px;
-      display: flex; align-items: center; justify-content: center; position: relative;
+      background:#fff; text-align:center; padding:6px 2px 8px;
+      font-size:0.875rem; cursor:pointer; transition:all .2s;
+      min-height:54px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:4px;
+      position:relative; user-select:none;
     }
-    .cal-day:hover:not(.disabled):not(.empty) { background: var(--blue-light); }
-    .cal-day.selected { background: var(--blue); color: #fff; font-weight: 700; }
-    .cal-day.disabled { color: var(--gray-300); cursor: not-allowed; }
-    .cal-day.empty { background: var(--gray-50); cursor: default; }
-    .cal-day.today { font-weight: 700; color: var(--blue); }
-    .cal-day.today.selected { color: #fff; }
-    .busy-dot { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
-    .busy-dot.full { background: var(--red); }
+    .cal-day .day-num { margin-top:6px; line-height:1; font-size:0.875rem; }
+    .cal-day:hover:not(.disabled):not(.empty):not(.day-full) { background:var(--blue-light); }
+    .cal-day.selected { background:var(--blue) !important; color:#fff; font-weight:700; }
+    .cal-day.selected .day-num  { color:#fff; }
+    .cal-day.selected .day-badge { background:rgba(255,255,255,0.25) !important; color:#fff !important; }
+    .cal-day.disabled, .cal-day.day-full { color:var(--gray-300); cursor:not-allowed; }
+    .cal-day.day-full { background:#fef2f2 !important; }
+    .cal-day.empty    { background:var(--gray-50); cursor:default; }
+    .cal-day.today .day-num { font-weight:800; color:var(--blue); }
+    .cal-day.selected.today .day-num { color:#fff; }
 
-    .slots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
-    .slot {
-      border: 2px solid var(--gray-200); border-radius: 8px; padding: 10px 6px;
-      text-align: center; cursor: pointer; font-size: 0.85rem; font-weight: 600;
-      transition: all .2s; color: var(--gray-700);
-    }
-    .slot:hover { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
-    .slot.selected { border-color: var(--blue); background: var(--blue); color: #fff; }
-    .slot.busy { border-color: var(--gray-200); background: var(--gray-50); color: var(--gray-400); cursor: not-allowed; text-decoration: line-through; }
-    .no-date-msg { text-align: center; color: var(--gray-400); padding: 24px; font-size: 0.875rem; }
+    /* Badges de charge */
+    .day-badge { font-size:0.58rem; font-weight:700; padding:2px 5px; border-radius:99px; white-space:nowrap; }
+    .badge-low  { background:#bbf7d0; color:#15803d; }   /* 1-2  → vert  */
+    .badge-mid  { background:#fed7aa; color:#c2410c; }   /* 3    → orange*/
+    .badge-high { background:#fecaca; color:#dc2626; }   /* 4    → rouge */
+    .badge-full { background:#fca5a5; color:#dc2626; }   /* 5    → complet */
 
-    /* FORM FIELDS */
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
-    .form-group label .required { color: var(--red); }
-    .form-control {
-      width: 100%; padding: 11px 14px; border: 2px solid var(--gray-200);
-      border-radius: 8px; font-size: 0.9rem; color: var(--gray-800);
-      outline: none; transition: border-color .2s; background: #fff;
-    }
-    .form-control:focus { border-color: var(--blue); }
-    .form-control.error { border-color: var(--red); }
-    textarea.form-control { resize: vertical; min-height: 80px; }
+    /* Légende */
+    .cal-legend { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 14px; border-top:1px solid var(--gray-200); background:var(--gray-50); font-size:0.72rem; color:var(--gray-500); }
+    .legend-item { display:flex; align-items:center; gap:5px; }
+    .legend-dot  { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
 
-    /* ADDRESS AUTOCOMPLETE */
-    .address-wrap { position: relative; }
-    .address-suggestions {
-      position: absolute; top: 100%; left: 0; right: 0;
-      background: #fff; border: 2px solid var(--blue); border-top: none;
-      border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto;
-      z-index: 999; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
-    .address-suggestions.visible { display: block; }
-    .suggestion-item {
-      padding: 11px 14px; cursor: pointer; font-size: 0.875rem;
-      display: flex; align-items: center; gap: 10px;
-      border-bottom: 1px solid var(--gray-100); transition: background .15s;
-    }
-    .suggestion-item:last-child { border-bottom: none; }
-    .suggestion-item:hover { background: var(--blue-light); }
-    .suggestion-item .icon { color: var(--gray-400); font-size: 1rem; flex-shrink: 0; }
-    .suggestion-main { font-weight: 500; color: var(--gray-800); }
-    .suggestion-sub { font-size: 0.75rem; color: var(--gray-500); }
+    /* ── SLOTS ── */
+    .slots-section { margin-top:20px; }
+    .slots-section h3 { font-size:0.9rem; font-weight:700; color:var(--gray-700); margin-bottom:4px; }
+    .slots-remaining { font-size:0.8rem; color:var(--gray-500); margin-bottom:14px; }
+    .period-block { margin-bottom:18px; }
+    .period-label { font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray-400); margin-bottom:8px; }
+    .slots-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .slot { border:2px solid var(--gray-200); border-radius:8px; padding:10px 14px; text-align:center; cursor:pointer; font-size:0.82rem; font-weight:600; transition:all .2s; color:var(--gray-700); white-space:nowrap; flex:1; min-width:110px; }
+    .slot:hover:not(.slot-taken) { border-color:var(--blue); background:var(--blue-light); color:var(--blue); }
+    .slot.selected   { border-color:var(--blue); background:var(--blue); color:#fff; }
+    .slot-taken      { border-color:var(--gray-200); background:var(--gray-50); color:var(--gray-300); cursor:not-allowed; }
+    .no-date-msg  { text-align:center; color:var(--gray-400); padding:32px 24px; font-size:0.875rem; }
+    .loading-msg  { text-align:center; color:var(--gray-400); padding:24px; font-size:0.85rem; }
 
-    /* PASSWORD SECTION */
-    .password-section { border: 1px solid var(--gray-200); border-radius: 10px; padding: 16px; margin-top: 8px; background: var(--gray-50); }
-    .password-section h5 { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; color: var(--gray-700); }
-    .password-section p { font-size: 0.78rem; color: var(--gray-500); margin-bottom: 12px; }
-    .pwd-wrap { position: relative; }
-    .pwd-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 1rem; }
+    /* ── FORM ── */
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:0.85rem; font-weight:600; color:var(--gray-700); margin-bottom:6px; }
+    .form-group label .required { color:var(--red); }
+    .form-control { width:100%; padding:11px 14px; border:2px solid var(--gray-200); border-radius:8px; font-size:0.9rem; color:var(--gray-800); outline:none; transition:border-color .2s; background:#fff; }
+    .form-control:focus { border-color:var(--blue); }
+    textarea.form-control { resize:vertical; min-height:80px; }
+    .address-wrap { position:relative; }
+    .address-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:2px solid var(--blue); border-top:none; border-radius:0 0 8px 8px; max-height:200px; overflow-y:auto; z-index:999; display:none; box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+    .address-suggestions.visible { display:block; }
+    .suggestion-item { padding:11px 14px; cursor:pointer; font-size:0.875rem; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--gray-100); transition:background .15s; }
+    .suggestion-item:last-child { border-bottom:none; }
+    .suggestion-item:hover { background:var(--blue-light); }
+    .suggestion-main { font-weight:500; color:var(--gray-800); }
+    .suggestion-sub  { font-size:0.75rem; color:var(--gray-500); }
+    .password-section { border:1px solid var(--gray-200); border-radius:10px; padding:16px; margin-top:8px; background:var(--gray-50); }
+    .password-section h5 { font-size:0.85rem; font-weight:700; margin-bottom:4px; color:var(--gray-700); }
+    .password-section p  { font-size:0.78rem; color:var(--gray-500); margin-bottom:12px; }
+    .pwd-wrap { position:relative; }
+    .pwd-toggle { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--gray-400); font-size:1rem; }
+    .google-powered { font-size:0.7rem; color:var(--gray-400); text-align:right; margin-top:4px; }
 
-    /* SUMMARY */
-    .summary-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-    .summary-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--gray-100); }
-    .summary-row:last-child { border-bottom: none; }
-    .summary-row .key { font-size: 0.85rem; color: var(--gray-500); font-weight: 500; }
-    .summary-row .val { font-size: 0.875rem; color: var(--gray-800); font-weight: 600; text-align: right; }
+    .summary-rows { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+    .summary-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid var(--gray-100); }
+    .summary-row:last-child { border-bottom:none; }
+    .summary-row .key { font-size:0.85rem; color:var(--gray-500); font-weight:500; }
+    .summary-row .val { font-size:0.875rem; color:var(--gray-800); font-weight:600; text-align:right; }
 
-    /* PAYMENT METHODS */
-    .payment-methods { margin-top: 16px; padding: 14px 16px; background: var(--gray-50); border-radius: 10px; border: 1px solid var(--gray-200); }
-    .payment-methods h5 { font-size: 0.8rem; font-weight: 700; color: var(--gray-600); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-    .payment-icons { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .pay-badge { display: flex; align-items: center; gap: 5px; padding: 5px 10px; background: #fff; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.78rem; font-weight: 600; color: var(--gray-700); }
-    .pay-badge .icon { font-size: 1rem; }
+    .payment-methods { margin-top:16px; padding:14px 16px; background:var(--gray-50); border-radius:10px; border:1px solid var(--gray-200); }
+    .payment-methods h5 { font-size:0.8rem; font-weight:700; color:var(--gray-600); margin-bottom:10px; }
+    .payment-icons { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .pay-badge { display:flex; align-items:center; gap:5px; padding:5px 10px; background:#fff; border:1px solid var(--gray-200); border-radius:6px; font-size:0.78rem; font-weight:600; color:var(--gray-700); }
 
-    /* BUTTONS */
-    .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .btn-primary { background: var(--blue); color: #fff; }
-    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
-    .btn-primary:disabled { background: var(--gray-300); cursor: not-allowed; transform: none; box-shadow: none; }
-    .btn-back { background: none; color: var(--gray-500); border: 1px solid var(--gray-200); margin-bottom: 10px; font-size: 0.875rem; padding: 10px; border-radius: 8px; width: auto; }
-    .btn-back:hover { background: var(--gray-100); color: var(--gray-700); }
-    .accept-text { font-size: 0.75rem; color: var(--gray-400); text-align: center; margin-top: 10px; }
+    .btn { width:100%; padding:14px; border:none; border-radius:10px; font-size:0.95rem; font-weight:700; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-primary { background:var(--blue); color:#fff; }
+    .btn-primary:hover:not(:disabled) { background:var(--blue-dark); transform:translateY(-1px); box-shadow:0 4px 12px rgba(37,99,235,0.3); }
+    .btn-primary:disabled { background:var(--gray-300); cursor:not-allowed; transform:none; box-shadow:none; }
+    .btn-back { background:none; color:var(--gray-500); border:1px solid var(--gray-200); margin-bottom:10px; font-size:0.875rem; padding:10px; border-radius:8px; width:auto; }
+    .btn-back:hover { background:var(--gray-100); color:var(--gray-700); }
 
-    /* SUCCESS */
-    .success-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px 28px; text-align: center; display: none; animation: fadeIn .5s ease; }
-    .success-card.active { display: block; }
-    .success-icon { width: 70px; height: 70px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 20px; }
-    .success-card h2 { font-size: 1.4rem; font-weight: 800; color: var(--gray-900); margin-bottom: 8px; }
-    .success-card p { color: var(--gray-500); font-size: 0.9rem; margin-bottom: 24px; }
-    .success-actions { display: flex; flex-direction: column; gap: 10px; }
-    .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: none; border-radius: 10px; padding: 12px; font-size: 0.875rem; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all .2s; }
-    .btn-secondary:hover { background: var(--gray-200); }
+    .success-card { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:40px 28px; text-align:center; display:none; animation:fadeIn .5s ease; }
+    .success-card.active { display:block; }
+    .success-icon { width:70px; height:70px; background:var(--green-light); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 20px; }
+    .success-card h2 { font-size:1.4rem; font-weight:800; color:var(--gray-900); margin-bottom:8px; }
+    .success-card p  { color:var(--gray-500); font-size:0.9rem; margin-bottom:24px; }
+    .success-actions { display:flex; flex-direction:column; gap:10px; }
+    .btn-secondary { background:var(--gray-100); color:var(--gray-700); border:none; border-radius:10px; padding:12px; font-size:0.875rem; font-weight:600; cursor:pointer; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px; transition:all .2s; }
+    .btn-secondary:hover { background:var(--gray-200); }
 
-    /* ERROR */
-    .error-msg { background: var(--red-light); color: var(--red); border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; margin-bottom: 16px; display: none; }
-    .error-msg.visible { display: block; }
+    .error-msg { background:var(--red-light); color:var(--red); border-radius:8px; padding:10px 14px; font-size:0.85rem; margin-bottom:16px; display:none; }
+    .error-msg.visible { display:block; }
 
-    .google-powered { font-size: 0.7rem; color: var(--gray-400); text-align: right; margin-top: 4px; }
+    .slot-web { border:2px solid var(--gray-200); border-radius:8px; padding:10px 6px; text-align:center; cursor:pointer; font-size:0.82rem; font-weight:600; transition:all .2s; color:var(--gray-700); }
+    .slot-web:hover { border-color:var(--blue); background:var(--blue-light); color:var(--blue); }
+    .slot-web.selected { border-color:var(--blue); background:var(--blue); color:#fff; }
 
-    @media (max-width: 480px) {
-      .services-grid { grid-template-columns: 1fr; }
-      .urgency-options { grid-template-columns: 1fr; }
-      .slots-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width:480px) {
+      .services-grid { grid-template-columns:1fr; }
+      .urgency-options { grid-template-columns:1fr; }
+      .slots-row { flex-direction:column; }
+      .slot { min-width:unset; }
     }
   </style>
 </head>
@@ -365,14 +250,11 @@
 <div class="urgency-banner">
   <div class="left">
     <div class="icon">🚨</div>
-    <div>
-      <h3>Problème urgent ? Je décroche.</h3>
-      <p>Pas besoin de formulaire — appelez ou écrivez directement</p>
-    </div>
+    <div><h3>Problème urgent ? Je décroche.</h3><p>Pas besoin de formulaire — appelez ou écrivez directement</p></div>
   </div>
   <div style="display:flex;gap:10px;flex-wrap:wrap;">
-    <a href="tel:+33619515756" class="btn-urgency">📞 06 19 51 57 56</a>
-    <a href="https://wa.me/33619515756?text=Bonjour%20Stevy%2C%20j%27ai%20un%20probl%C3%A8me%20urgent%20informatique." class="btn-urgency" style="background:#25D366;color:#fff;">💬 WhatsApp</a>
+    <a href="tel:+33619515756" class="btn-urgency btn-urgency-phone">📞 06 19 51 57 56</a>
+    <a href="https://wa.me/33619515756?text=Bonjour%20Stevy%2C%20j%27ai%20un%20probl%C3%A8me%20urgent." class="btn-urgency" style="background:#25D366;color:#fff;">💬 WhatsApp</a>
   </div>
 </div>
 
@@ -382,102 +264,68 @@
     <p>Réservation en ligne rapide · Confirmation sous 1h</p>
   </div>
 
-  <!-- URGENCY TOGGLE -->
   <div class="urgency-toggle" id="urgencyToggle" onclick="toggleUrgency()">
     <div class="left">
       <span style="font-size:1.5rem;">🚨</span>
-      <div>
-        <h4>C'est urgent ?</h4>
-        <p>PC ne démarre plus, virus actif, données en danger…</p>
-      </div>
+      <div><h4>C'est urgent ?</h4><p>PC ne démarre plus, virus actif, données en danger…</p></div>
     </div>
     <span class="toggle-icon">▼</span>
   </div>
-
   <div class="urgency-panel" id="urgencyPanel">
     <h4>⚡ Contact direct pour urgences</h4>
     <div class="urgency-options">
       <a href="tel:+33619515756" class="urgency-option phone">
-        <span class="emoji">📞</span>
-        <strong>Appel direct</strong>
+        <span class="emoji">📞</span><strong>Appel direct</strong>
         <span style="font-size:0.78rem;font-weight:400;">06 19 51 57 56</span>
         <span style="font-size:0.75rem;color:#6b7280;">Réponse immédiate</span>
       </a>
-      <a href="https://wa.me/33619515756?text=🚨%20URGENT%20%3A%20J'ai%20un%20problème%20informatique%20urgent." class="urgency-option whatsapp" target="_blank">
-        <span class="emoji">💬</span>
-        <strong>WhatsApp</strong>
+      <a href="https://wa.me/33619515756?text=🚨%20URGENT" class="urgency-option whatsapp" target="_blank">
+        <span class="emoji">💬</span><strong>WhatsApp</strong>
         <span style="font-size:0.78rem;font-weight:400;">Message pré-rempli</span>
-        <span style="font-size:0.75rem;color:#6b7280;">Réponse en quelques minutes</span>
+        <span style="font-size:0.75rem;color:#6b7280;">Réponse rapide</span>
       </a>
     </div>
-    <p class="urgency-note">💡 Pour les urgences, le contact direct garantit la meilleure réactivité. Stevy fait son maximum pour intervenir le jour même.</p>
+    <p class="urgency-note">💡 Pour les urgences, le contact direct garantit la meilleure réactivité.</p>
   </div>
 
   <!-- STEPS -->
   <div class="steps">
-    <div class="step">
-      <div class="step-num active" id="sn1">1</div>
-      <span class="step-label active" id="sl1">Service</span>
-    </div>
+    <div class="step"><div class="step-num active" id="sn1">1</div><span class="step-label active" id="sl1">Service</span></div>
     <div class="step-divider" id="sd1"></div>
-    <div class="step">
-      <div class="step-num" id="sn2">2</div>
-      <span class="step-label" id="sl2">Date</span>
-    </div>
+    <div class="step"><div class="step-num" id="sn2">2</div><span class="step-label" id="sl2">Date & heure</span></div>
     <div class="step-divider" id="sd2"></div>
-    <div class="step">
-      <div class="step-num" id="sn3">3</div>
-      <span class="step-label" id="sl3">Infos</span>
-    </div>
+    <div class="step"><div class="step-num" id="sn3">3</div><span class="step-label" id="sl3">Infos</span></div>
     <div class="step-divider" id="sd3"></div>
-    <div class="step">
-      <div class="step-num" id="sn4">4</div>
-      <span class="step-label" id="sl4">Confirmation</span>
-    </div>
+    <div class="step"><div class="step-num" id="sn4">4</div><span class="step-label" id="sl4">Confirmation</span></div>
   </div>
 
-  <!-- STEP 1: SERVICE -->
+  <!-- STEP 1 -->
   <div class="card active" id="step1">
     <h2>Quel service ?</h2>
     <p class="subtitle">Sélectionnez le type d'intervention</p>
-
     <div class="service-selected-info" id="preSelected">
-      <span>✓</span>
-      <span id="preSelectedName">Service pré-sélectionné</span>
+      <span>✓</span><span id="preSelectedName">Service pré-sélectionné</span>
     </div>
-
-    <div class="services-grid" id="servicesGrid">
+    <div class="services-grid">
       <div class="service-card" data-service="Dépannage PC" data-price="60€ – 80€" onclick="selectService(this)">
-        <span class="emoji">💻</span>
-        <span class="name">Dépannage PC</span>
-        <span class="price">60€ – 80€</span>
+        <span class="emoji">💻</span><span class="name">Dépannage PC</span><span class="price">60€ – 80€</span>
       </div>
       <div class="service-card" data-service="Installation Windows et logiciels" data-price="à partir de 60€" onclick="selectService(this)">
-        <span class="emoji">🪟</span>
-        <span class="name">Installation Windows</span>
-        <span class="price">à partir de 60€</span>
+        <span class="emoji">🪟</span><span class="name">Installation Windows</span><span class="price">à partir de 60€</span>
       </div>
       <div class="service-card" data-service="Réseau Wi-Fi" data-price="à partir de 60€" onclick="selectService(this)">
-        <span class="emoji">📶</span>
-        <span class="name">Réseau Wi-Fi</span>
-        <span class="price">à partir de 60€</span>
+        <span class="emoji">📶</span><span class="name">Réseau Wi-Fi</span><span class="price">à partir de 60€</span>
       </div>
       <div class="service-card" data-service="Récupération de données" data-price="à partir de 80€" onclick="selectService(this)">
-        <span class="emoji">💾</span>
-        <span class="name">Récupération données</span>
-        <span class="price">à partir de 80€</span>
+        <span class="emoji">💾</span><span class="name">Récupération données</span><span class="price">à partir de 80€</span>
       </div>
       <div class="service-card" data-service="Sauvegarde et sécurité" data-price="à partir de 60€" onclick="selectService(this)">
-        <span class="emoji">🔒</span>
-        <span class="name">Sauvegarde & sécurité</span>
-        <span class="price">à partir de 60€</span>
+        <span class="emoji">🔒</span><span class="name">Sauvegarde & sécurité</span><span class="price">à partir de 60€</span>
       </div>
       <div class="service-card" data-service="Formation et accompagnement" data-price="40€/h" onclick="selectService(this)">
-        <span class="emoji">🎓</span>
-        <span class="name">Formation</span>
-        <span class="price">40€/h</span>
+        <span class="emoji">🎓</span><span class="name">Formation</span><span class="price">40€/h</span>
       </div>
-      <div class="service-card" data-service="Intégration / Développement web" data-price="à partir de 150€" onclick="selectService(this)" style="grid-column: span 2;">
+      <div class="service-card" data-service="Intégration / Développement web" data-price="à partir de 150€" onclick="selectService(this)" style="grid-column:span 2;">
         <span class="emoji">🌐</span>
         <span class="name">Développement web <span style="background:var(--blue);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-left:4px;">Nouveau</span></span>
         <span class="price">à partir de 150€</span>
@@ -488,67 +336,53 @@
     </div>
   </div>
 
-  <!-- WEB PROJECT FORM -->
+  <!-- WEB FORM -->
   <div class="card" id="webStep">
     <h2>🌐 Demande de développement web</h2>
     <p class="subtitle">Décrivez votre projet — Stevy vous recontactera avec un devis gratuit sous 24h.</p>
-
     <div class="form-group">
       <label>Type de projet <span class="required">*</span></label>
       <select class="form-control" id="webType">
         <option value="">Sélectionnez…</option>
-        <option>Site vitrine</option>
-        <option>Landing page</option>
-        <option>Site e-commerce</option>
-        <option>Application web sur mesure</option>
-        <option>Refonte de site existant</option>
-        <option>Intégration HTML/CSS/JS</option>
-        <option>Autre</option>
+        <option>Site vitrine</option><option>Landing page</option><option>Site e-commerce</option>
+        <option>Application web sur mesure</option><option>Refonte de site existant</option>
+        <option>Intégration HTML/CSS/JS</option><option>Autre</option>
       </select>
     </div>
     <div class="form-group">
       <label>Description courte du projet <span class="required">*</span></label>
-      <textarea class="form-control" id="webDesc" placeholder="Ex: Je veux un site vitrine pour mon restaurant avec une page menu et un formulaire de contact…"></textarea>
+      <textarea class="form-control" id="webDesc" placeholder="Ex: Site vitrine pour mon restaurant avec une page menu…"></textarea>
     </div>
     <div class="form-group">
       <label>Budget envisagé</label>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="budgetGrid">
-        <div class="slot" onclick="selectBudget(this,'Moins de 300€')">Moins de 300€</div>
-        <div class="slot" onclick="selectBudget(this,'300€ – 600€')">300€ – 600€</div>
-        <div class="slot" onclick="selectBudget(this,'600€ – 1000€')">600€ – 1000€</div>
-        <div class="slot" onclick="selectBudget(this,'À définir')">À définir</div>
+        <div class="slot-web" onclick="selectBudget(this,'Moins de 300€')">Moins de 300€</div>
+        <div class="slot-web" onclick="selectBudget(this,'300€ – 600€')">300€ – 600€</div>
+        <div class="slot-web" onclick="selectBudget(this,'600€ – 1000€')">600€ – 1000€</div>
+        <div class="slot-web" onclick="selectBudget(this,'À définir')">À définir</div>
       </div>
     </div>
     <div class="form-group">
       <label>Délai souhaité</label>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;" id="delayGrid">
-        <div class="slot" onclick="selectDelay(this,'Urgent')">Urgent</div>
-        <div class="slot" onclick="selectDelay(this,'1 mois')">1 mois</div>
-        <div class="slot" onclick="selectDelay(this,'2-3 mois')">2-3 mois</div>
-        <div class="slot" onclick="selectDelay(this,'Flexible')">Flexible</div>
+        <div class="slot-web" onclick="selectDelay(this,'Urgent')">Urgent</div>
+        <div class="slot-web" onclick="selectDelay(this,'1 mois')">1 mois</div>
+        <div class="slot-web" onclick="selectDelay(this,'2-3 mois')">2-3 mois</div>
+        <div class="slot-web" onclick="selectDelay(this,'Flexible')">Flexible</div>
       </div>
     </div>
-    <div class="form-group">
-      <label>Prénom et nom <span class="required">*</span></label>
-      <input class="form-control" id="webName" type="text" placeholder="Jean Dupont" />
-    </div>
-    <div class="form-group">
-      <label>Email <span class="required">*</span></label>
-      <input class="form-control" id="webEmail" type="email" placeholder="jean@email.com" />
-    </div>
-    <div class="form-group">
-      <label>Téléphone</label>
-      <input class="form-control" id="webPhone" type="tel" placeholder="06 XX XX XX XX" />
-    </div>
+    <div class="form-group"><label>Prénom et nom <span class="required">*</span></label><input class="form-control" id="webName" type="text" placeholder="Jean Dupont" /></div>
+    <div class="form-group"><label>Email <span class="required">*</span></label><input class="form-control" id="webEmail" type="email" placeholder="jean@email.com" /></div>
+    <div class="form-group"><label>Téléphone</label><input class="form-control" id="webPhone" type="tel" placeholder="06 XX XX XX XX" /></div>
     <div class="error-msg" id="webError">Veuillez remplir les champs obligatoires.</div>
     <button class="btn btn-back" onclick="goStep1()">← Retour</button>
     <button class="btn btn-primary" onclick="submitWeb()">Envoyer ma demande →</button>
   </div>
 
-  <!-- STEP 2: DATE -->
+  <!-- STEP 2: DATE & CRÉNEAUX -->
   <div class="card" id="step2">
     <h2>Choisir une date</h2>
-    <p class="subtitle">Sélectionnez un jour disponible</p>
+    <p class="subtitle">La couleur indique la disponibilité · Max 5 réservations par jour</p>
 
     <div class="calendar-wrap">
       <div class="cal-header">
@@ -557,10 +391,17 @@
         <button class="cal-nav" onclick="nextMonth()">›</button>
       </div>
       <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <span style="font-weight:600;color:var(--gray-600);font-size:0.72rem;">Dispo :</span>
+        <div class="legend-item"><div class="legend-dot" style="background:#bbf7d0;"></div>Libre (1-2)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fed7aa;"></div>Chargé (3)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fecaca;"></div>Presque plein (4)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fca5a5;"></div>Complet (5)</div>
+      </div>
     </div>
 
-    <div id="slotsWrap">
-      <p class="no-date-msg">Sélectionnez une date pour voir les créneaux disponibles</p>
+    <div class="slots-section" id="slotsSection">
+      <p class="no-date-msg">👆 Sélectionnez un jour disponible pour voir les créneaux</p>
     </div>
 
     <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">
@@ -569,82 +410,53 @@
     </div>
   </div>
 
-  <!-- STEP 3: INFO -->
+  <!-- STEP 3 -->
   <div class="card" id="step3">
     <h2>Vos coordonnées</h2>
     <p class="subtitle">Pour confirmer votre réservation</p>
-
-    <div class="form-group">
-      <label>Prénom et nom <span class="required">*</span></label>
-      <input class="form-control" id="fname" type="text" placeholder="Jean Dupont" />
-    </div>
-    <div class="form-group">
-      <label>Téléphone <span class="required">*</span></label>
-      <input class="form-control" id="fphone" type="tel" placeholder="06 XX XX XX XX" />
-    </div>
-    <div class="form-group">
-      <label>Email <span class="required">*</span></label>
-      <input class="form-control" id="femail" type="email" placeholder="jean@email.com" />
-    </div>
-
+    <div class="form-group"><label>Prénom et nom <span class="required">*</span></label><input class="form-control" id="fname" type="text" placeholder="Jean Dupont" /></div>
+    <div class="form-group"><label>Téléphone <span class="required">*</span></label><input class="form-control" id="fphone" type="tel" placeholder="06 XX XX XX XX" /></div>
+    <div class="form-group"><label>Email <span class="required">*</span></label><input class="form-control" id="femail" type="email" placeholder="jean@email.com" /></div>
     <div class="form-group">
       <label>Adresse d'intervention <span class="required">*</span></label>
       <div class="address-wrap">
-        <input
-          class="form-control"
-          id="faddress"
-          type="text"
-          placeholder="Commencez à taper votre adresse…"
-          autocomplete="off"
-          oninput="onAddressInput(this.value)"
-          onblur="setTimeout(hideSuggestions,200)"
-        />
+        <input class="form-control" id="faddress" type="text" placeholder="Commencez à taper votre adresse…" autocomplete="off" oninput="onAddressInput(this.value)" onblur="setTimeout(hideSuggestions,200)" />
         <div class="address-suggestions" id="addressSuggestions"></div>
       </div>
       <p class="google-powered">🔍 Recherche d'adresse propulsée par Google Maps</p>
     </div>
-
-    <div class="form-group">
-      <label>Description du problème</label>
-      <textarea class="form-control" id="fdesc" placeholder="Décrivez brièvement le problème (facultatif)…"></textarea>
-    </div>
-
+    <div class="form-group"><label>Description du problème</label><textarea class="form-control" id="fdesc" placeholder="Décrivez brièvement le problème (facultatif)…"></textarea></div>
     <div class="password-section">
       <h5>🔐 Espace client (optionnel)</h5>
-      <p>Sans mot de passe, vous recevrez un lien par email pour suivre votre demande. Avec un mot de passe, accédez à votre espace personnel.</p>
+      <p>Sans mot de passe, vous recevrez un lien par email. Avec un mot de passe, accédez à votre espace personnel.</p>
       <div class="pwd-wrap">
         <input class="form-control" id="fpwd" type="password" placeholder="Mot de passe (min. 6 caractères)" />
         <button type="button" class="pwd-toggle" onclick="togglePwd()">👁</button>
       </div>
     </div>
-
     <div class="error-msg" id="step3Error">Veuillez remplir tous les champs obligatoires.</div>
-
     <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">
       <button class="btn btn-back" onclick="goStep2()">← Retour</button>
       <button class="btn btn-primary" onclick="goStep4()">Récapitulatif →</button>
     </div>
   </div>
 
-  <!-- STEP 4: RECAP -->
+  <!-- STEP 4 -->
   <div class="card" id="step4">
     <h2>Récapitulatif</h2>
     <p class="subtitle">Vérifiez avant de confirmer</p>
-
     <div class="summary-rows" id="summaryRows"></div>
-
     <div class="payment-methods">
       <h5>💳 Modes de paiement acceptés</h5>
       <div class="payment-icons">
-        <div class="pay-badge"><span class="icon">💳</span> Carte bancaire</div>
-        <div class="pay-badge"><span class="icon">🏦</span> Virement</div>
-        <div class="pay-badge"><span class="icon">💵</span> Espèces</div>
-        <div class="pay-badge"><span class="icon">🅿️</span> PayPal</div>
+        <div class="pay-badge">💳 Carte bancaire</div>
+        <div class="pay-badge">🏦 Virement</div>
+        <div class="pay-badge">💵 Espèces</div>
+        <div class="pay-badge">🅿️ PayPal</div>
       </div>
       <p style="font-size:0.75rem;color:var(--gray-500);margin-top:8px;">✅ Paiement uniquement après intervention · Devis gratuit</p>
     </div>
-
-    <p class="accept-text" style="margin-top:12px;">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT).</p>
+    <p style="font-size:0.75rem;color:var(--gray-400);text-align:center;margin-top:12px;">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT).</p>
     <div class="error-msg" id="step4Error">Une erreur est survenue. Veuillez réessayer.</div>
     <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
       <button class="btn btn-back" onclick="goStep3()">← Modifier</button>
@@ -652,7 +464,7 @@
     </div>
   </div>
 
-  <!-- SUCCESS RDV -->
+  <!-- SUCCESS -->
   <div class="success-card" id="successCard">
     <div class="success-icon">✅</div>
     <h2>Demande envoyée !</h2>
@@ -663,11 +475,11 @@
     </div>
   </div>
 
-  <!-- SUCCESS WEB -->
+  <!-- WEB SUCCESS -->
   <div class="success-card" id="webSuccess">
     <div class="success-icon">🌐</div>
     <h2>Demande envoyée !</h2>
-    <p>Stevy a bien reçu votre demande. Il vous recontactera sous 24h avec un devis gratuit.</p>
+    <p>Stevy vous recontactera sous 24h avec un devis gratuit.</p>
     <div style="text-align:left;background:var(--gray-50);border-radius:10px;padding:16px;margin-bottom:20px;">
       <p style="font-size:0.875rem;font-weight:700;margin-bottom:10px;">Ce qui se passe ensuite :</p>
       <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:6px;">📞 Stevy vous contacte pour un brief rapide</p>
@@ -676,469 +488,460 @@
     </div>
     <a href="index.html" class="btn btn-primary" style="text-decoration:none;">← Retour au site</a>
   </div>
-
 </main>
 
-<!-- Google Maps Places API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5vvBCOQ5OcevUtnjUnHstyiwriVViuWs&libraries=places&language=fr" async defer onload="initMaps()"></script>
 
 <script>
-  // =====================
-  // STATE
-  // =====================
-  let selectedService = null;
-  let selectedPrice   = null;
-  let selectedDate    = null;
-  let selectedSlot    = null;
-  let selectedBudget  = null;
-  let selectedDelay   = null;
-  let calYear, calMonth;
-  let autocompleteService = null;
+// ══════════════════════════════════════════════
+// CONSTANTES MÉTIER
+// ══════════════════════════════════════════════
+const MAX_PAR_JOUR = 5;
 
-  // =====================
-  // INIT
-  // =====================
-  window.addEventListener('load', () => {
-    const now = new Date();
-    calYear  = now.getFullYear();
-    calMonth = now.getMonth();
-    renderCalendar();
+// Plages horaires — weekend : toutes | semaine : ap-m + soir seulement
+const PERIODES = {
+  matin:     { label: '🌅 Matin',       slots: ['8h00 – 10h00', '10h00 – 12h00'] },
+  apresmidi: { label: '☀️ Après-midi',  slots: ['13h00 – 15h00', '15h00 – 17h00'] },
+  soir:      { label: '🌆 Soir',        slots: ['17h00 – 19h00', '19h00 – 21h00'] },
+};
 
-    // Pré-sélection via URL
-    const params = new URLSearchParams(location.search);
-    const svc = params.get('service');
-    if (svc) {
-      document.querySelectorAll('.service-card').forEach(card => {
-        if (card.dataset.service === svc) {
-          selectService(card);
-          document.getElementById('preSelected').classList.add('visible');
-          document.getElementById('preSelectedName').textContent = `✓ Service pré-sélectionné : ${svc}`;
-        }
-      });
-    }
+function getPeriodesForDate(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const dow = new Date(y, m - 1, d).getDay(); // 0=dim 6=sam
+  return (dow === 0 || dow === 6)
+    ? ['matin', 'apresmidi', 'soir']
+    : ['apresmidi', 'soir'];
+}
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let selectedService = null, selectedPrice = null;
+let selectedDate    = null, selectedSlot  = null;
+let selectedBudget  = null, selectedDelay = null;
+let calYear, calMonth;
+let autocompleteService = null;
+let reservationCounts   = {}; // cache dateKey → nombre de réservations
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+window.addEventListener('load', async () => {
+  const now = new Date();
+  calYear  = now.getFullYear();
+  calMonth = now.getMonth();
+  await loadMonthCounts(calYear, calMonth);
+  renderCalendar();
+
+  const svc = new URLSearchParams(location.search).get('service');
+  if (svc) {
+    document.querySelectorAll('.service-card').forEach(card => {
+      if (card.dataset.service === svc) {
+        selectService(card);
+        document.getElementById('preSelected').classList.add('visible');
+        document.getElementById('preSelectedName').textContent = `✓ Service pré-sélectionné : ${svc}`;
+      }
+    });
+  }
+});
+
+function initMaps() {
+  if (window.google?.maps?.places)
+    autocompleteService = new google.maps.places.AutocompleteService();
+}
+
+// ══════════════════════════════════════════════
+// FIRESTORE — comptes par jour
+// ══════════════════════════════════════════════
+async function waitFirebase() {
+  let t = 0;
+  while (!window._firebaseReady && t++ < 30) await new Promise(r => setTimeout(r, 100));
+  return window._firebaseReady;
+}
+
+async function loadMonthCounts(year, month) {
+  if (!await waitFirebase()) return;
+  const mm    = String(month + 1).padStart(2, '0');
+  const start = `${year}-${mm}-01`;
+  const end   = `${year}-${mm}-31`;
+  try {
+    const snap = await window._getDocs(window._query(
+      window._collection(window._db, 'reservations'),
+      window._where('dateKey', '>=', start),
+      window._where('dateKey', '<=', end)
+    ));
+    snap.docs.forEach(doc => {
+      const dk = doc.data().dateKey;
+      if (dk) reservationCounts[dk] = (reservationCounts[dk] || 0) + 1;
+    });
+  } catch(e) { console.warn('loadMonthCounts:', e); }
+}
+
+async function getTakenSlots(dateKey) {
+  if (!await waitFirebase()) return [];
+  try {
+    const snap = await window._getDocs(window._query(
+      window._collection(window._db, 'reservations'),
+      window._where('dateKey', '==', dateKey)
+    ));
+    return snap.docs.map(d => d.data().timeLabel).filter(Boolean);
+  } catch(e) { return []; }
+}
+
+// ══════════════════════════════════════════════
+// URGENCY
+// ══════════════════════════════════════════════
+function toggleUrgency() {
+  document.getElementById('urgencyPanel').classList.toggle('visible');
+  document.getElementById('urgencyToggle').classList.toggle('active');
+}
+
+// ══════════════════════════════════════════════
+// SERVICE
+// ══════════════════════════════════════════════
+function selectService(card) {
+  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedService = card.dataset.service;
+  selectedPrice   = card.dataset.price;
+  document.getElementById('step1Btn').disabled = false;
+}
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+function setStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step'+i).classList.remove('active');
+    const sn = document.getElementById('sn'+i), sl = document.getElementById('sl'+i);
+    if (i < n)      { sn.className='step-num done';   sn.textContent='✓'; sl.className='step-label'; }
+    else if (i===n) { sn.className='step-num active'; sl.className='step-label active'; }
+    else            { sn.className='step-num';         sl.className='step-label'; }
+  });
+  [1,2,3].forEach(i => {
+    const sd = document.getElementById('sd'+i);
+    if (sd) sd.className = i < n ? 'step-divider done' : 'step-divider';
+  });
+  document.getElementById('step'+n).classList.add('active');
+  document.getElementById('webStep').classList.remove('active');
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function goStep1() { setStep(1); }
+
+async function goStep2() {
+  if (!selectedService) return;
+  if (selectedService === 'Intégration / Développement web') {
+    [1,2,3,4].forEach(i => document.getElementById('step'+i).classList.remove('active'));
+    document.getElementById('webStep').classList.add('active');
+    window.scrollTo({ top:0, behavior:'smooth' });
+    return;
+  }
+  setStep(2);
+  await loadMonthCounts(calYear, calMonth);
+  renderCalendar();
+}
+
+function goStep3() {
+  if (!selectedDate || !selectedSlot) return;
+  setStep(3);
+}
+
+function goStep4() {
+  const name=document.getElementById('fname').value.trim(),
+        phone=document.getElementById('fphone').value.trim(),
+        email=document.getElementById('femail').value.trim(),
+        address=document.getElementById('faddress').value.trim(),
+        err=document.getElementById('step3Error');
+  if (!name||!phone||!email||!address) { err.textContent='Veuillez remplir tous les champs obligatoires.'; err.classList.add('visible'); return; }
+  if (!/^\S+@\S+\.\S+$/.test(email))  { err.textContent='Adresse email invalide.'; err.classList.add('visible'); return; }
+  err.classList.remove('visible');
+  setStep(4); renderSummary();
+}
+
+// ══════════════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════════════
+const DAYS_FR   = ['Lu','Ma','Me','Je','Ve','Sa','Di'];
+const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+function getDateKey(y, m, d) {
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function getBadgeInfo(count) {
+  if (!count)      return null;
+  if (count <= 2)  return { cls:'badge-low',  txt:`${count}/5` };  // vert
+  if (count === 3) return { cls:'badge-mid',  txt:`${count}/5` };  // orange
+  if (count === 4) return { cls:'badge-high', txt:`${count}/5` };  // rouge
+  return               { cls:'badge-full', txt:'Complet'   };      // complet
+}
+
+function renderCalendar() {
+  document.getElementById('calMonth').textContent = `${MONTHS_FR[calMonth]} ${calYear}`;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  DAYS_FR.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-day-label'; el.textContent = d;
+    grid.appendChild(el);
   });
 
-  function initMaps() {
-    if (window.google && window.google.maps && window.google.maps.places) {
-      autocompleteService = new google.maps.places.AutocompleteService();
-    }
+  const firstDay    = new Date(calYear, calMonth, 1).getDay();
+  const offset      = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const todayMid    = new Date(new Date().setHours(0,0,0,0));
+
+  for (let i = 0; i < offset; i++) {
+    const el = document.createElement('div'); el.className='cal-day empty'; grid.appendChild(el);
   }
 
-  // =====================
-  // URGENCY
-  // =====================
-  function toggleUrgency() {
-    document.getElementById('urgencyPanel').classList.toggle('visible');
-    document.getElementById('urgencyToggle').classList.toggle('active');
-  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el      = document.createElement('div');
+    el.className  = 'cal-day';
+    const date    = new Date(calYear, calMonth, d);
+    const isPast  = date < todayMid;
+    const dateKey = getDateKey(calYear, calMonth, d);
+    const count   = reservationCounts[dateKey] || 0;
+    const isFull  = count >= MAX_PAR_JOUR;
 
-  // =====================
-  // SERVICE SELECTION
-  // =====================
-  function selectService(card) {
-    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    selectedService = card.dataset.service;
-    selectedPrice   = card.dataset.price;
-    document.getElementById('step1Btn').disabled = false;
-  }
+    // Numéro du jour
+    const numEl = document.createElement('span');
+    numEl.className = 'day-num'; numEl.textContent = d;
+    el.appendChild(numEl);
 
-  // =====================
-  // NAVIGATION
-  // =====================
-  function setStep(n) {
-    [1,2,3,4].forEach(i => {
-      document.getElementById('step'+i).classList.remove('active');
-      const sn = document.getElementById('sn'+i);
-      const sl = document.getElementById('sl'+i);
-      if (i < n) { sn.className='step-num done'; sn.textContent='✓'; sl.className='step-label'; }
-      else if (i === n) { sn.className='step-num active'; sl.className='step-label active'; }
-      else { sn.className='step-num'; sl.className='step-label'; }
-    });
-    [1,2,3].forEach(i => {
-      const sd = document.getElementById('sd'+i);
-      if (sd) sd.className = i < n ? 'step-divider done' : 'step-divider';
-    });
-    document.getElementById('step'+n).classList.add('active');
-    document.getElementById('webStep').classList.remove('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function goStep1() { setStep(1); }
-
-  function goStep2() {
-    if (!selectedService) return;
-    if (selectedService === 'Intégration / Développement web') {
-      [1,2,3,4].forEach(i => document.getElementById('step'+i).classList.remove('active'));
-      document.getElementById('webStep').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    setStep(2);
-  }
-
-  function goStep3() {
-    if (!selectedDate || !selectedSlot) return;
-    setStep(3);
-  }
-
-  function goStep4() {
-    const name    = document.getElementById('fname').value.trim();
-    const phone   = document.getElementById('fphone').value.trim();
-    const email   = document.getElementById('femail').value.trim();
-    const address = document.getElementById('faddress').value.trim();
-    const err     = document.getElementById('step3Error');
-
-    if (!name || !phone || !email || !address) {
-      err.classList.add('visible');
-      err.textContent = 'Veuillez remplir tous les champs obligatoires.';
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      err.classList.add('visible');
-      err.textContent = 'Adresse email invalide.';
-      return;
-    }
-    err.classList.remove('visible');
-    setStep(4);
-    renderSummary();
-  }
-
-  // =====================
-  // CALENDAR
-  // =====================
-  const DAYS   = ['Lu','Ma','Me','Je','Ve','Sa','Di'];
-  const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-  const busyDays = {};
-  function getBusy(year, month) {
-    const key = `${year}-${month}`;
-    if (!busyDays[key]) {
-      busyDays[key] = {};
-      const daysInMonth = new Date(year, month+1, 0).getDate();
-      for (let i = 1; i <= daysInMonth; i++) {
-        const r = Math.random();
-        if (r < 0.1) busyDays[key][i] = 'full';
-        else if (r < 0.3) busyDays[key][i] = 'busy';
+    // Badge de charge
+    if (!isPast) {
+      const badge = getBadgeInfo(count);
+      if (badge) {
+        const b = document.createElement('span');
+        b.className = `day-badge ${badge.cls}`;
+        b.textContent = badge.txt;
+        el.appendChild(b);
       }
     }
-    return busyDays[key];
+
+    if (isPast)       { el.classList.add('disabled'); }
+    else if (isFull)  { el.classList.add('day-full', 'disabled'); el.title = 'Journée complète'; }
+    else              { el.onclick = () => selectDay(d, dateKey); }
+
+    const today = new Date();
+    if (d===today.getDate() && calMonth===today.getMonth() && calYear===today.getFullYear())
+      el.classList.add('today');
+
+    if (selectedDate === dateKey) el.classList.add('selected');
+    grid.appendChild(el);
+  }
+}
+
+async function prevMonth() {
+  calMonth--; if (calMonth < 0) { calMonth=11; calYear--; }
+  selectedDate=null; selectedSlot=null;
+  document.getElementById('step2Btn').disabled=true;
+  document.getElementById('slotsSection').innerHTML='<p class="no-date-msg">👆 Sélectionnez un jour disponible pour voir les créneaux</p>';
+  await loadMonthCounts(calYear, calMonth); renderCalendar();
+}
+async function nextMonth() {
+  calMonth++; if (calMonth>11) { calMonth=0; calYear++; }
+  selectedDate=null; selectedSlot=null;
+  document.getElementById('step2Btn').disabled=true;
+  document.getElementById('slotsSection').innerHTML='<p class="no-date-msg">👆 Sélectionnez un jour disponible pour voir les créneaux</p>';
+  await loadMonthCounts(calYear, calMonth); renderCalendar();
+}
+
+// ══════════════════════════════════════════════
+// SELECTION JOUR → créneaux
+// ══════════════════════════════════════════════
+async function selectDay(d, dateKey) {
+  selectedDate = dateKey; selectedSlot = null;
+  document.getElementById('step2Btn').disabled = true;
+  renderCalendar();
+  document.getElementById('slotsSection').innerHTML = '<p class="loading-msg">⏳ Chargement des créneaux…</p>';
+  const taken = await getTakenSlots(dateKey);
+  renderSlots(dateKey, taken);
+}
+
+function renderSlots(dateKey, takenSlots) {
+  const section   = document.getElementById('slotsSection');
+  const periodes  = getPeriodesForDate(dateKey);
+  const [y,m,d]   = dateKey.split('-');
+  const count     = reservationCounts[dateKey] || 0;
+  const remaining = MAX_PAR_JOUR - count;
+
+  let html = `
+    <h3>Créneaux disponibles — ${d}/${m}/${y}</h3>
+    <p class="slots-remaining">${remaining} place${remaining>1?'s':''} restante${remaining>1?'s':''} ce jour</p>`;
+
+  // Info semaine vs week-end
+  const [yy,mm,dd] = dateKey.split('-').map(Number);
+  const dow = new Date(yy, mm-1, dd).getDay();
+  if (dow !== 0 && dow !== 6) {
+    html += `<p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;">📌 En semaine, seuls les créneaux après-midi et soir sont proposés.</p>`;
   }
 
-  function renderCalendar() {
-    document.getElementById('calMonth').textContent = `${MONTHS[calMonth]} ${calYear}`;
-    const grid = document.getElementById('calGrid');
-    grid.innerHTML = '';
+  periodes.forEach(pk => {
+    const p = PERIODES[pk];
+    html += `<div class="period-block"><div class="period-label">${p.label}</div><div class="slots-row">`;
+    p.slots.forEach(slot => {
+      const taken = takenSlots.includes(slot);
+      html += `<div class="slot${taken?' slot-taken':''}" ${taken?'':` onclick="selectSlot(this,'${slot}')"`}>${slot}${taken?' · Pris':''}</div>`;
+    });
+    html += `</div></div>`;
+  });
 
-    DAYS.forEach(d => {
-      const el = document.createElement('div');
-      el.className = 'cal-day-label';
-      el.textContent = d;
-      grid.appendChild(el);
+  section.innerHTML = html;
+}
+
+function selectSlot(el, slot) {
+  document.querySelectorAll('.slot:not(.slot-taken)').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSlot = slot;
+  document.getElementById('step2Btn').disabled = false;
+}
+
+// ══════════════════════════════════════════════
+// GOOGLE MAPS AUTOCOMPLETE
+// ══════════════════════════════════════════════
+let acTimeout = null;
+function onAddressInput(v) {
+  clearTimeout(acTimeout);
+  if (!v||v.length<3) { hideSuggestions(); return; }
+  acTimeout = setTimeout(() => fetchSuggestions(v), 300);
+}
+function fetchSuggestions(input) {
+  if (!autocompleteService) { showFallbackSuggestions(input); return; }
+  autocompleteService.getPlacePredictions(
+    { input, componentRestrictions:{country:'fr'}, types:['address'], location:new google.maps.LatLng(48.9,2.36), radius:40000 },
+    (preds, status) => { if (status===google.maps.places.PlacesServiceStatus.OK&&preds) showSuggestions(preds); else hideSuggestions(); }
+  );
+}
+function showSuggestions(preds) {
+  const box = document.getElementById('addressSuggestions'); box.innerHTML='';
+  preds.slice(0,5).forEach(p => {
+    const item=document.createElement('div'); item.className='suggestion-item';
+    const parts=p.description.split(',');
+    item.innerHTML=`<span style="color:var(--gray-400)">📍</span><div><div class="suggestion-main">${parts[0]}</div><div class="suggestion-sub">${parts.slice(1).join(',').trim()}</div></div>`;
+    item.onmousedown=()=>{ document.getElementById('faddress').value=p.description; hideSuggestions(); };
+    box.appendChild(item);
+  });
+  box.classList.add('visible');
+}
+function showFallbackSuggestions(input) {
+  const cities=['Pierrefitte-sur-Seine, Seine-Saint-Denis, France','Saint-Denis, Seine-Saint-Denis, France','Stains, Seine-Saint-Denis, France','Saint-Ouen, Seine-Saint-Denis, France','Épinay-sur-Seine, Seine-Saint-Denis, France','Aubervilliers, Seine-Saint-Denis, France','Bobigny, Seine-Saint-Denis, France','Paris, Île-de-France, France'].filter(c=>c.toLowerCase().includes(input.toLowerCase()));
+  if (!cities.length) { hideSuggestions(); return; }
+  const box=document.getElementById('addressSuggestions'); box.innerHTML='';
+  cities.slice(0,5).forEach(city=>{
+    const item=document.createElement('div'); item.className='suggestion-item';
+    const parts=city.split(',');
+    item.innerHTML=`<span style="color:var(--gray-400)">📍</span><div><div class="suggestion-main">${parts[0]}</div><div class="suggestion-sub">${parts.slice(1).join(',').trim()}</div></div>`;
+    item.onmousedown=()=>{ document.getElementById('faddress').value=city; hideSuggestions(); };
+    box.appendChild(item);
+  });
+  box.classList.add('visible');
+}
+function hideSuggestions() { document.getElementById('addressSuggestions').classList.remove('visible'); }
+function togglePwd() { const f=document.getElementById('fpwd'); f.type=f.type==='password'?'text':'password'; }
+
+// ══════════════════════════════════════════════
+// SUMMARY
+// ══════════════════════════════════════════════
+function renderSummary() {
+  const [y,m,d]=selectedDate.split('-');
+  const rows=[
+    {key:'Service',val:selectedService},{key:'Date',val:`${d}/${m}/${y}`},{key:'Créneau',val:selectedSlot},
+    {key:'Nom',val:document.getElementById('fname').value},{key:'Téléphone',val:document.getElementById('fphone').value},
+    {key:'Email',val:document.getElementById('femail').value},{key:'Adresse',val:document.getElementById('faddress').value},
+    {key:'Espace client',val:document.getElementById('fpwd').value?'Compte créé':'Lien email uniquement'},
+    {key:'Tarif indicatif',val:selectedPrice},
+  ];
+  document.getElementById('summaryRows').innerHTML=rows.map(r=>`<div class="summary-row"><span class="key">${r.key}</span><span class="val">${r.val||'—'}</span></div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+// SUBMIT RDV → FIRESTORE
+// ══════════════════════════════════════════════
+async function submitRDV() {
+  const btn=document.getElementById('confirmBtn'), err=document.getElementById('step4Error');
+  btn.disabled=true; btn.textContent='Envoi en cours…'; err.classList.remove('visible');
+
+  if (!await waitFirebase()) {
+    err.textContent='Erreur de connexion. Rechargez la page.'; err.classList.add('visible');
+    btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous'; return;
+  }
+
+  // Double-check anti-saturation (re-fetch avant d'enregistrer)
+  const takenNow = await getTakenSlots(selectedDate);
+  const countNow = reservationCounts[selectedDate] || 0;
+
+  if (countNow >= MAX_PAR_JOUR) {
+    err.textContent='Ce jour est maintenant complet. Choisissez une autre date.'; err.classList.add('visible');
+    btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous';
+    await loadMonthCounts(calYear, calMonth); renderCalendar(); return;
+  }
+  if (takenNow.includes(selectedSlot)) {
+    err.textContent='Ce créneau vient d\'être pris. Choisissez un autre créneau.'; err.classList.add('visible');
+    btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous';
+    renderSlots(selectedDate, takenNow); return;
+  }
+
+  try {
+    await window._addDoc(window._collection(window._db, 'reservations'), {
+      service:     selectedService,
+      dateKey:     selectedDate,
+      timeLabel:   selectedSlot,
+      price:       selectedPrice,
+      nom:         document.getElementById('fname').value.trim(),
+      telephone:   document.getElementById('fphone').value.trim(),
+      email:       document.getElementById('femail').value.trim(),
+      adresse:     document.getElementById('faddress').value.trim(),
+      description: document.getElementById('fdesc').value.trim(),
+      status:      'pending',
+      createdAt:   new Date().toISOString(),
     });
 
-    const firstDay    = new Date(calYear, calMonth, 1).getDay();
-    const offset      = firstDay === 0 ? 6 : firstDay - 1;
-    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-    const today       = new Date();
-    const busy        = getBusy(calYear, calMonth);
+    // Mise à jour cache local
+    reservationCounts[selectedDate] = (reservationCounts[selectedDate] || 0) + 1;
 
-    for (let i = 0; i < offset; i++) {
-      const el = document.createElement('div');
-      el.className = 'cal-day empty';
-      grid.appendChild(el);
-    }
+    [1,2,3,4].forEach(i=>document.getElementById('step'+i).classList.remove('active'));
+    document.getElementById('successCard').classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
 
-    for (let d = 1; d <= daysInMonth; d++) {
-      const el         = document.createElement('div');
-      el.className     = 'cal-day';
-      const date       = new Date(calYear, calMonth, d);
-      const isPast     = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      const busyStatus = busy[d];
-
-      if (isPast || busyStatus === 'full') {
-        el.classList.add('disabled');
-      } else {
-        el.onclick = () => selectDay(d);
-      }
-
-      if (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()) {
-        el.classList.add('today');
-      }
-
-      const dateKey = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      if (selectedDate === dateKey) el.classList.add('selected');
-
-      el.textContent = d;
-
-      if (busyStatus && !isPast) {
-        const dot = document.createElement('div');
-        dot.className = 'busy-dot' + (busyStatus === 'full' ? ' full' : '');
-        el.appendChild(dot);
-      }
-
-      grid.appendChild(el);
-    }
+  } catch(e) {
+    console.error('Erreur Firestore:', e);
+    err.textContent='Une erreur est survenue. Vérifiez votre connexion et réessayez.'; err.classList.add('visible');
+    btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous';
   }
+}
 
-  function prevMonth() {
-    calMonth--;
-    if (calMonth < 0) { calMonth = 11; calYear--; }
-    renderCalendar();
-  }
-  function nextMonth() {
-    calMonth++;
-    if (calMonth > 11) { calMonth = 0; calYear++; }
-    renderCalendar();
-  }
-
-  const SLOTS = ['8h00 – 10h00','10h00 – 12h00','12h00 – 14h00','14h00 – 16h00','16h00 – 18h00','18h00 – 20h00'];
-
-  function selectDay(d) {
-    selectedDate = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    selectedSlot = null;
-    document.getElementById('step2Btn').disabled = true;
-    renderCalendar();
-    renderSlots();
-  }
-
-  function renderSlots() {
-    const wrap      = document.getElementById('slotsWrap');
-    const busyCount = Math.floor(Math.random() * 3);
-    const busyIdxs  = new Set();
-    while (busyIdxs.size < busyCount) busyIdxs.add(Math.floor(Math.random() * SLOTS.length));
-
-    const [y,m,d] = selectedDate.split('-');
-    wrap.innerHTML = `<p style="font-size:0.85rem;font-weight:600;color:var(--gray-700);margin-bottom:10px;">Créneaux disponibles le ${d}/${m}/${y}</p><div class="slots-grid" id="slotsGrid"></div>`;
-    const grid = document.getElementById('slotsGrid');
-
-    SLOTS.forEach((slot, i) => {
-      const el      = document.createElement('div');
-      el.className  = busyIdxs.has(i) ? 'slot busy' : 'slot';
-      el.textContent = slot;
-      if (!busyIdxs.has(i)) el.onclick = () => selectSlot(el, slot);
-      grid.appendChild(el);
-    });
-  }
-
-  function selectSlot(el, slot) {
-    document.querySelectorAll('.slot:not(.busy)').forEach(s => s.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedSlot = slot;
-    document.getElementById('step2Btn').disabled = false;
-  }
-
-  // =====================
-  // GOOGLE MAPS AUTOCOMPLETE
-  // =====================
-  let autocompleteTimeout = null;
-
-  function onAddressInput(value) {
-    clearTimeout(autocompleteTimeout);
-    if (!value || value.length < 3) { hideSuggestions(); return; }
-    autocompleteTimeout = setTimeout(() => fetchSuggestions(value), 300);
-  }
-
-  function fetchSuggestions(input) {
-    if (!autocompleteService) { showFallbackSuggestions(input); return; }
-    autocompleteService.getPlacePredictions({
-      input,
-      componentRestrictions: { country: 'fr' },
-      types: ['address'],
-      location: new google.maps.LatLng(48.9, 2.36),
-      radius: 40000
-    }, (predictions, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK && predictions) showSuggestions(predictions);
-      else hideSuggestions();
-    });
-  }
-
-  function showSuggestions(predictions) {
-    const box = document.getElementById('addressSuggestions');
-    box.innerHTML = '';
-    predictions.slice(0, 5).forEach(pred => {
-      const item  = document.createElement('div');
-      item.className = 'suggestion-item';
-      const parts = pred.description.split(',');
-      item.innerHTML = `<span class="icon">📍</span><div><div class="suggestion-main">${parts[0]}</div><div class="suggestion-sub">${parts.slice(1).join(',').trim()}</div></div>`;
-      item.onmousedown = () => { document.getElementById('faddress').value = pred.description; hideSuggestions(); };
-      box.appendChild(item);
-    });
-    box.classList.add('visible');
-  }
-
-  function showFallbackSuggestions(input) {
-    const cities = [
-      'Pierrefitte-sur-Seine, Seine-Saint-Denis, France',
-      'Saint-Denis, Seine-Saint-Denis, France',
-      'Stains, Seine-Saint-Denis, France',
-      'Saint-Ouen, Seine-Saint-Denis, France',
-      'Épinay-sur-Seine, Seine-Saint-Denis, France',
-      'Aubervilliers, Seine-Saint-Denis, France',
-      'Bobigny, Seine-Saint-Denis, France',
-      'Paris, Île-de-France, France',
-      "Argenteuil, Val-d'Oise, France",
-    ].filter(c => c.toLowerCase().includes(input.toLowerCase()));
-    if (!cities.length) { hideSuggestions(); return; }
-    const box = document.getElementById('addressSuggestions');
-    box.innerHTML = '';
-    cities.slice(0, 5).forEach(city => {
-      const item  = document.createElement('div');
-      item.className = 'suggestion-item';
-      const parts = city.split(',');
-      item.innerHTML = `<span class="icon">📍</span><div><div class="suggestion-main">${parts[0]}</div><div class="suggestion-sub">${parts.slice(1).join(',').trim()}</div></div>`;
-      item.onmousedown = () => { document.getElementById('faddress').value = city; hideSuggestions(); };
-      box.appendChild(item);
-    });
-    box.classList.add('visible');
-  }
-
-  function hideSuggestions() {
-    document.getElementById('addressSuggestions').classList.remove('visible');
-  }
-
-  // =====================
-  // PASSWORD TOGGLE
-  // =====================
-  function togglePwd() {
-    const f = document.getElementById('fpwd');
-    f.type = f.type === 'password' ? 'text' : 'password';
-  }
-
-  // =====================
-  // SUMMARY
-  // =====================
-  function renderSummary() {
-    const [y,m,d] = selectedDate.split('-');
-    const rows = [
-      { key: 'Service',        val: selectedService },
-      { key: 'Date',           val: `${d}/${m}/${y}` },
-      { key: 'Créneau',        val: selectedSlot },
-      { key: 'Nom',            val: document.getElementById('fname').value },
-      { key: 'Téléphone',      val: document.getElementById('fphone').value },
-      { key: 'Email',          val: document.getElementById('femail').value },
-      { key: 'Adresse',        val: document.getElementById('faddress').value },
-      { key: 'Espace client',  val: document.getElementById('fpwd').value ? 'Compte créé' : 'Lien email uniquement' },
-      { key: 'Tarif indicatif',val: selectedPrice },
-    ];
-    document.getElementById('summaryRows').innerHTML = rows.map(r => `
-      <div class="summary-row">
-        <span class="key">${r.key}</span>
-        <span class="val">${r.val || '—'}</span>
-      </div>`).join('');
-  }
-
-  // =====================
-  // ✅ SUBMIT RDV → FIRESTORE
-  // =====================
-  async function submitRDV() {
-    const btn = document.getElementById('confirmBtn');
-    btn.disabled    = true;
-    btn.textContent = 'Envoi en cours…';
-
-    const err = document.getElementById('step4Error');
-    err.classList.remove('visible');
-
-    // Attendre que Firebase soit prêt (chargé en module)
-    let retries = 0;
-    while (!window._firebaseReady && retries < 20) {
-      await new Promise(r => setTimeout(r, 100));
-      retries++;
-    }
-
-    if (!window._firebaseReady) {
-      err.textContent = 'Erreur de connexion. Rechargez la page et réessayez.';
-      err.classList.add('visible');
-      btn.disabled    = false;
-      btn.textContent = '✓ Confirmer le rendez-vous';
-      return;
-    }
-
+// ══════════════════════════════════════════════
+// SUBMIT WEB
+// ══════════════════════════════════════════════
+async function submitWeb() {
+  const type=document.getElementById('webType').value, desc=document.getElementById('webDesc').value.trim(),
+        name=document.getElementById('webName').value.trim(), email=document.getElementById('webEmail').value.trim(),
+        err=document.getElementById('webError');
+  if (!type||!desc||!name||!email) { err.classList.add('visible'); return; }
+  err.classList.remove('visible');
+  if (await waitFirebase()) {
     try {
-      const payload = {
-        service:     selectedService,
-        dateKey:     selectedDate,      // format "YYYY-MM-DD" — attendu par la Firebase Function
-        timeLabel:   selectedSlot,      // ex: "10h00 – 12h00" — attendu par la Firebase Function
-        price:       selectedPrice,
-        nom:         document.getElementById('fname').value.trim(),
-        telephone:   document.getElementById('fphone').value.trim(),
-        email:       document.getElementById('femail').value.trim(),
-        adresse:     document.getElementById('faddress').value.trim(),
-        description: document.getElementById('fdesc').value.trim(),
-        status:      'pending',
-        createdAt:   new Date().toISOString(),
-      };
-
-      // ✅ Sauvegarde dans Firestore → déclenche sendConfirmationEmail automatiquement
-      await window._addDoc(window._collection(window._db, 'reservations'), payload);
-
-      // Succès → affichage carte de confirmation
-      [1,2,3,4].forEach(i => document.getElementById('step'+i).classList.remove('active'));
-      document.getElementById('successCard').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    } catch (e) {
-      console.error('Erreur Firestore :', e);
-      err.textContent = 'Une erreur est survenue. Vérifiez votre connexion et réessayez.';
-      err.classList.add('visible');
-      btn.disabled    = false;
-      btn.textContent = '✓ Confirmer le rendez-vous';
-    }
+      await window._addDoc(window._collection(window._db,'devis_web'),{
+        type, description:desc, budget:selectedBudget||'–', delai:selectedDelay||'–',
+        nom:name, email, telephone:document.getElementById('webPhone').value.trim(),
+        createdAt:new Date().toISOString(),
+      });
+    } catch(e) { console.warn('devis_web:', e); }
   }
+  document.getElementById('webStep').classList.remove('active');
+  document.getElementById('webSuccess').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-  // =====================
-  // SUBMIT WEB (demande devis) → Firestore
-  // =====================
-  async function submitWeb() {
-    const type  = document.getElementById('webType').value;
-    const desc  = document.getElementById('webDesc').value.trim();
-    const name  = document.getElementById('webName').value.trim();
-    const email = document.getElementById('webEmail').value.trim();
-    const err   = document.getElementById('webError');
-
-    if (!type || !desc || !name || !email) {
-      err.classList.add('visible');
-      return;
-    }
-    err.classList.remove('visible');
-
-    // Sauvegarde optionnelle dans Firestore (collection "devis_web")
-    if (window._firebaseReady) {
-      try {
-        await window._addDoc(window._collection(window._db, 'devis_web'), {
-          type,
-          description: desc,
-          budget:      selectedBudget || '–',
-          delai:       selectedDelay  || '–',
-          nom:         name,
-          email:       email,
-          telephone:   document.getElementById('webPhone').value.trim(),
-          createdAt:   new Date().toISOString(),
-        });
-      } catch(e) {
-        console.warn('Firestore devis_web :', e);
-      }
-    }
-
-    document.getElementById('webStep').classList.remove('active');
-    document.getElementById('webSuccess').classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // =====================
-  // BUDGET / DELAY
-  // =====================
-  function selectBudget(el, val) {
-    document.querySelectorAll('#budgetGrid .slot').forEach(s => s.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedBudget = val;
-  }
-  function selectDelay(el, val) {
-    document.querySelectorAll('#delayGrid .slot').forEach(s => s.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedDelay = val;
-  }
+// ══════════════════════════════════════════════
+// BUDGET / DELAY
+// ══════════════════════════════════════════════
+function selectBudget(el,val){ document.querySelectorAll('#budgetGrid .slot-web').forEach(s=>s.classList.remove('selected')); el.classList.add('selected'); selectedBudget=val; }
+function selectDelay(el,val) { document.querySelectorAll('#delayGrid .slot-web').forEach(s=>s.classList.remove('selected'));  el.classList.add('selected'); selectedDelay=val;  }
 </script>
-
 </body>
 </html>
