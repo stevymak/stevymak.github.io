@@ -1,0 +1,17 @@
+# robots.txt – makouezit.org
+# Généré pour Makouez IT
+
+User-agent: *
+Allow: /
+
+# Bloquer les pages privées / admin
+Disallow: /admin.html
+Disallow: /admin-panel.html
+Disallow: /mes-demandes.html
+Disallow: /suivi-contrat.html
+
+# Bloquer les assets non utiles au SEO
+Disallow: /cdn-cgi/
+
+# Sitemap
+Sitemap: https://makouezit.org/sitemap.xml
