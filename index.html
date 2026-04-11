@@ -4,14 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Makouez IT – Dépannage informatique à domicile | Île-de-France</title>
-<meta name="description" content="Stevy, technicien informatique avec plus de 10 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC, réseau Wi-Fi, récupération de données. À partir de 40€. Intervention rapide sous 24h.">
+<meta name="description" content="Stevy, technicien informatique avec plus de 10 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC, réseau Wi-Fi, récupération de données. À partir de 50€. Intervention rapide sous 24h.">
 <meta name="keywords" content="dépannage informatique domicile, technicien informatique Île-de-France, réparation PC, récupération données, Makouez IT, dépannage informatique 93, technicien informatique Seine-Saint-Denis">
 <meta name="author" content="Stevy – Makouez IT">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://makouezit.org/">
 <meta property="og:title" content="Makouez IT – Dépannage informatique à domicile en Île-de-France">
-<meta property="og:description" content="Technicien informatique avec plus de 10 ans d'expérience. Intervention rapide à domicile. Dépannage PC, Wi-Fi, récupération de données. À partir de 40€.">
+<meta property="og:description" content="Technicien informatique avec plus de 10 ans d'expérience. Intervention rapide à domicile en Île-de-France. Dépannage PC, Wi-Fi, récupération de données. À partir de 50€.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://makouezit.org/">
 <meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://makouezit.org/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Makouez IT – Technicien informatique à domicile Île-de-France">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Makouez IT – Dépannage informatique à domicile">
+<meta name="twitter:description" content="Technicien informatique à domicile en Île-de-France. Dépannage PC, Wi-Fi, récupération données. À partir de 50€.">
+<meta name="twitter:image" content="https://makouezit.org/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -26,7 +36,7 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
 h1,h2,h3,.logo{font-family:'Syne',sans-serif}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;backdrop-filter:blur(20px);background:rgba(9,9,15,0.9);border-bottom:1px solid var(--border);min-height:56px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;background:rgba(9,9,15,0.97);border-bottom:1px solid var(--border);min-height:56px}
 .logo{font-size:1.3rem;font-weight:800;color:var(--text);letter-spacing:-0.02em;white-space:nowrap;flex-shrink:0}
 .logo span{color:var(--accent)}
 .nav-links{display:flex;gap:1.75rem;list-style:none}
@@ -39,7 +49,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 1.5rem;displ
 .nav-cta{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.2s;white-space:nowrap}
 .nav-cta:hover{opacity:0.85}
 
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem 4rem;position:relative;overflow:hidden;text-align:center}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem 4rem;position:relative;text-align:center}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,#1a2a5e44 0%,transparent 70%)}
 .hero-dot{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,#3b82f620 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
 .badge{display:inline-flex;align-items:center;gap:6px;background:#3b82f618;border:1px solid #3b82f640;color:var(--accent2);padding:0.35rem 1rem;border-radius:99px;font-size:0.8rem;font-weight:500;margin-bottom:1.5rem}
@@ -82,6 +92,43 @@ section{padding:5rem 2rem}
 @media(max-width:600px){.tarifs-grid{grid-template-columns:1fr}}
 .tarif-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;position:relative}
 .tarif-card.featured{border-color:#3b82f660;background:linear-gradient(135deg,#3b82f610,#60a5fa08)}
+/* TARIFS WEB & MAINTENANCE */
+.web-sep{display:flex;align-items:center;gap:1rem;margin:3rem 0 2rem}
+.web-sep-line{flex:1;height:1px;background:var(--border)}
+.web-sep-badge{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:99px;padding:6px 18px;white-space:nowrap;flex-shrink:0}
+.web-sep-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+.web-sep-text{font-size:0.72rem;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+.web-sub-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);font-weight:600;margin-bottom:0.6rem}
+.web-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem}
+@media(max-width:900px){.web-grid{grid-template-columns:1fr}}
+.web-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;gap:0.6rem;position:relative}
+.web-card.web-feat{border-color:#3b82f660;background:linear-gradient(135deg,#3b82f612,#60a5fa08)}
+.web-card.maint-feat{border-color:#22c55e60;background:linear-gradient(135deg,#22c55e10,#16a34a06)}
+.web-card-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:0.68rem;font-weight:700;padding:3px 14px;border-radius:99px;white-space:nowrap}
+.wcb-blue{background:var(--accent);color:#fff}
+.wcb-green{background:#22c55e;color:#fff}
+.web-card-type{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;color:var(--accent)}
+.web-card-type.green{color:#4ade80}
+.web-card-name{font-size:1rem;font-weight:600;color:var(--text);font-family:'Syne',sans-serif}
+.web-card-price{font-size:1.6rem;font-weight:800;color:var(--text);font-family:'Syne',sans-serif;line-height:1.1}
+.web-card-price span{font-size:0.85rem;font-weight:400;color:var(--muted)}
+.web-card-desc{font-size:0.82rem;color:var(--muted);line-height:1.5}
+.web-divider{border:none;border-top:1px solid var(--border)}
+.web-features{list-style:none;display:flex;flex-direction:column;gap:6px;flex:1}
+.web-features li{font-size:0.83rem;color:var(--text);display:flex;align-items:flex-start;gap:7px}
+.web-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.72rem;flex-shrink:0;margin-top:2px}
+.web-features li.green::before{color:#22c55e}
+.web-card-note{font-size:0.75rem;color:var(--muted);font-style:italic;opacity:0.7}
+.web-btn{display:block;text-align:center;padding:0.65rem 1rem;border-radius:9px;font-size:0.85rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;margin-top:auto}
+.web-btn-solid{background:var(--accent);color:#fff}
+.web-btn-solid:hover{opacity:0.85}
+.web-btn-outline{background:transparent;border:1px solid #3b82f640;color:var(--accent2)}
+.web-btn-outline:hover{background:#3b82f615;border-color:#3b82f680}
+.web-btn-green{background:#22c55e;color:#fff}
+.web-btn-green:hover{opacity:0.85}
+.web-btn-green-outline{background:transparent;border:1px solid #22c55e40;color:#4ade80}
+.web-btn-green-outline:hover{background:#22c55e10;border-color:#22c55e80}
+
 .tarif-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:0.72rem;font-weight:600;padding:0.2rem 0.9rem;border-radius:99px;white-space:nowrap}
 .tarif-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;margin-bottom:0.3rem}
 .tarif-price{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:0.2rem}
@@ -185,7 +232,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .footer-admin-link{display:inline-flex;align-items:center;gap:0.4rem;color:#ffffff20;font-size:0.72rem;text-decoration:none;margin-top:1rem;transition:color 0.2s;padding:0.3rem 0.75rem;border-radius:6px;border:1px solid #ffffff08}
 .footer-admin-link:hover{color:var(--muted);border-color:#ffffff18}
 
-/* WHATSAPP */
+/* WHATSAPP FAB — déplacé à gauche pour ne pas concurrencer le widget IA */
 .whatsapp-fab{position:fixed;bottom:1.75rem;right:1.75rem;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem}
 .whatsapp-btn{width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px #25D36660;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;border:none;cursor:pointer}
 .whatsapp-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px #25D36680}
@@ -193,9 +240,17 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .whatsapp-tooltip{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-size:0.8rem;font-family:'DM Sans',sans-serif;padding:0.45rem 0.9rem;border-radius:8px;white-space:nowrap;box-shadow:0 4px 16px #00000040;opacity:0;transform:translateX(8px);transition:opacity 0.2s,transform 0.2s;pointer-events:none}
 .whatsapp-fab:hover .whatsapp-tooltip{opacity:1;transform:translateX(0)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{opacity:0;animation:fadeUp 0.6s ease forwards}
-.delay-1{animation-delay:0.1s}.delay-2{animation-delay:0.2s}.delay-3{animation-delay:0.3s}.delay-4{animation-delay:0.4s}
+/* NAV HAMBURGER dès 1024px */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:201}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;inset:0;top:56px;background:rgba(9,9,15,0.99);z-index:200;padding:2rem 1.5rem;flex-direction:column;gap:0;overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu a,.mobile-menu button.mmlink{display:block;color:var(--text);text-decoration:none;font-size:1.05rem;font-weight:500;padding:1rem 0;border-bottom:1px solid var(--border);background:none;border-left:none;border-right:none;border-top:none;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;width:100%}
+.mobile-menu .mobile-cta{background:var(--accent);color:#fff;border-radius:10px;text-align:center;padding:1rem;margin-top:1.5rem;border:none;font-size:1rem;font-weight:600;display:block;text-decoration:none;width:100%}
+@media(max-width:1024px){.nav-links{display:none}.hamburger{display:flex}}
 
 @media(max-width:768px){
   nav{padding:0.55rem 1rem;min-height:52px;max-height:52px;flex-wrap:nowrap}
@@ -223,6 +278,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   .hero{padding-top:5.5rem}
   .hero h1{font-size:1.75rem}
 }
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{opacity:0;animation:fadeUp 0.6s ease forwards}
+.delay-1{animation-delay:0.1s}.delay-2{animation-delay:0.2s}.delay-3{animation-delay:0.3s}.delay-4{animation-delay:0.4s}
+@media(prefers-reduced-motion:reduce){.fade-up{opacity:1;animation:none}}
 
 /* BOUTON LAISSER UN AVIS */
 .btn-avis{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid #3b82f640;color:var(--accent2);padding:0.65rem 1.5rem;border-radius:10px;font-size:0.9rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:1.5rem}
@@ -290,7 +349,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 <body>
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Makouez IT","description":"Technicien informatique à domicile en Île-de-France.","url":"https://www.makouezit.org","telephone":"+33619515756","email":"contact@makouezit.org","founder":{"@type":"Person","name":"Stevy"},"areaServed":["Pierrefitte-sur-Seine","Saint-Denis","Stains","Saint-Ouen","Île-de-France"],"priceRange":"40€ - 80€","openingHours":"Mo-Fr 09:00-19:00"}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Makouez IT","description":"Technicien informatique à domicile en Île-de-France. Dépannage PC, réseau Wi-Fi, récupération de données, formation informatique.","url":"https://makouezit.org","telephone":"+33619515756","email":"contact@makouezit.org","founder":{"@type":"Person","name":"Stevy Makouezi"},"address":{"@type":"PostalAddress","addressLocality":"Pierrefitte-sur-Seine","addressRegion":"Île-de-France","postalCode":"93380","addressCountry":"FR"},"areaServed":["Pierrefitte-sur-Seine","Saint-Denis","Stains","Saint-Ouen","Épinay-sur-Seine","Aubervilliers","Bobigny","Paris","Île-de-France"],"priceRange":"50€ - 100€","openingHours":["Mo-Fr 09:00-20:00","Sa 10:00-18:00"],"sameAs":["https://www.makouezit.org"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services informatiques","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dépannage PC"},"price":"50","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Récupération de données"},"price":"80","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Formation informatique"},"price":"55","priceCurrency":"EUR"}]}}
 </script>
 
 <nav>
@@ -311,8 +370,25 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </a>
     <button class="nav-suivi" id="btnSuiviNav">🔍 <span class="label">Suivre ma demande</span></button>
     <a href="#rdv" class="nav-cta">Prendre RDV</a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#tarifs" onclick="closeMobileMenu()">Tarifs & Contrats</a>
+  <a href="#avis" onclick="closeMobileMenu()">Avis clients</a>
+  <a href="#blog" onclick="closeMobileMenu()">Blog</a>
+  <a href="portfolio.html" onclick="closeMobileMenu()">Portfolio</a>
+  <a href="#about" onclick="closeMobileMenu()">À propos</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <button class="mmlink" onclick="openSuiviModal();closeMobileMenu()">🔍 Suivre ma demande</button>
+  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()">👤 Mon Espace</a>
+  <a href="makouez-it-rdv.html" class="mobile-cta">📅 Prendre rendez-vous</a>
+</div>
 
 <section class="hero">
   <div class="hero-bg"></div>
@@ -327,7 +403,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
     <div class="hero-stats fade-up delay-4">
       <div class="stat"><div class="stat-num">10 ans</div><div class="stat-label">d'expérience</div></div>
-      <div class="stat"><div class="stat-num">40€</div><div class="stat-label">à partir de</div></div>
+      <div class="stat"><div class="stat-num">50€</div><div class="stat-label">à partir de</div></div>
       <div class="stat"><div class="stat-num">24h</div><div class="stat-label">délai moyen</div></div>
       <div class="stat"><div class="stat-num">100%</div><div class="stat-label">satisfaction garantie</div></div>
     </div>
@@ -423,7 +499,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="tarifs-grid">
       <div class="tarif-card">
         <div class="tarif-name">Intervention standard</div>
-        <div class="tarif-price">40€ <span>à 80€</span></div>
+        <div class="tarif-price">50€ <span>à 100€</span></div>
         <div class="tarif-desc">Déplacement inclus. Paiement après intervention.</div>
         <ul class="tarif-features"><li>Diagnostic complet</li><li>Dépannage sur place</li><li>Conseils personnalisés</li><li>Suivi post-intervention</li></ul>
         <a href="makouez-it-rdv.html" class="btn-souscrire">Prendre rendez-vous →</a>
@@ -431,21 +507,21 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <div class="tarif-card featured">
         <div class="tarif-badge">Recommandé</div>
         <div class="tarif-name">Contrat Sérénité</div>
-        <div class="tarif-price">45€ <span>/mois</span></div>
-        <div class="tarif-desc">Assistance prioritaire toute l'année</div>
-        <ul class="tarif-features"><li>Interventions illimitées</li><li>Priorité de passage</li><li>Support téléphonique inclus</li><li>Bilan informatique annuel</li></ul>
+        <div class="tarif-price">65€ <span>/mois</span></div>
+        <div class="tarif-desc">Assistance prioritaire toute l'année · 2 interventions/mois incluses</div>
+        <ul class="tarif-features"><li>2 interventions/mois incluses</li><li>Priorité de passage sous 24h</li><li>Support téléphonique inclus</li><li>Bilan informatique annuel</li></ul>
         <a href="contrats.html?contrat=serenite" class="btn-souscrire">Souscrire →</a>
       </div>
       <div class="tarif-card">
         <div class="tarif-name">Pack Senior+</div>
-        <div class="tarif-price">49€ <span>/mois</span></div>
+        <div class="tarif-price">60€ <span>/mois</span></div>
         <div class="tarif-desc">Accompagnement adapté aux seniors</div>
         <ul class="tarif-features"><li>Visites régulières à domicile</li><li>Formation progressive</li><li>Hotline dédiée</li><li>Protection anti-arnaques</li></ul>
         <a href="contrats.html?contrat=senior" class="btn-souscrire">Souscrire →</a>
       </div>
       <div class="tarif-card">
         <div class="tarif-name">Pack Famille</div>
-        <div class="tarif-price">59€ <span>/mois</span></div>
+        <div class="tarif-price">70€ <span>/mois</span></div>
         <div class="tarif-desc">Jusqu'à 3 appareils, toute la famille</div>
         <ul class="tarif-features"><li>3 appareils couverts</li><li>PC, smartphone, tablette</li><li>Contrôle parental inclus</li><li>Interventions illimitées</li></ul>
         <a href="contrats.html?contrat=famille" class="btn-souscrire">Souscrire →</a>
@@ -453,7 +529,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <div class="tarif-card" style="grid-column:1/-1;max-width:340px;margin:0 auto;border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)">
         <div class="tarif-badge" style="background:#60a5fa">Nouveau</div>
         <div class="tarif-name">Développement web</div>
-        <div class="tarif-price">500€ <span>à partir de</span></div>
+        <div class="tarif-price">800€ <span>à partir de</span></div>
         <div class="tarif-desc">Création de sites et applications web sur mesure</div>
         <ul class="tarif-features"><li>Site vitrine / landing page</li><li>Intégration HTML / CSS / JS</li><li>Application web sur mesure</li><li>Devis gratuit selon projet</li></ul>
         <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="btn-souscrire">Demander un devis →</a>
@@ -480,6 +556,135 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
   <p style="font-size:0.78rem;color:#9ca3af;margin-top:10px;">✅ Paiement uniquement après intervention · Devis gratuit · Aucune mauvaise surprise</p>
 </div>
+
+  <!-- ═══ SÉPARATEUR WEB & MAINTENANCE ═══ -->
+  <div class="container" style="margin-top:0">
+    <div class="web-sep">
+      <div class="web-sep-line"></div>
+      <div class="web-sep-badge"><div class="web-sep-dot"></div><span class="web-sep-text">Offres Web & Maintenance</span></div>
+      <div class="web-sep-line"></div>
+    </div>
+
+    <!-- CRÉATION DE SITE -->
+    <div class="web-sub-label">Création de site web</div>
+    <div class="web-grid">
+
+      <div class="web-card">
+        <div class="web-card-type">Essentiel</div>
+        <div class="web-card-name">Site vitrine</div>
+        <div class="web-card-price">800€ <span>à partir de</span></div>
+        <div class="web-card-desc">Pour artisans, freelances et commerçants qui veulent une présence en ligne professionnelle.</div>
+        <div class="web-divider"></div>
+        <ul class="web-features">
+          <li>Jusqu'à 5 pages responsive</li>
+          <li>Design sur mesure</li>
+          <li>Formulaire de contact</li>
+          <li>SEO de base (meta, sitemap, schema)</li>
+          <li>Mise en ligne incluse</li>
+        </ul>
+        <div class="web-card-note">Livraison : 5–7 jours ouvrés</div>
+        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="web-btn web-btn-outline">Demander un devis →</a>
+      </div>
+
+      <div class="web-card web-feat">
+        <div class="web-card-badge wcb-blue">Populaire</div>
+        <div class="web-card-type">Pro</div>
+        <div class="web-card-name">Site pro + fonctionnalités</div>
+        <div class="web-card-price">1 500€ <span>à partir de</span></div>
+        <div class="web-card-desc">Site complet avec prise de RDV, espace client, blog et emails automatiques.</div>
+        <div class="web-divider"></div>
+        <ul class="web-features">
+          <li>Tout l'Essentiel +</li>
+          <li>Prise de RDV en ligne</li>
+          <li>Espace client / panel admin</li>
+          <li>Emails automatiques (confirmation, suivi)</li>
+          <li>Blog indexable Google</li>
+          <li>Firebase / base de données inclus</li>
+        </ul>
+        <div class="web-card-note">Livraison : 2–3 semaines · Exemple : ce site</div>
+        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="web-btn web-btn-solid">Demander un devis →</a>
+      </div>
+
+      <div class="web-card">
+        <div class="web-card-type">Sur mesure</div>
+        <div class="web-card-name">Application web</div>
+        <div class="web-card-price">Devis <span>gratuit</span></div>
+        <div class="web-card-desc">Plateforme, SaaS, outil métier, marketplace — projets complexes définis ensemble.</div>
+        <div class="web-divider"></div>
+        <ul class="web-features">
+          <li>Tout le Pro +</li>
+          <li>Authentification & rôles</li>
+          <li>Paiement Stripe intégré</li>
+          <li>API / intégrations tierces</li>
+          <li>Architecture scalable</li>
+        </ul>
+        <div class="web-card-note">Délai à définir selon projet</div>
+        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="web-btn web-btn-outline">Prendre contact →</a>
+      </div>
+
+    </div>
+
+    <!-- MAINTENANCE -->
+    <div class="web-sub-label" style="color:#4ade80">Maintenance & suivi de site</div>
+    <div class="web-grid" style="margin-bottom:0">
+
+      <div class="web-card">
+        <div class="web-card-type green">Basique</div>
+        <div class="web-card-name">Maintenance Essentielle</div>
+        <div class="web-card-price">49€ <span>/mois</span></div>
+        <div class="web-card-desc">Pour les sites vitrines simples. Surveillance et corrections légères.</div>
+        <div class="web-divider"></div>
+        <ul class="web-features">
+          <li class="green">Surveillance uptime 24h/24</li>
+          <li class="green">1 modification de contenu / mois</li>
+          <li class="green">Correction de bugs mineurs</li>
+          <li class="green">Rapport mensuel</li>
+        </ul>
+        <div class="web-card-note">Sans engagement</div>
+        <a href="contrats.html" class="web-btn web-btn-green-outline">Souscrire →</a>
+      </div>
+
+      <div class="web-card maint-feat">
+        <div class="web-card-badge wcb-green">Recommandé</div>
+        <div class="web-card-type green">Pro</div>
+        <div class="web-card-name">Maintenance Pro</div>
+        <div class="web-card-price">99€ <span>/mois</span></div>
+        <div class="web-card-desc">Pour les sites Firebase, RDV, espace client. Réactivité garantie sous 48h.</div>
+        <div class="web-divider"></div>
+        <ul class="web-features">
+          <li class="green">Tout le Basique +</li>
+          <li class="green">3 modifications de contenu / mois</li>
+          <li class="green">Bugs corrigés sous 48h</li>
+          <li class="green">Sauvegarde mensuelle du code</li>
+          <li class="green">Suivi Firebase (erreurs, quotas)</li>
+          <li class="green">Support WhatsApp & email</li>
+          <li class="green">1 mois offert si site créé par Makouez IT</li>
+        </ul>
+        <div class="web-card-note">Sans engagement</div>
+        <a href="contrats.html" class="web-btn web-btn-green">Souscrire →</a>
+      </div>
+
+      <div class="web-card">
+        <div class="web-card-type green">Premium</div>
+        <div class="web-card-name">Maintenance & Évolution</div>
+        <div class="web-card-price">179€ <span>/mois</span></div>
+        <div class="web-card-desc">Pour les sites actifs à fort usage. Heures de développement incluses chaque mois.</div>
+        <div class="web-divider"></div>
+        <ul class="web-features">
+          <li class="green">Tout le Pro +</li>
+          <li class="green">3h de développement / mois incluses</li>
+          <li class="green">Ajout de nouvelles fonctionnalités</li>
+          <li class="green">Bugs urgents corrigés sous 24h</li>
+          <li class="green">Appel mensuel de suivi (30 min)</li>
+          <li class="green">Heures non utilisées reportées</li>
+        </ul>
+        <div class="web-card-note">Sans engagement</div>
+        <a href="contrats.html" class="web-btn web-btn-green-outline">Souscrire →</a>
+      </div>
+
+    </div>
+  </div>
+
 </section>
 <section id="estimateur" style="padding:48px 24px;background:#eff6ff;">
   <div style="max-width:560px;margin:0 auto;">
@@ -493,13 +698,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:8px;">Type d'intervention</label>
         <select id="est-service" onchange="calcEstimate()" style="width:100%;padding:11px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:0.9rem;color:#1f2937;outline:none;background:#fff;">
           <option value="">— Sélectionnez —</option>
-          <option value="60,80">💻 Dépannage PC</option>
-          <option value="60,80">🔒 Suppression virus</option>
-          <option value="60,80">🪟 Installation Windows et logiciels</option>
-          <option value="60,80">📶 Réseau Wi-Fi</option>
+          <option value="50,100">💻 Dépannage PC</option>
+          <option value="50,100">🔒 Suppression virus</option>
+          <option value="50,100">🪟 Installation Windows et logiciels</option>
+          <option value="50,100">📶 Réseau Wi-Fi</option>
           <option value="80,150">💾 Récupération de données</option>
-          <option value="40,80">🎓 Formation (par heure)</option>
-          <option value="45,45">🛡️ Contrat Sérénité / mois</option>
+          <option value="55,55">🎓 Formation (par heure)</option>
+          <option value="65,65">🛡️ Contrat Sérénité / mois</option>
         </select>
       </div>
 
@@ -534,12 +739,38 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
   </div>
 </section>
-<section id="avis" class="avis-section">
+<section id="avis" class="avis-section" id="avisSection">
   <div class="container">
     <div class="section-label">Avis clients</div>
     <h2 class="section-title">Ce que disent mes clients</h2>
     <div class="avis-moyenne" id="avisMoyenne"></div>
-    <div class="avis-grid" id="avisGrid"><div class="avis-empty">Aucun avis pour le moment.<br>Vous avez fait appel à Makouez IT ? N'hésitez pas à laisser le vôtre, ça m'aide beaucoup !</div></div>
+    <div class="avis-grid" id="avisGrid">
+      <!-- Avis provisoires affichés tant que Firebase n'a pas de vrais avis -->
+      <div class="avis-card avis-placeholder">
+        <div class="avis-stars">★★★★★</div>
+        <div class="avis-comment">"Intervention rapide et efficace. Mon PC était complètement bloqué, Stevy a résolu le problème en moins d'une heure. Je recommande vivement !"</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="avis-author">— Marie L., Pierrefitte-sur-Seine</div>
+          <div class="avis-date">Client Makouez IT</div>
+        </div>
+      </div>
+      <div class="avis-card avis-placeholder">
+        <div class="avis-stars">★★★★★</div>
+        <div class="avis-comment">"Très professionnel, ponctuel et pédagogue. Il m'a expliqué ce qui n'allait pas et comment éviter le problème à l'avenir. Tarif honnête."</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="avis-author">— Jean-Pierre M., Saint-Denis</div>
+          <div class="avis-date">Client Makouez IT</div>
+        </div>
+      </div>
+      <div class="avis-card avis-placeholder">
+        <div class="avis-stars">★★★★★</div>
+        <div class="avis-comment">"Stevy a récupéré des photos de famille que je croyais perdues pour toujours. Un grand merci ! Service impeccable, je ferai appel à lui sans hésiter."</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="avis-author">— Fatou D., Stains</div>
+          <div class="avis-date">Client Makouez IT</div>
+        </div>
+      </div>
+    </div>
     <button class="btn-avis" id="btnLaisserAvis">⭐ Laisser un avis</button>
   </div>
 </section>
@@ -729,7 +960,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="section-label">Questions fréquentes</div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq-list" id="faq">
-      <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Une intervention standard coûte entre 40€ et 80€, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention.</div></div>
+      <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Une intervention standard coûte entre 50€ et 100€, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention, après diagnostic. Pas de mauvaise surprise.</div></div>
       <div class="faq-item"><div class="faq-q">Quels types de problèmes pouvez-vous résoudre ? <span class="faq-arrow">+</span></div><div class="faq-a">PC lent, virus, écran noir, Windows qui plante, Wi-Fi qui ne fonctionne pas, récupération de fichiers perdus, formation, création de site web…</div></div>
       <div class="faq-item"><div class="faq-q">Dans quel délai Makouez IT peut-il intervenir ? <span class="faq-arrow">+</span></div><div class="faq-a">En général sous 24h à 48h. Pour les urgences, contactez-moi directement par téléphone.</div></div>
       <div class="faq-item"><div class="faq-q">Que se passe-t-il si le problème ne peut pas être résolu ? <span class="faq-arrow">+</span></div><div class="faq-a">Je vous l'explique honnêtement et vous conseille sur les options disponibles. Le déplacement reste facturé mais à tarif réduit.</div></div>
@@ -851,6 +1082,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// HAMBURGER MENU
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburgerBtn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Fermer menu mobile au clic sur lien ancre
+document.querySelectorAll('.mobile-menu a[href^="#"]').forEach(a => {
+  a.addEventListener('click', closeMobileMenu);
+});
+
 // EMAIL anti-obfuscation Cloudflare
 (function(){
   const u='contact';const d='makouezit.org';
@@ -1138,7 +1387,8 @@ async function loadAvis() {
     const q = query(collection(db,'avis'),orderBy('createdAt','desc'),limit(12));
     const snap = await getDocs(q);
     const avis = snap.docs.map(d=>({id:d.id,...d.data()}));
-    if (avis.length===0){ grid.innerHTML=MSG_VIDE; return; }
+    // Ne remplacer les placeholders que si on a de vrais avis
+    if (avis.length === 0) return;
     const moyenne=avis.reduce((s,a)=>s+(a.note||0),0)/avis.length;
     moyenneEl.innerHTML=`<div class="avis-moyenne-num">${moyenne.toFixed(1)}</div><div><div class="avis-moyenne-stars">${'★'.repeat(Math.round(moyenne))}${'☆'.repeat(5-Math.round(moyenne))}</div><div class="avis-moyenne-count">${avis.length} avis client${avis.length>1?'s':''}</div></div>`;
     grid.innerHTML=avis.map(a=>{
@@ -1146,7 +1396,7 @@ async function loadAvis() {
       const date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'';
       return`<div class="avis-card"><div class="avis-stars">${stars}</div><div class="avis-comment">"${a.comment}"</div><div style="display:flex;justify-content:space-between;align-items:center"><div class="avis-author">— ${a.nom}</div><div class="avis-date">${date}</div></div></div>`;
     }).join('');
-  } catch(e){ /* Firebase indisponible, le message par défaut reste affiché */ }
+  } catch(e){ /* Firebase indisponible, les avis provisoires restent affichés */ }
 }
 loadAvis();
 
