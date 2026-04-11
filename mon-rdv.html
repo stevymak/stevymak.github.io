@@ -167,8 +167,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <h2>Connexion</h2>
       <p>Connectez-vous avec l'email et le mot de passe de votre compte client.</p>
       <div class="error-msg" id="error-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="error-text">Email ou mot de passe incorrect.</span></div>
-      <div class="field"><label>Adresse email</label><input type="email" id="input-email" placeholder="votre@email.com" autocomplete="email"></div>
-      <div class="field"><label>Mot de passe</label><div class="field-password"><input type="password" id="input-password" placeholder="••••••••" autocomplete="current-password"><button class="toggle-pw" type="button" onclick="togglePassword()"><svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+      <div class="field"><label>Adresse email</label><input type="email" id="input-email" placeholder="votre@email.com" autocomplete="off"></div>
+      <div class="field"><label>Mot de passe</label><div class="field-password"><input type="password" id="input-password" placeholder="••••••••" autocomplete="off"><button class="toggle-pw" type="button" onclick="togglePassword()"><svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <div class="link-forgot"><a href="#" onclick="showResetView(event)">Mot de passe oublié ?</a></div>
       <button class="btn-login" id="btn-login" onclick="doLogin()"><span id="btn-login-text">Accéder à mon espace →</span></button>
       <div class="login-hint">Pas encore de compte ? <a href="makouez-it-rdv.html">Prendre un RDV →</a></div>
@@ -186,7 +186,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <p>Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
       <div class="error-msg" id="reset-error-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="reset-error-text">Une erreur est survenue.</span></div>
       <div class="success-msg" id="reset-success-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Email envoyé ! Vérifiez votre boîte mail.</span></div>
-      <div class="field"><label>Adresse email</label><input type="email" id="reset-email" placeholder="votre@email.com" autocomplete="email"></div>
+      <div class="field"><label>Adresse email</label><input type="email" id="reset-email" placeholder="votre@email.com" autocomplete="off"></div>
       <button class="btn-login" id="btn-reset" onclick="doResetPassword()"><span id="btn-reset-text">Envoyer le lien →</span></button>
       <div class="login-hint"><a href="#" onclick="showLoginView(event)">← Retour à la connexion</a></div>
     </div>
@@ -244,10 +244,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <div class="contact-method-label">WhatsApp</div>
           <div class="contact-method-detail">Message rapide</div>
         </a>
-        <a href="mailto:contact@makouezit.org" class="contact-method-card">
+        <a href="/cdn-cgi/l/email-protection#7c1f1312081d1f083c111d1713091906150852130e1b" class="contact-method-card">
           <div class="contact-method-icon">✉️</div>
           <div class="contact-method-label">Email</div>
-          <div class="contact-method-detail">contact@makouezit.org</div>
+          <div class="contact-method-detail"><span class="__cf_email__" data-cfemail="70131f1e04111304301d111b1f05150a19045e1f0217">[email&#160;protected]</span></div>
         </a>
       </div>
 
@@ -330,7 +330,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
 <div class="toast" id="toast"></div>
 
-<script type="module">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
@@ -652,8 +652,4 @@ document.getElementById('reset-email').addEventListener('keydown',e=>{if(e.key==
 <script>
 let pwVisible=false;
 function togglePassword(){ pwVisible=!pwVisible; const input=document.getElementById('input-password'); input.type=pwVisible?'text':'password'; document.getElementById('eye-icon').innerHTML=pwVisible?`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`:`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`; }
-function showResetView(e){ e.preventDefault(); document.getElementById('login-view').style.display='none'; document.getElementById('reset-view').style.display='block'; document.getElementById('reset-email').value=document.getElementById('input-email').value; }
-function showLoginView(e){ e.preventDefault(); document.getElementById('reset-view').style.display='none'; document.getElementById('login-view').style.display='block'; }
-</script>
-</body>
-</html>
+function showResetView(e){ e.preventDefault(); document.getElementById('login-view').style.display='none'; document.getElementById('reset-view').style.display='block'; document.getElementById('reset-email').val
