@@ -90,6 +90,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .faq-arrow{color:var(--accent);font-size:1.2rem;transition:transform 0.2s}
 .faq-item.open .faq-arrow{transform:rotate(45deg)}
 @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+
+/* MAINTENANCE WEB */
+.maint-sep{display:flex;align-items:center;gap:1rem;margin:1rem 0 2.5rem}
+.maint-sep-line{flex:1;height:1px;background:var(--border)}
+.maint-sep-badge{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:99px;padding:6px 18px;flex-shrink:0}
+.maint-sep-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-g 2s infinite}
+@keyframes pulse-g{0%,100%{opacity:1}50%{opacity:.3}}
+.maint-sep-text{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.maint-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--green);font-weight:600;margin-bottom:.75rem}
+.maint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem}
+.maint-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:.85rem}
+.maint-card:hover{border-color:#22c55e40;transform:translateY(-3px)}
+.maint-card.featured{border-color:#22c55e60;background:linear-gradient(135deg,#22c55e0d,#16a34a06)}
+.maint-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.72rem;font-weight:700;padding:.2rem 1rem;border-radius:99px;white-space:nowrap}
+.maint-type{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#4ade80}
+.maint-name{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700}
+.maint-price{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--green);line-height:1}
+.maint-price span{font-size:1rem;color:var(--muted);font-weight:400}
+.maint-desc{color:var(--muted);font-size:.88rem}
+.maint-divider{border:none;border-top:1px solid var(--border)}
+.maint-features{list-style:none;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.maint-features li{display:flex;align-items:center;gap:.6rem;font-size:.9rem}
+.maint-features li::before{content:'✓';color:var(--green);font-weight:700;font-size:.8rem;flex-shrink:0}
+.maint-note{font-size:.78rem;color:var(--muted);font-style:italic;opacity:.8}
+.btn-maint{background:var(--green);color:#fff;border:none;border-radius:10px;padding:.85rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;transition:opacity .2s;width:100%;margin-top:auto}
+.btn-maint:hover{opacity:.85}
+.btn-maint-out{background:transparent;border:1px solid #22c55e50;color:#4ade80;border-radius:10px;padding:.85rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;transition:all .2s;width:100%;margin-top:auto}
+.btn-maint-out:hover{background:#22c55e15}
+.maint-compare{margin-bottom:3rem}
+.maint-price-cell{color:var(--green);font-weight:700;font-family:'Syne',sans-serif}
+.faq-maint{margin-bottom:3rem}
 </style>
 </head>
 <body>
@@ -106,38 +137,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="contrat-badge">Le plus demandé</div>
       <div class="contrat-icon">🛡️</div>
       <div class="contrat-name">Contrat Sérénité</div>
-      <div class="contrat-price">45€ <span>/mois</span></div>
+      <div class="contrat-price">65€ <span>/mois</span></div>
       <div class="contrat-desc">Assistance prioritaire toute l'année pour particuliers</div>
       <ul class="contrat-features">
         <li>Interventions illimitées à domicile</li><li>Priorité de passage (sous 24h)</li>
         <li>Support téléphonique inclus</li><li>Bilan informatique annuel</li>
         <li>Mises à jour & maintenance</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','45€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','65€/mois')">Souscrire maintenant →</button>
     </div>
     <div class="contrat-card">
       <div class="contrat-icon">👴</div>
       <div class="contrat-name">Pack Senior+</div>
-      <div class="contrat-price">49€ <span>/mois</span></div>
+      <div class="contrat-price">60€ <span>/mois</span></div>
       <div class="contrat-desc">Accompagnement doux et pédagogique pour les seniors</div>
       <ul class="contrat-features">
         <li>Visites régulières à domicile</li><li>Formation progressive à votre rythme</li>
         <li>Hotline dédiée (lun-sam)</li><li>Protection anti-arnaques</li>
         <li>Aide smartphone/tablette</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','49€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','60€/mois')">Souscrire maintenant →</button>
     </div>
     <div class="contrat-card">
       <div class="contrat-icon">👨‍👩‍👧‍👦</div>
       <div class="contrat-name">Pack Famille</div>
-      <div class="contrat-price">59€ <span>/mois</span></div>
+      <div class="contrat-price">70€ <span>/mois</span></div>
       <div class="contrat-desc">Toute la famille couverte sur 3 appareils</div>
       <ul class="contrat-features">
         <li>3 appareils couverts</li><li>Interventions illimitées</li>
         <li>Contrôle parental inclus</li><li>Support pour tous les membres</li>
         <li>Sauvegarde automatique</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','59€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','70€/mois')">Souscrire maintenant →</button>
     </div>
   </div>
 
@@ -157,9 +188,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <tr><td class="feat">Protection anti-arnaques</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr><td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">45€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">49€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">59€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">65€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">60€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">70€</td>
           </tr>
         </tbody>
       </table>
@@ -174,6 +205,115 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="faq-item"><div class="faq-q">Puis-je changer de formule ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, vous pouvez passer d'une formule à une autre à tout moment. Le changement prend effet le mois suivant.</div></div>
     <div class="faq-item"><div class="faq-q">Comment suivre ma demande après souscription ? <span class="faq-arrow">+</span></div><div class="faq-a">Après soumission du formulaire, vous recevez un email avec un lien de suivi unique. Ce lien vous permet de voir l'état de votre demande en temps réel. Vous pouvez aussi créer un espace client sur le site.</div></div>
   </div>
+</div>
+
+<!-- ═══ SECTION MAINTENANCE WEB ═══ -->
+<div class="page" style="padding-top:0">
+
+  <div class="maint-sep">
+    <div class="maint-sep-line"></div>
+    <div class="maint-sep-badge"><div class="maint-sep-dot"></div><span class="maint-sep-text">Maintenance & Suivi de site</span></div>
+    <div class="maint-sep-line"></div>
+  </div>
+
+  <div class="page-label maint-label">Forfaits maintenance web</div>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:0.75rem">Votre site toujours au top</h2>
+  <p class="page-sub">Pour que votre site reste rapide, sécurisé et à jour après la livraison. Sans engagement, résiliable à tout moment.</p>
+
+  <div class="maint-grid">
+
+    <div class="maint-card">
+      <div class="maint-type">Basique</div>
+      <div class="maint-name">Maintenance Essentielle</div>
+      <div class="maint-price">49€ <span>/mois</span></div>
+      <div class="maint-desc">Pour les sites vitrines simples. Surveillance passive et corrections légères.</div>
+      <div class="maint-divider"></div>
+      <ul class="maint-features">
+        <li>Surveillance uptime 24h/24</li>
+        <li>1 modification de contenu / mois</li>
+        <li>Correction de bugs mineurs</li>
+        <li>Rapport mensuel</li>
+      </ul>
+      <div class="maint-note">Sans engagement</div>
+      <button class="btn-maint-out" onclick="openModal('maintenance-essentielle','Maintenance Essentielle','49€/mois')">Souscrire →</button>
+    </div>
+
+    <div class="maint-card featured">
+      <div class="maint-badge">Recommandé</div>
+      <div class="maint-type">Pro</div>
+      <div class="maint-name">Maintenance Pro</div>
+      <div class="maint-price">99€ <span>/mois</span></div>
+      <div class="maint-desc">Pour les sites Firebase, RDV, espace client. Réactivité garantie sous 48h.</div>
+      <div class="maint-divider"></div>
+      <ul class="maint-features">
+        <li>Tout le Basique +</li>
+        <li>3 modifications de contenu / mois</li>
+        <li>Bugs corrigés sous 48h</li>
+        <li>Sauvegarde mensuelle du code</li>
+        <li>Suivi Firebase (erreurs, quotas)</li>
+        <li>Support WhatsApp & email</li>
+        <li>1 mois offert si site créé par Makouez IT</li>
+      </ul>
+      <div class="maint-note">Sans engagement</div>
+      <button class="btn-maint" onclick="openModal('maintenance-pro','Maintenance Pro','99€/mois')">Souscrire →</button>
+    </div>
+
+    <div class="maint-card">
+      <div class="maint-type">Premium</div>
+      <div class="maint-name">Maintenance & Évolution</div>
+      <div class="maint-price">179€ <span>/mois</span></div>
+      <div class="maint-desc">Pour les sites actifs à fort usage. Heures de développement incluses chaque mois.</div>
+      <div class="maint-divider"></div>
+      <ul class="maint-features">
+        <li>Tout le Pro +</li>
+        <li>3h de développement / mois incluses</li>
+        <li>Nouvelles fonctionnalités</li>
+        <li>Urgences corrigées sous 24h</li>
+        <li>Appel mensuel de suivi (30 min)</li>
+        <li>Heures non utilisées reportées</li>
+      </ul>
+      <div class="maint-note">Sans engagement</div>
+      <button class="btn-maint-out" onclick="openModal('maintenance-evolution','Maintenance & Évolution','179€/mois')">Souscrire →</button>
+    </div>
+
+  </div>
+
+  <!-- Tableau comparatif maintenance -->
+  <div class="maint-compare compare-section">
+    <div class="compare-title">Comparatif détaillé</div>
+    <div style="overflow-x:auto">
+      <table class="compare-table">
+        <thead><tr><th style="width:40%">Fonctionnalité</th><th>Essentielle</th><th>Pro</th><th>Évolution</th></tr></thead>
+        <tbody>
+          <tr><td class="feat">Surveillance uptime 24h/24</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Modifications / mois</td><td>1</td><td>3</td><td>Illimitées</td></tr>
+          <tr><td class="feat">Délai correction bugs</td><td>Sous 72h</td><td>Sous 48h</td><td>Sous 24h</td></tr>
+          <tr><td class="feat">Sauvegarde mensuelle du code</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Suivi Firebase</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Support WhatsApp & email</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Heures de développement / mois</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td>3h</td></tr>
+          <tr><td class="feat">Appel mensuel de suivi</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">1 mois offert (site Makouez IT)</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr>
+            <td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
+            <td class="maint-price-cell">49€</td>
+            <td class="maint-price-cell">99€</td>
+            <td class="maint-price-cell">179€</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FAQ maintenance -->
+  <div class="faq-maint faq-mini">
+    <div class="faq-mini-title">Questions fréquentes sur la maintenance</div>
+    <div class="faq-item"><div class="faq-q">Mon site a été créé par quelqu'un d'autre, puis-je souscrire ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, tout à fait. Stevy effectuera un audit technique préalable de votre site (gratuit) pour vérifier la compatibilité avant de démarrer le contrat de maintenance.</div></div>
+    <div class="faq-item"><div class="faq-q">Que couvre une "modification de contenu" ? <span class="faq-arrow">+</span></div><div class="faq-a">Mise à jour d'un texte, d'une image, d'un prix ou d'une information sur votre site. Les modifications de fonctionnalités (nouveau formulaire, nouvelle page) relèvent des heures de développement du forfait Évolution.</div></div>
+    <div class="faq-item"><div class="faq-q">Que se passe-t-il si je n'utilise pas mes heures de dev (forfait Évolution) ? <span class="faq-arrow">+</span></div><div class="faq-a">Les heures non utilisées sont reportées au mois suivant, dans la limite de 3 mois de cumul maximum. Elles ne sont pas remboursables.</div></div>
+    <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous pouvez résilier à tout moment avec un préavis de 30 jours par email. Le premier mois est intégralement dû.</div></div>
+  </div>
+
 </div>
 
 <!-- MODAL -->
@@ -339,9 +479,12 @@ const params = new URLSearchParams(window.location.search);
 const cp = params.get('contrat');
 if (cp) {
   const map = {
-    serenite: ['serenite', 'Contrat Sérénité', '45€/mois'],
-    senior:   ['senior',   'Pack Senior+',     '49€/mois'],
-    famille:  ['famille',  'Pack Famille',      '59€/mois'],
+    serenite: ['serenite', 'Contrat Sérénité', '65€/mois'],
+    senior:   ['senior',   'Pack Senior+',     '60€/mois'],
+    famille:  ['famille',  'Pack Famille',      '70€/mois'],
+    'maintenance-essentielle': ['maintenance-essentielle', 'Maintenance Essentielle', '49€/mois'],
+    'maintenance-pro':         ['maintenance-pro',         'Maintenance Pro',         '99€/mois'],
+    'maintenance-evolution':   ['maintenance-evolution',   'Maintenance & Évolution', '179€/mois'],
   };
   if (map[cp]) window.openModal(...map[cp]);
 }
