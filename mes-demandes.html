@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mes demandes – Makouez IT</title>
+<meta name="description" content="Accédez à vos demandes Makouez IT et retrouvez rapidement le suivi de vos réservations informatiques.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -75,175 +76,16 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 </div>
 
 <div id="mainContent">
-  <div class="loader">
-    <div class="spinner"></div>
-    <span>Chargement…</span>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
-  authDomain: "makouez-it.firebaseapp.com",
-  projectId: "makouez-it",
-  storageBucket: "makouez-it.firebasestorage.app",
-  messagingSenderId: "558314427247",
-  appId: "1:558314427247:web:83e656344dd79019ccce9a"
-};
-
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-
-const STATUS_CONFIG = {
-  pending:   { label: '⏳ En attente',  cls: 'pending'   },
-  confirmed: { label: '✓ Confirmé',     cls: 'confirmed' },
-  done:      { label: '✅ Terminé',     cls: 'done'      },
-  cancelled: { label: '✗ Annulé',       cls: 'cancelled' },
-};
-
-const SERVICE_ICONS = {
-  'Dépannage PC': '💻',
-  'Installation Windows et logiciels': '🪟',
-  'Réseau Wi-Fi': '📶',
-  'Récupération de données': '💾',
-  'Sauvegarde et sécurité': '🔒',
-  'Formation et accompagnement': '🎓',
-  'Intégration / Développement web': '🌐',
-};
-
-function formatDate(dateKey) {
-  if (!dateKey) return '–';
-  const parts = dateKey.split('-');
-  if (parts.length !== 3) return dateKey;
-  return new Date(parts[0], parts[1]-1, parts[2])
-    .toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-}
-
-function formatCreatedAt(iso) {
-  if (!iso) return '';
-  const d = new Date(iso);
-  return 'Demande du ' + d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
-}
-
-async function load() {
-  const params = new URLSearchParams(window.location.search);
-  const email  = params.get('email');
-  const token  = params.get('token');
-
-  // Vérification basique : on a besoin de l'email
-  if (!email || !token) {
-    showError('Lien invalide', 'Ce lien est invalide ou incomplet. Utilisez le bouton "Suivre ma demande" sur le site pour recevoir un nouveau lien.');
-    return;
-  }
-
-  // Vérifier le token (simple hash email+secret)
-  const expectedToken = await makeToken(email);
-  if (token !== expectedToken) {
-    showError('Lien expiré ou invalide', 'Ce lien n\'est plus valide. Demandez un nouveau lien depuis le site.');
-    return;
-  }
-
-  try {
-    const q = query(collection(db, 'reservations'), where('email', '==', email));
-    const snap = await getDocs(q);
-
-    if (snap.empty) {
-      showEmpty(email);
-      return;
-    }
-
-    const reservations = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
-
-    renderList(reservations, email);
-  } catch(e) {
-    console.error(e);
-    showError('Erreur de chargement', 'Impossible de charger vos réservations. Vérifiez votre connexion et réessayez.');
-  }
-}
-
-// Token simple : hash de l'email + clé secrète côté client
-// (suffisant pour éviter que quelqu'un devine l'URL d'un autre)
-async function makeToken(email) {
-  const secret = 'makouez-it-suivi-2025';
-  const data   = email.toLowerCase().trim() + ':' + secret;
-  const buf    = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(data));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').substring(0, 32);
-}
-
-function renderList(reservations, email) {
-  document.getElementById('pageSubtitle').textContent =
-    `${reservations.length} demande${reservations.length > 1 ? 's' : ''} trouvée${reservations.length > 1 ? 's' : ''} pour ${email}`;
-
-  const html = reservations.map(rdv => {
-    const st      = STATUS_CONFIG[rdv.status] || STATUS_CONFIG.pending;
-    const icon    = SERVICE_ICONS[rdv.service] || '🔧';
-    const dateStr = formatDate(rdv.dateKey);
-    const created = formatCreatedAt(rdv.createdAt);
-    const timeLabel = rdv.timeLabel || rdv.time || '–';
-
-    return `
-      <a href="suivi-rdv.html?id=${rdv.id}" class="demande-card">
-        <div class="demande-card-header">
-          <div class="demande-card-service">${icon} ${rdv.service || '–'}</div>
-          <span class="status-badge ${st.cls}">${st.label}</span>
-        </div>
-        <div class="demande-card-body">
-          <div class="demande-info-row">📅 <span>${dateStr}</span></div>
-          <div class="demande-info-row">🕐 <span>${timeLabel}</span></div>
-          <div class="demande-info-row">📍 <span>${rdv.adresse || '–'}</span></div>
-          <div class="demande-info-row">💰 <span>${rdv.price || '–'}</span></div>
-        </div>
-        <div class="demande-card-footer">
-          <span style="color:var(--muted);font-size:0.78rem">${created}</span>
-          <span>Voir le détail →</span>
-        </div>
-      </a>`;
-  }).join('');
-
-  document.getElementById('mainContent').innerHTML = `
-    <div class="demandes-list">${html}</div>
-    <div class="actions" style="margin-top:0.5rem">
-      <a href="makouez-it-rdv.html" class="btn-primary">+ Nouvelle demande</a>
+  <div class="empty-state">
+    <div class="empty-icon">🔐</div>
+    <div class="empty-title">Suivi direct désactivé</div>
+    <div class="empty-sub">Cette page n'affiche plus les réservations par simple lien email, afin de respecter des règles Firestore strictes. Utilisez désormais l'espace client sécurisé pour suivre vos rendez-vous.</div>
+    <div class="actions">
+      <a href="mon-rdv.html" class="btn-primary">Accéder à mon espace client</a>
+      <a href="makouez-it-rdv.html" class="btn-outline">Prendre un rendez-vous</a>
       <a href="index.html" class="btn-outline">← Retour au site</a>
     </div>
-  `;
-}
-
-function showEmpty(email) {
-  document.getElementById('pageSubtitle').textContent = `Aucune demande trouvée pour ${email}`;
-  document.getElementById('mainContent').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-icon">📭</div>
-      <div class="empty-title">Aucune demande trouvée</div>
-      <div class="empty-sub">Nous n'avons trouvé aucune réservation associée à cette adresse email.</div>
-      <div class="actions">
-        <a href="makouez-it-rdv.html" class="btn-primary">Prendre rendez-vous</a>
-        <a href="index.html" class="btn-outline">← Retour au site</a>
-      </div>
-    </div>
-  `;
-}
-
-function showError(title, desc) {
-  document.getElementById('pageSubtitle').textContent = '';
-  document.getElementById('mainContent').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-icon">🔐</div>
-      <div class="empty-title">${title}</div>
-      <div class="empty-sub">${desc}</div>
-      <div class="actions">
-        <a href="index.html" class="btn-primary">← Retour au site</a>
-      </div>
-    </div>
-  `;
-}
-
-load();
-</script>
+  </div>
+</div>
 </body>
 </html>

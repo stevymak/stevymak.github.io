@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog & Conseils informatiques – Makouez IT</title>
+<link rel="canonical" href="https://makouezit.org/blog.html">
 <meta name="description" content="Conseils, astuces et mini-tutos informatiques par Stevy (Makouez IT). Apprenez à résoudre vos problèmes informatiques facilement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -49,7 +50,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .article-full-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--card);border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:color 0.2s}
 .article-full-close:hover{color:var(--text)}
 .article-full-tag{display:inline-block;background:#3b82f618;color:var(--accent2);font-size:0.75rem;font-weight:600;padding:0.2rem 0.75rem;border-radius:99px;margin-bottom:0.75rem;border:1px solid #3b82f630}
-.article-full h1{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2}
+.article-full h2.article-heading{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2}
 .article-full-meta{color:var(--muted);font-size:0.8rem;margin-bottom:2rem;display:flex;gap:1rem}
 .article-full-content{color:var(--text);font-size:0.95rem;line-height:1.8}
 .article-full-content h2{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin:2rem 0 0.75rem;color:var(--accent2)}
@@ -66,6 +67,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .article-cta p{color:var(--muted);font-size:0.88rem;margin-bottom:0.75rem}
 .btn-rdv{display:inline-block;background:var(--accent);color:#fff;padding:0.7rem 1.6rem;border-radius:9px;text-decoration:none;font-size:0.9rem;font-weight:500;transition:opacity 0.2s}
 .btn-rdv:hover{opacity:0.85}
+.article-heading{font-family:'Syne',sans-serif;font-weight:800;margin-bottom:0.75rem;line-height:1.2}
 </style>
 </head>
 <body>
@@ -102,7 +104,7 @@ const articles = [
     duration: '5 min',
     content: `
       <div class="article-full-tag">Performance</div>
-      <h1>Pourquoi mon PC est lent et comment y remédier</h1>
+      <h2 class="article-heading">Pourquoi mon PC est lent et comment y remédier</h2>
       <div class="article-full-meta"><span>⏱ 5 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Un PC lent est l'une des plaintes les plus courantes. Avant d'appeler un technicien, voici les causes fréquentes et ce que vous pouvez faire.</p>
@@ -150,7 +152,7 @@ const articles = [
     duration: '6 min',
     content: `
       <div class="article-full-tag">Sécurité</div>
-      <h1>Comment savoir si mon PC a un virus et s'en débarrasser</h1>
+      <h2 class="article-heading">Comment savoir si mon PC a un virus et s'en débarrasser</h2>
       <div class="article-full-meta"><span>⏱ 6 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Un virus informatique peut causer de nombreux problèmes. Voici comment identifier une infection et y remédier.</p>
@@ -199,7 +201,7 @@ const articles = [
     duration: '4 min',
     content: `
       <div class="article-full-tag">Réseau</div>
-      <h1>Wi-Fi lent ou qui coupe : les solutions</h1>
+      <h2 class="article-heading">Wi-Fi lent ou qui coupe : les solutions</h2>
       <div class="article-full-meta"><span>⏱ 4 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Un Wi-Fi instable est très frustrant. Voici les causes les plus fréquentes et comment les résoudre.</p>
@@ -242,7 +244,7 @@ const articles = [
     duration: '5 min',
     content: `
       <div class="article-full-tag">Sécurité</div>
-      <h1>Comment créer des mots de passe forts et les retenir</h1>
+      <h2 class="article-heading">Comment créer des mots de passe forts et les retenir</h2>
       <div class="article-full-meta"><span>⏱ 5 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Le mot de passe est votre première ligne de défense. Voici comment en créer de vraiment solides.</p>
@@ -291,7 +293,7 @@ const articles = [
     duration: '6 min',
     content: `
       <div class="article-full-tag">Données</div>
-      <h1>Sauvegarder ses données : le guide complet</h1>
+      <h2 class="article-heading">Sauvegarder ses données : le guide complet</h2>
       <div class="article-full-meta"><span>⏱ 6 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Il y a deux types de personnes : ceux qui ont perdu des données, et ceux qui n'ont pas encore perdu des données. Voici comment vous protéger.</p>
@@ -341,7 +343,7 @@ const articles = [
     duration: '7 min',
     content: `
       <div class="article-full-tag">Windows</div>
-      <h1>Réinstaller Windows proprement sans perdre ses fichiers</h1>
+      <h2 class="article-heading">Réinstaller Windows proprement sans perdre ses fichiers</h2>
       <div class="article-full-meta"><span>⏱ 7 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Une réinstallation de Windows peut sembler intimidante, mais Windows 10 et 11 proposent une option simple pour "remettre à zéro" sans perdre vos fichiers personnels.</p>
@@ -389,7 +391,7 @@ const articles = [
     duration: '5 min',
     content: `
       <div class="article-full-tag">Arnaque</div>
-      <h1>Reconnaître et éviter les arnaques en ligne</h1>
+      <h2 class="article-heading">Reconnaître et éviter les arnaques en ligne</h2>
       <div class="article-full-meta"><span>⏱ 5 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Les arnaques informatiques causent des millions d'euros de pertes chaque année en France. Voici comment les repérer.</p>
@@ -434,7 +436,7 @@ const articles = [
     duration: '4 min',
     content: `
       <div class="article-full-tag">Matériel</div>
-      <h1>Mon imprimante ne fonctionne plus : que faire ?</h1>
+      <h2 class="article-heading">Mon imprimante ne fonctionne plus : que faire ?</h2>
       <div class="article-full-meta"><span>⏱ 4 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>L'imprimante est souvent source de frustration. Voici les solutions aux problèmes les plus fréquents.</p>
@@ -477,7 +479,7 @@ const articles = [
     duration: '4 min',
     content: `
       <div class="article-full-tag">Mobile</div>
-      <h1>Transférer ses photos du smartphone vers le PC</h1>
+      <h2 class="article-heading">Transférer ses photos du smartphone vers le PC</h2>
       <div class="article-full-meta"><span>⏱ 4 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Vous avez des centaines de photos sur votre téléphone et vous voulez les sauvegarder sur votre PC ? Voici les méthodes les plus simples.</p>
@@ -514,7 +516,7 @@ const articles = [
     duration: '8 min',
     content: `
       <div class="article-full-tag">Optimisation</div>
-      <h1>10 astuces pour booster les performances de Windows</h1>
+      <h2 class="article-heading">10 astuces pour booster les performances de Windows</h2>
       <div class="article-full-meta"><span>⏱ 8 min de lecture</span><span>Par Stevy – Makouez IT</span></div>
       <div class="article-full-content">
         <p>Avant d'acheter un nouveau PC, essayez ces 10 optimisations. Elles peuvent transformer complètement votre expérience.</p>

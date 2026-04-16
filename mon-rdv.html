@@ -165,7 +165,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     </div>
     <div class="login-card">
       <h2>Connexion</h2>
-      <p>Connectez-vous avec l'email et le mot de passe de votre compte client.</p>
+      <p>Connectez-vous avec l'email et le mot de passe de votre compte client. Si vous avez fait une demande sans créer de compte, elle n'apparaîtra pas ici tant qu'elle n'aura pas été rattachée à un espace client.</p>
       <div class="error-msg" id="error-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="error-text">Email ou mot de passe incorrect.</span></div>
       <div class="field"><label>Adresse email</label><input type="email" id="input-email" placeholder="votre@email.com" autocomplete="off"></div>
       <div class="field"><label>Mot de passe</label><div class="field-password"><input type="password" id="input-password" placeholder="••••••••" autocomplete="off"><button class="toggle-pw" type="button" onclick="togglePassword()"><svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
@@ -179,7 +179,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   <div id="reset-view">
     <div class="page-header" style="text-align:center;margin-bottom:2rem">
       <div class="page-label">Mon Espace Client</div>
-      <h1 class="page-title">Réinitialiser le mot de passe</h1>
+      <h2 class="page-title">Réinitialiser le mot de passe</h2>
     </div>
     <div class="login-card">
       <h2>Mot de passe oublié</h2>
@@ -239,7 +239,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <div class="contact-method-label">Appel direct</div>
           <div class="contact-method-detail">06 19 51 57 56</div>
         </a>
-        <a href="https://wa.me/33619515756" class="contact-method-card" target="_blank">
+        <a href="https://wa.me/33619515756" class="contact-method-card" target="_blank" rel="noopener noreferrer">
           <div class="contact-method-icon">💬</div>
           <div class="contact-method-label">WhatsApp</div>
           <div class="contact-method-detail">Message rapide</div>
@@ -401,6 +401,10 @@ async function loadDashboard(user) {
   document.getElementById('avatar-initials').textContent=initials;
   document.getElementById('greeting-name').textContent=`Bonjour, ${displayName.split(' ')[0]} 👋`;
   document.getElementById('greeting-email').textContent=user.email;
+  document.getElementById('summary-grid').innerHTML=`<div class="sum-card"><div class="num">…</div><div class="lbl">Chargement</div></div>`;
+  document.getElementById('list-upcoming').innerHTML='<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Chargement de vos rendez-vous…</div>';
+  document.getElementById('list-past').innerHTML='';
+  document.getElementById('list-contrats').innerHTML='<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Chargement de vos contrats…</div>';
   await Promise.all([fetchReservations(user.uid), fetchContrats(user.email)]);
 }
 
@@ -410,7 +414,7 @@ async function fetchReservations(uid) {
     const snap=await getDocs(q);
     currentReservations=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderRdvs();
-  } catch(err){ console.error(err); showToast('Impossible de charger vos rendez-vous.','error'); currentReservations=[]; renderRdvs(); }
+  } catch(err){ console.error(err); showToast('Impossible de charger vos rendez-vous liés à cet espace client.','error'); currentReservations=[]; renderRdvs(); }
 }
 
 async function fetchContrats(email) {
@@ -419,7 +423,7 @@ async function fetchContrats(email) {
     const snap=await getDocs(q);
     currentContrats=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderContrats();
-  } catch(err){ console.error(err); currentContrats=[]; renderContrats(); }
+  } catch(err){ console.error(err); showToast('Impossible de charger vos contrats liés à cet espace client.','error'); currentContrats=[]; renderContrats(); }
 }
 
 // ── SWITCH TABS ──
@@ -452,7 +456,7 @@ function renderRdvs() {
   document.getElementById('count-past').textContent=past.length?`(${past.length})`:'';
   const upEl=document.getElementById('list-upcoming');
   const paEl=document.getElementById('list-past');
-  if(upcoming.length===0){ upEl.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Aucun rendez-vous à venir</h3><p>Prenez un nouveau rendez-vous en quelques secondes.</p><a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a></div>`; }
+  if(upcoming.length===0){ upEl.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Aucun rendez-vous à venir</h3><p>Vous n'avez pas encore de rendez-vous rattaché à cet espace client. Si vous avez fait une demande sans compte, Stevy vous recontactera directement.</p><a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a></div>`; }
   else { upEl.innerHTML=upcoming.map(r=>rdvCard(r,false)).join(''); }
   paEl.innerHTML=past.length?past.map(r=>rdvCard(r,true)).join(''):`<div style="color:var(--muted);font-size:0.88rem;padding:1rem 0">Aucun historique pour le moment.</div>`;
 }
@@ -487,7 +491,7 @@ function renderContrats() {
   const list=document.getElementById('list-contrats');
   document.getElementById('count-contrats').textContent=currentContrats.length?`(${currentContrats.length})`:'';
   if(currentContrats.length===0){
-    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📄</div><h3>Aucun contrat trouvé</h3><p>Souscrivez à un contrat pour bénéficier d'une assistance illimitée.</p><a href="contrats.html" class="btn-new-rdv">Voir nos contrats →</a></div>`;
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📄</div><h3>Aucun contrat trouvé</h3><p>Vous n'avez pas encore de contrat rattaché à cet espace client. Si vous avez fait une demande sans créer de compte, Stevy vous recontactera directement.</p><a href="contrats.html" class="btn-new-rdv">Voir nos contrats →</a></div>`;
     return;
   }
   const LABELS={serenite:'Contrat Sérénité',senior:'Pack Senior+',famille:'Pack Famille'};

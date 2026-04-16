@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contrats & Forfaits – Makouez IT</title>
+<link rel="canonical" href="https://makouezit.org/contrats.html">
 <meta name="description" content="Souscrivez à un contrat Makouez IT : Sérénité, Senior+ ou Pack Famille.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -203,7 +204,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous êtes libre de résilier à tout moment avec un simple email. Le premier mois est intégralement dû.</div></div>
     <div class="faq-item"><div class="faq-q">Combien d'interventions puis-je demander par mois ? <span class="faq-arrow">+</span></div><div class="faq-a">Les interventions sont illimitées dans le cadre d'une utilisation raisonnable. Il n'y a pas de limite fixe.</div></div>
     <div class="faq-item"><div class="faq-q">Puis-je changer de formule ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, vous pouvez passer d'une formule à une autre à tout moment. Le changement prend effet le mois suivant.</div></div>
-    <div class="faq-item"><div class="faq-q">Comment suivre ma demande après souscription ? <span class="faq-arrow">+</span></div><div class="faq-a">Après soumission du formulaire, vous recevez un email avec un lien de suivi unique. Ce lien vous permet de voir l'état de votre demande en temps réel. Vous pouvez aussi créer un espace client sur le site.</div></div>
+    <div class="faq-item"><div class="faq-q">Comment suivre ma demande après souscription ? <span class="faq-arrow">+</span></div><div class="faq-a">Après soumission du formulaire, Stevy vous recontacte par email ou téléphone. Si vous créez un espace client lors de la souscription, votre contrat sera aussi visible dans votre espace sécurisé.</div></div>
   </div>
 </div>
 
@@ -339,6 +340,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="field"><label>Email *</label><input class="form-input" id="fEmail" type="email" placeholder="marie@email.com"></div>
       <div class="field"><label>Téléphone *</label><input class="form-input" id="fTel" type="tel" placeholder="06 XX XX XX XX"></div>
       <div class="field"><label>Adresse *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine"></div>
+      <div class="field"><label>Mot de passe espace client (optionnel)</label><input class="form-input" id="fPwd" type="password" placeholder="6 caractères minimum"></div>
       <div class="field"><label>Message (optionnel)</label><input class="form-input" id="fMessage" type="text" placeholder="Précisions, questions..."></div>
       <button class="btn-submit" id="btnSubmit" disabled><span id="btnText">Envoyer ma demande →</span></button>
       <button class="btn-cancel" id="btnCancel">Annuler</button>
@@ -346,13 +348,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="success-view" id="successView">
       <div class="success-icon">✓</div>
       <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700">Demande envoyée !</div>
-      <div style="color:var(--muted);font-size:0.88rem;max-width:320px;line-height:1.6">Stevy vous contactera sous 24h. Un email de confirmation avec votre lien de suivi vient de vous être envoyé.</div>
-      <div class="success-info">
-        <strong>📧 Vérifiez votre boîte mail</strong><br>
-        Vous avez reçu un email contenant votre <strong>lien de suivi unique</strong> pour suivre l'état de votre demande en temps réel (Nouvelle → Contacté → Actif).
+      <div id="successLead" style="color:var(--muted);font-size:0.88rem;max-width:320px;line-height:1.6">Stevy vous contactera sous 24h. Votre demande a bien été enregistrée.</div>
+      <div class="success-info" id="successInfoBox">
+        <strong>📩 Suite de votre demande</strong><br>
+        Vous serez recontacté rapidement par email ou téléphone pour la mise en place du contrat.
       </div>
-      <a id="btnSuiviLink" href="suivi-contrat.html" class="btn-suivi">🔍 Suivre ma demande →</a>
-      <a href="mon-rdv.html" class="btn-espace">👤 Créer / accéder à mon espace client</a>
+      <a id="btnSuiviLink" href="mon-rdv.html" class="btn-suivi">👤 Accéder à mon espace client</a>
+      <a href="mon-rdv.html" class="btn-espace">🔐 Ouvrir mon espace client</a>
       <button class="btn-cancel" id="btnFermer">Fermer</button>
     </div>
   </div>
@@ -361,6 +363,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <!-- TOUT dans un seul script type="module" pour éviter le problème d'initialisation async -->
 <script type="module">
 import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ── Init Firebase ──
@@ -373,6 +376,7 @@ const firebaseConfig = {
   appId:             "1:558314427247:web:83e656344dd79019ccce9a"
 };
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db  = getFirestore(app);
 
 // ── État ──
@@ -388,7 +392,8 @@ function checkForm() {
     && $('fNom').value.trim()
     && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('fEmail').value.trim())
     && $('fTel').value.trim()
-    && $('fAdresse').value.trim();
+    && $('fAdresse').value.trim()
+    && (!$('fPwd').value.trim() || $('fPwd').value.trim().length >= 6);
   $('btnSubmit').disabled = !ok;
 }
 
@@ -403,7 +408,7 @@ window.openModal = function(key, label, price) {
   $('btnText').textContent       = 'Envoyer ma demande →';
   $('btnSubmit').disabled        = true;
   // Reset champs
-  ['fPrenom','fNom','fEmail','fTel','fAdresse','fMessage'].forEach(id => $(id).value = '');
+  ['fPrenom','fNom','fEmail','fTel','fAdresse','fPwd','fMessage'].forEach(id => $(id).value = '');
   $('modalOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
 };
@@ -429,24 +434,59 @@ async function submitForm() {
   const email   = $('fEmail').value.trim().toLowerCase();
   const tel     = $('fTel').value.trim();
   const adresse = $('fAdresse').value.trim();
+  const password= $('fPwd').value.trim();
   const note    = $('fMessage').value.trim() || null;
 
   try {
-    const docRef = await addDoc(collection(db, 'contrats'), {
+    let user = auth.currentUser;
+    const fullName = `${prenom} ${nom}`.trim();
+
+    if (password) {
+      if (!user) {
+        try {
+          const cred = await createUserWithEmailAndPassword(auth, email, password);
+          user = cred.user;
+          await updateProfile(user, { displayName: fullName });
+        } catch (createErr) {
+          if (createErr?.code === 'auth/email-already-in-use') {
+            const cred = await signInWithEmailAndPassword(auth, email, password);
+            user = cred.user;
+          } else {
+            throw createErr;
+          }
+        }
+      }
+    } else {
+      user = null;
+    }
+
+    const contractData = {
       contrat:   selectedContrat,
-      nom:       `${prenom} ${nom}`,
+      nom:       fullName,
       email,
       telephone: tel,
       adresse,
       note,
       status:    'new',
       createdAt: serverTimestamp(),
-    });
+    };
 
-    // Mettre à jour le lien de suivi avec l'ID du document
-    $('btnSuiviLink').href = `suivi-contrat.html?id=${docRef.id}`;
+    if (user) contractData.uid = user.uid;
 
-    // Afficher la vue succès
+    await addDoc(collection(db, 'contrats'), contractData);
+
+    if (user) {
+      $('btnSuiviLink').href = 'mon-rdv.html';
+      $('btnSuiviLink').textContent = '👤 Accéder à mon espace client';
+      $('successLead').textContent = 'Stevy vous contactera sous 24h. Votre demande a été reliée à votre espace client sécurisé.';
+      $('successInfoBox').innerHTML = '<strong>👤 Espace client prêt</strong><br>Votre contrat est désormais associé à votre compte. Vous pourrez suivre son état depuis votre espace client sécurisé.';
+    } else {
+      $('btnSuiviLink').href = 'mon-rdv.html';
+      $('btnSuiviLink').textContent = '👤 Créer / ouvrir mon espace client';
+      $('successLead').textContent = 'Stevy vous contactera sous 24h. Votre demande a bien été enregistrée.';
+      $('successInfoBox').innerHTML = '<strong>📩 Suite de votre demande</strong><br>Vous serez recontacté rapidement par email ou téléphone. Vous pouvez créer un espace client plus tard si vous souhaitez centraliser vos contrats et demandes.';
+    }
+
     $('formView').style.display    = 'none';
     $('successView').style.display = 'flex';
 
@@ -454,7 +494,15 @@ async function submitForm() {
     console.error('Erreur Firebase :', e);
     btn.disabled = false;
     btnText.textContent = 'Envoyer ma demande →';
-    errMsg.textContent  = 'Une erreur est survenue. Réessayez ou contactez Stevy au 06 19 51 57 56.';
+    if (e?.code === 'auth/wrong-password' || e?.code === 'auth/invalid-credential') {
+      errMsg.textContent = 'Un compte existe déjà avec cet email, mais le mot de passe ne correspond pas.';
+    } else if (e?.code === 'auth/weak-password') {
+      errMsg.textContent = 'Le mot de passe est trop faible. Utilisez au moins 6 caractères.';
+    } else if (e?.code === 'auth/invalid-email') {
+      errMsg.textContent = 'Adresse email invalide.';
+    } else {
+      errMsg.textContent  = 'Une erreur est survenue. Réessayez ou contactez Stevy au 06 19 51 57 56.';
+    }
     errMsg.style.display = 'block';
   }
 }

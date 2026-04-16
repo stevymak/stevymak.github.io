@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Makouez IT – Réserver un rendez-vous</title>
+  <meta name="description" content="Réservez un rendez-vous Makouez IT pour un dépannage informatique à domicile, une assistance réseau ou une prestation web." />
+  <link rel="canonical" href="https://makouezit.org/makouez-it-rdv.html" />
   <link rel="icon" href="favicon.ico" />
 
   <!-- Firebase SDK -->
   <script type="module">
-    import { initializeApp }                                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -21,15 +24,20 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db  = getFirestore(app);
 
-    window._db            = db;
-    window._addDoc        = addDoc;
-    window._collection    = collection;
-    window._query         = query;
-    window._where         = where;
-    window._getDocs       = getDocs;
-    window._firebaseReady = true;
+    window._auth                  = auth;
+    window._createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window._signInWithEmailAndPassword     = signInWithEmailAndPassword;
+    window._updateProfile         = updateProfile;
+    window._db                    = db;
+    window._addDoc                = addDoc;
+    window._collection            = collection;
+    window._query                 = query;
+    window._where                 = where;
+    window._getDocs               = getDocs;
+    window._firebaseReady         = true;
   </script>
 
   <style>
@@ -279,7 +287,7 @@
         <span style="font-size:0.78rem;font-weight:400;">06 19 51 57 56</span>
         <span style="font-size:0.75rem;color:#6b7280;">Réponse immédiate</span>
       </a>
-      <a href="https://wa.me/33619515756?text=🚨%20URGENT" class="urgency-option whatsapp" target="_blank">
+      <a href="https://wa.me/33619515756?text=🚨%20URGENT" class="urgency-option whatsapp" target="_blank" rel="noopener noreferrer">
         <span class="emoji">💬</span><strong>WhatsApp</strong>
         <span style="font-size:0.78rem;font-weight:400;">Message pré-rempli</span>
         <span style="font-size:0.75rem;color:#6b7280;">Réponse rapide</span>
@@ -428,7 +436,7 @@
     <div class="form-group"><label>Description du problème</label><textarea class="form-control" id="fdesc" placeholder="Décrivez brièvement le problème (facultatif)…"></textarea></div>
     <div class="password-section">
       <h5>🔐 Espace client (optionnel)</h5>
-      <p>Sans mot de passe, vous recevrez un lien par email. Avec un mot de passe, accédez à votre espace personnel.</p>
+      <p>Optionnel : créez un espace client pour suivre et gérer votre rendez-vous. Sans mot de passe, votre demande est envoyée normalement et Stevy vous recontacte par email ou téléphone.</p>
       <div class="pwd-wrap">
         <input class="form-control" id="fpwd" type="password" placeholder="Mot de passe (min. 6 caractères)" />
         <button type="button" class="pwd-toggle" onclick="togglePwd()">👁</button>
@@ -855,7 +863,7 @@ function renderSummary() {
     {key:'Service',val:selectedService},{key:'Date',val:`${d}/${m}/${y}`},{key:'Créneau',val:selectedSlot},
     {key:'Nom',val:document.getElementById('fname').value},{key:'Téléphone',val:document.getElementById('fphone').value},
     {key:'Email',val:document.getElementById('femail').value},{key:'Adresse',val:document.getElementById('faddress').value},
-    {key:'Espace client',val:document.getElementById('fpwd').value?'Compte créé':'Lien email uniquement'},
+    {key:'Espace client',val:document.getElementById('fpwd').value?'Compte client sécurisé':'Sans compte — contact par email/téléphone'},
     {key:'Tarif indicatif',val:selectedPrice},
   ];
   document.getElementById('summaryRows').innerHTML=rows.map(r=>`<div class="summary-row"><span class="key">${r.key}</span><span class="val">${r.val||'—'}</span></div>`).join('');
@@ -871,6 +879,20 @@ async function submitRDV() {
   if (!await waitFirebase()) {
     err.textContent='Erreur de connexion. Rechargez la page.'; err.classList.add('visible');
     btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous'; return;
+  }
+
+  const name = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('fphone').value.trim();
+  const email = document.getElementById('femail').value.trim().toLowerCase();
+  const address = document.getElementById('faddress').value.trim();
+  const description = document.getElementById('fdesc').value.trim();
+  const password = document.getElementById('fpwd').value;
+
+  if (password && password.length < 6) {
+    err.textContent='Le mot de passe doit contenir au moins 6 caractères. Laissez le champ vide si vous ne voulez pas créer d’espace client.';
+    err.classList.add('visible');
+    btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous';
+    return;
   }
 
   // Double-check anti-saturation (re-fetch avant d'enregistrer)
@@ -889,30 +911,71 @@ async function submitRDV() {
   }
 
   try {
-    await window._addDoc(window._collection(window._db, 'reservations'), {
+    let user = window._auth.currentUser;
+
+    if (password) {
+      if (!user) {
+        try {
+          const cred = await window._createUserWithEmailAndPassword(window._auth, email, password);
+          user = cred.user;
+          await window._updateProfile(user, { displayName: name });
+        } catch(createErr) {
+          if (createErr?.code === 'auth/email-already-in-use') {
+            const cred = await window._signInWithEmailAndPassword(window._auth, email, password);
+            user = cred.user;
+          } else {
+            throw createErr;
+          }
+        }
+      }
+    } else {
+      user = null;
+    }
+
+    const reservationData = {
       service:     selectedService,
       dateKey:     selectedDate,
       timeLabel:   selectedSlot,
+      time:        selectedSlot,
       price:       selectedPrice,
-      nom:         document.getElementById('fname').value.trim(),
-      telephone:   document.getElementById('fphone').value.trim(),
-      email:       document.getElementById('femail').value.trim(),
-      adresse:     document.getElementById('faddress').value.trim(),
-      description: document.getElementById('fdesc').value.trim(),
+      nom:         name,
+      telephone:   phone,
+      email:       email,
+      adresse:     address,
+      description: description,
       status:      'pending',
       createdAt:   new Date().toISOString(),
-    });
+    };
 
-    // Mise à jour cache local
+    if (user) reservationData.uid = user.uid;
+
+    await window._addDoc(window._collection(window._db, 'reservations'), reservationData);
+
     reservationCounts[selectedDate] = (reservationCounts[selectedDate] || 0) + 1;
+
+    const successText = document.querySelector('#successCard p');
+    if (successText) {
+      successText.textContent = user
+        ? 'Votre rendez-vous a été enregistré et rattaché à votre espace client sécurisé. Vous pouvez suivre son évolution depuis votre compte.'
+        : 'Votre rendez-vous a été envoyé. Stevy vous confirmera le créneau par email ou téléphone. Créez un espace client lors d’une prochaine demande si vous souhaitez un suivi en ligne.';
+    }
 
     [1,2,3,4].forEach(i=>document.getElementById('step'+i).classList.remove('active'));
     document.getElementById('successCard').classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
 
   } catch(e) {
-    console.error('Erreur Firestore:', e);
-    err.textContent='Une erreur est survenue. Vérifiez votre connexion et réessayez.'; err.classList.add('visible');
+    console.error('Erreur Firestore/Auth:', e);
+    if (e?.code === 'auth/wrong-password' || e?.code === 'auth/invalid-credential') {
+      err.textContent='Un compte existe déjà avec cet email, mais le mot de passe ne correspond pas.';
+    } else if (e?.code === 'auth/weak-password') {
+      err.textContent='Le mot de passe est trop faible. Choisissez au moins 6 caractères.';
+    } else if (e?.code === 'auth/invalid-email') {
+      err.textContent='Adresse email invalide.';
+    } else {
+      err.textContent='Une erreur est survenue. Vérifiez vos informations et réessayez.';
+    }
+    err.classList.add('visible');
     btn.disabled=false; btn.textContent='✓ Confirmer le rendez-vous';
   }
 }

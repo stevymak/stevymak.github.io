@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Diagnostic en ligne – Makouez IT</title>
+  <meta name="description" content="Diagnostic informatique en ligne Makouez IT : identifiez votre problème PC, Wi-Fi, logiciel ou sécurité avant une intervention." />
+  <link rel="canonical" href="https://makouezit.org/diagnostic.html" />
   <link rel="icon" href="favicon.ico" />
   <style>
     :root {
@@ -679,7 +681,7 @@ function showResult(resultId) {
   document.getElementById('resultActions').innerHTML = `
     <a href="makouez-it-rdv.html?service=${svcParam}" class="btn-rdv">📅 Prendre rendez-vous</a>
     ${urgencyMsg}
-    <a href="https://wa.me/33619515756?text=${encodeURIComponent('Bonjour Stevy, j\'ai fait le diagnostic en ligne. Mon problème : ' + r.title)}" class="btn-call" target="_blank">💬 Envoyer le diagnostic par WhatsApp</a>
+    <a href="https://wa.me/33619515756?text=${encodeURIComponent('Bonjour Stevy, j\'ai fait le diagnostic en ligne. Mon problème : ' + r.title)}" class="btn-call" target="_blank" rel="noopener noreferrer">💬 Envoyer le diagnostic par WhatsApp</a>
     <button class="btn-restart" onclick="restart()">🔄 Recommencer le diagnostic</button>
   `;
 

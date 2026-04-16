@@ -87,155 +87,17 @@ h1,h2{font-family:'Syne',sans-serif}
   <div class="logo">Makouez <span>IT</span></div>
 </div>
 
+<h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Suivi de réservation Makouez IT</h1>
+
 <div class="card" id="mainCard">
-  <div class="loader" id="loaderState">
-    <div class="spinner"></div>
-    <span>Chargement de votre réservation…</span>
-  </div>
-  <div id="rdvState" style="display:none"></div>
-  <div class="error-state" id="errorState" style="display:none">
-    <div class="error-icon">🔍</div>
-    <h2>Réservation introuvable</h2>
-    <p>Le lien est invalide ou expiré. Vérifiez votre email de confirmation.</p>
-    <a href="makouez-it-rdv.html" class="btn-new-rdv" style="margin-top:1.5rem">Prendre un nouveau RDV →</a>
+  <div class="error-state">
+    <div class="error-icon">🔐</div>
+    <h2>Suivi direct désactivé</h2>
+    <p>Le suivi d'une réservation par simple identifiant d'URL n'est plus autorisé. Utilisez l'espace client sécurisé pour consulter et gérer vos rendez-vous.</p>
+    <a href="mon-rdv.html" class="btn-new-rdv" style="margin-top:1.5rem">Accéder à mon espace client →</a>
+    <a href="makouez-it-rdv.html" class="btn-back">Prendre un nouveau rendez-vous</a>
     <a href="index.html" class="btn-back">← Retour au site</a>
   </div>
 </div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
-  authDomain: "makouez-it.firebaseapp.com",
-  projectId: "makouez-it",
-  storageBucket: "makouez-it.firebasestorage.app",
-  messagingSenderId: "558314427247",
-  appId: "1:558314427247:web:83e656344dd79019ccce9a"
-};
-
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-
-// Récupère l'ID depuis l'URL
-const params = new URLSearchParams(window.location.search);
-const rdvId  = params.get('id');
-
-if (!rdvId) {
-  showError();
-} else {
-  loadRdv(rdvId);
-}
-
-async function loadRdv(id) {
-  try {
-    const snap = await getDoc(doc(db, 'reservations', id));
-    if (!snap.exists()) { showError(); return; }
-    renderRdv(id, snap.data());
-  } catch(e) {
-    showError();
-  }
-}
-
-function renderRdv(id, r) {
-  document.getElementById('loaderState').style.display = 'none';
-  const el = document.getElementById('rdvState');
-  el.style.display = 'block';
-
-  // Formatage date
-  const dateFormatted = r.dateKey
-    ? new Date(r.dateKey + 'T12:00:00').toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'})
-    : '–';
-  const timeLabel = r.timeLabel || r.time || '–';
-
-  // Config statut
-  const statusConfig = {
-    pending:   { label: '⏳ En attente de confirmation', cls: 'pending',   tl: 1 },
-    confirmed: { label: '✓ Confirmé',                   cls: 'confirmed', tl: 2 },
-    cancelled: { label: '✗ Annulé',                     cls: 'cancelled', tl: -1 },
-  };
-  const st = statusConfig[r.status] || statusConfig.pending;
-
-  // Timeline items
-  const tlItems = [
-    { label: 'Demande envoyée',      desc: 'Votre réservation a bien été reçue',     step: 0 },
-    { label: 'En attente',           desc: 'Stevy examine votre demande',            step: 1 },
-    { label: 'Confirmé',             desc: 'Votre rendez-vous est validé',           step: 2 },
-    { label: 'Intervention réalisée', desc: 'Merci pour votre confiance !',          step: 3 },
-  ];
-
-  const tlHTML = r.status === 'cancelled'
-    ? `<div class="cancelled-msg">⚠️ Ce rendez-vous a été annulé. Vous pouvez en prendre un nouveau à tout moment.</div>`
-    : `<div class="timeline">
-        ${tlItems.map(item => {
-          let dotClass = 'waiting';
-          if (item.step < st.tl) dotClass = 'done';
-          if (item.step === st.tl) dotClass = 'active';
-          const icon = item.step < st.tl ? '✓' : item.step === st.tl ? '→' : '○';
-          return `<div class="tl-item">
-            <div class="tl-dot ${dotClass}">${icon}</div>
-            <div class="tl-content">
-              <div class="tl-label">${item.label}</div>
-              <div class="tl-desc">${item.desc}</div>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>`;
-
-  el.innerHTML = `
-    <div class="rdv-header">
-      <div class="rdv-title">Votre réservation</div>
-      <div class="rdv-sub">Bonjour ${r.nom || ''} — voici l'état de votre demande</div>
-      <div class="status-badge ${st.cls}">
-        <span class="status-dot"></span>${st.label}
-      </div>
-    </div>
-
-    ${tlHTML}
-
-    <div class="info-grid">
-      <div class="info-row">
-        <span class="info-icon">🔧</span>
-        <div><span class="info-label">Service</span><span class="info-value">${r.service || '–'}</span></div>
-      </div>
-      <div class="info-row">
-        <span class="info-icon">📅</span>
-        <div><span class="info-label">Date</span><span class="info-value">${dateFormatted}</span></div>
-      </div>
-      <div class="info-row">
-        <span class="info-icon">🕐</span>
-        <div><span class="info-label">Plage horaire</span><span class="info-value">${timeLabel}</span></div>
-      </div>
-      <div class="info-row">
-        <span class="info-icon">📍</span>
-        <div><span class="info-label">Adresse</span><span class="info-value">${r.adresse || '–'}</span></div>
-      </div>
-      <div class="info-row">
-        <span class="info-icon">💰</span>
-        <div><span class="info-label">Tarif indicatif</span><span class="info-value">${r.price || '–'}</span></div>
-      </div>
-    </div>
-
-    <div style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem">Une question ? Contactez directement Stevy :</div>
-    <div class="contact-row">
-      <a href="tel:+33619515756" class="btn-contact">📞 Appeler</a>
-      <a href="https://wa.me/33619515756" class="btn-contact">💬 WhatsApp</a>
-      <a href="mailto:contact@makouezit.org" class="btn-contact">✉️ Email</a>
-    </div>
-
-    ${r.status === 'cancelled'
-      ? `<a href="makouez-it-rdv.html" class="btn-new-rdv">Prendre un nouveau rendez-vous →</a>`
-      : ''
-    }
-    <a href="index.html" class="btn-back">← Retour au site</a>
-  `;
-}
-
-function showError() {
-  document.getElementById('loaderState').style.display  = 'none';
-  document.getElementById('errorState').style.display   = 'block';
-}
-</script>
 </body>
 </html>

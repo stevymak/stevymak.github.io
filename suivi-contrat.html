@@ -123,140 +123,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 </nav>
 
 <div class="page">
-  <!-- Loading -->
-  <div class="loading-wrap" id="loadingWrap">
-    <div class="spinner"></div>
-    <div class="loading-text">Chargement de votre demande…</div>
-  </div>
-
-  <!-- Erreur -->
-  <div class="error-wrap" id="errorWrap" style="display:none">
-    <div class="error-icon">🔍</div>
-    <div class="error-title" id="errorTitle">Demande introuvable</div>
-    <div class="error-sub" id="errorSub">Le lien de suivi est invalide ou a expiré.<br>Vérifiez le lien reçu par email.</div>
-    <a href="contrats.html" class="btn-primary" style="max-width:260px;margin:0 auto">Voir nos contrats →</a>
-  </div>
-
-  <!-- Contenu -->
-  <div class="suivi-wrap" id="suiviWrap" style="display:none">
-
-    <!-- Header -->
-    <div class="suivi-header">
-      <div class="suivi-label">Suivi de demande</div>
-      <div class="suivi-title" id="suiviContratName">–</div>
-      <div class="suivi-ref" id="suiviRef">Référence : –</div>
-      <div class="status-banner">
-        <div class="status-dot" id="statusDot"></div>
-        <div>
-          <div class="status-text" id="statusText">–</div>
-          <div class="status-desc" id="statusDesc">–</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Progression -->
-    <div class="progress-card">
-      <div class="progress-title">Avancement de votre demande</div>
-      <div class="progress-steps" id="progressSteps"></div>
-    </div>
-
-    <!-- Tarif -->
-    <div class="tarif-highlight" id="tarifHighlight" style="display:none">
-      <div>
-        <div class="tarif-label">Votre abonnement mensuel</div>
-        <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem">Sans engagement · Résiliable à tout moment</div>
-      </div>
-      <div class="tarif-val" id="tarifVal">–</div>
-    </div>
-
-    <!-- Détails -->
-    <div class="details-card">
-      <div class="details-title">📋 Détails de votre demande</div>
-      <div class="details-grid" id="detailsGrid"></div>
-    </div>
-
-    <!-- Actions -->
-    <div class="actions-card">
-      <a href="mon-rdv.html" class="btn-primary">👤 Accéder à mon espace client</a>
-      <div class="contact-grid">
-        <a href="tel:+33619515756" class="contact-btn">
-          <div class="contact-btn-icon">📞</div>
-          <div class="contact-btn-label">Appeler</div>
-          <div class="contact-btn-detail">06 19 51 57 56</div>
-        </a>
-        <a href="https://wa.me/33619515756" class="contact-btn" target="_blank">
-          <div class="contact-btn-icon">💬</div>
-          <div class="contact-btn-label">WhatsApp</div>
-          <div class="contact-btn-detail">Message rapide</div>
-        </a>
-        <a href="mailto:contact@makouezit.org" class="contact-btn">
-          <div class="contact-btn-icon">✉️</div>
-          <div class="contact-btn-label">Email</div>
-          <div class="contact-btn-detail">Réponse sous 24h</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Résiliation (affiché seulement si actif) -->
-    <div class="resilier-section" id="resilierSection" style="display:none">
-      <div class="resilier-info">
-        <h4>Résilier ce contrat</h4>
-        <p>Préavis de 30 jours. Le mois en cours reste dû.</p>
-      </div>
-      <button class="btn-resilier" id="btnResilier">Demander la résiliation</button>
-    </div>
-
+  <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Suivi de contrat Makouez IT</h1>
+  <div class="error-wrap">
+    <div class="error-icon">🔐</div>
+    <div class="error-title">Suivi direct désactivé</div>
+    <div class="error-sub">Le suivi d'un contrat par simple identifiant d'URL n'est plus autorisé. Utilisez l'espace client sécurisé pour consulter votre contrat ou contactez Stevy directement.</div>
+    <a href="mon-rdv.html" class="btn-primary" style="max-width:320px;margin:0 auto">Accéder à mon espace client →</a>
+    <a href="contrats.html" class="btn-secondary" style="max-width:320px;margin:0 auto">Voir nos contrats</a>
   </div>
 </div>
-
-<!-- Modal résiliation -->
-<div class="modal-overlay" id="modalResilier">
-  <div class="modal">
-    <h3>Demander la résiliation ?</h3>
-    <p>Votre demande sera envoyée à Stevy. Le contrat prendra fin après un préavis de 30 jours. Le mois en cours reste intégralement dû.</p>
-    <div class="modal-btns">
-      <button class="btn-modal-cancel" id="btnModalCancel">Annuler</button>
-      <button class="btn-modal-confirm" id="btnModalConfirm">Confirmer la résiliation</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script type="module">
-import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
-  authDomain:        "makouez-it.firebaseapp.com",
-  projectId:         "makouez-it",
-  storageBucket:     "makouez-it.firebasestorage.app",
-  messagingSenderId: "558314427247",
-  appId:             "1:558314427247:web:83e656344dd79019ccce9a"
-};
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-
-const LABELS  = { serenite:'Contrat Sérénité', senior:'Pack Senior+', famille:'Pack Famille' };
-const TARIFS  = { serenite:'45€/mois', senior:'49€/mois', famille:'59€/mois' };
-const STATUS  = {
-  new:       { text:'🆕 Nouvelle demande',   desc:'Votre demande a bien été reçue. Stevy la traitera dans les plus brefs délais.',        dot:'new',       steps:[0,-1,-1] },
-  contacted: { text:'📞 Contacté',           desc:'Stevy vous a contacté pour finaliser les modalités de votre contrat.',                  dot:'contacted', steps:[1,0,-1] },
-  active:    { text:'✅ Contrat actif',       desc:'Votre contrat est actif. Vous bénéficiez de tous les avantages de votre formule.',      dot:'active',    steps:[1,1,0]  },
-  cancelled: { text:'Résilié',               desc:'Ce contrat a été résilié. N\'hésitez pas à nous recontacter si vous changez d\'avis.',  dot:'cancelled', steps:[1,1,-2] },
-};
-const STEP_LABELS = ['Demande reçue', 'Contacté', 'Contrat actif'];
-
-const $ = id => document.getElementById(id);
-
-// Récupérer l'ID depuis l'URL
-const params = new URLSearchParams(window.location.search);
-const id = params.get('id');
-
-if (!id) {
-  showError('Lien invalide', 'Aucun identifiant de demande trouvé dans le lien.');
-} else {
   loadContrat(id);
 }
 
