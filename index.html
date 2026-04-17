@@ -73,6 +73,24 @@ section{padding:5rem 2rem}
 .section-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);font-weight:600;margin-bottom:0.75rem}
 .section-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem;line-height:1.2}
 .section-sub{color:var(--muted);font-size:1.05rem;max-width:560px;line-height:1.6}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+.process-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
+.process-step{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent2);font-weight:700;margin-bottom:0.5rem}
+.process-card h3{font-size:1rem;font-weight:700;margin-bottom:0.45rem;font-family:'Syne',sans-serif}
+.process-card p{font-size:0.88rem;color:var(--muted);line-height:1.55}
+.callback-section{background:linear-gradient(135deg,#f8fbff,#eef5ff);color:#111827}
+.callback-card{max-width:760px;margin:0 auto;background:#fff;border:1px solid #dbeafe;border-radius:18px;padding:2rem;box-shadow:0 12px 40px rgba(37,99,235,0.08)}
+.callback-top{text-align:center;margin-bottom:1.5rem}
+.callback-top p{color:#64748b;font-size:0.95rem}
+.callback-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0.75rem}
+.callback-input,.callback-select{width:100%;padding:0.9rem 1rem;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff;color:#0f172a}
+.callback-button{background:#2563eb;color:#fff;border:none;border-radius:10px;padding:0.9rem 1.2rem;font:inherit;font-weight:700;cursor:pointer}
+.callback-note{margin-top:0.9rem;text-align:center;font-size:0.8rem;color:#64748b}
+.local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.local-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}
+.local-card:hover{border-color:#3b82f660;transform:translateY(-2px)}
+.local-card h3{font-size:1rem;font-family:'Syne',sans-serif;margin-bottom:0.45rem}
+.local-card p{font-size:0.86rem;color:var(--muted);line-height:1.55}
 
 /* SERVICES */
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
@@ -160,8 +178,8 @@ section{padding:5rem 2rem}
 .blog-section{background:var(--bg2);text-align:center}
 .blog-section .section-sub{margin:0 auto}
 .blog-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem;text-align:left}
-@media(max-width:900px){.blog-mini-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:580px){.blog-mini-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.blog-mini-grid{grid-template-columns:repeat(2,1fr)}.process-grid,.local-grid{grid-template-columns:1fr 1fr}.callback-form{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.blog-mini-grid{grid-template-columns:1fr}.process-grid,.local-grid,.callback-form{grid-template-columns:1fr}}
 .blog-mini-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color 0.2s,transform 0.2s;text-decoration:none;color:var(--text);display:block}
 .blog-mini-card:hover{border-color:#3b82f640;transform:translateY(-2px)}
 .blog-mini-thumb{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,#16162a,#1e1e3a)}
@@ -462,6 +480,42 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </a>
 </div>
 </section>
+<section id="process">
+  <div class="container">
+    <div class="section-label">Comment ca marche</div>
+    <h2 class="section-title">Une prise en charge simple, du premier message jusqu'a l'intervention</h2>
+    <p class="section-sub">Vous n'avez pas besoin de comprendre la technique. Vous expliquez le probleme, Stevy s'occupe du reste.</p>
+    <div class="process-grid">
+      <div class="process-card"><div class="process-step">Etape 1</div><h3>Vous expliquez le probleme</h3><p>Vous prenez rendez-vous, demandez un rappel ou utilisez le diagnostic gratuit si vous hésitez.</p></div>
+      <div class="process-card"><div class="process-step">Etape 2</div><h3>Stevy verifie votre demande</h3><p>Le besoin est relu rapidement pour confirmer le bon service et le bon creneau.</p></div>
+      <div class="process-card"><div class="process-step">Etape 3</div><h3>Vous etes recontacte</h3><p>Confirmation par email ou telephone, avec des explications simples et sans jargon.</p></div>
+      <div class="process-card"><div class="process-step">Etape 4</div><h3>Intervention ou mise en place</h3><p>Depannage a domicile, accompagnement, contrat ou projet web selon votre besoin reel.</p></div>
+    </div>
+  </div>
+</section>
+<section id="callback" class="callback-section">
+  <div class="callback-card">
+    <div class="callback-top">
+      <div class="section-label" style="color:#2563eb">Demande de rappel</div>
+      <h2 style="font-size:1.9rem;font-family:'Syne',sans-serif;font-weight:800;margin-bottom:0.6rem">Vous preferez etre rappele ?</h2>
+      <p>Laissez juste vos coordonnees et votre besoin. Stevy vous recontacte rapidement.</p>
+    </div>
+    <form class="callback-form" action="makouez-it-rdv.html" method="get">
+      <input class="callback-input" type="text" name="nom" placeholder="Votre prenom" required>
+      <input class="callback-input" type="tel" name="telephone" placeholder="Votre telephone" required>
+      <select class="callback-select" name="service">
+        <option value="">Besoin principal</option>
+        <option value="Dépannage PC">Depannage PC</option>
+        <option value="Réseau Wi-Fi">Reseau Wi-Fi</option>
+        <option value="Sauvegarde & sécurité">Sauvegarde et securite</option>
+        <option value="Formation et accompagnement">Formation et accompagnement</option>
+        <option value="Intégration / Développement web">Site web / devis</option>
+      </select>
+      <button class="callback-button" type="submit">Etre rappele</button>
+    </form>
+    <div class="callback-note">Vous pouvez aussi appeler directement au <strong>06 19 51 57 56</strong>.</div>
+  </div>
+</section>
 <section id="diagnostic" style="padding:64px 24px;background:#fff;">
   <div style="max-width:700px;margin:0 auto;text-align:center;">
     <p style="font-size:0.85rem;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Outil gratuit</p>
@@ -658,6 +712,18 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
   </div>
 
+</section>
+<section id="local-seo" class="seo-section">
+  <div class="container">
+    <div class="section-label">Zones et besoins</div>
+    <h2 class="section-title">Pages utiles selon votre besoin</h2>
+    <p class="section-sub">Que vous cherchiez un depannage a domicile, une intervention rapide ou une assistance locale, voici des pages plus precises pour vous orienter.</p>
+    <div class="local-grid">
+      <a class="local-card" href="depannage-informatique-seine-saint-denis.html"><h3>Depannage informatique en Seine-Saint-Denis</h3><p>Une page ciblee pour les particuliers qui cherchent un technicien a domicile dans le 93.</p></a>
+      <a class="local-card" href="technicien-informatique-saint-denis.html"><h3>Technicien informatique a Saint-Denis</h3><p>Intervention a domicile, accompagnement et depannage rapide sur Saint-Denis et alentours.</p></a>
+      <a class="local-card" href="depannage-pc-ile-de-france.html"><h3>Depannage PC en Ile-de-France</h3><p>Une entree simple pour les pannes courantes : lenteur, virus, demarrage, Wi-Fi, sauvegarde.</p></a>
+    </div>
+  </div>
 </section>
 <section id="estimateur" style="padding:48px 24px;background:#eff6ff;">
   <div style="max-width:560px;margin:0 auto;">
