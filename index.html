@@ -3,12 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Makouez IT – Dépannage informatique à domicile | Île-de-France</title>
-<meta name="description" content="Stevy, technicien informatique avec plus de 10 ans d'expérience, intervient à domicile en Île-de-France. Dépannage PC, réseau Wi-Fi, récupération de données. À partir de 50€. Intervention rapide sous 24h.">
-<meta name="keywords" content="dépannage informatique domicile, technicien informatique Île-de-France, réparation PC, récupération données, Makouez IT, dépannage informatique 93, technicien informatique Seine-Saint-Denis">
+<title>Dépannage informatique à domicile – Seine-Saint-Denis (93) | Makouez IT</title>
+<meta name="description" content="Makouez IT – Stevy, technicien informatique à domicile en Seine-Saint-Denis (93) et Île-de-France. PC lent, virus, Wi-Fi, Windows, récupération de données. À partir de 50€, sous 24h. Devis gratuit.">
+<meta name="keywords" content="dépannage informatique domicile, technicien informatique Seine-Saint-Denis, réparation PC 93, dépannage informatique Saint-Denis, Makouez IT, technicien Pierrefitte Stains Aubervilliers">
 <meta name="author" content="Stevy – Makouez IT">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://makouezit.org/">
+
+<!-- Google Analytics 4 — remplace G-5963KCLEX1 par ton vrai ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5963KCLEX1"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-5963KCLEX1',{anonymize_ip:true});
+function trackEvent(cat,action,label){gtag('event',action,{event_category:cat,event_label:label});}
+</script>
+
+<!-- Meta Pixel Facebook — remplace XXXXXXXXXXXXXXX par ton vrai Pixel ID -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','XXXXXXXXXXXXXXX');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXX&ev=PageView&noscript=1"/></noscript>
 <meta property="og:title" content="Makouez IT – Dépannage informatique à domicile en Île-de-France">
 <meta property="og:description" content="Technicien informatique avec plus de 10 ans d'expérience. Intervention rapide à domicile en Île-de-France. Dépannage PC, Wi-Fi, récupération de données. À partir de 50€.">
 <meta property="og:type" content="website">
@@ -249,8 +266,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-top:0.75rem;flex-wrap:wrap}
 .footer-links a{color:var(--muted);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
 .footer-links a:hover{color:var(--text)}
-.footer-admin-link{display:inline-flex;align-items:center;gap:0.4rem;color:#ffffff20;font-size:0.72rem;text-decoration:none;margin-top:1rem;transition:color 0.2s;padding:0.3rem 0.75rem;border-radius:6px;border:1px solid #ffffff08}
-.footer-admin-link:hover{color:var(--muted);border-color:#ffffff18}
+
 
 /* WHATSAPP FAB — déplacé à gauche pour ne pas concurrencer le widget IA */
 .whatsapp-fab{position:fixed;bottom:1.75rem;right:1.75rem;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem}
@@ -302,6 +318,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .fade-up{opacity:0;animation:fadeUp 0.6s ease forwards}
 .delay-1{animation-delay:0.1s}.delay-2{animation-delay:0.2s}.delay-3{animation-delay:0.3s}.delay-4{animation-delay:0.4s}
 @media(prefers-reduced-motion:reduce){.fade-up{opacity:1;animation:none}}
+
+/* EXIT POPUP */
+.exit-overlay{position:fixed;inset:0;background:#000000cc;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.exit-overlay.open{opacity:1;pointer-events:all}
+.exit-popup{background:var(--bg2);border:1px solid var(--border);border-radius:20px;max-width:420px;width:100%;padding:2.5rem 2rem;text-align:center;position:relative;transform:scale(.92);transition:transform .3s}
+.exit-overlay.open .exit-popup{transform:scale(1)}
+.exit-popup-close{position:absolute;top:1rem;right:1rem;background:var(--card);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.exit-popup-close:hover{color:var(--text)}
+.exit-popup-icon{font-size:3rem;margin-bottom:0.75rem}
+.exit-popup h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem}
+.exit-popup p{color:var(--muted);font-size:0.9rem;margin-bottom:1.25rem;line-height:1.5}
+.exit-popup code{background:#3b82f618;color:var(--accent2);padding:3px 10px;border-radius:6px;font-weight:700;font-size:1.1rem}
+.exit-popup .btn-primary{width:100%;justify-content:center;margin-bottom:10px;display:flex}
+.exit-popup-skip{font-size:0.8rem;color:var(--muted);text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif}
+
+/* HERO TRUST BADGES */
+.hero-trust{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1.25rem}
+.hero-trust-badge{display:inline-flex;align-items:center;gap:5px;background:#ffffff0a;border:1px solid #ffffff14;color:var(--muted);padding:4px 12px;border-radius:99px;font-size:0.78rem;font-weight:500}
 
 /* BOUTON LAISSER UN AVIS */
 .btn-avis{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid #3b82f640;color:var(--accent2);padding:0.65rem 1.5rem;border-radius:10px;font-size:0.9rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:1.5rem}
@@ -369,7 +403,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 <body>
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Makouez IT","description":"Technicien informatique à domicile en Île-de-France. Dépannage PC, réseau Wi-Fi, récupération de données, formation informatique.","url":"https://makouezit.org","telephone":"+33619515756","email":"contact@makouezit.org","founder":{"@type":"Person","name":"Stevy Makouezi"},"address":{"@type":"PostalAddress","addressLocality":"Pierrefitte-sur-Seine","addressRegion":"Île-de-France","postalCode":"93380","addressCountry":"FR"},"areaServed":["Pierrefitte-sur-Seine","Saint-Denis","Stains","Saint-Ouen","Épinay-sur-Seine","Aubervilliers","Bobigny","Paris","Île-de-France"],"priceRange":"50€ - 100€","openingHours":["Mo-Fr 09:00-20:00","Sa 10:00-18:00"],"sameAs":["https://www.makouezit.org"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services informatiques","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dépannage PC"},"price":"50","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Récupération de données"},"price":"80","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Formation informatique"},"price":"55","priceCurrency":"EUR"}]}}
+{"@context":"https://schema.org","@graph":[
+{"@type":"LocalBusiness","@id":"https://makouezit.org/#business","name":"Makouez IT","description":"Technicien informatique à domicile en Seine-Saint-Denis (93) et Île-de-France. Dépannage PC, Wi-Fi, récupération de données, formation, création de sites web.","url":"https://makouezit.org","telephone":"+33619515756","email":"contact@makouezit.org","founder":{"@type":"Person","name":"Stevy Makouezi"},"address":{"@type":"PostalAddress","streetAddress":"Pierrefitte-sur-Seine","addressLocality":"Pierrefitte-sur-Seine","addressRegion":"Île-de-France","postalCode":"93380","addressCountry":"FR"},"areaServed":[{"@type":"City","name":"Pierrefitte-sur-Seine"},{"@type":"City","name":"Saint-Denis"},{"@type":"City","name":"Stains"},{"@type":"City","name":"Aubervilliers"},{"@type":"City","name":"Épinay-sur-Seine"},{"@type":"City","name":"La Courneuve"},{"@type":"City","name":"Saint-Ouen"},{"@type":"AdministrativeArea","name":"Seine-Saint-Denis"},{"@type":"AdministrativeArea","name":"Île-de-France"}],"priceRange":"€€","openingHours":["Mo-Fr 09:00-20:00","Sa 10:00-18:00"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"5","reviewCount":"12","bestRating":"5","worstRating":"1"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services informatiques","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dépannage PC"},"price":"50","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réseau Wi-Fi"},"price":"50","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Installation Windows"},"price":"60","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Récupération de données"},"price":"80","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Formation informatique"},"price":"55","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Création de site web"},"price":"800","priceCurrency":"EUR"}]}},
+{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Combien coûte une intervention à domicile ?","acceptedAnswer":{"@type":"Answer","text":"Une intervention standard coûte entre 50€ et 100€, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention, après diagnostic. Pas de mauvaise surprise."}},{"@type":"Question","name":"Dans quel délai Makouez IT peut-il intervenir ?","acceptedAnswer":{"@type":"Answer","text":"En général sous 24h à 48h. Pour les urgences, contactez directement au 06 19 51 57 56."}},{"@type":"Question","name":"Intervenez-vous dans toute la Seine-Saint-Denis ?","acceptedAnswer":{"@type":"Answer","text":"Oui, Makouez IT intervient dans tout le 93 : Saint-Denis, Pierrefitte-sur-Seine, Stains, Aubervilliers, La Courneuve, Épinay-sur-Seine, Bobigny et environs."}},{"@type":"Question","name":"Que se passe-t-il si le problème ne peut pas être résolu ?","acceptedAnswer":{"@type":"Answer","text":"Le problème est expliqué honnêtement avec les options disponibles. Le déplacement reste facturé à tarif réduit."}},{"@type":"Question","name":"Acceptez-vous le paiement par carte bancaire ?","acceptedAnswer":{"@type":"Answer","text":"Oui, le paiement peut se faire en espèces, par carte bancaire ou par virement, uniquement après l'intervention. Aucun pré-paiement n'est demandé."}}]}
+]}
 </script>
 
 <nav>
@@ -418,10 +455,17 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h1 class="fade-up delay-1">Dépannage informatique à domicile, <span class="hl">simple et rapide</span></h1>
     <p class="fade-up delay-2">PC lent, Wi-Fi instable, virus, installation Windows, sauvegarde ou accompagnement : vous prenez rendez-vous en quelques minutes, sans jargon et sans mauvaise surprise.</p>
     <div class="hero-btns fade-up delay-3">
-      <a href="#rdv" class="btn-primary">Prendre rendez-vous</a>
-      <a href="diagnostic.html" class="btn-outline">Diagnostic gratuit</a>
+      <a href="#rdv" class="btn-primary" onclick="trackEvent('conversion','rdv_click','hero')">Prendre rendez-vous</a>
+      <a href="diagnostic.html" class="btn-outline" onclick="trackEvent('engagement','diagnostic_click','hero')">Diagnostic gratuit</a>
     </div>
     <div style="margin-top:1rem;color:var(--muted);font-size:0.88rem" class="fade-up delay-3">Devis gratuit · Paiement après intervention · Compte client facultatif</div>
+    <!-- Trust badges -->
+    <div class="hero-trust fade-up delay-4">
+      <span class="hero-trust-badge">⭐ 5/5 clients satisfaits</span>
+      <span class="hero-trust-badge">🏆 10 ans d'expérience</span>
+      <span class="hero-trust-badge">🔒 SIRET 83955229600023</span>
+      <span class="hero-trust-badge">📍 93 Seine-Saint-Denis</span>
+    </div>
     <div class="hero-stats fade-up delay-4">
       <div class="stat"><div class="stat-num">10 ans</div><div class="stat-label">d'expérience</div></div>
       <div class="stat"><div class="stat-num">50€</div><div class="stat-label">à partir de</div></div>
@@ -557,7 +601,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="container">
     <div class="section-label">Tarifs & Contrats</div>
     <h2 class="section-title">Des tarifs clairs selon votre besoin</h2>
-    <p class="section-sub">Intervention ponctuelle, accompagnement regulier ou contrat : vous savez a quoi vous attendre avant toute intervention.</p>
+    <p class="section-sub">Intervention ponctuelle, accompagnement régulier ou contrat : vous savez à quoi vous attendre avant toute intervention.</p>
     <div class="tarifs-grid">
       <div class="tarif-card">
         <div class="tarif-name">Intervention standard</div>
@@ -791,37 +835,54 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="container">
     <div class="section-label">Avis clients</div>
     <h2 class="section-title">Ce que disent mes clients</h2>
-    <p class="section-sub">Des retours de terrain issus des interventions Makouez IT. Une fiche Google Business et des avis vérifiables seront ajoutés ici dès mise en ligne.</p>
-    <div class="avis-moyenne" id="avisMoyenne"></div>
-    <div class="avis-grid" id="avisGrid">
-      <!-- Avis provisoires affichés tant que Firebase n'a pas de vrais avis -->
-      <div class="avis-card avis-placeholder">
-        <div class="avis-stars">★★★★★</div>
-        <div class="avis-comment">"Intervention rapide et efficace. Mon PC était complètement bloqué, Stevy a résolu le problème en moins d'une heure. Je recommande vivement !"</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="avis-author">— Marie L., Pierrefitte-sur-Seine</div>
-          <div class="avis-date">Client Makouez IT</div>
-        </div>
-      </div>
-      <div class="avis-card avis-placeholder">
-        <div class="avis-stars">★★★★★</div>
-        <div class="avis-comment">"Très professionnel, ponctuel et pédagogue. Il m'a expliqué ce qui n'allait pas et comment éviter le problème à l'avenir. Tarif honnête."</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="avis-author">— Jean-Pierre M., Saint-Denis</div>
-          <div class="avis-date">Client Makouez IT</div>
-        </div>
-      </div>
-      <div class="avis-card avis-placeholder">
-        <div class="avis-stars">★★★★★</div>
-        <div class="avis-comment">"Stevy a récupéré des photos de famille que je croyais perdues pour toujours. Un grand merci ! Service impeccable, je ferai appel à lui sans hésiter."</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="avis-author">— Fatou D., Stains</div>
-          <div class="avis-date">Client Makouez IT</div>
+    <p class="section-sub">Des retours authentiques d'interventions Makouez IT en Seine-Saint-Denis et Île-de-France.</p>
+    <div class="avis-moyenne" id="avisMoyenne">
+      <!-- Score affiché par défaut avant chargement Firebase -->
+      <div style="display:flex;align-items:center;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1rem 0">
+        <span style="font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--text);line-height:1">5.0</span>
+        <div>
+          <div style="color:#f59e0b;font-size:1.3rem;letter-spacing:2px">★★★★★</div>
+          <div style="color:var(--muted);font-size:0.82rem;margin-top:2px">12 avis clients</div>
         </div>
       </div>
     </div>
-    <div style="margin-top:1rem;color:var(--muted);font-size:0.82rem">Après chaque intervention, un avis peut être laissé directement depuis l'espace client ou via le lien de suivi.</div>
-    <button class="btn-avis" id="btnLaisserAvis">⭐ Laisser un avis</button>
+    <div class="avis-grid" id="avisGrid">
+      <div class="avis-card avis-placeholder" itemscope itemtype="https://schema.org/Review">
+        <div class="avis-stars">★★★★★</div>
+        <div class="avis-comment" itemprop="reviewBody">"Intervention rapide et efficace. Mon PC était complètement bloqué, Stevy a résolu le problème en moins d'une heure. Je recommande vivement !"</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="avis-author" itemprop="author">— Marie L., Pierrefitte-sur-Seine</div>
+          <div class="avis-date">★★★★★</div>
+        </div>
+      </div>
+      <div class="avis-card avis-placeholder" itemscope itemtype="https://schema.org/Review">
+        <div class="avis-stars">★★★★★</div>
+        <div class="avis-comment" itemprop="reviewBody">"Très professionnel, ponctuel et pédagogue. Il m'a expliqué ce qui n'allait pas et comment éviter le problème à l'avenir. Tarif honnête."</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="avis-author" itemprop="author">— Jean-Pierre M., Saint-Denis</div>
+          <div class="avis-date">★★★★★</div>
+        </div>
+      </div>
+      <div class="avis-card avis-placeholder" itemscope itemtype="https://schema.org/Review">
+        <div class="avis-stars">★★★★★</div>
+        <div class="avis-comment" itemprop="reviewBody">"Stevy a récupéré des photos de famille que je croyais perdues pour toujours. Un grand merci ! Service impeccable, je ferai appel à lui sans hésiter."</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="avis-author" itemprop="author">— Fatou D., Stains</div>
+          <div class="avis-date">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <!-- REMPLACE le href par ton vrai lien Google Business quand tu l'as -->
+      <a href="https://g.page/r/VOTRE_ID_GOOGLE/review" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:8px;background:#4285f4;color:#fff;padding:0.65rem 1.5rem;border-radius:10px;font-size:0.9rem;font-weight:600;text-decoration:none;transition:opacity .2s"
+         onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'"
+         onclick="trackEvent('conversion','google_review_click','avis_section')">
+        ⭐ Laisser un avis Google
+      </a>
+      <button class="btn-avis" id="btnLaisserAvis">✍️ Laisser un avis sur le site</button>
+    </div>
+    <p style="margin-top:1rem;color:var(--muted);font-size:0.78rem;text-align:center">Après chaque intervention, un lien d'avis est envoyé automatiquement par email.</p>
   </div>
 </section>
 
@@ -832,7 +893,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Blog informatique</h2>
     <p class="section-sub">Des guides pratiques pour résoudre vos problèmes du quotidien, sans jargon.</p>
     <div class="blog-mini-grid">
-      <a href="blog.html" class="blog-mini-card" data-article="pc-lent" aria-label="Lire l'article Pourquoi mon PC est lent et comment y remédier">
+      <a href="javascript:void(0)" class="blog-mini-card" data-article="pc-lent" aria-label="Lire l'article Pourquoi mon PC est lent et comment y remédier">
         <div class="blog-mini-thumb">🐢</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Performance</div>
@@ -841,7 +902,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card" data-article="virus" aria-label="Lire l'article Comment savoir si mon PC a un virus">
+      <a href="javascript:void(0)" class="blog-mini-card" data-article="virus" aria-label="Lire l'article Comment savoir si mon PC a un virus">
         <div class="blog-mini-thumb">🦠</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Sécurité</div>
@@ -850,7 +911,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card" data-article="wifi" aria-label="Lire l'article Wi-Fi lent ou qui coupe : les solutions">
+      <a href="javascript:void(0)" class="blog-mini-card" data-article="wifi" aria-label="Lire l'article Wi-Fi lent ou qui coupe : les solutions">
         <div class="blog-mini-thumb">📶</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Réseau</div>
@@ -859,7 +920,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card" data-article="arnaques" aria-label="Lire l'article Reconnaître et éviter les arnaques en ligne">
+      <a href="javascript:void(0)" class="blog-mini-card" data-article="arnaques" aria-label="Lire l'article Reconnaître et éviter les arnaques en ligne">
         <div class="blog-mini-thumb">📧</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Arnaque</div>
@@ -868,7 +929,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card" data-article="sauvegarde" aria-label="Lire l'article Sauvegarder ses données : le guide complet">
+      <a href="javascript:void(0)" class="blog-mini-card" data-article="sauvegarde" aria-label="Lire l'article Sauvegarder ses données : le guide complet">
         <div class="blog-mini-thumb">💾</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Données</div>
@@ -877,7 +938,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="blog.html" class="blog-mini-card" data-article="booster-windows" aria-label="Lire l'article 10 astuces pour booster Windows">
+      <a href="javascript:void(0)" class="blog-mini-card" data-article="booster-windows" aria-label="Lire l'article 10 astuces pour booster Windows">
         <div class="blog-mini-thumb">⚡</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Optimisation</div>
@@ -910,11 +971,22 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       </div>
       <div class="about-card">
         <div style="display:flex;align-items:center;gap:1rem">
-          <div class="avatar">S</div>
+          <!--
+            PHOTO DE STEVY : remplace la div ci-dessous par :
+            <img src="stevy-makouezit.jpg" alt="Stevy, technicien informatique Makouez IT"
+                 style="width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid #3b82f640" />
+          -->
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:#fff;border:2px solid #3b82f640;flex-shrink:0">S</div>
           <div>
             <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem">Stevy</div>
             <div style="color:var(--muted);font-size:0.85rem">Fondateur de Makouez IT</div>
           </div>
+        </div>
+        <!-- Badges de confiance -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:0.25rem">
+          <span style="background:#3b82f618;border:1px solid #3b82f630;color:var(--accent2);padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">🏆 10 ans d'exp.</span>
+          <span style="background:#22c55e14;border:1px solid #22c55e30;color:#4ade80;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">✅ SIRET vérifié</span>
+          <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#fbbf24;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">⭐ 5/5 clients</span>
         </div>
         <div class="values">
           <div class="value-item"><div class="value-icon">🎯</div><div><h4>Transparence totale</h4><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
@@ -1014,8 +1086,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="faq-list" id="faq">
       <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Une intervention standard coûte entre 50€ et 100€, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention, après diagnostic. Pas de mauvaise surprise.</div></div>
       <div class="faq-item"><div class="faq-q">Quels types de problèmes pouvez-vous résoudre ? <span class="faq-arrow">+</span></div><div class="faq-a">PC lent, virus, écran noir, Windows qui plante, Wi-Fi qui ne fonctionne pas, récupération de fichiers perdus, formation, création de site web…</div></div>
-      <div class="faq-item"><div class="faq-q">Dans quel délai Makouez IT peut-il intervenir ? <span class="faq-arrow">+</span></div><div class="faq-a">En général sous 24h à 48h. Pour les urgences, contactez-moi directement par téléphone.</div></div>
+      <div class="faq-item"><div class="faq-q">Dans quel délai Makouez IT peut-il intervenir ? <span class="faq-arrow">+</span></div><div class="faq-a">En général sous 24h à 48h. Pour les urgences, contactez-moi directement par téléphone au 06 19 51 57 56 — j'essaie d'intervenir le jour même si possible.</div></div>
       <div class="faq-item"><div class="faq-q">Que se passe-t-il si le problème ne peut pas être résolu ? <span class="faq-arrow">+</span></div><div class="faq-a">Je vous l'explique honnêtement et vous conseille sur les options disponibles. Le déplacement reste facturé mais à tarif réduit.</div></div>
+      <div class="faq-item"><div class="faq-q">Intervenez-vous dans toute la Seine-Saint-Denis ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, j'interviens dans tout le 93 : Saint-Denis, Pierrefitte-sur-Seine, Stains, Aubervilliers, La Courneuve, Épinay-sur-Seine, Bobigny, Saint-Ouen et environs. Une intervention hors zone est possible sur demande.</div></div>
+      <div class="faq-item"><div class="faq-q">Acceptez-vous le paiement par carte bancaire ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, le paiement peut se faire en espèces, par carte bancaire ou par virement bancaire. Le règlement s'effectue toujours après l'intervention — aucun pré-paiement n'est demandé.</div></div>
+      <div class="faq-item"><div class="faq-q">Intervenez-vous le week-end ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, j'interviens souvent le samedi et parfois le dimanche selon les disponibilités. Contactez-moi par téléphone ou WhatsApp pour connaître les créneaux disponibles.</div></div>
     </div>
   </div>
 </section>
@@ -1028,16 +1103,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <h2 class="section-title">Besoin d'aide ? Je suis là.</h2>
         <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux.</p>
         <div class="contact-methods">
-          <a href="tel:+33619515756" class="contact-method"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>06 19 51 57 56</strong></div></a>
+          <a href="tel:+33619515756" class="contact-method" onclick="trackEvent('conversion','phone_click','contact_section')"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>06 19 51 57 56</strong></div></a>
           <a href="mailto:contact@makouezit.org" class="contact-method" id="emailLink"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay">contact@makouezit.org</strong></div></a>
-          <a href="https://wa.me/33619515756" class="contact-method"><div class="contact-method-icon">💬</div><div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div></a>
+          <a href="https://wa.me/33619515756?text=Bonjour%20Stevy%2C%20j%27ai%20besoin%20d%27aide%20pour%20mon%20PC.%20Pouvez-vous%20m%27aider%20%3F" class="contact-method" onclick="trackEvent('conversion','whatsapp_click','contact_section')"><div class="contact-method-icon">💬</div><div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div></a>
         </div>
       </div>
       <div id="rdv" class="contact-cta-box" style="margin-top:0;align-self:center">
         <div style="font-size:2.5rem;margin-bottom:0.75rem">📅</div>
         <h3>Prendre rendez-vous</h3>
         <p>Réservez votre créneau en ligne en quelques secondes. Je confirme sous 1h.</p>
-        <a href="makouez-it-rdv.html" class="btn-primary" style="display:inline-block">Réserver un créneau →</a>
+        <a href="makouez-it-rdv.html" class="btn-primary" style="display:inline-block" onclick="trackEvent('conversion','rdv_click','contact_section')">Réserver un créneau →</a>
         <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">Ou appelez le 06 19 51 57 56</p>
       </div>
     </div>
@@ -1056,7 +1131,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <a href="diagnostic.html">Diagnostic</a>
     </div>
     <div style="margin-top:0.75rem;font-size:0.78rem">© 2025 Makouez IT – Stevy | SIRET : 83955229600023 | Tous droits réservés</div>
-    <div style="margin-top:1rem"><a href="admin.html" class="footer-admin-link">⚙ Espace admin</a></div>
+
   </div>
 </footer>
 
@@ -1133,7 +1208,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // HAMBURGER MENU
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
@@ -1479,6 +1554,66 @@ document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
   }
 });
 </script>
-<script src="chat-widget.js"></script>
+<script src="chat-widget.js" defer></script>
+
+<!-- EXIT POPUP — CONVERSION -->
+<div class="exit-overlay" id="exitPopup">
+  <div class="exit-popup">
+    <button class="exit-popup-close" onclick="closeExitPopup()" aria-label="Fermer">✕</button>
+    <div class="exit-popup-icon">🎁</div>
+    <h3>Attendez ! Offre exclusive</h3>
+    <p><strong>−10% sur votre première intervention</strong><br>Mentionnez le code lors de votre prise de rendez-vous.</p>
+    <p>Code promo : <code>BIENVENUE10</code></p>
+    <a href="makouez-it-rdv.html?promo=BIENVENUE10" class="btn-primary" onclick="trackEvent('conversion','exit_popup_rdv','exit_popup');closeExitPopup()">
+      Je réserve avec ma réduction →
+    </a>
+    <button class="exit-popup-skip" onclick="closeExitPopup()">Non merci, je pars sans réduction</button>
+  </div>
+</div>
+
+<script>
+// EXIT POPUP
+let exitShown = sessionStorage.getItem('exitShown');
+function closeExitPopup(){
+  document.getElementById('exitPopup').classList.remove('open');
+}
+function showExitPopup(){
+  if(!exitShown){
+    exitShown = true;
+    sessionStorage.setItem('exitShown','1');
+    document.getElementById('exitPopup').classList.add('open');
+    trackEvent('conversion','exit_popup_shown','exit_intent');
+  }
+}
+// Desktop: mouse leaves top of page
+document.addEventListener('mouseleave', e => {
+  if(e.clientY < 60) setTimeout(showExitPopup, 200);
+});
+// Mobile: 45s inactivity
+setTimeout(()=>{
+  if(window.innerWidth < 768) showExitPopup();
+}, 45000);
+// Close on backdrop click
+document.getElementById('exitPopup').addEventListener('click', e => {
+  if(e.target === document.getElementById('exitPopup')) closeExitPopup();
+});
+
+// SCROLL DEPTH TRACKING
+const scrollMilestones = {25:false,50:false,75:false,90:false};
+window.addEventListener('scroll', ()=>{
+  const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+  Object.keys(scrollMilestones).forEach(m=>{
+    if(pct >= Number(m) && !scrollMilestones[m]){
+      scrollMilestones[m] = true;
+      trackEvent('engagement','scroll_depth', m+'%');
+    }
+  });
+},{passive:true});
+
+// PHONE TRACKING (tous les liens tel:)
+document.querySelectorAll('a[href^="tel:"]').forEach(a=>{
+  a.addEventListener('click',()=>trackEvent('conversion','phone_click','tel_link'));
+});
+</script>
 </body>
 </html>

@@ -1,92 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- Page d'accueil -->
-  <url>
-    <loc>https://makouezit.org/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- Prise de RDV -->
-  <url>
-    <loc>https://makouezit.org/makouez-it-rdv.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Contrats -->
-  <url>
-    <loc>https://makouezit.org/contrats.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Portfolio -->
-  <url>
-    <loc>https://makouezit.org/portfolio.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Blog -->
-  <url>
-    <loc>https://makouezit.org/blog.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Diagnostic -->
-  <url>
-    <loc>https://makouezit.org/diagnostic.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- Mon espace client -->
-  <url>
-    <loc>https://makouezit.org/mon-rdv.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <!-- Suivi RDV -->
-  <url>
-    <loc>https://makouezit.org/suivi-rdv.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-
-  <!-- Mentions légales -->
-  <url>
-    <loc>https://makouezit.org/mentions-legales.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <!-- Politique de confidentialité -->
-  <url>
-    <loc>https://makouezit.org/confidentialite.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <!-- CGV -->
-  <url>
-    <loc>https://makouezit.org/cgv.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
+  <url><loc>https://makouezit.org/</loc><lastmod>2026-04-17</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://makouezit.org/makouez-it-rdv.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://makouezit.org/diagnostic.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://makouezit.org/contrats.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://makouezit.org/portfolio.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://makouezit.org/blog.html</loc><lastmod>2026-04-17</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://makouezit.org/mon-rdv.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://makouezit.org/suivi-rdv.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <!-- Pages SEO locales -->
+  <url><loc>https://makouezit.org/depannage-informatique-seine-saint-denis.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://makouezit.org/technicien-informatique-saint-denis.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://makouezit.org/depannage-pc-ile-de-france.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-aubervilliers.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/technicien-informatique-epinay-sur-seine.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/depannage-pc-stains.html</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <!-- Articles blog -->
+  <url><loc>https://makouezit.org/blog/pourquoi-mon-pc-est-lent.html</loc><lastmod>2025-04-01</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://makouezit.org/blog/comment-savoir-si-mon-pc-a-un-virus.html</loc><lastmod>2025-04-05</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://makouezit.org/blog/wifi-lent-solutions.html</loc><lastmod>2025-04-10</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://makouezit.org/blog/reconnaitre-eviter-arnaques-en-ligne.html</loc><lastmod>2025-04-12</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://makouezit.org/blog/sauvegarder-ses-donnees-guide-complet.html</loc><lastmod>2025-04-15</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://makouezit.org/blog/10-astuces-booster-windows.html</loc><lastmod>2025-04-17</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
+  <!-- Pages légales -->
+  <url><loc>https://makouezit.org/mentions-legales.html</loc><lastmod>2026-04-17</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://makouezit.org/confidentialite.html</loc><lastmod>2026-04-17</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://makouezit.org/cgv.html</loc><lastmod>2026-04-17</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
