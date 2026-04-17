@@ -86,6 +86,8 @@ section{padding:5rem 2rem}
 .callback-input,.callback-select{width:100%;padding:0.9rem 1rem;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff;color:#0f172a}
 .callback-button{background:#2563eb;color:#fff;border:none;border-radius:10px;padding:0.9rem 1.2rem;font:inherit;font-weight:700;cursor:pointer}
 .callback-note{margin-top:0.9rem;text-align:center;font-size:0.8rem;color:#64748b}
+.callback-proof{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.callback-proof span{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;padding:0.45rem 0.75rem;border-radius:999px;font-size:0.78rem;font-weight:600}
 .local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
 .local-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}
 .local-card:hover{border-color:#3b82f660;transform:translateY(-2px)}
@@ -513,6 +515,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <button class="callback-button" type="submit">Être rappelé</button>
     </form>
     <div class="callback-note">Vous pouvez aussi appeler directement au <strong>06 19 51 57 56</strong>.</div>
+    <div class="callback-proof">
+      <span>Réponse rapide</span>
+      <span>Sans compte obligatoire</span>
+      <span>Devis gratuit avant intervention</span>
+    </div>
   </div>
 </section>
 <section id="diagnostic" style="padding:64px 24px;background:#fff;">
@@ -718,9 +725,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Pages utiles selon votre besoin</h2>
     <p class="section-sub">Que vous cherchiez un dépannage à domicile, une intervention rapide ou une assistance locale, voici des pages plus précises pour vous orienter.</p>
     <div class="local-grid">
-      <a class="local-card" href="depannage-informatique-seine-saint-denis.html"><h3>Depannage informatique en Seine-Saint-Denis</h3><p>Une page ciblee pour les particuliers qui cherchent un technicien a domicile dans le 93.</p></a>
+      <a class="local-card" href="depannage-informatique-seine-saint-denis.html"><h3>Dépannage informatique en Seine-Saint-Denis</h3><p>Une page ciblée pour les particuliers qui cherchent un technicien à domicile dans le 93.</p></a>
       <a class="local-card" href="technicien-informatique-saint-denis.html"><h3>Technicien informatique à Saint-Denis</h3><p>Intervention à domicile, accompagnement et dépannage rapide sur Saint-Denis et alentours.</p></a>
-      <a class="local-card" href="depannage-pc-ile-de-france.html"><h3>Depannage PC en Ile-de-France</h3><p>Une entree simple pour les pannes courantes : lenteur, virus, demarrage, Wi-Fi, sauvegarde.</p></a>
+      <a class="local-card" href="depannage-pc-ile-de-france.html"><h3>Dépannage PC en Île-de-France</h3><p>Une entrée simple pour les pannes courantes : lenteur, virus, démarrage, Wi-Fi, sauvegarde.</p></a>
+      <a class="local-card" href="depannage-informatique-aubervilliers.html"><h3>Dépannage informatique à Aubervilliers</h3><p>Intervention locale pour ordinateur lent, virus, Wi-Fi, sauvegarde et assistance à domicile.</p></a>
+      <a class="local-card" href="technicien-informatique-epinay-sur-seine.html"><h3>Technicien informatique à Épinay-sur-Seine</h3><p>Aide claire à domicile pour particuliers, familles et seniors à Épinay et alentours.</p></a>
+      <a class="local-card" href="depannage-pc-stains.html"><h3>Dépannage PC à Stains</h3><p>Pour les pannes courantes, la remise en route d'un PC et l'accompagnement du quotidien.</p></a>
     </div>
   </div>
 </section>
@@ -781,6 +791,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="container">
     <div class="section-label">Avis clients</div>
     <h2 class="section-title">Ce que disent mes clients</h2>
+    <p class="section-sub">Des retours de terrain issus des interventions Makouez IT. Une fiche Google Business et des avis vérifiables seront ajoutés ici dès mise en ligne.</p>
     <div class="avis-moyenne" id="avisMoyenne"></div>
     <div class="avis-grid" id="avisGrid">
       <!-- Avis provisoires affichés tant que Firebase n'a pas de vrais avis -->
@@ -809,6 +820,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         </div>
       </div>
     </div>
+    <div style="margin-top:1rem;color:var(--muted);font-size:0.82rem">Après chaque intervention, un avis peut être laissé directement depuis l'espace client ou via le lien de suivi.</div>
     <button class="btn-avis" id="btnLaisserAvis">⭐ Laisser un avis</button>
   </div>
 </section>
