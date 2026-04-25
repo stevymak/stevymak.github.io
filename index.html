@@ -126,10 +126,22 @@ section{padding:5rem 2rem}
 
 /* TARIFS */
 .tarifs-section{background:var(--bg2)}
-.tarifs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem;max-width:720px;margin-left:auto;margin-right:auto}
-@media(max-width:600px){.tarifs-grid{grid-template-columns:1fr}}
-.tarif-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;position:relative}
+.tarifs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1.5rem;max-width:980px;margin-left:auto;margin-right:auto}
+@media(max-width:768px){.tarifs-grid{grid-template-columns:1fr}}
+.tarif-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;position:relative;display:flex;flex-direction:column}
 .tarif-card.featured{border-color:#3b82f660;background:linear-gradient(135deg,#3b82f610,#60a5fa08)}
+.tarif-net{font-size:0.8rem;color:#4ade80;font-weight:600;margin-bottom:0.75rem}
+.sap-bandeau{display:flex;align-items:flex-start;gap:1rem;background:#3b82f60e;border:1px solid #3b82f640;border-radius:12px;padding:1.1rem 1.4rem;margin:2.5rem auto 0;max-width:980px}
+.sap-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.sap-note{font-size:0.75rem;color:var(--muted);font-style:italic;margin-top:0.25rem}
+.tarif-heure-supp{text-align:center;color:var(--muted);font-size:0.85rem;margin:0.9rem auto 0;max-width:980px}
+.tarif-sub-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);font-weight:600;margin:2.5rem auto 0;max-width:980px}
+.pro-teaser{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.4rem 1.75rem;margin:2.5rem auto 0;max-width:980px}
+.pro-teaser-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);font-weight:700;margin-bottom:0.2rem}
+.pro-teaser-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:0.25rem}
+.pro-teaser-desc{font-size:0.83rem;color:var(--muted)}
+.sap-note-global{font-size:0.74rem;color:var(--muted);font-style:italic;text-align:center;margin:1.25rem auto 0;max-width:980px;padding-bottom:0.5rem}
+@media(max-width:600px){.pro-teaser{flex-direction:column}.pro-teaser a{width:100%;text-align:center}}
 /* TARIFS WEB & MAINTENANCE */
 .web-sep{display:flex;align-items:center;gap:1rem;margin:3rem 0 2rem}
 .web-sep-line{flex:1;height:1px;background:var(--border)}
@@ -469,7 +481,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
     <div class="hero-stats fade-up delay-4">
       <div class="stat"><div class="stat-num">10 ans</div><div class="stat-label">d'expérience</div></div>
-      <div class="stat"><div class="stat-num">50€</div><div class="stat-label">à partir de</div></div>
+      <div class="stat"><div class="stat-num">55€</div><div class="stat-label">à partir de</div></div>
       <div class="stat"><div class="stat-num">24h</div><div class="stat-label">délai moyen</div></div>
       <div class="stat"><div class="stat-num">4 étapes</div><div class="stat-label">prise en charge claire</div></div>
     </div>
@@ -603,37 +615,84 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="section-label">Tarifs & Contrats</div>
     <h2 class="section-title">Des tarifs clairs selon votre besoin</h2>
     <p class="section-sub">Intervention ponctuelle, accompagnement régulier ou contrat : vous savez à quoi vous attendre avant toute intervention.</p>
+
+    <div class="sap-bandeau">
+      <div class="sap-icon">🎁</div>
+      <div>
+        <strong>50% remboursés en crédit d'impôt — Service à la Personne</strong>
+        <div class="sap-note">* Sous réserve d'obtention de l'agrément Service à la Personne, en cours de demande. Applicable aux particuliers uniquement.</div>
+      </div>
+    </div>
+
+    <div class="tarif-sub-label">Interventions ponctuelles · déplacement inclus · paiement après</div>
     <div class="tarifs-grid">
       <div class="tarif-card">
-        <div class="tarif-name">Intervention standard</div>
-        <div class="tarif-price">50€ <span>à 100€</span></div>
-        <div class="tarif-desc">Déplacement inclus. Paiement après intervention.</div>
-        <ul class="tarif-features"><li>Diagnostic complet</li><li>Dépannage sur place</li><li>Conseils personnalisés</li><li>Suivi post-intervention</li></ul>
-        <a href="makouez-it-rdv.html" class="btn-souscrire">Prendre rendez-vous →</a>
+        <div class="tarif-name">Diag Express</div>
+        <div class="tarif-price">55€ <span>TTC · 1h</span></div>
+        <div class="tarif-net">→ 27,50€ net après crédit d'impôt*</div>
+        <div class="tarif-desc">Déplacement + 1 réparation simple</div>
+        <ul class="tarif-features"><li>Diagnostic complet</li><li>1 réparation simple</li><li>Conseils personnalisés</li><li>Paiement après intervention</li></ul>
+        <a href="makouez-it-rdv.html" class="btn-souscrire" style="margin-top:auto">Prendre rendez-vous →</a>
       </div>
+      <div class="tarif-card featured">
+        <div class="tarif-badge">Le plus choisi</div>
+        <div class="tarif-name">Standard</div>
+        <div class="tarif-price">89€ <span>TTC · 2h</span></div>
+        <div class="tarif-net">→ 44,50€ net après crédit d'impôt*</div>
+        <div class="tarif-desc">Diagnostic complet + dépannage + conseils</div>
+        <ul class="tarif-features"><li>Diagnostic approfondi</li><li>Dépannage complet</li><li>Conseils & mini-formation</li><li>Suivi post-intervention</li></ul>
+        <a href="makouez-it-rdv.html" class="btn-souscrire" style="margin-top:auto">Prendre rendez-vous →</a>
+      </div>
+      <div class="tarif-card">
+        <div class="tarif-name">Long format</div>
+        <div class="tarif-price">129€ <span>TTC · 3h</span></div>
+        <div class="tarif-net">→ 64,50€ net après crédit d'impôt*</div>
+        <div class="tarif-desc">Réinstall Windows ou récupération données</div>
+        <ul class="tarif-features"><li>Réinstallation Windows complète</li><li>OU récupération de données</li><li>Sauvegarde & transfert inclus</li><li>Formation à la prise en main</li></ul>
+        <a href="makouez-it-rdv.html" class="btn-souscrire" style="margin-top:auto">Prendre rendez-vous →</a>
+      </div>
+    </div>
+    <div class="tarif-heure-supp">Heure supplémentaire : <strong>45€/h TTC</strong> — soit 22,50€/h net après crédit d'impôt*</div>
+
+    <div class="tarif-sub-label">Contrats particuliers · sans engagement · résiliable à tout moment</div>
+    <div class="tarifs-grid">
       <div class="tarif-card featured">
         <div class="tarif-badge">Recommandé</div>
         <div class="tarif-name">Contrat Sérénité</div>
         <div class="tarif-price">65€ <span>/mois</span></div>
-        <div class="tarif-desc">Assistance prioritaire toute l'année · 2 interventions/mois incluses</div>
+        <div class="tarif-net">→ 32,50€/mois net après crédit d'impôt*</div>
+        <div class="tarif-desc">Assistance prioritaire toute l'année · 2 interventions/mois</div>
         <ul class="tarif-features"><li>2 interventions/mois incluses</li><li>Priorité de passage sous 24h</li><li>Support téléphonique inclus</li><li>Bilan informatique annuel</li></ul>
-        <a href="contrats.html?contrat=serenite" class="btn-souscrire">Souscrire →</a>
+        <a href="contrats.html?contrat=serenite" class="btn-souscrire" style="margin-top:auto">Demander ma souscription →</a>
       </div>
       <div class="tarif-card">
         <div class="tarif-name">Pack Senior+</div>
-        <div class="tarif-price">60€ <span>/mois</span></div>
-        <div class="tarif-desc">Accompagnement adapté aux seniors</div>
+        <div class="tarif-price">55€ <span>/mois</span></div>
+        <div class="tarif-net">→ 27,50€/mois net après crédit d'impôt*</div>
+        <div class="tarif-desc">Accompagnement doux et pédagogique pour les seniors</div>
         <ul class="tarif-features"><li>Visites régulières à domicile</li><li>Formation progressive</li><li>Hotline dédiée</li><li>Protection anti-arnaques</li></ul>
-        <a href="contrats.html?contrat=senior" class="btn-souscrire">Souscrire →</a>
+        <a href="contrats.html?contrat=senior" class="btn-souscrire" style="margin-top:auto">Demander ma souscription →</a>
       </div>
       <div class="tarif-card">
         <div class="tarif-name">Pack Famille</div>
-        <div class="tarif-price">70€ <span>/mois</span></div>
-        <div class="tarif-desc">Jusqu'à 3 appareils, toute la famille</div>
+        <div class="tarif-price">79€ <span>/mois</span></div>
+        <div class="tarif-net">→ 39,50€/mois net après crédit d'impôt*</div>
+        <div class="tarif-desc">Jusqu'à 3 appareils couverts, toute la famille</div>
         <ul class="tarif-features"><li>3 appareils couverts</li><li>PC, smartphone, tablette</li><li>Contrôle parental inclus</li><li>Interventions illimitées</li></ul>
-        <a href="contrats.html?contrat=famille" class="btn-souscrire">Souscrire →</a>
+        <a href="contrats.html?contrat=famille" class="btn-souscrire" style="margin-top:auto">Demander ma souscription →</a>
       </div>
     </div>
+
+    <div class="pro-teaser">
+      <div>
+        <div class="pro-teaser-label">Offres Pro / TPE-PME</div>
+        <div class="pro-teaser-title">Votre entreprise a besoin d'un technicien dédié ?</div>
+        <div class="pro-teaser-desc">Interventions HT, infogérance, audit sécurité, maintenance multi-postes. À partir de 75€/h HT.</div>
+      </div>
+      <a href="contrats-pro.html" class="btn-primary">Voir les offres Pro →</a>
+    </div>
+
+    <div class="sap-note-global">* Crédit d'impôt 50% applicable aux particuliers dans le cadre du dispositif Service à la Personne. Sous réserve d'obtention de l'agrément SAP, en cours de demande auprès de la DREETS.</div>
   </div>
   <!-- ═══ SÉPARATEUR WEB & MAINTENANCE ═══ -->
   <div class="container" style="margin-top:0">
@@ -650,7 +709,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <div class="web-card">
         <div class="web-card-type">Essentiel</div>
         <div class="web-card-name">Site vitrine</div>
-        <div class="web-card-price">800€ <span>à partir de</span></div>
+        <div class="web-card-price">990€ <span>à partir de</span></div>
         <div class="web-card-desc">Pour artisans, freelances et commerçants qui veulent une présence en ligne professionnelle.</div>
         <div class="web-divider"></div>
         <ul class="web-features">
@@ -668,7 +727,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <div class="web-card-badge wcb-blue">Populaire</div>
         <div class="web-card-type">Pro</div>
         <div class="web-card-name">Site pro + fonctionnalités</div>
-        <div class="web-card-price">1 500€ <span>à partir de</span></div>
+        <div class="web-card-price">1 890€ <span>à partir de</span></div>
         <div class="web-card-desc">Site complet avec prise de RDV, espace client, blog et emails automatiques.</div>
         <div class="web-divider"></div>
         <ul class="web-features">
@@ -686,7 +745,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <div class="web-card">
         <div class="web-card-type">Sur mesure</div>
         <div class="web-card-name">Application web</div>
-        <div class="web-card-price">Devis <span>gratuit</span></div>
+        <div class="web-card-price">3 500€ <span>à partir de</span></div>
         <div class="web-card-desc">Plateforme, SaaS, outil métier, marketplace — projets complexes définis ensemble.</div>
         <div class="web-divider"></div>
         <ul class="web-features">

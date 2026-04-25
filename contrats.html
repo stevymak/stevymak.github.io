@@ -6,9 +6,9 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5963KCLEX1"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5963KCLEX1',{anonymize_ip:true});</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contrats & Forfaits – Makouez IT</title>
+<title>Contrats & Forfaits Particuliers – Makouez IT | Île-de-France</title>
 <link rel="canonical" href="https://makouezit.org/contrats.html">
-<meta name="description" content="Souscrivez à un contrat Makouez IT : Sérénité, Senior+ ou Pack Famille.">
+<meta name="description" content="Choisissez votre contrat Makouez IT : Découverte 19€/mois, Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Crédit d'impôt 50%, sans engagement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -85,6 +85,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 .firebase-loading{display:flex;align-items:center;justify-content:center;gap:0.5rem;color:var(--muted);font-size:0.82rem;padding:0.5rem}
+.contrat-net{font-size:0.8rem;color:#4ade80;font-weight:600;margin-top:-0.5rem}
+.sap-info{background:#3b82f60e;border:1px solid #3b82f640;border-radius:10px;padding:1rem 1.25rem;margin-bottom:2rem;font-size:0.85rem;color:var(--muted)}
+.sap-info strong{color:var(--text)}
 .faq-mini{margin-bottom:3rem}
 .faq-mini-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1.25rem}
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;cursor:pointer;margin-bottom:0.75rem}
@@ -135,44 +138,67 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <div class="page">
   <div class="page-label">Nos forfaits</div>
   <h1 class="page-title">Choisissez votre contrat</h1>
-  <p class="page-sub">Un accompagnement informatique illimité, à domicile, adapté à votre situation. Sans engagement, résiliable à tout moment.</p>
+  <p class="page-sub">Un accompagnement informatique à domicile, adapté à votre situation. Sans engagement, résiliable à tout moment.</p>
+
+  <div class="sap-info">
+    🎁 <strong>50% remboursés en crédit d'impôt</strong> — Service à la Personne.<br>
+    <span style="font-size:0.78rem;font-style:italic">* Sous réserve d'obtention de l'agrément SAP, en cours de demande auprès de la DREETS. Applicable aux particuliers uniquement.</span>
+  </div>
+
   <div class="contrats-grid">
+    <div class="contrat-card">
+      <div class="contrat-icon">🚀</div>
+      <div class="contrat-name">Découverte</div>
+      <div class="contrat-price">19€ <span>/mois</span></div>
+      <div class="contrat-net">→ 9,50€/mois net après crédit d'impôt*</div>
+      <div class="contrat-desc">Idéal pour démarrer — 1 intervention à distance + hotline email</div>
+      <ul class="contrat-features">
+        <li>1 intervention à distance / mois</li>
+        <li>Hotline email (réponse sous 48h)</li>
+        <li>Conseils & guides personnalisés</li>
+        <li>Sans engagement</li>
+      </ul>
+      <button class="btn-souscrire" onclick="openModal('decouverte','Contrat Découverte','19€/mois')">Demander ma souscription →</button>
+    </div>
     <div class="contrat-card featured">
       <div class="contrat-badge">Le plus demandé</div>
       <div class="contrat-icon">🛡️</div>
       <div class="contrat-name">Contrat Sérénité</div>
       <div class="contrat-price">65€ <span>/mois</span></div>
+      <div class="contrat-net">→ 32,50€/mois net après crédit d'impôt*</div>
       <div class="contrat-desc">Assistance prioritaire toute l'année pour particuliers</div>
       <ul class="contrat-features">
         <li>Interventions illimitées à domicile</li><li>Priorité de passage (sous 24h)</li>
         <li>Support téléphonique inclus</li><li>Bilan informatique annuel</li>
         <li>Mises à jour & maintenance</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','65€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','65€/mois')">Demander ma souscription →</button>
     </div>
     <div class="contrat-card">
       <div class="contrat-icon">👴</div>
       <div class="contrat-name">Pack Senior+</div>
-      <div class="contrat-price">60€ <span>/mois</span></div>
+      <div class="contrat-price">55€ <span>/mois</span></div>
+      <div class="contrat-net">→ 27,50€/mois net après crédit d'impôt*</div>
       <div class="contrat-desc">Accompagnement doux et pédagogique pour les seniors</div>
       <ul class="contrat-features">
         <li>Visites régulières à domicile</li><li>Formation progressive à votre rythme</li>
         <li>Hotline dédiée (lun-sam)</li><li>Protection anti-arnaques</li>
         <li>Aide smartphone/tablette</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','60€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','55€/mois')">Demander ma souscription →</button>
     </div>
     <div class="contrat-card">
       <div class="contrat-icon">👨‍👩‍👧‍👦</div>
       <div class="contrat-name">Pack Famille</div>
-      <div class="contrat-price">70€ <span>/mois</span></div>
+      <div class="contrat-price">79€ <span>/mois</span></div>
+      <div class="contrat-net">→ 39,50€/mois net après crédit d'impôt*</div>
       <div class="contrat-desc">Toute la famille couverte sur 3 appareils</div>
       <ul class="contrat-features">
         <li>3 appareils couverts</li><li>Interventions illimitées</li>
         <li>Contrôle parental inclus</li><li>Support pour tous les membres</li>
         <li>Sauvegarde automatique</li><li>Sans engagement</li>
       </ul>
-      <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','70€/mois')">Souscrire maintenant →</button>
+      <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','79€/mois')">Demander ma souscription →</button>
     </div>
   </div>
 
@@ -180,21 +206,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="compare-title">Comparatif détaillé</div>
     <div style="overflow-x:auto">
       <table class="compare-table">
-        <thead><tr><th style="width:40%">Fonctionnalité</th><th>Sérénité</th><th>Senior+</th><th>Famille</th></tr></thead>
+        <thead><tr><th style="width:30%">Fonctionnalité</th><th>Découverte</th><th>Sérénité</th><th>Senior+</th><th>Famille</th></tr></thead>
         <tbody>
-          <tr><td class="feat">Interventions illimitées</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Priorité sous 24h</td><td><span class="check">✓</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
-          <tr><td class="feat">Support téléphonique</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Formation incluse</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td></tr>
-          <tr><td class="feat">Contrôle parental</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Nombre d'appareils</td><td>1</td><td>1</td><td>3</td></tr>
-          <tr><td class="feat">Bilan annuel</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Protection anti-arnaques</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
+          <tr><td class="feat">Interventions à domicile</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Intervention à distance</td><td>1/mois</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Priorité sous 24h</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
+          <tr><td class="feat">Hotline email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Support téléphonique</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Formation incluse</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td></tr>
+          <tr><td class="feat">Contrôle parental</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Nombre d'appareils</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+          <tr><td class="feat">Bilan annuel</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Protection anti-arnaques</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel TTC</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">19€</td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">65€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">60€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">70€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">55€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">79€</td>
+          </tr>
+          <tr><td class="feat" style="color:var(--muted);font-size:0.82rem">Net après crédit d'impôt 50%*</td>
+            <td style="color:#4ade80;font-size:0.82rem">9,50€</td>
+            <td style="color:#4ade80;font-size:0.82rem">32,50€</td>
+            <td style="color:#4ade80;font-size:0.82rem">27,50€</td>
+            <td style="color:#4ade80;font-size:0.82rem">39,50€</td>
           </tr>
         </tbody>
       </table>
@@ -530,9 +565,10 @@ const params = new URLSearchParams(window.location.search);
 const cp = params.get('contrat');
 if (cp) {
   const map = {
-    serenite: ['serenite', 'Contrat Sérénité', '65€/mois'],
-    senior:   ['senior',   'Pack Senior+',     '60€/mois'],
-    famille:  ['famille',  'Pack Famille',      '70€/mois'],
+    decouverte: ['decouverte', 'Contrat Découverte', '19€/mois'],
+    serenite:   ['serenite',   'Contrat Sérénité',   '65€/mois'],
+    senior:     ['senior',     'Pack Senior+',        '55€/mois'],
+    famille:    ['famille',    'Pack Famille',         '79€/mois'],
     'maintenance-essentielle': ['maintenance-essentielle', 'Maintenance Essentielle', '49€/mois'],
     'maintenance-pro':         ['maintenance-pro',         'Maintenance Pro',         '99€/mois'],
     'maintenance-evolution':   ['maintenance-evolution',   'Maintenance & Évolution', '179€/mois'],
