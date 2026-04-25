@@ -40,8 +40,11 @@ fbq('init','XXXXXXXXXXXXXXX');fbq('track','PageView');
 <meta name="twitter:title" content="Makouez IT – Dépannage informatique à domicile">
 <meta name="twitter:description" content="Technicien informatique à domicile en Île-de-France. Dépannage PC, Wi-Fi, récupération données. À partir de 50€.">
 <meta name="twitter:image" content="https://makouezit.org/og-image.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -439,7 +442,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="label">Mon Espace</span>
     </a>
-    <button class="nav-suivi" id="btnSuiviNav">🔍 <span class="label">Suivre ma demande</span></button>
+    <button class="nav-suivi" id="btnSuiviNav" aria-label="Suivre ma demande de réservation">🔍 <span class="label">Suivre ma demande</span></button>
     <a href="#rdv" class="nav-cta">Prendre RDV</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
@@ -461,6 +464,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <a href="makouez-it-rdv.html" class="mobile-cta">📅 Prendre rendez-vous</a>
 </div>
 
+<main id="main-content">
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-dot"></div>
@@ -1204,11 +1208,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="section-label">Questions fréquentes</div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq-list" id="faq">
-      <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Une intervention standard coûte entre 50€ et 100€, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention, après diagnostic. Pas de mauvaise surprise.</div></div>
+      <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Trois forfaits selon la durée : Diag Express (1h) à 55€, Standard (2h) à 89€, Long format (3h) à 129€. Déplacement inclus, paiement uniquement après intervention. Sous réserve d'agrément SAP (en cours), ces tarifs sont éligibles au crédit d'impôt de 50% pour les particuliers.</div></div>
       <div class="faq-item"><div class="faq-q">Quels types de problèmes pouvez-vous résoudre ? <span class="faq-arrow">+</span></div><div class="faq-a">PC lent, virus, écran noir, Windows qui plante, Wi-Fi qui ne fonctionne pas, récupération de fichiers perdus, formation, création de site web…</div></div>
       <div class="faq-item"><div class="faq-q">Dans quel délai Makouez IT peut-il intervenir ? <span class="faq-arrow">+</span></div><div class="faq-a">En général sous 24h à 48h. Pour les urgences, contactez-moi directement par téléphone au 06 19 51 57 56 — j'essaie d'intervenir le jour même si possible.</div></div>
       <div class="faq-item"><div class="faq-q">Que se passe-t-il si le problème ne peut pas être résolu ? <span class="faq-arrow">+</span></div><div class="faq-a">Je vous l'explique honnêtement et vous conseille sur les options disponibles. Le déplacement reste facturé mais à tarif réduit.</div></div>
-      <div class="faq-item"><div class="faq-q">Intervenez-vous dans toute la Seine-Saint-Denis ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, j'interviens dans tout le 93 : Saint-Denis, Pierrefitte-sur-Seine, Stains, Aubervilliers, La Courneuve, Épinay-sur-Seine, Bobigny, Saint-Ouen et environs. Une intervention hors zone est possible sur demande.</div></div>
+      <div class="faq-item"><div class="faq-q">Dans quelle zone intervenez-vous ? <span class="faq-arrow">+</span></div><div class="faq-a">J'interviens dans toute l'Île-de-France : Paris (75), Hauts-de-Seine (92), Seine-Saint-Denis (93), Val-de-Marne (94) en priorité. Les autres départements (77, 78, 91, 95) sont possibles sur demande. Contactez-moi au 06 19 51 57 56 pour vérifier votre zone.</div></div>
       <div class="faq-item"><div class="faq-q">Acceptez-vous le paiement par carte bancaire ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, le paiement peut se faire en espèces, par carte bancaire ou par virement bancaire. Le règlement s'effectue toujours après l'intervention — aucun pré-paiement n'est demandé.</div></div>
       <div class="faq-item"><div class="faq-q">Intervenez-vous le week-end ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, j'interviens souvent le samedi et parfois le dimanche selon les disponibilités. Contactez-moi par téléphone ou WhatsApp pour connaître les créneaux disponibles.</div></div>
     </div>
@@ -1239,6 +1243,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
 </section>
 
+</main>
 <footer>
   <div class="footer-content">
     <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem">Makouez <span style="color:#3b82f6">IT</span></div>
@@ -1263,11 +1268,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <!-- MODALE SUIVRE MA DEMANDE -->
-<div class="suivi-modal-overlay" id="suiviModal">
+<div class="suivi-modal-overlay" id="suiviModal" role="dialog" aria-modal="true" aria-labelledby="suiviModalTitle">
   <div class="suivi-modal">
-    <button class="suivi-modal-close" onclick="closeSuiviModal()">✕</button>
+    <button class="suivi-modal-close" onclick="closeSuiviModal()" aria-label="Fermer la fenêtre">✕</button>
     <div id="suiviFormWrap">
-      <h3>🔍 Suivre ma demande</h3>
+      <h3 id="suiviModalTitle">🔍 Suivre ma demande</h3>
       <p>Entrez votre adresse email pour recevoir à nouveau le lien de suivi de votre réservation.</p>
       <input class="suivi-input" type="email" id="suiviEmail" placeholder="votre@email.com" oninput="checkSuiviForm()">
       <div class="suivi-error" id="suiviError"></div>
@@ -1284,11 +1289,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <!-- MODALE LAISSER UN AVIS -->
-<div class="avis-modal-overlay" id="avisModal">
+<div class="avis-modal-overlay" id="avisModal" role="dialog" aria-modal="true" aria-labelledby="avisModalTitle">
   <div class="avis-modal">
-    <button class="avis-modal-close" id="avisModalClose">✕</button>
+    <button class="avis-modal-close" id="avisModalClose" aria-label="Fermer la fenêtre">✕</button>
     <div id="avisFormWrap">
-      <h3>Laisser un avis</h3>
+      <h3 id="avisModalTitle">Laisser un avis</h3>
       <p>Votre retour m'aide à m'améliorer et à rassurer de futurs clients.</p>
       <div class="avis-form-group">
         <label>Votre prénom</label>
@@ -1319,9 +1324,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <!-- MODAL ARTICLES BLOG -->
-<div class="blog-modal-overlay" id="blogModal">
+<div class="blog-modal-overlay" id="blogModal" role="dialog" aria-modal="true" aria-labelledby="blogModalTitle">
   <div class="blog-modal">
-    <button class="blog-modal-close" id="blogModalClose">✕</button>
+    <button class="blog-modal-close" id="blogModalClose" aria-label="Fermer l'article">✕</button>
     <div class="blog-modal-tag" id="blogModalTag"></div>
     <h2 id="blogModalTitle"></h2>
     <div class="blog-modal-body" id="blogModalBody"></div>
