@@ -444,7 +444,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </a>
     <button class="nav-suivi" id="btnSuiviNav" aria-label="Suivre ma demande de réservation">🔍 <span class="label">Suivre ma demande</span></button>
     <a href="#rdv" class="nav-cta">Prendre RDV</a>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" onclick="toggleMobileMenu()">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -1338,13 +1338,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
   const btn = document.getElementById('hamburgerBtn');
-  menu.classList.toggle('open');
+  const isOpen = menu.classList.toggle('open');
   btn.classList.toggle('open');
-  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 function closeMobileMenu() {
   document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburgerBtn').classList.remove('open');
+  const btn = document.getElementById('hamburgerBtn');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
 // Fermer menu mobile au clic sur lien ancre
