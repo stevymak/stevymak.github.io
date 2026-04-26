@@ -40,6 +40,9 @@
   <url><loc>https://makouezit.org/sauvegarder-ses-donnees-guide-complet.html</loc><lastmod>2025-04-15</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
   <url><loc>https://makouezit.org/10-astuces-booster-windows.html</loc><lastmod>2025-04-17</lastmod><changefreq>yearly</changefreq><priority>0.65</priority></url>
 
+  <!-- Page Service à la Personne -->
+  <url><loc>https://makouezit.org/services-a-la-personne.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
   <!-- Espace client / suivi (priorité basse, non marketing) -->
   <url><loc>https://makouezit.org/mon-rdv.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://makouezit.org/suivi-rdv.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.3</priority></url>
