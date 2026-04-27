@@ -67,7 +67,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 1.5rem;displ
 .nav-espace{display:flex;align-items:center;gap:0.4rem;background:transparent;color:var(--accent2);border:1px solid #3b82f640;padding:0.4rem 0.85rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:500;cursor:pointer;text-decoration:none;transition:background 0.2s,border-color 0.2s;white-space:nowrap}
 .nav-espace:hover{background:#3b82f615;border-color:#3b82f680}
 .nav-espace svg{width:13px;height:13px;flex-shrink:0}
-.nav-cta{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.2s;white-space:nowrap}
+.nav-cta{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.2s;white-space:nowrap}
 .nav-cta:hover{opacity:0.85}
 
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem 4rem;position:relative;text-align:center}
@@ -80,7 +80,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 1.5rem;displ
 .hero h1 .hl{color:var(--accent)}
 .hero p{color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto 2.5rem;line-height:1.6}
 .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:var(--accent);color:#fff;padding:0.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;border:none;cursor:pointer}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;padding:0.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;border:none;cursor:pointer}
 .btn-primary:hover{opacity:0.85}
 .btn-outline{background:transparent;color:var(--text);padding:0.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:500;text-decoration:none;border:1px solid var(--border);transition:background 0.2s}
 .btn-outline:hover{background:var(--border)}
@@ -943,8 +943,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       </div>
     </div>
     <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <!-- TODO: remplacer #TODO-google-reviews par ton vrai lien Google Business (ex: https://g.page/r/ABCDEF.../review) -->
-      <button class="btn-avis" id="btnLaisserAvis">✍️ Laisser un avis sur le site</button>
+      <!-- TODO: remplacer par le lien Google Business une fois le profil créé -->
+      <a href="#avis-form" class="btn-avis" data-open-review onclick="document.getElementById('btnLaisserAvis')?.click(); return false;" style="text-decoration:none;">
+        ⭐ Laisser un avis
+      </a>
+      <button class="btn-avis" id="btnLaisserAvis" type="button" style="display:none;">✍️ Laisser un avis sur le site</button>
     </div>
     <p style="margin-top:1rem;color:var(--muted);font-size:0.78rem;text-align:center">Après chaque intervention, un lien d'avis est envoyé automatiquement par email.</p>
   </div>
@@ -1082,7 +1085,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           </div>
           <div style="padding:14px;">
             <div style="font-weight:700;font-size:0.85rem;color:#111827;margin-bottom:3px;">makouezit.org</div>
-            <div style="font-size:0.74rem;color:#6b7280;">HTML · CSS · JS · Supabase</div>
+            <div style="font-size:0.74rem;color:#6b7280;">HTML · CSS · JS · Firebase</div>
           </div>
         </div>
       </a>
@@ -1235,7 +1238,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         <div style="font-size:2.5rem;margin-bottom:0.75rem">📅</div>
         <h3>Prendre rendez-vous</h3>
         <p>Réservez votre créneau en ligne en quelques secondes. Je confirme sous 1h.</p>
-        <a href="makouez-it-rdv.html" class="btn-primary" style="display:inline-block" onclick="trackEvent('conversion','rdv_click','contact_section')">Réserver un créneau →</a>
+        <a href="makouez-it-rdv.html" class="btn-primary" onclick="trackEvent('conversion','rdv_click','contact_section')">Réserver un créneau →</a>
         <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">Ou appelez le 06 19 51 57 56</p>
       </div>
     </div>
