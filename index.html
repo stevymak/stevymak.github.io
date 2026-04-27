@@ -69,6 +69,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.75rem 1.5rem;displ
 .nav-espace svg{width:13px;height:13px;flex-shrink:0}
 .nav-cta{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.83rem;font-weight:500;cursor:pointer;text-decoration:none;transition:opacity 0.2s;white-space:nowrap}
 .nav-cta:hover{opacity:0.85}
+.cta-primary{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;padding:0.95rem 2.4rem;border-radius:12px;font-size:1.02rem;font-weight:700;text-decoration:none;transition:opacity 0.2s,transform 0.2s;box-shadow:0 10px 30px rgba(59,130,246,0.28)}
+.cta-primary:hover{opacity:0.92;transform:translateY(-1px)}
+.cta-secondary{display:inline-flex;align-items:center;justify-content:center;color:var(--accent2);padding:0.35rem 0.2rem;font-size:0.95rem;font-weight:500;text-decoration:none;border-bottom:1px solid transparent;transition:color 0.2s,border-color 0.2s}
+.cta-secondary:hover{color:#93c5fd;border-color:#93c5fd}
+.lede{color:var(--muted);font-size:1.05rem;max-width:560px;margin:0 auto 1.5rem;line-height:1.7}
 
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem 4rem;position:relative;text-align:center}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,#1a2a5e44 0%,transparent 70%)}
@@ -440,10 +445,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="nav-actions">
     <a href="mon-rdv.html" class="nav-espace">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span class="label">Mon Espace</span>
+      <span class="label">Mon espace client</span>
     </a>
-    <button class="nav-suivi" id="btnSuiviNav" aria-label="Suivre ma demande de réservation">🔍 <span class="label">Suivre ma demande</span></button>
-    <a href="#rdv" class="nav-cta">Prendre RDV</a>
+    <a href="#rdv" class="nav-cta">📅 Prendre rendez-vous</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
@@ -459,9 +463,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <a href="portfolio.html" onclick="closeMobileMenu()">Portfolio</a>
   <a href="#about" onclick="closeMobileMenu()">À propos</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-  <button class="mmlink" onclick="openSuiviModal();closeMobileMenu()">🔍 Suivre ma demande</button>
-  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()">👤 Mon Espace</a>
   <a href="makouez-it-rdv.html" class="mobile-cta">📅 Prendre rendez-vous</a>
+  <button class="mmlink" onclick="openSuiviModal();closeMobileMenu()">Déjà client ? Suivre ma demande</button>
+  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()">👤 Mon espace client</a>
 </div>
 
 <main id="main-content">
@@ -471,20 +475,15 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div style="position:relative;z-index:1">
     <div class="badge fade-up"><span class="badge-dot"></span> Disponible en Île-de-France</div>
     <h1>Votre PC en panne ? <br> Stevy intervient à domicile sous 24h.</h1>
-
-<p class="lede">
-  Dépannage, virus, Wi-Fi, formation : un technicien expérimenté chez 
-  vous, sans jargon. <strong>Devis gratuit, paiement après intervention.</strong>
-</p>
-
-<a href="#rdv" class="cta-primary">📅 Prendre rendez-vous</a>
-<a href="https://makouezit.org/diagnostic.html" class="cta-secondary">
-  Pas sûr du problème ? Diagnostic 2 min →
-</a>
+    <p class="lede">Dépannage, virus, Wi-Fi, formation : un technicien expérimenté chez vous, sans jargon. <strong>Devis gratuit, paiement après intervention.</strong></p>
+    <div class="hero-btns fade-up delay-3">
+      <a href="#rdv" class="cta-primary">📅 Prendre rendez-vous</a>
+      <a href="diagnostic.html" class="cta-secondary">Pas sûr du problème ? Diagnostic 2 min →</a>
+    </div>
     <div style="margin-top:1rem;color:var(--muted);font-size:0.88rem" class="fade-up delay-3">Devis gratuit · Paiement après intervention · Compte client facultatif</div>
     <!-- Trust badges -->
     <div class="hero-trust fade-up delay-4">
-      <span class="hero-trust-badge">⭐ 5/5 clients satisfaits</span>
+      <span class="hero-trust-badge">⭐ Premiers retours excellents</span>
       <span class="hero-trust-badge">🏆 10 ans d'expérience</span>
       <span class="hero-trust-badge">🔒 SIRET 83955229600023</span>
       <span class="hero-trust-badge">📍 93 Seine-Saint-Denis</span>
@@ -1046,14 +1045,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:#fff;border:2px solid #3b82f640;flex-shrink:0">S</div>
           <div>
             <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem">Stevy</div>
-            <div style="color:var(--muted);font-size:0.85rem">Fondateur de Makouez IT</div>
+            <div style="color:var(--muted);font-size:0.85rem">Fondateur de Makouez IT · 10 ans d'expérience</div>
           </div>
         </div>
         <!-- Badges de confiance -->
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:0.25rem">
           <span style="background:#3b82f618;border:1px solid #3b82f630;color:var(--accent2);padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">🏆 10 ans d'exp.</span>
           <span style="background:#22c55e14;border:1px solid #22c55e30;color:#4ade80;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">✅ SIRET vérifié</span>
-          <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#fbbf24;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">⭐ 5/5 clients</span>
+          <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#fbbf24;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600">⭐ Premiers retours excellents</span>
         </div>
         <div class="values">
           <div class="value-item"><div class="value-icon">🎯</div><div><h4>Transparence totale</h4><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
@@ -1385,7 +1384,8 @@ function closeSuiviModal(){
   document.getElementById('suiviModal').classList.remove('open');
   document.body.style.overflow='';
 }
-document.getElementById('btnSuiviNav').addEventListener('click', openSuiviModal);
+const btnSuiviNav = document.getElementById('btnSuiviNav');
+if (btnSuiviNav) btnSuiviNav.addEventListener('click', openSuiviModal);
 document.getElementById('suiviModal').addEventListener('click',e=>{if(e.target===document.getElementById('suiviModal'))closeSuiviModal();});
 
 function checkSuiviForm(){

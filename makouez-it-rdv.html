@@ -318,28 +318,28 @@
       <span>✓</span><span id="preSelectedName">Service pré-sélectionné</span>
     </div>
     <div class="services-grid">
-      <div class="service-card" data-service="Dépannage PC" data-price="50€ – 100€" onclick="selectService(this)">
-        <span class="emoji">💻</span><span class="name">Dépannage PC</span><span class="price">50€ – 100€</span>
+      <div class="service-card" data-service="Dépannage PC" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
+        <span class="emoji">💻</span><span class="name">Dépannage PC</span><span class="price">À partir de 55€</span>
       </div>
-      <div class="service-card" data-service="Installation Windows et logiciels" data-price="à partir de 50€" onclick="selectService(this)">
-        <span class="emoji">🪟</span><span class="name">Installation Windows et logiciels</span><span class="price">à partir de 50€</span>
+      <div class="service-card" data-service="Installation Windows et logiciels" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
+        <span class="emoji">🪟</span><span class="name">Installation Windows et logiciels</span><span class="price">À partir de 55€</span>
       </div>
-      <div class="service-card" data-service="Réseau Wi-Fi" data-price="à partir de 50€" onclick="selectService(this)">
-        <span class="emoji">📶</span><span class="name">Réseau Wi-Fi</span><span class="price">à partir de 50€</span>
+      <div class="service-card" data-service="Réseau Wi-Fi" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
+        <span class="emoji">📶</span><span class="name">Réseau Wi-Fi</span><span class="price">À partir de 55€</span>
       </div>
-      <div class="service-card" data-service="Récupération de données" data-price="à partir de 80€" onclick="selectService(this)">
-        <span class="emoji">💾</span><span class="name">Récupération données</span><span class="price">à partir de 80€</span>
+      <div class="service-card" data-service="Récupération de données" data-price="À partir de 89€" data-base-price="89" onclick="selectService(this)">
+        <span class="emoji">💾</span><span class="name">Récupération données</span><span class="price">À partir de 89€</span>
       </div>
-      <div class="service-card" data-service="Sauvegarde et sécurité" data-price="à partir de 50€" onclick="selectService(this)">
-        <span class="emoji">🔒</span><span class="name">Sauvegarde & sécurité</span><span class="price">à partir de 50€</span>
+      <div class="service-card" data-service="Sauvegarde et sécurité" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
+        <span class="emoji">🔒</span><span class="name">Sauvegarde & sécurité</span><span class="price">À partir de 55€</span>
       </div>
-      <div class="service-card" data-service="Formation et accompagnement" data-price="55€/h" onclick="selectService(this)">
+      <div class="service-card" data-service="Formation et accompagnement" data-price="55€/h" data-base-price="55" onclick="selectService(this)">
         <span class="emoji">🎓</span><span class="name">Formation</span><span class="price">55€/h</span>
       </div>
-      <div class="service-card" data-service="Intégration / Développement web" data-price="à partir de 800€" onclick="selectService(this)" style="grid-column:span 2;">
+      <div class="service-card" data-service="Intégration / Développement web" data-price="À partir de 990€" data-base-price="990" onclick="selectService(this)" style="grid-column:span 2;">
         <span class="emoji">🌐</span>
         <span class="name">Développement web <span style="background:var(--blue);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-left:4px;">Nouveau</span></span>
-        <span class="price">à partir de 800€</span>
+        <span class="price">À partir de 990€</span>
       </div>
     </div>
     <div style="margin-top:20px;">
@@ -536,7 +536,7 @@ function getPeriodesForDate(dateStr) {
 // ══════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════
-let selectedService = null, selectedPrice = null;
+let selectedService = null, selectedPrice = null, selectedBasePrice = null;
 let selectedDate    = null, selectedSlot  = null;
 let selectedBudget  = null, selectedDelay = null;
 let calYear, calMonth;
@@ -619,11 +619,16 @@ function toggleUrgency() {
 // ══════════════════════════════════════════════
 // SERVICE
 // ══════════════════════════════════════════════
+function formatEuroAmount(value) {
+  return new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR' }).format(value);
+}
+
 function selectService(card) {
   document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
   selectedService = card.dataset.service;
   selectedPrice   = card.dataset.price;
+  selectedBasePrice = Number(card.dataset.basePrice || 0);
   document.getElementById('step1Btn').disabled = false;
 }
 
@@ -866,15 +871,50 @@ function togglePwd() { const f=document.getElementById('fpwd'); f.type=f.type===
 // ══════════════════════════════════════════════
 // SUMMARY
 // ══════════════════════════════════════════════
+function getPricingSummary() {
+  if (!selectedBasePrice || !window.activePromo) {
+    return {
+      displayPrice: selectedPrice,
+      subtotal: null,
+      discountLabel: null,
+      discountAmount: null,
+      total: null,
+    };
+  }
+
+  const subtotal = selectedBasePrice;
+  const discountAmount = subtotal * window.activePromo.discount;
+  const total = subtotal - discountAmount;
+
+  return {
+    displayPrice: formatEuroAmount(total),
+    subtotal,
+    discountLabel: window.activePromo.code,
+    discountAmount,
+    total,
+  };
+}
+
 function renderSummary() {
   const [y,m,d]=selectedDate.split('-');
+  const pricing = getPricingSummary();
   const rows=[
     {key:'Service',val:selectedService},{key:'Date',val:`${d}/${m}/${y}`},{key:'Créneau',val:selectedSlot},
     {key:'Nom',val:document.getElementById('fname').value},{key:'Téléphone',val:document.getElementById('fphone').value},
     {key:'Email',val:document.getElementById('femail').value},{key:'Adresse',val:document.getElementById('faddress').value},
     {key:'Espace client',val:document.getElementById('fpwd').value?'Compte client sécurisé':'Sans compte — contact par email/téléphone'},
-    {key:'Tarif indicatif',val:selectedPrice},
   ];
+
+  if (pricing.subtotal !== null) {
+    rows.push(
+      {key:'Sous-total',val:formatEuroAmount(pricing.subtotal)},
+      {key:`Remise ${pricing.discountLabel} (-10%)`,val:`-${formatEuroAmount(pricing.discountAmount)}`},
+      {key:'Total estimatif',val:formatEuroAmount(pricing.total)}
+    );
+  } else {
+    rows.push({key:'Tarif indicatif',val:pricing.displayPrice});
+  }
+
   document.getElementById('summaryRows').innerHTML=rows.map(r=>`<div class="summary-row"><span class="key">${r.key}</span><span class="val">${r.val||'—'}</span></div>`).join('');
 }
 
@@ -941,12 +981,16 @@ async function submitRDV() {
       user = null;
     }
 
+    const pricing = getPricingSummary();
     const reservationData = {
       service:     selectedService,
       dateKey:     selectedDate,
       timeLabel:   selectedSlot,
       time:        selectedSlot,
-      price:       selectedPrice,
+      price:       pricing.total !== null ? formatEuroAmount(pricing.total) : selectedPrice,
+      basePrice:   selectedBasePrice || null,
+      promoCode:   pricing.discountLabel || null,
+      promoDiscount: pricing.discountAmount !== null ? Number(pricing.discountAmount.toFixed(2)) : null,
       nom:         name,
       telephone:   phone,
       email:       email,
