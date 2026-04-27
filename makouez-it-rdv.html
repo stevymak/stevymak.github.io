@@ -1017,6 +1017,28 @@ async function submitWeb() {
 // ══════════════════════════════════════════════
 function selectBudget(el,val){ document.querySelectorAll('#budgetGrid .slot-web').forEach(s=>s.classList.remove('selected')); el.classList.add('selected'); selectedBudget=val; }
 function selectDelay(el,val) { document.querySelectorAll('#delayGrid .slot-web').forEach(s=>s.classList.remove('selected'));  el.classList.add('selected'); selectedDelay=val;  }
+// Auto-application du code promo via URL
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const promo = params.get('promo');
+  
+  if (promo === 'BIENVENUE10') {
+    // Stocker la promo pour l'utiliser au moment du calcul du prix
+    window.activePromo = { code: 'BIENVENUE10', discount: 0.10 };
+    
+    // Afficher un bandeau de confirmation
+    const banner = document.createElement('div');
+    banner.style.cssText = `
+      background:linear-gradient(90deg,#00e5a0,#00b8ff);
+      color:#0a0e14;padding:14px 20px;text-align:center;
+      font-weight:700;font-family:sans-serif;
+      position:sticky;top:0;z-index:1000;
+    `;
+    banner.innerHTML = `🎁 Code BIENVENUE10 appliqué — 
+      <span style="font-weight:400">-10% sur votre 1ère intervention</span>`;
+    document.body.prepend(banner);
+  }
+});
 </script>
 </body>
 </html>
