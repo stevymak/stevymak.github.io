@@ -63,6 +63,16 @@ await admin.auth().setCustomUserClaims(uid, { admin: true });
 - `avis_en_attente`
 - `devis_web`
 
+## Patch 13 — demande automatique d'avis
+
+Une structure Firebase Functions a été ajoutée dans `functions/` pour préparer l'envoi automatique d'une demande d'avis après passage d'une réservation au statut `completed`.
+
+État actuel :
+
+- le trigger Firestore existe ;
+- il alimente une collection `email_queue` ;
+- il reste à brancher un vrai provider email et le vrai lien Google Business.
+
 ## Collections à surveiller
 
 Si d'autres collections apparaissent ensuite, elles seront bloquées par défaut car `firestore.rules` termine par :
