@@ -131,6 +131,10 @@ h1,h2{font-family:'Syne',sans-serif}
 .btn-cancel:hover{background:#ef444430}
 .btn-purple{background:#a855f718;color:#a855f7;border:1px solid #a855f740;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
 .btn-purple:hover{background:#a855f730}
+.btn-reminder{background:#0ea5e918;color:#0ea5e9;border:1px solid #0ea5e940;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-reminder:hover{background:#0ea5e930}
+.btn-reminder:disabled{opacity:0.5;cursor:not-allowed}
+.reminder-status{font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.25rem}
 
 /* ── CONTRATS ── */
 .contrats-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-bottom:1.25rem}
@@ -366,6 +370,7 @@ h1,h2{font-family:'Syne',sans-serif}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, addDoc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -379,10 +384,12 @@ const firebaseConfig = {
 const app  = initializeApp(firebaseConfig);
 const db   = getFirestore(app);
 const auth = getAuth(app);
+const fns  = getFunctions(app, 'europe-west1');
 
 window._db   = db;
 window._auth = auth;
 window._fns  = { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, orderBy, serverTimestamp, signInWithEmailAndPassword, signOut };
+window._callSendReminder = httpsCallable(fns, 'sendReminderManual');
 
 onAuthStateChanged(auth, (user) => {
   document.getElementById('pageLoader').classList.add('hidden');
@@ -709,6 +716,10 @@ function renderRdvs() {
         ${rdv.status==='pending'?`<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>`:''}
         ${rdv.status==='confirmed'?`<button class="btn-done" onclick="updateStatus('${rdv.id}','done')">✓ Terminé</button>`:''}
         ${rdv.status!=='cancelled'?`<button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler</button>`:`<button class="btn-cancel" onclick="deleteRdv('${rdv.id}')">🗑 Supprimer</button>`}
+        ${rdv.status!=='cancelled'&&rdv.status!=='done'?`<div style="display:flex;flex-direction:column;flex:1;min-width:0">
+          <button class="btn-reminder" data-reminder-id="${rdv.id}" onclick="sendReminder('${rdv.id}')">📧 ${rdv.reminderSent?'Renvoyer rappel':'Envoyer rappel'}</button>
+          ${rdv.reminderSent&&rdv.reminderSentAt?.toDate?`<div class="reminder-status">Dernier envoi : ${rdv.reminderSentAt.toDate().toLocaleString('fr-FR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>`:''}
+        </div>`:''}
       </div>`;
     list.appendChild(card);
   });
@@ -835,6 +846,42 @@ async function deleteAvis(id){
     await deleteDoc(doc(window._db,'avis',id));
     allAvis=allAvis.filter(a=>a.id!==id); renderAvis();
   } catch(e){alert('Erreur lors de la suppression.');}
+}
+
+// ── RAPPEL EMAIL ──
+async function sendReminder(rdvId) {
+  const rdv = allRdvs.find(r => r.id === rdvId);
+  if (!rdv) return;
+
+  if (rdv.reminderSent) {
+    const lastSent = rdv.reminderSentAt?.toDate?.();
+    const lastSentStr = lastSent
+      ? lastSent.toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+      : 'une date inconnue';
+    const confirmed = confirm(`Un rappel a déjà été envoyé le ${lastSentStr}.\nConfirmer le renvoi ?`);
+    if (!confirmed) return;
+  }
+
+  const btn = document.querySelector(`[data-reminder-id="${rdvId}"]`);
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi en cours…'; }
+
+  try {
+    await window._callSendReminder({ rdvId });
+    if (btn) { btn.textContent = '✅ Rappel envoyé !'; btn.style.color = 'var(--success)'; }
+    const r = allRdvs.find(x => x.id === rdvId);
+    if (r) {
+      r.reminderSent = true;
+      r.reminderSentAt = { toDate: () => new Date() };
+      r.reminderSendCount = (r.reminderSendCount || 0) + 1;
+    }
+    setTimeout(() => renderRdvs(), 2500);
+  } catch (e) {
+    console.error('Erreur envoi rappel:', e);
+    if (btn) { btn.disabled = false; btn.textContent = '❌ Échec – Réessayer'; btn.style.color = 'var(--danger)'; }
+    const msg = e?.message || 'Erreur inconnue';
+    alert(`Impossible d\'envoyer le rappel.\n${msg}`);
+    setTimeout(() => renderRdvs(), 3000);
+  }
 }
 </script>
 </body>
