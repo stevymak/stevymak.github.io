@@ -14,6 +14,7 @@ import './modules/calendrier.js';
 import './modules/reservations.js';
 import './modules/contrats.js';
 import './modules/avis.js';
+import './modules/clients.js';
 import { bootAuth } from './core/auth-guard.js';
 
 bootAuth();

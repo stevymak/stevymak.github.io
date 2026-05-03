@@ -9,6 +9,7 @@ import { loadAll }            from '../modules/reservations.js';
 import { loadAvis,
          loadAvisEnAttente }  from '../modules/avis.js';
 import { loadContrats }       from '../modules/contrats.js';
+import { loadClientsMeta }    from '../modules/clients.js';
 
 let routerStarted = false;
 
@@ -30,6 +31,7 @@ export function bootAuth() {
       loadAvis();
       loadAvisEnAttente();
       loadContrats();
+      loadClientsMeta();
     } else {
       document.getElementById('loginWrap').style.display = 'flex';
       document.getElementById('dashboard').style.display = 'none';

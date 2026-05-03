@@ -42,6 +42,7 @@
       <a class="sidebar-item" data-route="dashboard"    href="#dashboard"><span class="sidebar-icon">📊</span><span>Dashboard</span></a>
       <a class="sidebar-item" data-route="calendrier"   href="#calendrier"><span class="sidebar-icon">📅</span><span>Agenda</span></a>
       <a class="sidebar-item" data-route="reservations" href="#reservations"><span class="sidebar-icon">📋</span><span>Réservations</span></a>
+      <a class="sidebar-item" data-route="clients"      href="#clients"><span class="sidebar-icon">👥</span><span>Clients</span></a>
       <a class="sidebar-item" data-route="contrats"     href="#contrats"><span class="sidebar-icon">📄</span><span>Contrats</span></a>
       <a class="sidebar-item" data-route="avis"         href="#avis"><span class="sidebar-icon">⭐</span><span>Avis</span></a>
     </nav>
@@ -185,6 +186,25 @@
         <div id="rdvList"><div class="loading"><div class="spinner"></div></div></div>
       </section>
 
+      <!-- ─── CLIENTS (CRM) ─────────────────────────────────────────── -->
+      <section class="tab-content" id="tab-clients">
+        <div class="section-title-row">
+          Carnet clients
+          <input type="search" id="clientsSearch" class="form-input clients-search" placeholder="🔎 Rechercher (nom, email, tél)" autocomplete="off">
+        </div>
+
+        <div class="seg-bar">
+          <button class="seg-btn active" data-seg="all"     onclick="setSegment('all',this)">Tous <span class="seg-count" id="segCount-all">0</span></button>
+          <button class="seg-btn"        data-seg="new"     onclick="setSegment('new',this)">🆕 Nouveaux <span class="seg-count" id="segCount-new">0</span></button>
+          <button class="seg-btn"        data-seg="fidele"  onclick="setSegment('fidele',this)">⭐ Fidèles <span class="seg-count" id="segCount-fidele">0</span></button>
+          <button class="seg-btn"        data-seg="vip"     onclick="setSegment('vip',this)">💎 VIP <span class="seg-count" id="segCount-vip">0</span></button>
+          <button class="seg-btn"        data-seg="dormant" onclick="setSegment('dormant',this)">😴 Dormants <span class="seg-count" id="segCount-dormant">0</span></button>
+        </div>
+
+        <div id="clientsList" class="clients-list"><div class="loading"><div class="spinner"></div></div></div>
+        <button id="clientsLoadMore" class="btn-soft clients-load-more" style="display:none">Charger plus</button>
+      </section>
+
       <!-- ─── CONTRATS ───────────────────────────────────────────────── -->
       <section class="tab-content" id="tab-contrats">
         <div class="section-title-row">
@@ -247,6 +267,51 @@
     </div>
     <div id="modalBody"></div>
     <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ─── Modale fiche client ────────────────────────────────────────────── -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal client-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem">
+      <h3 id="clientModalTitle">Fiche client</h3>
+      <button class="modal-close" onclick="closeClientModal()" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="client-modal-grid">
+      <div>
+        <div class="client-modal-section-title">Contact</div>
+        <div id="clientModalContact" style="display:flex;flex-direction:column;gap:0.4rem"></div>
+      </div>
+      <div>
+        <div class="client-modal-section-title">Statistiques</div>
+        <div class="client-stats-grid" id="clientModalStats"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="client-modal-section-title">Tags</div>
+      <div class="client-tags-host" id="clientModalTags"></div>
+    </div>
+
+    <div>
+      <div class="client-modal-section-title">Notes privées</div>
+      <div id="clientModalNotes"></div>
+      <div class="client-note-input">
+        <textarea id="clientNoteInput" rows="2" placeholder="Ajouter une note privée…" class="form-input" style="resize:vertical;min-height:60px"></textarea>
+        <button class="btn-confirm" id="clientNoteAdd" style="flex:0 0 auto;padding:0.5rem 1.1rem">Ajouter</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="client-modal-section-title">Historique RDV</div>
+      <div id="clientModalRdvs" class="client-history"></div>
+    </div>
+
+    <div>
+      <div class="client-modal-section-title">Contrats</div>
+      <div id="clientModalContrats" class="client-history"></div>
+    </div>
   </div>
 </div>
 

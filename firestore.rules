@@ -167,6 +167,13 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // Méta-données client enrichies (tags, notes privées) gérées par
+    // l'admin uniquement. Le doc id est un hash court (SHA-256 tronqué)
+    // de l'email lowercase ou du téléphone normalisé.
+    match /clients_meta/{hashId} {
+      allow read, write: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
