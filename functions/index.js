@@ -2,6 +2,7 @@
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const crypto = require('crypto');
 const { defineSecret } = require('firebase-functions/params');
 const { Resend } = require('resend');
 
@@ -709,3 +710,310 @@ exports.resendWebhook = functions.https.onRequest(async (req, res) => {
     return res.status(500).send('ERROR');
   }
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AUTOMATIONS (Phase 3.3)
+//   - automationWelcomeOnDone : email de bienvenue après le 1er RDV terminé
+//   - automationDormantWeekly : relance des clients dormants (>6 mois)
+//   - automationMonthlyRecap  : récap mensuel envoyé à l'admin
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Doit produire le même id que l'admin front (admin/core/ui.js > clientHash) :
+// SHA-256 des octets UTF-8 de `e:<email lowercase>`, tronqué à 16 hex.
+function clientHashFromEmail(email) {
+  const raw = `e:${String(email).toLowerCase()}`;
+  return crypto.createHash('sha256').update(raw, 'utf8').digest('hex').slice(0, 16);
+}
+
+async function getAutomationSettings() {
+  const snap = await admin.firestore().collection('settings').doc('automations').get();
+  return snap.exists
+    ? snap.data()
+    : { welcome_enabled: false, dormant_enabled: false, monthlyRecap_enabled: false, adminEmail: '' };
+}
+
+function fmtEUR(n) {
+  return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(n)) + ' €';
+}
+
+// ─── Email de bienvenue après le premier RDV terminé ─────────────────────────
+function buildWelcomeHtml(rdv) {
+  const prenom = String(rdv.nom || 'client').split(' ')[0];
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f0f0f8;font-family:'Segoe UI',Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f0f8;padding:20px 0">
+  <tr><td align="center"><table width="100%" style="max-width:560px;border-radius:16px;overflow:hidden;border:1px solid #1a1a3a;background:#111128">
+    <tr><td style="background:#0a0a18;padding:28px 32px;text-align:center">
+      <div style="font-size:23px;font-weight:800;color:#fff">Makouez <span style="color:#3b82f6">IT</span></div>
+    </td></tr>
+    <tr><td style="padding:24px 32px">
+      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 10px 0">Bonjour ${prenom},</p>
+      <p style="color:#9999bb;font-size:14px;margin:0;line-height:1.55">
+        Merci d'avoir fait appel à <strong style="color:#fff">Makouez IT</strong> pour cette première intervention. J'espère que vous êtes pleinement satisfait du service.
+      </p>
+      <p style="color:#9999bb;font-size:14px;margin:14px 0 0 0;line-height:1.55">
+        Pour rester en contact, n'hésitez pas à m'écrire en cas de besoin (panne, conseil, formation). Je propose aussi des contrats récurrents pour celles et ceux qui souhaitent un suivi régulier.
+      </p>
+      <p style="color:#9999bb;font-size:14px;margin:14px 0 0 0;line-height:1.55">
+        Si vous avez 1 minute, un avis Google fait toute la différence pour me trouver d'autres clients : merci d'avance 🙏
+      </p>
+    </td></tr>
+    <tr><td style="background:#0a0a18;padding:18px 32px;text-align:center">
+      <a href="${SITE_URL}" style="color:#3b82f6;text-decoration:none;font-size:13px">makouezit.org</a>
+      <p style="color:#444466;font-size:12px;margin:8px 0 0 0">Stevy — Makouez IT</p>
+    </td></tr>
+  </table></td></tr>
+</table></body></html>`;
+}
+
+exports.automationWelcomeOnDone = functions
+  .runWith({ secrets: [RESEND_API_KEY] })
+  .firestore.document('reservations/{id}')
+  .onUpdate(async (change, ctx) => {
+    const before = change.before.data();
+    const after  = change.after.data();
+    if (!before || !after) return null;
+    if (before.status === 'done' || after.status !== 'done') return null;
+
+    const settings = await getAutomationSettings();
+    if (!settings.welcome_enabled) return null;
+    if (!after.email) return null;
+
+    // Premier RDV terminé pour ce client ?
+    const db = admin.firestore();
+    const otherDoneSnap = await db.collection('reservations')
+      .where('email', '==', after.email)
+      .where('status', '==', 'done')
+      .get();
+
+    // Le doc en cours est déjà compté → si > 1 ce n'est pas le premier
+    if (otherDoneSnap.size > 1) {
+      functions.logger.info('Welcome ignoré – pas le premier RDV done', { email: after.email });
+      return null;
+    }
+
+    try {
+      const resend = new Resend(RESEND_API_KEY.value());
+      await resend.emails.send({
+        from:    NEWSLETTER_FROM,
+        to:      after.email,
+        subject: 'Merci pour votre confiance — Makouez IT',
+        html:    buildWelcomeHtml(after),
+      });
+      functions.logger.info('Welcome envoyé', { id: ctx.params.id, email: after.email });
+    } catch (err) {
+      functions.logger.error('automationWelcomeOnDone — échec', { id: ctx.params.id, err: err.message });
+    }
+    return null;
+  });
+
+// ─── Relance dormants (cron hebdo, lundi 09:00) ──────────────────────────────
+function buildDormantHtml(client) {
+  const prenom = String(client.nom || '').split(' ')[0] || 'Bonjour';
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f0f0f8;font-family:'Segoe UI',Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f0f8;padding:20px 0">
+  <tr><td align="center"><table width="100%" style="max-width:560px;border-radius:16px;overflow:hidden;border:1px solid #1a1a3a;background:#111128">
+    <tr><td style="background:#0a0a18;padding:28px 32px;text-align:center">
+      <div style="font-size:23px;font-weight:800;color:#fff">Makouez <span style="color:#3b82f6">IT</span></div>
+    </td></tr>
+    <tr><td style="padding:24px 32px">
+      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 10px 0">Bonjour ${prenom},</p>
+      <p style="color:#9999bb;font-size:14px;margin:0;line-height:1.55">
+        Cela fait un moment qu'on ne s'est pas vus 👋. J'espère que tout va bien pour vous et votre matériel.
+      </p>
+      <p style="color:#9999bb;font-size:14px;margin:14px 0 0 0;line-height:1.55">
+        Si vous avez besoin d'un coup de main (lenteurs, sauvegarde, sécurité, formation, mise à jour), n'hésitez pas — je reste joignable au 06 19 51 57 56 ou par retour d'email.
+      </p>
+      <p style="color:#9999bb;font-size:14px;margin:14px 0 0 0">À très vite peut-être 😊</p>
+    </td></tr>
+    <tr><td style="background:#0a0a18;padding:18px 32px;text-align:center">
+      <a href="${SITE_URL}" style="color:#3b82f6;text-decoration:none;font-size:13px">makouezit.org</a>
+    </td></tr>
+  </table></td></tr>
+</table></body></html>`;
+}
+
+exports.automationDormantWeekly = functions
+  .runWith({ secrets: [RESEND_API_KEY], timeoutSeconds: 540 })
+  .pubsub.schedule('every monday 09:00')
+  .timeZone('Europe/Paris')
+  .onRun(async () => {
+    const settings = await getAutomationSettings();
+    if (!settings.dormant_enabled) return null;
+
+    const db             = admin.firestore();
+    const sixMonthsAgoMs = Date.now() - 180 * 24 * 3600 * 1000;
+    const ninetyDaysAgoMs= Date.now() - 90  * 24 * 3600 * 1000;
+
+    // Index clients depuis reservations
+    const snap = await db.collection('reservations')
+      .where('status', 'in', ['confirmed', 'done'])
+      .get();
+
+    const byEmail = new Map();
+    snap.forEach((d) => {
+      const r = d.data();
+      if (!r.email) return;
+      const key    = String(r.email).toLowerCase();
+      const dateMs = r.dateKey ? new Date(r.dateKey + 'T12:00:00').getTime() : 0;
+      const cur    = byEmail.get(key);
+      if (!cur || cur.lastMs < dateMs) {
+        byEmail.set(key, { email: r.email, nom: r.nom || '', lastMs: dateMs });
+      }
+    });
+
+    const candidates = [];
+    byEmail.forEach((c) => {
+      if (c.lastMs && c.lastMs < sixMonthsAgoMs) candidates.push(c);
+    });
+
+    // Filtrer : ne pas re-spammer ceux relancés < 90 jours
+    const toEmail = [];
+    for (const c of candidates) {
+      const hash     = clientHashFromEmail(c.email);
+      const metaSnap = await db.collection('clients_meta').doc(hash).get();
+      const meta     = metaSnap.exists ? metaSnap.data() : {};
+      const lastSent = meta.lastDormantEmailMs || 0;
+      if (lastSent < ninetyDaysAgoMs) toEmail.push({ ...c, hash });
+    }
+
+    functions.logger.info(`Dormants à relancer : ${toEmail.length}`);
+    if (toEmail.length === 0) return null;
+
+    const resend = new Resend(RESEND_API_KEY.value());
+    let sent = 0, errors = 0;
+    for (const c of toEmail) {
+      try {
+        const { error } = await resend.emails.send({
+          from:    NEWSLETTER_FROM,
+          to:      c.email,
+          subject: 'On ne s\'est pas vus depuis un moment 👋',
+          html:    buildDormantHtml(c),
+        });
+        if (error) { errors++; functions.logger.error('Dormant send error', { email: c.email, err: error.message }); }
+        else {
+          sent++;
+          await db.collection('clients_meta').doc(c.hash).set(
+            { lastDormantEmailMs: Date.now() }, { merge: true },
+          );
+        }
+      } catch (err) {
+        errors++;
+        functions.logger.error('Dormant exception', { email: c.email, err: err.message });
+      }
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    functions.logger.info(`Dormants envoyés : ${sent} succès, ${errors} erreurs`);
+    return null;
+  });
+
+// ─── Récap mensuel admin (cron 1er du mois 08:00) ────────────────────────────
+function buildMonthlyRecapHtml({ monthLabel, totalRdv, doneCount, ca, factCount, factCa, contratsActifs, mrr }) {
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f0f0f8;font-family:'Segoe UI',Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f0f8;padding:20px 0">
+  <tr><td align="center"><table width="100%" style="max-width:560px;border-radius:16px;overflow:hidden;border:1px solid #1a1a3a;background:#111128">
+    <tr><td style="background:#0a0a18;padding:28px 32px;text-align:center">
+      <div style="font-size:23px;font-weight:800;color:#fff">Récap ${monthLabel}</div>
+      <div style="color:#6666aa;font-size:12px;margin-top:6px">Makouez IT</div>
+    </td></tr>
+    <tr><td style="padding:24px 32px">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding:12px;border:1px solid #ffffff10;border-radius:8px;width:48%;vertical-align:top">
+            <div style="color:#8888aa;font-size:11px;text-transform:uppercase;font-weight:700">CA estimé</div>
+            <div style="color:#22c55e;font-size:22px;font-weight:800;margin-top:4px">${fmtEUR(ca)}</div>
+            <div style="color:#666;font-size:11px;margin-top:2px">${doneCount}/${totalRdv} RDV honorés</div>
+          </td>
+          <td style="width:4%"></td>
+          <td style="padding:12px;border:1px solid #ffffff10;border-radius:8px;width:48%;vertical-align:top">
+            <div style="color:#8888aa;font-size:11px;text-transform:uppercase;font-weight:700">Factures encaissées</div>
+            <div style="color:#3b82f6;font-size:22px;font-weight:800;margin-top:4px">${fmtEUR(factCa)}</div>
+            <div style="color:#666;font-size:11px;margin-top:2px">${factCount} facture${factCount > 1 ? 's' : ''}</div>
+          </td>
+        </tr>
+        <tr><td colspan="3" style="height:12px"></td></tr>
+        <tr>
+          <td colspan="3" style="padding:12px;border:1px solid #a855f730;border-radius:8px;background:#a855f708">
+            <div style="color:#a855f7;font-size:11px;text-transform:uppercase;font-weight:700">MRR Contrats récurrents</div>
+            <div style="color:#a855f7;font-size:22px;font-weight:800;margin-top:4px">${fmtEUR(mrr)} / mois</div>
+            <div style="color:#aaa;font-size:11px;margin-top:2px">${contratsActifs} contrat${contratsActifs > 1 ? 's' : ''} actif${contratsActifs > 1 ? 's' : ''}</div>
+          </td>
+        </tr>
+      </table>
+      <p style="color:#9999bb;font-size:13px;margin:18px 0 0 0;line-height:1.5">
+        Bonne continuation pour le mois en cours 💪.<br>
+        Le détail complet est dans <a href="${SITE_URL}/admin.html" style="color:#3b82f6">l'admin</a>.
+      </p>
+    </td></tr>
+  </table></td></tr>
+</table></body></html>`;
+}
+
+exports.automationMonthlyRecap = functions
+  .runWith({ secrets: [RESEND_API_KEY], timeoutSeconds: 300 })
+  .pubsub.schedule('1 8 1 * *')   // 08:01 le 1er de chaque mois
+  .timeZone('Europe/Paris')
+  .onRun(async () => {
+    const settings = await getAutomationSettings();
+    if (!settings.monthlyRecap_enabled) return null;
+    if (!settings.adminEmail) return null;
+
+    const db    = admin.firestore();
+    const now   = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const monthKey = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}`;
+    const monthLabel = start.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+
+    // RDV
+    const rdvSnap = await db.collection('reservations').where('monthKey', '==', monthKey).get();
+    let totalRdv = 0, doneCount = 0, ca = 0;
+    rdvSnap.forEach((d) => {
+      const r = d.data();
+      totalRdv++;
+      if (r.status === 'confirmed' || r.status === 'done') {
+        doneCount++;
+        ca += (typeof r.prixReel === 'number') ? r.prixReel : 70;
+      }
+    });
+
+    // Factures payées dans le mois
+    const startMs = start.getTime();
+    const endMs   = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    const factSnap = await db.collection('factures').where('paid', '==', true).get();
+    let factCa = 0, factCount = 0;
+    factSnap.forEach((d) => {
+      const f      = d.data();
+      const paidAt = typeof f.paidAt === 'number'
+        ? f.paidAt
+        : (f.paidAt?.toMillis?.() || 0);
+      if (paidAt >= startMs && paidAt < endMs) {
+        factCa += Number(f.totalTTC) || 0;
+        factCount++;
+      }
+    });
+
+    // Contrats actifs + MRR
+    const tarifs = { serenite: 45, senior: 49, famille: 59 };
+    const cSnap  = await db.collection('contrats').where('status', '==', 'active').get();
+    let contratsActifs = 0, mrr = 0;
+    cSnap.forEach((d) => {
+      contratsActifs++;
+      mrr += tarifs[d.data().contrat] || 0;
+    });
+
+    try {
+      const resend = new Resend(RESEND_API_KEY.value());
+      await resend.emails.send({
+        from:    FROM_EMAIL,
+        to:      settings.adminEmail,
+        subject: `Récap ${monthLabel} — Makouez IT`,
+        html:    buildMonthlyRecapHtml({ monthLabel, totalRdv, doneCount, ca, factCount, factCa, contratsActifs, mrr }),
+      });
+      functions.logger.info('Récap mensuel envoyé', { monthLabel, to: settings.adminEmail });
+    } catch (err) {
+      functions.logger.error('automationMonthlyRecap — échec', { err: err.message });
+    }
+    return null;
+  });

@@ -48,6 +48,47 @@ export async function loadTemplates() {
   }
 }
 
+export async function loadAutomationSettings() {
+  try {
+    const { doc, getDocs, collection } = fns;
+    // Méthode simple : on lit directement le doc settings/automations
+    const { getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const ref  = doc(db, 'settings', 'automations');
+    const snap = await getDoc(ref);
+    const s    = snap.exists() ? snap.data() : {};
+    document.getElementById('autoWelcome').checked       = !!s.welcome_enabled;
+    document.getElementById('autoDormant').checked       = !!s.dormant_enabled;
+    document.getElementById('autoMonthlyRecap').checked  = !!s.monthlyRecap_enabled;
+    document.getElementById('autoAdminEmail').value      = s.adminEmail || '';
+  } catch (e) {
+    console.error('automation settings load:', e);
+  }
+}
+
+async function saveAutomations() {
+  const btn = document.getElementById('autoSaveBtn');
+  btn.disabled = true; btn.textContent = '⏳ Enregistrement…';
+  try {
+    const { doc, setDoc, serverTimestamp } = fns;
+    const settings = {
+      welcome_enabled:      document.getElementById('autoWelcome').checked,
+      dormant_enabled:      document.getElementById('autoDormant').checked,
+      monthlyRecap_enabled: document.getElementById('autoMonthlyRecap').checked,
+      adminEmail:           document.getElementById('autoAdminEmail').value.trim(),
+      updatedAt:            serverTimestamp(),
+    };
+    await setDoc(doc(db, 'settings', 'automations'), settings, { merge: true });
+    btn.textContent = '✓ Enregistré';
+    setTimeout(() => { btn.textContent = '💾 Enregistrer'; }, 1500);
+  } catch (e) {
+    console.error(e);
+    alert('Erreur enregistrement : ' + (e?.message || e));
+    btn.textContent = '💾 Enregistrer';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 export async function loadFiches() {
   try {
     const { collection, getDocs, query, orderBy } = fns;
@@ -682,3 +723,5 @@ window.closeFicheForm       = closeFicheForm;
 window.saveFiche            = saveFiche;
 window.deleteFiche          = deleteFiche;
 window.copyFicheUrl         = copyFicheUrl;
+
+window.saveAutomations      = saveAutomations;

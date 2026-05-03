@@ -327,6 +327,7 @@
           <button class="comm-tab active" data-comm-view="campagnes">📤 Campagnes</button>
           <button class="comm-tab"        data-comm-view="templates">📋 Templates</button>
           <button class="comm-tab"        data-comm-view="fiches">📚 Bibliothèque PDF</button>
+          <button class="comm-tab"        data-comm-view="automations">⚙ Automations</button>
         </div>
 
         <!-- VUE Campagnes -->
@@ -345,6 +346,63 @@
             <button class="btn-confirm" onclick="openTemplateForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouveau template</button>
           </div>
           <div id="templatesList" class="comm-list"><div class="loading"><div class="spinner"></div></div></div>
+        </div>
+
+        <!-- VUE Automations -->
+        <div id="commView-automations" class="comm-view">
+          <div class="section-title-row">
+            <span>Automations email</span>
+            <button class="btn-confirm" id="autoSaveBtn" onclick="saveAutomations()" style="flex:0 0 auto;padding:0.5rem 1rem">💾 Enregistrer</button>
+          </div>
+
+          <div class="auto-card">
+            <div class="auto-row">
+              <div>
+                <div class="auto-title">🎉 Bienvenue après le 1ᵉʳ RDV terminé</div>
+                <div class="auto-sub">Email envoyé automatiquement quand un RDV passe en "Terminé" pour la première fois pour un client.</div>
+              </div>
+              <label class="auto-toggle">
+                <input type="checkbox" id="autoWelcome">
+                <span class="auto-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="auto-card">
+            <div class="auto-row">
+              <div>
+                <div class="auto-title">😴 Relance des clients dormants</div>
+                <div class="auto-sub">Tous les lundis 9h, email envoyé aux clients dont le dernier RDV remonte à plus de 6 mois (1 envoi max tous les 90 jours par client).</div>
+              </div>
+              <label class="auto-toggle">
+                <input type="checkbox" id="autoDormant">
+                <span class="auto-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="auto-card">
+            <div class="auto-row">
+              <div>
+                <div class="auto-title">📊 Récap mensuel pour toi</div>
+                <div class="auto-sub">Le 1ᵉʳ de chaque mois à 8h, récap CA + factures + MRR envoyé à l'email indiqué ci-dessous.</div>
+              </div>
+              <label class="auto-toggle">
+                <input type="checkbox" id="autoMonthlyRecap">
+                <span class="auto-slider"></span>
+              </label>
+            </div>
+            <label class="fac-label" style="margin-top:0.75rem">Email destinataire du récap
+              <input type="email" id="autoAdminEmail" class="form-input" placeholder="ton@email.com">
+            </label>
+          </div>
+
+          <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;margin-top:1rem">
+            ⚠ Ces automations dépendent du déploiement des Cloud Functions
+            <code>automationWelcomeOnDone</code>, <code>automationDormantWeekly</code>
+            et <code>automationMonthlyRecap</code>. Active-les ici puis lance
+            <code>firebase deploy --only functions</code>.
+          </div>
         </div>
 
         <!-- VUE Bibliothèque PDF -->

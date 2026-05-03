@@ -14,7 +14,8 @@ import { loadDevis }          from '../modules/devis.js';
 import { loadFactures }       from '../modules/factures.js';
 import { loadTemplates,
          loadCampagnes,
-         loadFiches }         from '../modules/communications.js';
+         loadFiches,
+         loadAutomationSettings } from '../modules/communications.js';
 
 let routerStarted = false;
 
@@ -42,6 +43,7 @@ export function bootAuth() {
       loadTemplates();
       loadCampagnes();
       loadFiches();
+      loadAutomationSettings();
     } else {
       document.getElementById('loginWrap').style.display = 'flex';
       document.getElementById('dashboard').style.display = 'none';

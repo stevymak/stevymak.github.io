@@ -207,6 +207,12 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // Paramètres globaux de l'admin (automations, préférences).
+    // Doc id de la forme `automations`, `general`…
+    match /settings/{settingId} {
+      allow read, write: if isAdmin();
+    }
+
     // Campagnes d'envoi (newsletters, promos…). Stats remplies par le
     // webhook Resend côté Cloud Functions.
     match /campagnes/{campId} {
