@@ -1,0 +1,104 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   modules.css — Styles spécifiques aux modules : dashboard charts, calendrier,
+   réservations, contrats, avis. Repris à l'identique de l'ancien admin.html.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ─── DASHBOARD : graphiques inline ──────────────────────────────────────── */
+.bar-chart{display:flex;align-items:flex-end;gap:0.5rem;height:120px}
+.bar-wrap{display:flex;flex-direction:column;align-items:center;gap:0.3rem;flex:1}
+.bar{width:100%;border-radius:4px 4px 0 0;transition:height 0.5s ease;min-height:4px;background:var(--accent);opacity:0.8}
+.bar:hover{opacity:1}
+.bar-label{font-size:0.7rem;color:var(--muted);text-align:center}
+.bar-val{font-size:0.7rem;color:var(--text);font-weight:500}
+
+.services-chart{display:flex;flex-direction:column;gap:0.6rem}
+.svc-bar-row{display:flex;align-items:center;gap:0.75rem;font-size:0.82rem}
+.svc-bar-name{width:180px;flex-shrink:0;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svc-bar-track{flex:1;background:var(--card);border-radius:99px;height:8px;overflow:hidden}
+.svc-bar-fill{height:100%;border-radius:99px;background:var(--accent);transition:width 0.5s ease}
+.svc-bar-count{width:30px;text-align:right;color:var(--text);font-weight:500;flex-shrink:0}
+
+.revenue-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem}
+.rev-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem}
+.rev-label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem}
+.rev-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--success)}
+@media(max-width:480px){.revenue-grid{grid-template-columns:1fr}}
+
+/* ─── CALENDRIER ─────────────────────────────────────────────────────────── */
+.cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-nav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1rem;transition:background 0.2s}
+.cal-nav-btn:hover{background:var(--border)}
+.cal-month-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem}
+.cal-grid-admin{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-head{text-align:center;font-size:0.72rem;color:var(--muted);padding:4px 0;font-weight:500}
+.cal-cell{min-height:72px;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:4px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative}
+.cal-cell:hover:not(.cal-empty):not(.cal-past){border-color:#3b82f640;background:#3b82f608}
+.cal-cell.cal-today{border-color:#3b82f660}
+.cal-cell.cal-empty{background:transparent;border-color:transparent;cursor:default}
+.cal-cell.cal-past{opacity:0.5}
+.cal-day-num{font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:2px}
+.cal-cell.cal-today .cal-day-num{color:var(--accent)}
+.cal-rdv-chip{font-size:0.62rem;padding:1px 4px;border-radius:3px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.chip-pending{background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b30}
+.chip-confirmed{background:#22c55e20;color:#22c55e;border:1px solid #22c55e30}
+.chip-cancelled{background:#ef444420;color:#ef4444;border:1px solid #ef444430}
+.cal-more{font-size:0.62rem;color:var(--muted);padding:1px 4px}
+
+/* ─── RÉSERVATIONS (liste RDV) ───────────────────────────────────────────── */
+.rdv-list{display:flex;flex-direction:column;gap:0.75rem}
+.rdv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;gap:0.75rem}
+.rdv-card.confirmed{border-color:#22c55e30}
+.rdv-card.cancelled{opacity:0.45;border-color:#ef444430}
+.rdv-card.modified{border-color:#f59e0b60;background:#f59e0b05}
+.rdv-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.rdv-service{font-weight:600;font-size:0.95rem}
+.rdv-badges{display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center}
+.rdv-info{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;font-size:0.83rem}
+.rdv-info-item{display:flex;flex-direction:column;gap:0.1rem}
+.rdv-info-label{color:var(--muted);font-size:0.72rem}
+.rdv-desc{font-size:0.82rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)}
+.rdv-modif-note{font-size:0.82rem;background:#f59e0b10;border:1px solid #f59e0b30;border-radius:8px;padding:0.6rem 0.75rem;color:#f59e0b;display:flex;gap:0.5rem;align-items:flex-start}
+.rdv-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+
+/* ─── CONTRATS ───────────────────────────────────────────────────────────── */
+.contrats-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-bottom:1.25rem}
+.mrr-banner{background:linear-gradient(135deg,#1a1a3a,#16162a);border:1px solid #a855f730;border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.mrr-val{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#a855f7}
+.mrr-label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+.mrr-sub{font-size:0.78rem;color:var(--muted)}
+.mrr-breakdown{display:flex;flex-direction:column;gap:0.3rem}
+.mrr-line{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem}
+.mrr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.contrat-card-admin{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;gap:0.75rem;transition:border-color 0.2s}
+.contrat-card-admin.new{border-color:#a855f740;background:#a855f705}
+.contrat-card-admin.active{border-color:#22c55e30}
+.contrat-card-admin.cancelled{opacity:0.45}
+.contrat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.contrat-name{font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:0.5rem}
+.contrat-pill{font-size:0.7rem;padding:0.15rem 0.55rem;border-radius:99px;font-weight:600;border:1px solid}
+.pill-serenite{background:#3b82f615;color:#3b82f6;border-color:#3b82f630}
+.pill-senior{background:#f59e0b15;color:#f59e0b;border-color:#f59e0b30}
+.pill-famille{background:#22c55e15;color:#22c55e;border-color:#22c55e30}
+
+/* ─── AVIS (modération) ──────────────────────────────────────────────────── */
+.avis-attente-section{background:var(--bg3);border:1px solid #f59e0b30;border-radius:var(--r);padding:1.25rem;margin-bottom:1.5rem}
+.avis-attente-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#f59e0b;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.avis-attente-list{display:flex;flex-direction:column;gap:0.75rem}
+.avis-attente-card{background:var(--bg2);border:1px solid #f59e0b30;border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;gap:0.6rem}
+.avis-attente-top{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.avis-attente-actions{display:flex;gap:0.5rem}
+
+.avis-admin-list{display:flex;flex-direction:column;gap:0.75rem}
+.avis-admin-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;gap:0.5rem}
+.avis-admin-top{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.avis-stars-display{color:#f59e0b;font-size:0.9rem}
+.avis-nom{font-weight:600;font-size:0.9rem}
+.avis-comment-text{color:var(--muted);font-size:0.85rem;font-style:italic}
+.avis-date-text{color:var(--muted);font-size:0.75rem}
+
+/* ─── Mobile : adaptations ───────────────────────────────────────────────── */
+@media(max-width:480px){
+  .rdv-info{grid-template-columns:1fr}
+  .cal-cell{min-height:50px}
+  .cal-rdv-chip{display:none}
+}

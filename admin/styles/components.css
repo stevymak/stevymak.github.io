@@ -1,0 +1,86 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   components.css — Boutons, inputs, badges, cartes RDV/contrat, modale, spinner.
+   Styles repris à l'identique de l'ancien admin.html.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Inputs / boutons principaux ────────────────────────────────────────── */
+.form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
+.form-input:focus{border-color:#3b82f660}
+.btn-main{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;width:100%;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem}
+.btn-main:hover{opacity:0.85}
+.btn-main:disabled{opacity:0.5;cursor:not-allowed}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.5rem 0.85rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-logout:hover{color:var(--text);border-color:#3b82f640}
+.error-msg{color:var(--danger);font-size:0.82rem;text-align:center;display:none;background:#ef444410;border:1px solid #ef444430;border-radius:8px;padding:0.5rem}
+
+/* ─── Filtres (chips) ────────────────────────────────────────────────────── */
+.filter-tabs{display:flex;gap:0.5rem;flex-wrap:wrap}
+.tab-filter{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.4rem 0.85rem;font-size:0.8rem;cursor:pointer;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.tab-filter.active{background:#3b82f618;border-color:#3b82f660;color:var(--accent)}
+
+/* ─── Stats (KPI cards) ──────────────────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.75rem;margin-bottom:1.5rem}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700}
+.stat-label{color:var(--muted);font-size:0.72rem;margin-top:0.2rem;text-transform:uppercase;letter-spacing:0.05em}
+
+/* ─── Cartes graphiques génériques ───────────────────────────────────────── */
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem}
+.chart-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center}
+
+/* ─── Section title ──────────────────────────────────────────────────────── */
+.section-title-row{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem}
+
+/* ─── Badges ─────────────────────────────────────────────────────────────── */
+.rdv-badge{font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:500;white-space:nowrap}
+.badge-pending{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b30}
+.badge-confirmed{background:#22c55e18;color:#22c55e;border:1px solid #22c55e30}
+.badge-cancelled{background:#ef444418;color:#ef4444;border:1px solid #ef444430}
+.badge-done{background:#ffffff10;color:var(--muted);border:1px solid var(--border)}
+.badge-modif{background:#f59e0b18;color:#f59e0b;border:1px solid #f59e0b50;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:99px;font-weight:600;white-space:nowrap;animation:blink 2s infinite}
+.badge-new-contrat{background:#a855f718;color:#a855f7;border:1px solid #a855f730;animation:blink 2s infinite}
+.badge-contacted{background:#3b82f618;color:#3b82f6;border:1px solid #3b82f630}
+.badge-active-c{background:#22c55e18;color:#22c55e;border:1px solid #22c55e30}
+.badge-resilie{background:#ffffff10;color:var(--muted);border:1px solid var(--border)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
+
+/* ─── Boutons d'action sur cartes ────────────────────────────────────────── */
+.btn-confirm{background:#22c55e18;color:#22c55e;border:1px solid #22c55e40;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-confirm:hover{background:#22c55e30}
+.btn-done{background:#3b82f618;color:var(--accent);border:1px solid #3b82f640;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-done:hover{background:#3b82f628}
+.btn-cancel{background:#ef444418;color:#ef4444;border:1px solid #ef444440;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-cancel:hover{background:#ef444430}
+.btn-purple{background:#a855f718;color:#a855f7;border:1px solid #a855f740;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-purple:hover{background:#a855f730}
+.btn-reminder{background:#0ea5e918;color:#0ea5e9;border:1px solid #0ea5e940;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex:1}
+.btn-reminder:hover{background:#0ea5e930}
+.btn-reminder:disabled{opacity:0.5;cursor:not-allowed}
+.btn-approve{background:#22c55e18;color:#22c55e;border:1px solid #22c55e40;border-radius:8px;padding:0.4rem 0.9rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;font-weight:500}
+.btn-approve:hover{background:#22c55e30}
+.btn-reject{background:#ef444418;color:#ef4444;border:1px solid #ef444440;border-radius:8px;padding:0.4rem 0.9rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;font-weight:500}
+.btn-reject:hover{background:#ef444430}
+.btn-delete-avis{background:#ef444415;color:#ef4444;border:1px solid #ef444430;border-radius:6px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-delete-avis:hover{background:#ef444430}
+.btn-soft{background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.3rem 0.75rem;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-soft:hover{color:var(--text);border-color:#3b82f640}
+.reminder-status{font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.25rem}
+
+/* ─── Empty / loading ────────────────────────────────────────────────────── */
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:0.9rem}
+.empty-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.loading{text-align:center;padding:2rem;color:var(--muted)}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── Modale ─────────────────────────────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:#00000080;backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;max-width:420px;width:100%;display:flex;flex-direction:column;gap:1rem}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700}
+.modal-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text)}
+.modal-info-row{display:flex;gap:0.5rem;font-size:0.85rem;align-items:flex-start}
+.modal-info-icon{flex-shrink:0;margin-top:0.1rem}
+.modal-info-val{color:var(--muted)}
+.modal-info-val strong{color:var(--text)}
