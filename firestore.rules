@@ -199,6 +199,14 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Bibliothèque de fiches pratiques (liens PDF, catégories).
+    // Les fiches peuvent être référencées dans les emails (variables
+    // {{fiche_url}}) ou listées sur le site public.
+    match /fiches_pdf/{ficheId} {
+      allow read:  if true;          // catalogue public
+      allow write: if isAdmin();
+    }
+
     // Campagnes d'envoi (newsletters, promos…). Stats remplies par le
     // webhook Resend côté Cloud Functions.
     match /campagnes/{campId} {

@@ -16,11 +16,22 @@ import { TEMPLATE_KINDS, CLIENT_TAGS_PRESET } from '../core/ui.js';
 import { getClientsIndex } from './clients.js';
 
 // État local
-let allTemplates = [];
-let allCampagnes = [];
-let editingTplId  = null;
-let editingCampId = null;
-let currentView   = 'campagnes';
+let allTemplates  = [];
+let allCampagnes  = [];
+let allFiches     = [];
+let editingTplId   = null;
+let editingCampId  = null;
+let editingFicheId = null;
+let currentView    = 'campagnes';
+
+const FICHE_CATEGORIES = {
+  securite:    { label: 'Sécurité',    icon: '🛡' },
+  sauvegarde:  { label: 'Sauvegarde',  icon: '💾' },
+  performance: { label: 'Performance', icon: '⚡' },
+  depannage:   { label: 'Dépannage',   icon: '🔧' },
+  formation:   { label: 'Formation',   icon: '🎓' },
+  autre:       { label: 'Autre',       icon: '📁' },
+};
 
 // ─── Chargements ──────────────────────────────────────────────────────────
 export async function loadTemplates() {
@@ -33,6 +44,20 @@ export async function loadTemplates() {
   } catch (e) {
     console.error('templates load:', e);
     document.getElementById('templatesList').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">⚠️</div>Erreur de chargement.</div>';
+  }
+}
+
+export async function loadFiches() {
+  try {
+    const { collection, getDocs, query, orderBy } = fns;
+    const q    = query(collection(db, 'fiches_pdf'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    allFiches = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    emit('fiches:changed');
+  } catch (e) {
+    console.error('fiches load:', e);
+    document.getElementById('fichesList').innerHTML =
       '<div class="empty-state"><div class="empty-icon">⚠️</div>Erreur de chargement.</div>';
   }
 }
@@ -492,9 +517,118 @@ async function deleteCampagne(id) {
   }
 }
 
+// ─── Bibliothèque fiches PDF ──────────────────────────────────────────────
+function renderFiches() {
+  const host = document.getElementById('fichesList');
+  if (!host) return;
+  if (allFiches.length === 0) {
+    host.innerHTML =
+      '<div class="empty-state"><div class="empty-icon">📚</div>Aucune fiche enregistrée. Ajoutes-en pour les partager dans tes emails ou sur le site.</div>';
+    return;
+  }
+  host.innerHTML = allFiches.map((f) => {
+    const cat = FICHE_CATEGORIES[f.categorie] || FICHE_CATEGORIES.autre;
+    return `
+      <div class="comm-row">
+        <div class="comm-row-icon">${cat.icon}</div>
+        <div class="comm-row-main">
+          <div class="comm-row-name">${escapeHtml(f.titre || '–')}</div>
+          <div class="comm-row-sub">${cat.label} · <a href="${escapeHtml(f.url || '#')}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">${escapeHtml(f.url || '–')}</a></div>
+          ${f.description ? `<div class="comm-row-sub">${escapeHtml(f.description)}</div>` : ''}
+        </div>
+        <div class="comm-row-stats">
+          ${f.downloads ? `<strong>${f.downloads}</strong> téléch.` : ''}
+        </div>
+        <div class="comm-row-actions">
+          <button class="btn-soft" onclick="openFicheForm('${f.id}')" title="Modifier">✏️</button>
+          <button class="btn-soft" onclick="copyFicheUrl('${f.id}')" title="Copier l'URL">⧉</button>
+          <button class="btn-cancel" onclick="deleteFiche('${f.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openFicheForm(id = null) {
+  editingFicheId = id;
+  const f = id ? allFiches.find((x) => x.id === id) : null;
+  document.getElementById('ficheModalTitle').textContent = f ? `Fiche "${f.titre}"` : 'Nouvelle fiche';
+  document.getElementById('ficheTitre').value     = f?.titre       || '';
+  document.getElementById('ficheCategorie').value = f?.categorie  || 'securite';
+  document.getElementById('ficheUrl').value       = f?.url         || '';
+  document.getElementById('ficheDesc').value      = f?.description || '';
+  document.getElementById('ficheModal').classList.add('show');
+}
+
+function closeFicheForm() {
+  document.getElementById('ficheModal').classList.remove('show');
+  editingFicheId = null;
+}
+
+async function saveFiche() {
+  const titre       = document.getElementById('ficheTitre').value.trim();
+  const categorie   = document.getElementById('ficheCategorie').value;
+  const url         = document.getElementById('ficheUrl').value.trim();
+  const description = document.getElementById('ficheDesc').value.trim();
+
+  if (!titre || !url) { alert('Titre et URL sont requis.'); return; }
+  try { new URL(url); } catch { alert('URL invalide.'); return; }
+
+  const btn = document.getElementById('ficheSaveBtn');
+  btn.disabled = true;
+
+  try {
+    const { collection, doc, addDoc, updateDoc, serverTimestamp } = fns;
+    const payload = { titre, categorie, url, description, updatedAt: serverTimestamp() };
+
+    if (editingFicheId) {
+      await updateDoc(doc(db, 'fiches_pdf', editingFicheId), payload);
+      const idx = allFiches.findIndex((x) => x.id === editingFicheId);
+      if (idx >= 0) allFiches[idx] = { ...allFiches[idx], ...payload };
+    } else {
+      payload.createdAt = serverTimestamp();
+      payload.downloads = 0;
+      const ref = await addDoc(collection(db, 'fiches_pdf'), payload);
+      allFiches.unshift({ id: ref.id, ...payload });
+    }
+    emit('fiches:changed');
+    closeFicheForm();
+  } catch (e) {
+    console.error(e);
+    alert('Erreur enregistrement : ' + (e?.message || e));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function deleteFiche(id) {
+  const f = allFiches.find((x) => x.id === id);
+  if (!confirm(`Supprimer la fiche "${f?.titre}" ?`)) return;
+  try {
+    const { doc, deleteDoc } = fns;
+    await deleteDoc(doc(db, 'fiches_pdf', id));
+    allFiches = allFiches.filter((x) => x.id !== id);
+    emit('fiches:changed');
+  } catch (e) {
+    console.error(e);
+    alert('Erreur suppression.');
+  }
+}
+
+async function copyFicheUrl(id) {
+  const f = allFiches.find((x) => x.id === id);
+  if (!f?.url) return;
+  try {
+    await navigator.clipboard.writeText(f.url);
+    alert('URL copiée dans le presse-papier ✓');
+  } catch {
+    prompt('URL :', f.url);
+  }
+}
+
 // ─── Souscriptions + wiring ───────────────────────────────────────────────
 on('templates:changed', renderTemplates);
 on('campagnes:changed', renderCampagnes);
+on('fiches:changed',    renderFiches);
 // Si la liste clients change, on met à jour le compteur dans la modale ouverte
 on('clients:changed', updateRecipientCount);
 on('rdvs:changed',     updateRecipientCount);
@@ -525,6 +659,9 @@ document.getElementById('templateModal')?.addEventListener('click', (e) => {
 document.getElementById('campagneModal')?.addEventListener('click', (e) => {
   if (e.target.id === 'campagneModal') closeCampagneForm();
 });
+document.getElementById('ficheModal')?.addEventListener('click', (e) => {
+  if (e.target.id === 'ficheModal') closeFicheForm();
+});
 
 // Compat handlers inline
 window.openTemplateForm     = openTemplateForm;
@@ -539,3 +676,9 @@ window.saveCampagne         = saveCampagne;
 window.sendExistingCampagne = sendExistingCampagne;
 window.duplicateCampagne    = duplicateCampagne;
 window.deleteCampagne       = deleteCampagne;
+
+window.openFicheForm        = openFicheForm;
+window.closeFicheForm       = closeFicheForm;
+window.saveFiche            = saveFiche;
+window.deleteFiche          = deleteFiche;
+window.copyFicheUrl         = copyFicheUrl;

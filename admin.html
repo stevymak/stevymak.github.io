@@ -326,6 +326,7 @@
         <div class="comm-tabs">
           <button class="comm-tab active" data-comm-view="campagnes">📤 Campagnes</button>
           <button class="comm-tab"        data-comm-view="templates">📋 Templates</button>
+          <button class="comm-tab"        data-comm-view="fiches">📚 Bibliothèque PDF</button>
         </div>
 
         <!-- VUE Campagnes -->
@@ -344,6 +345,19 @@
             <button class="btn-confirm" onclick="openTemplateForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouveau template</button>
           </div>
           <div id="templatesList" class="comm-list"><div class="loading"><div class="spinner"></div></div></div>
+        </div>
+
+        <!-- VUE Bibliothèque PDF -->
+        <div id="commView-fiches" class="comm-view">
+          <div class="section-title-row">
+            <span>Fiches pratiques (PDF)</span>
+            <button class="btn-confirm" onclick="openFicheForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouvelle fiche</button>
+          </div>
+          <div id="fichesList" class="comm-list"><div class="loading"><div class="spinner"></div></div></div>
+          <div style="margin-top:0.75rem;font-size:0.78rem;color:var(--muted);line-height:1.5">
+            💡 Héberge tes PDFs dans le repo (dossier <code>fiches/</code>) ou sur n'importe quel CDN.<br>
+            L'URL du PDF est utilisable dans les emails via <code>{{fiche_url}}</code> (à ajouter en Phase 3.3).
+          </div>
         </div>
       </section>
 
@@ -433,6 +447,41 @@
     </div>
     <div id="modalBody"></div>
     <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ─── Modale fiche PDF ───────────────────────────────────────────────── -->
+<div class="modal-overlay" id="ficheModal">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem">
+      <h3 id="ficheModalTitle">Nouvelle fiche</h3>
+      <button class="modal-close" onclick="closeFicheForm()" aria-label="Fermer">✕</button>
+    </div>
+
+    <label class="fac-label">Titre
+      <input id="ficheTitre" class="form-input" placeholder="ex: Comment sécuriser son PC en 5 étapes">
+    </label>
+    <label class="fac-label">Catégorie
+      <select id="ficheCategorie" class="form-input">
+        <option value="securite">🛡 Sécurité</option>
+        <option value="sauvegarde">💾 Sauvegarde</option>
+        <option value="performance">⚡ Performance</option>
+        <option value="depannage">🔧 Dépannage</option>
+        <option value="formation">🎓 Formation</option>
+        <option value="autre">📁 Autre</option>
+      </select>
+    </label>
+    <label class="fac-label">URL du PDF
+      <input id="ficheUrl" type="url" class="form-input" placeholder="https://makouezit.org/fiches/securiser-pc.pdf">
+    </label>
+    <label class="fac-label">Description courte (facultatif)
+      <textarea id="ficheDesc" class="form-input" rows="2" style="resize:vertical" placeholder="Quelques lignes pour décrire le contenu…"></textarea>
+    </label>
+
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn-soft" onclick="closeFicheForm()">Annuler</button>
+      <button class="btn-confirm" id="ficheSaveBtn" onclick="saveFiche()">💾 Enregistrer</button>
+    </div>
   </div>
 </div>
 
