@@ -29,6 +29,7 @@ export const ROUTE_TITLES = {
   reservations: 'Réservations',
   clients:      'Clients',
   contrats:     'Contrats',
+  finance:      'Finance',
   avis:         'Avis',
 };
 

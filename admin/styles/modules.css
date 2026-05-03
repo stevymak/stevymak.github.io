@@ -178,6 +178,28 @@
   .client-rdv-date{grid-column:1/-1;font-size:0.7rem}
 }
 
+/* ─── FINANCE ───────────────────────────────────────────────────────────── */
+
+.fin-seuil-bars{display:flex;flex-direction:column;gap:0.85rem;margin-top:0.5rem}
+.fin-seuil-row{display:grid;grid-template-columns:160px 1fr 110px;gap:0.75rem;align-items:center}
+.fin-seuil-row-label{font-size:0.78rem;color:var(--muted)}
+.fin-seuil-bar{background:var(--card);border:1px solid var(--border);border-radius:99px;height:14px;overflow:hidden;position:relative}
+.fin-seuil-bar-fill{height:100%;border-radius:99px;transition:width 0.6s ease;width:0%}
+.fin-seuil-row-val{font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem;text-align:right}
+@media(max-width:520px){
+  .fin-seuil-row{grid-template-columns:110px 1fr}
+  .fin-seuil-row-val{grid-column:1/-1;text-align:right;font-size:0.82rem}
+}
+
+.fin-alert{padding:0.7rem 0.9rem;border-radius:8px;font-size:0.85rem;line-height:1.4}
+.fin-alert-warn{background:#f59e0b15;border:1px solid #f59e0b40;color:#f59e0b}
+.fin-alert-danger{background:#ef444415;border:1px solid #ef444450;color:#ef4444}
+
+.fin-tips{list-style:none;padding:0;margin:0;font-size:0.85rem;color:var(--muted);display:flex;flex-direction:column;gap:0.5rem}
+.fin-tips strong{color:var(--text)}
+.fin-tips li{display:flex;gap:0.55rem;align-items:flex-start;line-height:1.45}
+.fin-tips li::before{content:'•';color:var(--accent);font-weight:700}
+
 /* ─── AVIS (modération) ──────────────────────────────────────────────────── */
 .avis-attente-section{background:var(--bg3);border:1px solid #f59e0b30;border-radius:var(--r);padding:1.25rem;margin-bottom:1.5rem}
 .avis-attente-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:#f59e0b;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}

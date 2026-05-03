@@ -44,6 +44,7 @@
       <a class="sidebar-item" data-route="reservations" href="#reservations"><span class="sidebar-icon">📋</span><span>Réservations</span></a>
       <a class="sidebar-item" data-route="clients"      href="#clients"><span class="sidebar-icon">👥</span><span>Clients</span></a>
       <a class="sidebar-item" data-route="contrats"     href="#contrats"><span class="sidebar-icon">📄</span><span>Contrats</span></a>
+      <a class="sidebar-item" data-route="finance"      href="#finance"><span class="sidebar-icon">💰</span><span>Finance</span></a>
       <a class="sidebar-item" data-route="avis"         href="#avis"><span class="sidebar-icon">⭐</span><span>Avis</span></a>
     </nav>
     <div class="sidebar-footer">
@@ -237,6 +238,64 @@
         </div>
 
         <div id="contratsList"><div class="loading"><div class="spinner"></div></div></div>
+      </section>
+
+      <!-- ─── FINANCE ───────────────────────────────────────────────── -->
+      <section class="tab-content" id="tab-finance">
+        <div class="period-selector" data-finance>
+          <button class="period-btn" data-period="day">Jour</button>
+          <button class="period-btn" data-period="week">Semaine</button>
+          <button class="period-btn active" data-period="month">Mois</button>
+          <button class="period-btn" data-period="quarter">Trimestre</button>
+          <button class="period-btn" data-period="year">Année</button>
+          <span class="period-label" id="finPeriodLabel"></span>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">CA brut estimé</div>
+            <div class="kpi-value" id="finCA">–</div>
+            <div class="kpi-delta">RDV (prixReel/70€) + MRR contrats</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Cotisations URSSAF (~22%)</div>
+            <div class="kpi-value" id="finCot" style="color:var(--warning)">–</div>
+            <div class="kpi-delta">À provisionner</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Net estimé</div>
+            <div class="kpi-value" id="finNet" style="color:var(--success)">–</div>
+            <div class="kpi-delta">Après cotisations</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Seuil micro-entreprise 2026 <span class="chart-sub">Prestations de services · 77 700 € HT</span></div>
+          <div class="fin-seuil-bars">
+            <div class="fin-seuil-row">
+              <div class="fin-seuil-row-label">Réalisé annuel</div>
+              <div class="fin-seuil-bar"><div class="fin-seuil-bar-fill" id="finSeuilFill" style="background:#22c55e"></div></div>
+              <div class="fin-seuil-row-val" id="finCAYear">–</div>
+            </div>
+            <div class="fin-seuil-row">
+              <div class="fin-seuil-row-label">Projection fin d'année</div>
+              <div class="fin-seuil-bar"><div class="fin-seuil-bar-fill" id="finSeuilProj" style="background:linear-gradient(90deg,#3b82f6,#a855f7)"></div></div>
+              <div class="fin-seuil-row-val" id="finProjection">–</div>
+            </div>
+          </div>
+          <div id="finSeuilLabel" style="font-size:0.78rem;color:var(--muted);margin-top:0.6rem"></div>
+          <div id="finSeuilAlert" class="fin-alert" style="display:none;margin-top:0.75rem"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">À retenir</div>
+          <ul class="fin-tips">
+            <li>Provisionne <strong>~22%</strong> de chaque encaissement pour les cotisations URSSAF (services).</li>
+            <li>Seuil micro 2026 : <strong>77 700 €</strong> HT. Au-delà : passage en réel obligatoire.</li>
+            <li>Seuil majoré (tolérance 1 an) : <strong>85 800 €</strong>. Au-delà sur 2 ans : sortie immédiate.</li>
+            <li>Estimation calculée à partir des RDV terminés/confirmés (prix réel ou 70€ par défaut) + MRR des contrats actifs.</li>
+          </ul>
+        </div>
       </section>
 
       <!-- ─── AVIS ───────────────────────────────────────────────────── -->
