@@ -28,6 +28,7 @@ export const ROUTE_TITLES = {
   calendrier:   'Agenda',
   reservations: 'Réservations',
   clients:      'Clients',
+  devis:        'Devis',
   factures:     'Factures',
   contrats:     'Contrats',
   finance:      'Finance',

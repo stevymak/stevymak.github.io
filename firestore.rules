@@ -180,9 +180,16 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Devis (admin only). Numérotation séquentielle gérée via counters/.
+    // Conversion devis → facture : on crée un nouveau doc factures + on
+    // met à jour le statut du devis avec factureId.
+    match /devis/{devisId} {
+      allow read, write: if isAdmin();
+    }
+
     // Compteurs séquentiels (factures, devis…). Document id de la
-    // forme `factures-2026`. Mis à jour atomiquement par l'admin via
-    // runTransaction côté client.
+    // forme `factures-2026` ou `devis-2026`. Mis à jour atomiquement
+    // par l'admin via runTransaction côté client.
     match /counters/{counterId} {
       allow read, write: if isAdmin();
     }

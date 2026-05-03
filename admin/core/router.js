@@ -11,7 +11,7 @@
 import { ROUTE_TITLES } from './ui.js';
 import { emit } from './store.js';
 
-const ROUTES = ['dashboard', 'calendrier', 'reservations', 'clients', 'factures', 'contrats', 'finance', 'avis'];
+const ROUTES = ['dashboard', 'calendrier', 'reservations', 'clients', 'devis', 'factures', 'contrats', 'finance', 'avis'];
 
 function getCurrentRoute() {
   const h = (window.location.hash || '').replace('#', '');

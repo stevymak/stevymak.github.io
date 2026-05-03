@@ -43,6 +43,7 @@
       <a class="sidebar-item" data-route="calendrier"   href="#calendrier"><span class="sidebar-icon">📅</span><span>Agenda</span></a>
       <a class="sidebar-item" data-route="reservations" href="#reservations"><span class="sidebar-icon">📋</span><span>Réservations</span></a>
       <a class="sidebar-item" data-route="clients"      href="#clients"><span class="sidebar-icon">👥</span><span>Clients</span></a>
+      <a class="sidebar-item" data-route="devis"        href="#devis"><span class="sidebar-icon">💼</span><span>Devis</span></a>
       <a class="sidebar-item" data-route="factures"     href="#factures"><span class="sidebar-icon">🧾</span><span>Factures</span></a>
       <a class="sidebar-item" data-route="contrats"     href="#contrats"><span class="sidebar-icon">📄</span><span>Contrats</span></a>
       <a class="sidebar-item" data-route="finance"      href="#finance"><span class="sidebar-icon">💰</span><span>Finance</span></a>
@@ -207,6 +208,46 @@
         <button id="clientsLoadMore" class="btn-soft clients-load-more" style="display:none">Charger plus</button>
       </section>
 
+      <!-- ─── DEVIS ─────────────────────────────────────────────────── -->
+      <section class="tab-content" id="tab-devis">
+        <div class="section-title-row">
+          Devis
+          <div style="display:flex;gap:0.5rem">
+            <input type="search" id="devisSearch" class="form-input clients-search" placeholder="🔎 Numéro, client, montant" autocomplete="off">
+            <button class="btn-confirm" onclick="openDevisForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouveau devis</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid" style="margin-bottom:1rem">
+          <div class="kpi-card">
+            <div class="kpi-label">En cours</div>
+            <div class="kpi-value" id="devStatSent" style="color:var(--accent)">–</div>
+            <div class="kpi-delta" id="devStatSentCount"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Acceptés (à convertir)</div>
+            <div class="kpi-value" id="devStatAccepted" style="color:var(--success)">–</div>
+            <div class="kpi-delta" id="devStatAcceptedCount"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux acceptation</div>
+            <div class="kpi-value" id="devStatRate" style="color:var(--purple)">–</div>
+            <div class="kpi-delta" id="devStatRateCount"></div>
+          </div>
+        </div>
+
+        <div class="filter-tabs" style="margin-bottom:1rem">
+          <button class="tab-filter active" onclick="setDevisFilter('all',this)">Tous</button>
+          <button class="tab-filter" onclick="setDevisFilter('sent',this)">📤 Envoyés</button>
+          <button class="tab-filter" onclick="setDevisFilter('accepted',this)">✅ Acceptés</button>
+          <button class="tab-filter" onclick="setDevisFilter('refused',this)">✗ Refusés</button>
+          <button class="tab-filter" onclick="setDevisFilter('expired',this)">⏰ Expirés</button>
+          <button class="tab-filter" onclick="setDevisFilter('converted',this)">🧾 Convertis</button>
+        </div>
+
+        <div id="devisList"><div class="loading"><div class="spinner"></div></div></div>
+      </section>
+
       <!-- ─── FACTURES ──────────────────────────────────────────────── -->
       <section class="tab-content" id="tab-factures">
         <div class="section-title-row">
@@ -365,6 +406,71 @@
     </div>
     <div id="modalBody"></div>
     <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ─── Modale création / édition de devis ──────────────────────────────── -->
+<div class="modal-overlay" id="devisModal">
+  <div class="modal facture-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem">
+      <h3 id="devisModalTitle">Nouveau devis</h3>
+      <button class="modal-close" onclick="closeDevisForm()" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="fac-form-grid">
+      <div class="fac-form-section">
+        <div class="fac-form-section-title">Client</div>
+        <div class="fac-client-suggest-wrap">
+          <input id="devClientSearch" class="form-input" placeholder="🔎 Rechercher un client existant…" autocomplete="off">
+          <div class="fac-client-suggest" id="devClientSuggest" style="display:none"></div>
+        </div>
+        <input id="devClientNom"     class="form-input" placeholder="Nom complet">
+        <input id="devClientEmail"   class="form-input" placeholder="Email">
+        <input id="devClientTel"     class="form-input" placeholder="Téléphone">
+        <textarea id="devClientAdresse" class="form-input" placeholder="Adresse complète" rows="2" style="resize:vertical"></textarea>
+      </div>
+
+      <div class="fac-form-section">
+        <div class="fac-form-section-title">Détails</div>
+        <label class="fac-label">Date d'émission
+          <input type="date" id="devDate" class="form-input">
+        </label>
+        <label class="fac-label">Validité
+          <input type="date" id="devValidite" class="form-input">
+        </label>
+        <label class="fac-label">Statut
+          <select id="devStatut" class="form-input">
+            <option value="sent">📤 Envoyé</option>
+            <option value="accepted">✅ Accepté</option>
+            <option value="refused">✗ Refusé</option>
+          </select>
+        </label>
+        <label class="fac-label">TVA (%)
+          <input type="number" id="devTva" class="form-input" min="0" max="20" step="0.1" value="0">
+        </label>
+      </div>
+    </div>
+
+    <div class="fac-form-section">
+      <div class="fac-form-section-title">Lignes
+        <button class="btn-soft" onclick="addDevisLine()" style="margin-left:auto">+ Ajouter une ligne</button>
+      </div>
+      <div id="devLinesList" class="fac-lines"></div>
+    </div>
+
+    <div class="fac-totals">
+      <div class="fac-total-row"><span>Total HT</span><strong id="devTotalHT">0,00 €</strong></div>
+      <div class="fac-total-row" id="devTotalTvaRow" style="display:none"><span>TVA</span><strong id="devTotalTVA">0,00 €</strong></div>
+      <div class="fac-total-row fac-total-final"><span>Total TTC</span><strong id="devTotalTTC">0,00 €</strong></div>
+    </div>
+
+    <textarea id="devNotes" class="form-input" placeholder="Notes / conditions particulières (facultatif)" rows="2" style="resize:vertical"></textarea>
+
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn-soft" onclick="closeDevisForm()">Annuler</button>
+      <button class="btn-done" id="devSaveBtn" onclick="saveDevis(false)">💾 Enregistrer</button>
+      <button class="btn-confirm" id="devSavePdfBtn" onclick="saveDevis(true)">💾 + 📄 PDF</button>
+    </div>
   </div>
 </div>
 
