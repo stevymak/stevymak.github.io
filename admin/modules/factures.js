@@ -14,7 +14,7 @@
 //   - paid=false                 → 'unpaid'
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { db, fns } from '../core/firebase.js';
+import { db, fns, callSendInvoiceReminder } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
 import { BUSINESS_INFO, PAIEMENT_MODES } from '../core/ui.js';
 
@@ -196,10 +196,22 @@ function factureRowHtml(f) {
       <div class="fac-row-actions">
         <button class="btn-soft" onclick="downloadFacturePdf('${f.id}')" title="Télécharger PDF">📄</button>
         <button class="btn-soft" onclick="openFactureForm('${f.id}')" title="Modifier">✏️</button>
+        ${!f.paid && f.client?.email
+          ? `<button class="btn-reminder" data-fac-reminder-id="${f.id}" onclick="sendFactureReminder('${f.id}')" title="Envoyer une relance email">📧 ${f.reminderSendCount ? `Relance ${f.reminderSendCount + 1}` : 'Relance'}</button>`
+          : ''}
         <button class="btn-${f.paid ? 'soft' : 'confirm'}" onclick="toggleFacturePaid('${f.id}')" title="Statut paiement">${f.paid ? '↩ Impayée' : '✓ Payée'}</button>
         <button class="btn-cancel" onclick="deleteFacture('${f.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
       </div>
+      ${f.reminderSendCount && !f.paid
+        ? `<div class="reminder-status" style="grid-column:1/-1;text-align:right;font-size:0.72rem;color:var(--muted);margin-top:0.25rem">Dernière relance : ${reminderTimeLabel(f)} · ${f.reminderSendCount}/3</div>`
+        : ''}
     </div>`;
+}
+
+function reminderTimeLabel(f) {
+  const ts = f.reminderSentAt?.toDate?.() || (f.reminderSentAtMs ? new Date(f.reminderSentAtMs) : null);
+  if (!ts) return '–';
+  return ts.toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 }
 
 // ─── Form : ouvrir en création ou édition ────────────────────────────────
@@ -465,6 +477,56 @@ async function toggleFacturePaid(id) {
   }
 }
 
+async function sendFactureReminder(id) {
+  const f = allFactures.find((x) => x.id === id);
+  if (!f) return;
+  if (!f.client?.email) {
+    alert('Pas d\'email client sur cette facture.');
+    return;
+  }
+
+  const sent = Number(f.reminderSendCount || 0);
+  if (sent >= 3) {
+    alert('Plafond de 3 relances atteint.');
+    return;
+  }
+
+  if (sent > 0) {
+    const last = reminderTimeLabel(f);
+    if (!confirm(`Une relance a déjà été envoyée le ${last}.\nEnvoyer une ${sent + 1}ᵉ relance ?`)) return;
+  } else {
+    if (!confirm(`Envoyer une relance à ${f.client.email} pour la facture ${f.numero} ?`)) return;
+  }
+
+  const btn = document.querySelector(`[data-fac-reminder-id="${id}"]`);
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi…'; }
+
+  try {
+    const res = await callSendInvoiceReminder({ factureId: id });
+    if (res.data?.skipped) {
+      alert(`Relance non envoyée (${res.data.reason}).`);
+      if (btn) { btn.disabled = false; btn.textContent = '📧 Relance'; }
+      return;
+    }
+    // Mise à jour locale optimiste
+    f.reminderSendCount = (f.reminderSendCount || 0) + 1;
+    f.reminderSent      = true;
+    f.reminderSentAt    = { toDate: () => new Date() };
+    f.reminderSentAtMs  = Date.now();
+
+    if (btn) {
+      btn.textContent = '✅ Relance envoyée';
+      btn.style.color = 'var(--success)';
+    }
+    setTimeout(() => emit('factures:changed'), 2000);
+  } catch (e) {
+    console.error(e);
+    if (btn) { btn.disabled = false; btn.textContent = '❌ Échec'; btn.style.color = 'var(--danger)'; }
+    alert('Impossible d\'envoyer la relance.\n' + (e?.message || e));
+    setTimeout(() => emit('factures:changed'), 2500);
+  }
+}
+
 async function deleteFacture(id) {
   const f = allFactures.find((x) => x.id === id);
   if (!confirm(`Supprimer la facture ${f?.numero || ''} ?\n(le numéro reste consommé dans la séquence)`)) return;
@@ -704,3 +766,4 @@ window.toggleFacturePaid   = toggleFacturePaid;
 window.deleteFacture       = deleteFacture;
 window.downloadFacturePdf  = downloadFacturePdf;
 window.setFactureFilter    = setFactureFilter;
+window.sendFactureReminder = sendFactureReminder;
