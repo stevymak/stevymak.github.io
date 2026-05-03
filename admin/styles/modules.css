@@ -240,6 +240,35 @@
 .fac-total-final{padding-top:0.5rem;border-top:1px solid var(--border);margin-top:0.25rem;font-size:1rem}
 .fac-total-final strong{font-size:1.15rem;color:var(--accent)}
 
+/* ─── COMMUNICATIONS (newsletter / templates) ───────────────────────────── */
+
+.comm-tabs{display:flex;gap:0.4rem;margin-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.comm-tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:0.7rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;cursor:pointer;transition:all 0.15s}
+.comm-tab:hover{color:var(--text)}
+.comm-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.comm-view{display:none}
+.comm-view.active{display:block}
+
+.comm-list{display:flex;flex-direction:column;gap:0.6rem}
+.comm-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.85rem 1rem;display:grid;grid-template-columns:auto 1fr auto auto;gap:0.85rem;align-items:center;transition:border-color 0.2s}
+.comm-row:hover{border-color:#3b82f640}
+.comm-row-icon{font-size:1.4rem;flex-shrink:0}
+.comm-row-main{min-width:0}
+.comm-row-name{font-weight:600;font-size:0.92rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.comm-row-sub{color:var(--muted);font-size:0.78rem;margin-top:0.15rem}
+.comm-row-stats{font-size:0.78rem;color:var(--muted);text-align:right;white-space:nowrap}
+.comm-row-stats strong{color:var(--text);font-family:'Syne',sans-serif;font-weight:700;display:block;font-size:0.95rem}
+.comm-row-actions{display:flex;gap:0.4rem;flex-shrink:0}
+@media(max-width:520px){
+  .comm-row{grid-template-columns:auto 1fr}
+  .comm-row-stats,.comm-row-actions{grid-column:1/-1;text-align:left}
+  .comm-row-actions{justify-content:flex-end;border-top:1px solid var(--border);padding-top:0.5rem}
+}
+
+.comm-preview-wrap{margin-top:0.5rem}
+.comm-preview{width:100%;height:200px;border:1px solid var(--border);border-radius:8px;background:#f0f0f8}
+
 /* ─── FINANCE ───────────────────────────────────────────────────────────── */
 
 .fin-seuil-bars{display:flex;flex-direction:column;gap:0.85rem;margin-top:0.5rem}

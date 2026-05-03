@@ -17,6 +17,7 @@ import './modules/avis.js';
 import './modules/clients.js';
 import './modules/devis.js';
 import './modules/factures.js';
+import './modules/communications.js';
 import './modules/finance.js';
 import { bootAuth } from './core/auth-guard.js';
 

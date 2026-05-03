@@ -194,6 +194,17 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Templates d'emails réutilisables (newsletter, fiche, promo, relance).
+    match /templates/{tplId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Campagnes d'envoi (newsletters, promos…). Stats remplies par le
+    // webhook Resend côté Cloud Functions.
+    match /campagnes/{campId} {
+      allow read, write: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

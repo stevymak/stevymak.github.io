@@ -18,6 +18,10 @@ const FACTURE_FROM           = 'Makouez IT <facturation@makouezit.org>';
 const REMINDER_DAYS_BETWEEN  = 7;   // Jours mini entre deux relances auto
 const REMINDER_MAX           = 3;   // Nombre max de relances auto par facture
 
+// Newsletter
+const NEWSLETTER_FROM        = 'Makouez IT <newsletter@makouezit.org>';
+const RESEND_RATE_LIMIT_MS   = 110; // ~9 envois/sec, sous le quota Resend (10/sec)
+
 // ─── Parse start hour from timeLabel (e.g. "10h00 – 12h00" → 10) ─────────────
 function parseSlotStartHour(timeLabel) {
   if (!timeLabel) return 9;
@@ -558,3 +562,150 @@ exports.scheduleInvoiceReminderCheck = functions
 
     return null;
   });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// NEWSLETTER / CAMPAGNES (Phase 3.1)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function personalize(html, recipient) {
+  const r = recipient || {};
+  return String(html || '')
+    .replace(/\{\{nom\}\}/g,        r.nom || '')
+    .replace(/\{\{firstname\}\}/g,  String(r.nom || '').split(' ')[0] || '')
+    .replace(/\{\{email\}\}/g,      r.email || '');
+}
+
+function sleep(ms) {
+  return new Promise((res) => setTimeout(res, ms));
+}
+
+// ─── Callable : envoi d'une campagne à une liste de destinataires ────────────
+//
+// Input :
+//   - campagneId  : id du document campagnes/{id}
+//   - subject     : sujet (peut contenir {{nom}}, {{firstname}})
+//   - html        : corps HTML (idem)
+//   - recipients  : [{ email, nom }] — calculés côté admin
+//
+// L'admin reste l'autorité du segment ; on ne re-vérifie pas server-side.
+// Quotas Resend : 100/jour en gratuit. Envoi séquentiel avec délai de 110ms
+// pour rester sous 10 emails/seconde.
+exports.sendCampaign = functions
+  .runWith({ secrets: [RESEND_API_KEY], timeoutSeconds: 540 })
+  .https.onCall(async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError('unauthenticated', 'Authentification requise.');
+    }
+    if (!context.auth.token.admin) {
+      throw new functions.https.HttpsError('permission-denied', 'Accès admin requis.');
+    }
+
+    const { campagneId, subject, html, recipients } = data || {};
+    if (!campagneId || typeof campagneId !== 'string') {
+      throw new functions.https.HttpsError('invalid-argument', 'campagneId manquant.');
+    }
+    if (!subject || !html) {
+      throw new functions.https.HttpsError('invalid-argument', 'subject et html requis.');
+    }
+    if (!Array.isArray(recipients) || recipients.length === 0) {
+      throw new functions.https.HttpsError('invalid-argument', 'recipients vide.');
+    }
+    if (recipients.length > 1000) {
+      throw new functions.https.HttpsError('invalid-argument', 'Max 1000 destinataires par campagne.');
+    }
+
+    const resend = new Resend(RESEND_API_KEY.value());
+    const db     = admin.firestore();
+    const campRef= db.collection('campagnes').doc(campagneId);
+
+    let sent     = 0;
+    const errors = [];
+
+    for (const r of recipients) {
+      if (!r?.email) { errors.push({ email: '?', error: 'email manquant' }); continue; }
+      try {
+        const personalSubject = personalize(subject, r);
+        const personalHtml    = personalize(html, r);
+        const { error } = await resend.emails.send({
+          from:    NEWSLETTER_FROM,
+          to:      r.email,
+          subject: personalSubject,
+          html:    personalHtml,
+          tags: [
+            { name: 'campagne_id', value: campagneId },
+            { name: 'kind',        value: 'newsletter' },
+          ],
+        });
+        if (error) {
+          errors.push({ email: r.email, error: error.message });
+        } else {
+          sent++;
+        }
+      } catch (e) {
+        errors.push({ email: r.email, error: e?.message || String(e) });
+      }
+      await sleep(RESEND_RATE_LIMIT_MS);
+    }
+
+    await campRef.set({
+      sentAt:         admin.firestore.FieldValue.serverTimestamp(),
+      recipientCount: recipients.length,
+      'stats.sent':   admin.firestore.FieldValue.increment(sent),
+      'stats.errors': admin.firestore.FieldValue.increment(errors.length),
+      lastErrors:     errors.slice(0, 10), // garder un échantillon
+    }, { merge: true });
+
+    functions.logger.info('Campagne envoyée', { campagneId, sent, errors: errors.length });
+    return { sent, errors: errors.length, errorDetails: errors.slice(0, 20) };
+  });
+
+// ─── HTTP : webhook Resend pour traçabilité opens/clicks/bounces ─────────────
+//
+// À configurer dans le dashboard Resend → Webhooks → URL de cette fonction.
+// On vérifie superficiellement que le payload a la forme attendue ; pour une
+// vraie protection, ajouter une vérification de signature svix (TODO).
+exports.resendWebhook = functions.https.onRequest(async (req, res) => {
+  if (req.method !== 'POST') {
+    return res.status(405).send('Method Not Allowed');
+  }
+
+  const body  = req.body || {};
+  const type  = body.type;
+  const data  = body.data || {};
+  const tags  = Array.isArray(data.tags) ? data.tags : [];
+
+  // Convertit l'array de tags Resend en map {name: value}
+  const tagMap = {};
+  tags.forEach((t) => { if (t?.name) tagMap[t.name] = t.value; });
+  const campagneId = tagMap.campagne_id;
+
+  if (!campagneId || !type) {
+    functions.logger.info('Webhook ignoré (pas de campagne_id ou type)', { type, hasTags: tags.length });
+    return res.status(200).send('IGNORED');
+  }
+
+  const fieldByEvent = {
+    'email.sent':           'stats.deliveryAccepted',
+    'email.delivered':      'stats.delivered',
+    'email.delivery_delayed':'stats.delayed',
+    'email.opened':         'stats.opened',
+    'email.clicked':        'stats.clicked',
+    'email.bounced':        'stats.bounced',
+    'email.complained':     'stats.complained',
+  };
+  const field = fieldByEvent[type];
+  if (!field) {
+    return res.status(200).send('IGNORED_TYPE');
+  }
+
+  try {
+    await admin.firestore().collection('campagnes').doc(campagneId).set({
+      [field]: admin.firestore.FieldValue.increment(1),
+      lastEventAt: admin.firestore.FieldValue.serverTimestamp(),
+    }, { merge: true });
+    return res.status(200).send('OK');
+  } catch (err) {
+    functions.logger.error('resendWebhook update failed', { campagneId, type, err: err.message });
+    return res.status(500).send('ERROR');
+  }
+});

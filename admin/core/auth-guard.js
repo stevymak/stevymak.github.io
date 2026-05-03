@@ -12,6 +12,8 @@ import { loadContrats }       from '../modules/contrats.js';
 import { loadClientsMeta }    from '../modules/clients.js';
 import { loadDevis }          from '../modules/devis.js';
 import { loadFactures }       from '../modules/factures.js';
+import { loadTemplates,
+         loadCampagnes }      from '../modules/communications.js';
 
 let routerStarted = false;
 
@@ -36,6 +38,8 @@ export function bootAuth() {
       loadClientsMeta();
       loadDevis();
       loadFactures();
+      loadTemplates();
+      loadCampagnes();
     } else {
       document.getElementById('loginWrap').style.display = 'flex';
       document.getElementById('dashboard').style.display = 'none';

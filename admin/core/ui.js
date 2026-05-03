@@ -24,15 +24,23 @@ export const CONTRAT_PILLS = {
 };
 
 export const ROUTE_TITLES = {
-  dashboard:    'Dashboard',
-  calendrier:   'Agenda',
-  reservations: 'Réservations',
-  clients:      'Clients',
-  devis:        'Devis',
-  factures:     'Factures',
-  contrats:     'Contrats',
-  finance:      'Finance',
-  avis:         'Avis',
+  dashboard:      'Dashboard',
+  calendrier:     'Agenda',
+  reservations:   'Réservations',
+  clients:        'Clients',
+  devis:          'Devis',
+  factures:       'Factures',
+  contrats:       'Contrats',
+  communications: 'Communications',
+  finance:        'Finance',
+  avis:           'Avis',
+};
+
+export const TEMPLATE_KINDS = {
+  newsletter: { label: 'Newsletter',          icon: '📰' },
+  fiche:      { label: 'Fiche pratique',      icon: '📋' },
+  promo:      { label: 'Promo / offre',       icon: '🎁' },
+  relance:    { label: 'Relance / réactivation', icon: '🔔' },
 };
 
 // ────────────────────────────────────────────────────────────────────────────

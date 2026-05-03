@@ -66,6 +66,7 @@ export { onAuthStateChanged };
 
 export const callSendReminder         = httpsCallable(functionsInstance, 'sendReminderManual');
 export const callSendInvoiceReminder  = httpsCallable(functionsInstance, 'sendInvoiceReminderManual');
+export const callSendCampaign         = httpsCallable(functionsInstance, 'sendCampaign');
 
 // Compat globale pour les modules historiques. À retirer module par module
 // au fil des phases suivantes.

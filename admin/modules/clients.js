@@ -31,6 +31,11 @@ let visibleCount   = PAGE_SIZE;
 let currentClientId = null;
 
 // ─── Chargement des méta clients ──────────────────────────────────────────
+// Snapshot lecture-seule de l'index pour les autres modules (newsletter, etc.)
+export function getClientsIndex() {
+  return clientsIndex.slice();
+}
+
 export async function loadClientsMeta() {
   try {
     const { collection, getDocs } = fns;

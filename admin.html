@@ -45,8 +45,9 @@
       <a class="sidebar-item" data-route="clients"      href="#clients"><span class="sidebar-icon">👥</span><span>Clients</span></a>
       <a class="sidebar-item" data-route="devis"        href="#devis"><span class="sidebar-icon">💼</span><span>Devis</span></a>
       <a class="sidebar-item" data-route="factures"     href="#factures"><span class="sidebar-icon">🧾</span><span>Factures</span></a>
-      <a class="sidebar-item" data-route="contrats"     href="#contrats"><span class="sidebar-icon">📄</span><span>Contrats</span></a>
-      <a class="sidebar-item" data-route="finance"      href="#finance"><span class="sidebar-icon">💰</span><span>Finance</span></a>
+      <a class="sidebar-item" data-route="contrats"       href="#contrats"><span class="sidebar-icon">📄</span><span>Contrats</span></a>
+      <a class="sidebar-item" data-route="communications" href="#communications"><span class="sidebar-icon">📧</span><span>Communications</span></a>
+      <a class="sidebar-item" data-route="finance"        href="#finance"><span class="sidebar-icon">💰</span><span>Finance</span></a>
       <a class="sidebar-item" data-route="avis"         href="#avis"><span class="sidebar-icon">⭐</span><span>Avis</span></a>
     </nav>
     <div class="sidebar-footer">
@@ -320,6 +321,32 @@
         <div id="contratsList"><div class="loading"><div class="spinner"></div></div></div>
       </section>
 
+      <!-- ─── COMMUNICATIONS (Newsletter, templates) ─────────────────── -->
+      <section class="tab-content" id="tab-communications">
+        <div class="comm-tabs">
+          <button class="comm-tab active" data-comm-view="campagnes">📤 Campagnes</button>
+          <button class="comm-tab"        data-comm-view="templates">📋 Templates</button>
+        </div>
+
+        <!-- VUE Campagnes -->
+        <div id="commView-campagnes" class="comm-view active">
+          <div class="section-title-row">
+            <span>Campagnes envoyées et brouillons</span>
+            <button class="btn-confirm" onclick="openCampagneForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouvelle campagne</button>
+          </div>
+          <div id="campagnesList" class="comm-list"><div class="loading"><div class="spinner"></div></div></div>
+        </div>
+
+        <!-- VUE Templates -->
+        <div id="commView-templates" class="comm-view">
+          <div class="section-title-row">
+            <span>Templates réutilisables</span>
+            <button class="btn-confirm" onclick="openTemplateForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouveau template</button>
+          </div>
+          <div id="templatesList" class="comm-list"><div class="loading"><div class="spinner"></div></div></div>
+        </div>
+      </section>
+
       <!-- ─── FINANCE ───────────────────────────────────────────────── -->
       <section class="tab-content" id="tab-finance">
         <div class="period-selector" data-finance>
@@ -406,6 +433,116 @@
     </div>
     <div id="modalBody"></div>
     <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ─── Modale template email ──────────────────────────────────────────── -->
+<div class="modal-overlay" id="templateModal">
+  <div class="modal facture-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem">
+      <h3 id="templateModalTitle">Nouveau template</h3>
+      <button class="modal-close" onclick="closeTemplateForm()" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="fac-form-grid">
+      <div class="fac-form-section">
+        <label class="fac-label">Nom interne
+          <input id="tplNom" class="form-input" placeholder="ex: Newsletter mai">
+        </label>
+        <label class="fac-label">Type
+          <select id="tplKind" class="form-input">
+            <option value="newsletter">📰 Newsletter</option>
+            <option value="fiche">📋 Fiche pratique</option>
+            <option value="promo">🎁 Promo / offre</option>
+            <option value="relance">🔔 Relance / réactivation</option>
+          </select>
+        </label>
+      </div>
+      <div class="fac-form-section">
+        <label class="fac-label">Sujet de l'email
+          <input id="tplSujet" class="form-input" placeholder="ex: Astuces sécurité de la rentrée">
+        </label>
+        <div style="font-size:0.75rem;color:var(--muted);line-height:1.5">
+          Variables disponibles dans le sujet et le HTML :<br>
+          <code>{{nom}}</code> · <code>{{firstname}}</code> · <code>{{email}}</code>
+        </div>
+      </div>
+    </div>
+
+    <label class="fac-label">Corps HTML
+      <textarea id="tplHtml" class="form-input" rows="10" style="resize:vertical;font-family:monospace;font-size:0.82rem" placeholder="<p>Bonjour {{firstname}},</p>..."></textarea>
+    </label>
+
+    <div class="comm-preview-wrap">
+      <div class="fac-form-section-title">Aperçu</div>
+      <iframe id="tplPreview" class="comm-preview" sandbox="allow-same-origin"></iframe>
+    </div>
+
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn-soft" onclick="closeTemplateForm()">Annuler</button>
+      <button class="btn-confirm" id="tplSaveBtn" onclick="saveTemplate()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Modale campagne ────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="campagneModal">
+  <div class="modal facture-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem">
+      <h3 id="campagneModalTitle">Nouvelle campagne</h3>
+      <button class="modal-close" onclick="closeCampagneForm()" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="fac-form-grid">
+      <div class="fac-form-section">
+        <label class="fac-label">Nom interne
+          <input id="campNom" class="form-input" placeholder="ex: Newsletter mai 2026">
+        </label>
+        <label class="fac-label">Template (facultatif)
+          <select id="campTemplate" class="form-input">
+            <option value="">— Partir de zéro —</option>
+          </select>
+        </label>
+        <label class="fac-label">Sujet
+          <input id="campSujet" class="form-input" placeholder="Sujet visible par le destinataire">
+        </label>
+      </div>
+
+      <div class="fac-form-section">
+        <label class="fac-label">Segment ciblé
+          <select id="campSegment" class="form-input">
+            <option value="all">Tous les clients</option>
+            <option value="new">🆕 Nouveaux</option>
+            <option value="fidele">⭐ Fidèles</option>
+            <option value="vip">💎 VIP</option>
+            <option value="dormant">😴 Dormants</option>
+          </select>
+        </label>
+        <label class="fac-label">Filtre tag (facultatif)
+          <select id="campTag" class="form-input">
+            <option value="">— Aucun —</option>
+          </select>
+        </label>
+        <div id="campRecipientCount" style="font-size:0.85rem;color:var(--muted);padding:0.4rem 0">
+          Destinataires : –
+        </div>
+      </div>
+    </div>
+
+    <label class="fac-label">Corps HTML
+      <textarea id="campHtml" class="form-input" rows="10" style="resize:vertical;font-family:monospace;font-size:0.82rem"></textarea>
+    </label>
+
+    <div class="comm-preview-wrap">
+      <div class="fac-form-section-title">Aperçu</div>
+      <iframe id="campPreview" class="comm-preview" sandbox="allow-same-origin"></iframe>
+    </div>
+
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn-soft" onclick="closeCampagneForm()">Annuler</button>
+      <button class="btn-done" id="campSaveBtn" onclick="saveCampagne(false)">💾 Brouillon</button>
+      <button class="btn-confirm" id="campSendBtn" onclick="saveCampagne(true)">📤 Enregistrer + Envoyer</button>
+    </div>
   </div>
 </div>
 
