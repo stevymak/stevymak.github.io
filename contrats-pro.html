@@ -108,6 +108,38 @@ footer a{color:var(--muted);text-decoration:none}
 footer a:hover{color:var(--text)}
 .footer-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
 @media(max-width:600px){.ponctuel-grid{grid-template-columns:1fr}.cta-btns{flex-direction:column}}
+
+/* ── Modal demande Pro ── */
+.modal-overlay{position:fixed;inset:0;background:#00000090;backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:1.25rem}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700}
+.modal-sub{color:var(--muted);font-size:0.85rem;margin-top:0.2rem}
+.modal-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-close:hover{color:var(--text)}
+.contrat-recap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.contrat-recap-name{font-weight:600}
+.contrat-recap-price{color:var(--accent);font-weight:700;font-family:'Syne',sans-serif}
+.field{display:flex;flex-direction:column;gap:0.4rem}
+.field label{font-size:0.8rem;color:var(--muted);font-weight:500}
+.form-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;width:100%}
+.form-input:focus{border-color:#3b82f660}
+.form-input::placeholder{color:var(--muted)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-submit{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;width:100%}
+.btn-submit:hover{opacity:0.85}
+.btn-submit:disabled{opacity:0.4;cursor:not-allowed}
+.btn-modal-cancel{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:0.7rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;width:100%;transition:all 0.2s}
+.btn-modal-cancel:hover{color:var(--text)}
+.err-msg{background:#ef444410;border:1px solid #ef444430;color:#fca5a5;font-size:0.82rem;padding:0.6rem 0.9rem;border-radius:8px;display:none}
+.success-view{display:none;flex-direction:column;align-items:center;text-align:center;gap:1.25rem;padding:0.5rem 0}
+.success-icon{width:64px;height:64px;border-radius:50%;background:#22c55e20;border:2px solid #22c55e60;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.success-info{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;font-size:0.82rem;color:var(--muted);text-align:left;width:100%;line-height:1.6}
+.success-info strong{color:var(--text)}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin-m 0.7s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin-m{to{transform:rotate(360deg)}}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -134,18 +166,21 @@ footer a:hover{color:var(--text)}
       <div class="ponctuel-name">Intervention ponctuelle</div>
       <div class="ponctuel-price">75€ <span>/h HT · minimum 1h</span></div>
       <div class="ponctuel-desc">Dépannage, configuration, installation logiciel. Déplacement en Île-de-France inclus.</div>
+      <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Intervention ponctuelle','75€/h HT')">Demander un devis →</button>
     </div>
     <div class="ponctuel-card">
       <div class="ponctuel-icon">💻</div>
       <div class="ponctuel-name">Pack installation poste</div>
       <div class="ponctuel-price">180€ <span>HT / poste</span></div>
       <div class="ponctuel-desc">Montage, configuration Windows, profil utilisateur, logiciels métier, sécurité. Prêt à l'emploi.</div>
+      <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Pack installation poste','180€ HT/poste')">Demander un devis →</button>
     </div>
     <div class="ponctuel-card">
       <div class="ponctuel-icon">🔒</div>
       <div class="ponctuel-name">Audit sécurité TPE</div>
       <div class="ponctuel-price">290€ <span>HT · ≤ 5 postes</span></div>
       <div class="ponctuel-desc">Analyse des risques, vérification mots de passe, antivirus, sauvegardes. Rapport écrit fourni.</div>
+      <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Audit sécurité TPE','290€ HT')">Demander un devis →</button>
     </div>
   </div>
   <p style="color:var(--muted);font-size:0.82rem;margin-bottom:0.5rem">Au-delà de la durée prévue : 75€/h HT supplémentaire.</p>
@@ -167,7 +202,7 @@ footer a:hover{color:var(--text)}
         <li>Rapport trimestriel d'état</li>
         <li>Sans engagement</li>
       </ul>
-      <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="btn-contact-pro-out">Demander un devis →</a>
+      <button class="btn-contact-pro-out" onclick="openModal('pro-essentiel','Pro Essentiel','89€/mois HT')">Demander un devis →</button>
     </div>
 
     <div class="contrat-pro-card featured">
@@ -185,7 +220,7 @@ footer a:hover{color:var(--text)}
         <li>Rapport mensuel détaillé</li>
         <li>Sans engagement</li>
       </ul>
-      <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="btn-contact-pro">Demander un devis →</a>
+      <button class="btn-contact-pro" onclick="openModal('pro-confort','Pro Confort','249€/mois HT')">Demander un devis →</button>
     </div>
 
     <div class="contrat-pro-card">
@@ -202,7 +237,7 @@ footer a:hover{color:var(--text)}
         <li>Accords de niveau de service (SLA)</li>
         <li>Rapport mensuel complet</li>
       </ul>
-      <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="btn-contact-pro-out">Demander un devis →</a>
+      <button class="btn-contact-pro-out" onclick="openModal('pro-premium','Pro Premium','À partir de 400€/mois HT')">Demander un devis →</button>
     </div>
 
   </div>
@@ -275,10 +310,167 @@ footer a:hover{color:var(--text)}
   <div>© 2025 Makouez IT – Stevy Makouezi · SIRET 83955229600023 · <a href="tel:+33619515756">06 19 51 57 56</a> · <a href="mailto:contact@makouezit.org">contact@makouezit.org</a></div>
 </footer>
 
-<script>
+<!-- MODAL DEMANDE PRO -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div id="formView" style="display:flex;flex-direction:column;gap:1.25rem">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">Demande de devis Pro</div>
+          <div class="modal-sub">Formulaire gratuit — réponse sous 24h par Stevy.</div>
+        </div>
+        <button class="modal-close" id="btnModalClose">✕</button>
+      </div>
+      <div class="contrat-recap">
+        <div class="contrat-recap-name" id="recapName">–</div>
+        <div class="contrat-recap-price" id="recapPrice">–</div>
+      </div>
+      <div class="err-msg" id="errMsg"></div>
+      <div class="field">
+        <label>Société / Entreprise *</label>
+        <input class="form-input" id="fSociete" type="text" placeholder="SARL Dupont & Associés">
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Prénom *</label><input class="form-input" id="fPrenom" type="text" placeholder="Marie"></div>
+        <div class="field"><label>Nom *</label><input class="form-input" id="fNom" type="text" placeholder="Dupont"></div>
+      </div>
+      <div class="field"><label>Email professionnel *</label><input class="form-input" id="fEmail" type="email" placeholder="contact@entreprise.fr"></div>
+      <div class="field"><label>Téléphone *</label><input class="form-input" id="fTel" type="tel" placeholder="01 XX XX XX XX"></div>
+      <div class="field"><label>Adresse (siège ou site d'intervention) *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, 75001 Paris"></div>
+      <div class="field">
+        <label>Nombre de postes / précisions (optionnel)</label>
+        <input class="form-input" id="fMessage" type="text" placeholder="Ex : 5 postes Windows 11, réseau Wi-Fi, imprimante réseau…">
+      </div>
+      <button class="btn-submit" id="btnSubmit" disabled><span id="btnText">Envoyer ma demande →</span></button>
+      <button class="btn-modal-cancel" id="btnCancel">Annuler</button>
+    </div>
+    <div class="success-view" id="successView">
+      <div class="success-icon">✓</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700">Demande envoyée !</div>
+      <div style="color:var(--muted);font-size:0.88rem;max-width:340px;line-height:1.6">Stevy vous contactera sous 24h pour établir votre devis personnalisé.</div>
+      <div class="success-info">
+        <strong>📋 Prochaines étapes</strong><br>
+        Vous serez contacté par email ou téléphone. Un devis détaillé vous sera transmis gratuitement sans engagement de votre part.
+      </div>
+      <button class="btn-modal-cancel" id="btnFermer">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+  authDomain:        "makouez-it.firebaseapp.com",
+  projectId:         "makouez-it",
+  storageBucket:     "makouez-it.firebasestorage.app",
+  messagingSenderId: "558314427247",
+  appId:             "1:558314427247:web:83e656344dd79019ccce9a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+let selectedContrat = '';
+
+const $ = id => document.getElementById(id);
+
+function checkForm() {
+  const ok = $('fSociete').value.trim()
+    && $('fPrenom').value.trim()
+    && $('fNom').value.trim()
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('fEmail').value.trim())
+    && $('fTel').value.trim()
+    && $('fAdresse').value.trim();
+  $('btnSubmit').disabled = !ok;
+}
+
+window.openModal = function(key, label, price) {
+  selectedContrat = key;
+  $('recapName').textContent  = label;
+  $('recapPrice').textContent = price;
+  $('formView').style.display    = 'flex';
+  $('successView').style.display = 'none';
+  $('errMsg').style.display      = 'none';
+  $('btnText').textContent       = 'Envoyer ma demande →';
+  $('btnSubmit').disabled        = true;
+  ['fSociete','fPrenom','fNom','fEmail','fTel','fAdresse','fMessage'].forEach(id => $(id).value = '');
+  $('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+};
+
+function closeModal() {
+  $('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+async function submitForm() {
+  const btn     = $('btnSubmit');
+  const btnText = $('btnText');
+  const errMsg  = $('errMsg');
+
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner"></span> Envoi en cours…';
+  errMsg.style.display = 'none';
+
+  try {
+    await addDoc(collection(db, 'contrats'), {
+      contrat:   selectedContrat,
+      type:      'pro',
+      societe:   $('fSociete').value.trim(),
+      nom:       ($('fPrenom').value.trim() + ' ' + $('fNom').value.trim()).trim(),
+      email:     $('fEmail').value.trim().toLowerCase(),
+      telephone: $('fTel').value.trim(),
+      adresse:   $('fAdresse').value.trim(),
+      note:      $('fMessage').value.trim() || null,
+      status:    'new',
+      createdAt: serverTimestamp(),
+    });
+
+    $('formView').style.display    = 'none';
+    $('successView').style.display = 'flex';
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'contrat_pro_demande', {
+        event_category: 'lead',
+        event_label: selectedContrat,
+      });
+    }
+  } catch (e) {
+    console.error('Erreur Firebase :', e);
+    btn.disabled = false;
+    btnText.textContent = 'Envoyer ma demande →';
+    errMsg.textContent  = 'Une erreur est survenue. Réessayez ou contactez Stevy au 06 19 51 57 56.';
+    errMsg.style.display = 'block';
+  }
+}
+
+$('btnModalClose').addEventListener('click', closeModal);
+$('btnCancel').addEventListener('click', closeModal);
+$('btnFermer').addEventListener('click', closeModal);
+$('btnSubmit').addEventListener('click', submitForm);
+$('modalOverlay').addEventListener('click', e => { if (e.target === $('modalOverlay')) closeModal(); });
+
+['fSociete','fPrenom','fNom','fEmail','fTel','fAdresse'].forEach(id => $(id).addEventListener('input', checkForm));
+
 document.querySelectorAll('.faq-item').forEach(item => {
   item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
 });
+
+// Ouverture auto via URL (?contrat=pro-essentiel|pro-confort|pro-premium)
+const params = new URLSearchParams(window.location.search);
+const cp = params.get('contrat');
+if (cp) {
+  const map = {
+    'pro-essentiel': ['pro-essentiel', 'Pro Essentiel',              '89€/mois HT'],
+    'pro-confort':   ['pro-confort',   'Pro Confort',                '249€/mois HT'],
+    'pro-premium':   ['pro-premium',   'Pro Premium',                'À partir de 400€/mois HT'],
+    'pro-ponctuel':  ['pro-ponctuel',  'Intervention ponctuelle Pro', 'Sur devis'],
+  };
+  if (map[cp]) window.openModal(...map[cp]);
+}
 </script>
 </body>
 </html>

@@ -10,17 +10,32 @@ export const MONTHS = [
 export const DAYS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
 export const CONTRAT_LABELS = {
-  serenite: 'Contrat Sérénité',
-  senior:   'Pack Senior+',
-  famille:  'Pack Famille',
+  serenite:      'Contrat Sérénité',
+  senior:        'Pack Senior+',
+  famille:       'Pack Famille',
+  'pro-essentiel': 'Pro Essentiel',
+  'pro-confort':   'Pro Confort',
+  'pro-premium':   'Pro Premium',
+  'pro-ponctuel':  'Intervention ponctuelle Pro',
 };
 
-export const CONTRAT_TARIFS = { serenite: 45, senior: 49, famille: 59 };
+export const CONTRAT_TARIFS = {
+  serenite:        45,
+  senior:          49,
+  famille:         59,
+  'pro-essentiel': 89,
+  'pro-confort':   249,
+  'pro-premium':   400,
+};
 
 export const CONTRAT_PILLS = {
-  serenite: 'pill-serenite',
-  senior:   'pill-senior',
-  famille:  'pill-famille',
+  serenite:        'pill-serenite',
+  senior:          'pill-senior',
+  famille:         'pill-famille',
+  'pro-essentiel': 'pill-pro',
+  'pro-confort':   'pill-pro',
+  'pro-premium':   'pill-pro',
+  'pro-ponctuel':  'pill-pro',
 };
 
 export const ROUTE_TITLES = {
