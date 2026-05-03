@@ -174,6 +174,19 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Factures émises (admin only). Numérotation séquentielle gérée
+    // via la collection counters/.
+    match /factures/{factureId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Compteurs séquentiels (factures, devis…). Document id de la
+    // forme `factures-2026`. Mis à jour atomiquement par l'admin via
+    // runTransaction côté client.
+    match /counters/{counterId} {
+      allow read, write: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

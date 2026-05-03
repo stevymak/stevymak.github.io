@@ -18,6 +18,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  runTransaction,
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import {
   getAuth,
@@ -56,6 +57,7 @@ export const fns = {
   query,
   orderBy,
   serverTimestamp,
+  runTransaction,
   signInWithEmailAndPassword,
   signOut,
 };

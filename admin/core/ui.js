@@ -28,10 +28,40 @@ export const ROUTE_TITLES = {
   calendrier:   'Agenda',
   reservations: 'Réservations',
   clients:      'Clients',
+  factures:     'Factures',
   contrats:     'Contrats',
   finance:      'Finance',
   avis:         'Avis',
 };
+
+// ────────────────────────────────────────────────────────────────────────────
+// ⚠ À RENSEIGNER avant d'émettre des factures réelles. Ces informations
+// apparaissent en en-tête et en pied de chaque PDF généré.
+// ────────────────────────────────────────────────────────────────────────────
+export const BUSINESS_INFO = {
+  nom:            'Stevy Makouez — Makouez IT',
+  formeJuridique: 'Auto-entrepreneur',
+  siret:          'À COMPLÉTER',
+  adresse:        'À COMPLÉTER',
+  cp:             '93XXX',
+  ville:          'À COMPLÉTER',
+  email:          'contact@makouezit.org',
+  telephone:      '06 XX XX XX XX',
+  site:           'makouezit.org',
+  mentionTVA:     'TVA non applicable, art. 293 B du CGI',
+  iban:           'À COMPLÉTER',
+  bic:            'À COMPLÉTER',
+  // Délai de paiement par défaut (en jours) à partir de la date de facture.
+  delaiPaiementJours: 30,
+};
+
+export const PAIEMENT_MODES = [
+  { id: 'virement', label: 'Virement bancaire' },
+  { id: 'especes',  label: 'Espèces' },
+  { id: 'cb',       label: 'Carte bancaire' },
+  { id: 'cheque',   label: 'Chèque' },
+  { id: 'lien',     label: 'Lien de paiement' },
+];
 
 // Tags clients prédéfinis. L'utilisateur peut en ajouter de personnalisés
 // via la fiche client (ils s'affichent sans label/couleur dédiés).

@@ -15,6 +15,7 @@ import './modules/reservations.js';
 import './modules/contrats.js';
 import './modules/avis.js';
 import './modules/clients.js';
+import './modules/factures.js';
 import './modules/finance.js';
 import { bootAuth } from './core/auth-guard.js';
 

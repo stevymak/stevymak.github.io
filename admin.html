@@ -43,6 +43,7 @@
       <a class="sidebar-item" data-route="calendrier"   href="#calendrier"><span class="sidebar-icon">📅</span><span>Agenda</span></a>
       <a class="sidebar-item" data-route="reservations" href="#reservations"><span class="sidebar-icon">📋</span><span>Réservations</span></a>
       <a class="sidebar-item" data-route="clients"      href="#clients"><span class="sidebar-icon">👥</span><span>Clients</span></a>
+      <a class="sidebar-item" data-route="factures"     href="#factures"><span class="sidebar-icon">🧾</span><span>Factures</span></a>
       <a class="sidebar-item" data-route="contrats"     href="#contrats"><span class="sidebar-icon">📄</span><span>Contrats</span></a>
       <a class="sidebar-item" data-route="finance"      href="#finance"><span class="sidebar-icon">💰</span><span>Finance</span></a>
       <a class="sidebar-item" data-route="avis"         href="#avis"><span class="sidebar-icon">⭐</span><span>Avis</span></a>
@@ -206,6 +207,44 @@
         <button id="clientsLoadMore" class="btn-soft clients-load-more" style="display:none">Charger plus</button>
       </section>
 
+      <!-- ─── FACTURES ──────────────────────────────────────────────── -->
+      <section class="tab-content" id="tab-factures">
+        <div class="section-title-row">
+          Factures émises
+          <div style="display:flex;gap:0.5rem">
+            <input type="search" id="facturesSearch" class="form-input clients-search" placeholder="🔎 Numéro, client, montant" autocomplete="off">
+            <button class="btn-confirm" onclick="openFactureForm()" style="flex:0 0 auto;padding:0.5rem 1rem">+ Nouvelle facture</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid" style="margin-bottom:1rem">
+          <div class="kpi-card">
+            <div class="kpi-label">Encaissé (12 mois)</div>
+            <div class="kpi-value" id="facStatPaid" style="color:var(--success)">–</div>
+            <div class="kpi-delta" id="facStatPaidCount"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">En attente</div>
+            <div class="kpi-value" id="facStatUnpaid" style="color:var(--warning)">–</div>
+            <div class="kpi-delta" id="facStatUnpaidCount"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">En retard</div>
+            <div class="kpi-value" id="facStatLate" style="color:var(--danger)">–</div>
+            <div class="kpi-delta" id="facStatLateCount"></div>
+          </div>
+        </div>
+
+        <div class="filter-tabs" style="margin-bottom:1rem">
+          <button class="tab-filter active" onclick="setFactureFilter('all',this)">Toutes</button>
+          <button class="tab-filter" onclick="setFactureFilter('unpaid',this)">⏳ Impayées</button>
+          <button class="tab-filter" onclick="setFactureFilter('late',this)">⚠ En retard</button>
+          <button class="tab-filter" onclick="setFactureFilter('paid',this)">✓ Payées</button>
+        </div>
+
+        <div id="facturesList"><div class="loading"><div class="spinner"></div></div></div>
+      </section>
+
       <!-- ─── CONTRATS ───────────────────────────────────────────────── -->
       <section class="tab-content" id="tab-contrats">
         <div class="section-title-row">
@@ -326,6 +365,76 @@
     </div>
     <div id="modalBody"></div>
     <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ─── Modale création / édition de facture ────────────────────────────── -->
+<div class="modal-overlay" id="factureModal">
+  <div class="modal facture-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem">
+      <h3 id="factureModalTitle">Nouvelle facture</h3>
+      <button class="modal-close" onclick="closeFactureForm()" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="fac-form-grid">
+      <div class="fac-form-section">
+        <div class="fac-form-section-title">Client</div>
+        <div class="fac-client-suggest-wrap">
+          <input id="facClientSearch" class="form-input" placeholder="🔎 Rechercher un client existant…" autocomplete="off">
+          <div class="fac-client-suggest" id="facClientSuggest" style="display:none"></div>
+        </div>
+        <input id="facClientNom"     class="form-input" placeholder="Nom complet">
+        <input id="facClientEmail"   class="form-input" placeholder="Email">
+        <input id="facClientTel"     class="form-input" placeholder="Téléphone">
+        <textarea id="facClientAdresse" class="form-input" placeholder="Adresse complète" rows="2" style="resize:vertical"></textarea>
+      </div>
+
+      <div class="fac-form-section">
+        <div class="fac-form-section-title">Détails</div>
+        <label class="fac-label">Date de facture
+          <input type="date" id="facDate" class="form-input">
+        </label>
+        <label class="fac-label">Date d'échéance
+          <input type="date" id="facEcheance" class="form-input">
+        </label>
+        <label class="fac-label">Mode de paiement
+          <select id="facPaiement" class="form-input">
+            <option value="virement">Virement bancaire</option>
+            <option value="especes">Espèces</option>
+            <option value="cb">Carte bancaire</option>
+            <option value="cheque">Chèque</option>
+            <option value="lien">Lien de paiement</option>
+          </select>
+        </label>
+        <label class="fac-label">TVA (%)
+          <input type="number" id="facTva" class="form-input" min="0" max="20" step="0.1" value="0">
+        </label>
+        <label class="fac-checkbox-label">
+          <input type="checkbox" id="facPaid"> Marquer comme payée
+        </label>
+      </div>
+    </div>
+
+    <div class="fac-form-section">
+      <div class="fac-form-section-title">Lignes
+        <button class="btn-soft" onclick="addFactureLine()" style="margin-left:auto">+ Ajouter une ligne</button>
+      </div>
+      <div id="facLinesList" class="fac-lines"></div>
+    </div>
+
+    <div class="fac-totals">
+      <div class="fac-total-row"><span>Total HT</span><strong id="facTotalHT">0,00 €</strong></div>
+      <div class="fac-total-row" id="facTotalTvaRow" style="display:none"><span>TVA</span><strong id="facTotalTVA">0,00 €</strong></div>
+      <div class="fac-total-row fac-total-final"><span>Total TTC</span><strong id="facTotalTTC">0,00 €</strong></div>
+    </div>
+
+    <textarea id="facNotes" class="form-input" placeholder="Notes / mentions complémentaires (facultatif)" rows="2" style="resize:vertical"></textarea>
+
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn-soft" onclick="closeFactureForm()">Annuler</button>
+      <button class="btn-done" id="facSaveBtn" onclick="saveFacture(false)">💾 Enregistrer</button>
+      <button class="btn-confirm" id="facSavePdfBtn" onclick="saveFacture(true)">💾 + 📄 PDF</button>
+    </div>
   </div>
 </div>
 
