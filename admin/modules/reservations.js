@@ -6,6 +6,7 @@
 import { db, fns, callSendReminder } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
 import { formatDateLong } from '../core/ui.js';
+import { promptInput } from '../core/prompt.js';
 
 let currentFilter = 'all';
 
@@ -99,7 +100,7 @@ export function renderRdvs() {
         <div class="rdv-info-item"><div class="rdv-info-label">👤 Client</div><div>${rdv.nom || '–'}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${rdv.telephone || '–'}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${rdv.email || '–'}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">💰 Tarif</div><div>${rdv.price || '–'}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">💰 Tarif</div><div>${formatRdvPrix(rdv)}</div></div>
         <div class="rdv-info-item" style="grid-column:1/-1"><div class="rdv-info-label">📍 Adresse</div><div>${rdv.adresse || '–'}</div></div>
       </div>
       ${rdv.description ? `<div class="rdv-desc">💬 ${rdv.description}</div>` : ''}
@@ -107,6 +108,7 @@ export function renderRdvs() {
       <div class="rdv-actions">
         ${rdv.status === 'pending' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
         ${rdv.status === 'confirmed' ? `<button class="btn-done" onclick="updateStatus('${rdv.id}','done')">✓ Terminé</button>` : ''}
+        ${rdv.status === 'done' ? `<button class="btn-soft" onclick="editPrixReel('${rdv.id}')">✏️ Prix facturé</button>` : ''}
         ${rdv.status !== 'cancelled'
           ? `<button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler</button>`
           : `<button class="btn-cancel" onclick="deleteRdv('${rdv.id}')">🗑 Supprimer</button>`}
@@ -183,21 +185,76 @@ function closeModal() {
   document.getElementById('rdvModal').classList.remove('show');
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────
+function formatRdvPrix(rdv) {
+  if (typeof rdv.prixReel === 'number' && Number.isFinite(rdv.prixReel)) {
+    return rdv.prixReel + ' € <span style="color:var(--muted);font-size:0.7rem">facturé</span>';
+  }
+  return rdv.price || '–';
+}
+
 // ─── Mutations ────────────────────────────────────────────────────────────
 async function updateStatus(id, status) {
   try {
     const { doc, updateDoc } = fns;
+    const rdv = store.allRdvs.find((r) => r.id === id);
+
+    let prixReel = null;
+    if (status === 'done') {
+      const fallback = (typeof rdv?.prixReel === 'number') ? rdv.prixReel : 70;
+      prixReel = await promptInput({
+        title: '✓ Marquer terminé',
+        message: 'Prix réel facturé pour cette intervention ? (utilisé pour le suivi du CA)',
+        type: 'number',
+        defaultValue: fallback,
+        unit: '€',
+        min: 0,
+        step: 1,
+        confirmLabel: 'Valider et terminer',
+      });
+      if (prixReel === null) return; // annulation utilisateur
+    }
+
     const upd = { status };
     if (status === 'confirmed') upd.modificationNote = null;
+    if (status === 'done')      upd.prixReel = prixReel;
+
     await updateDoc(doc(db, 'reservations', id), upd);
-    const rdv = store.allRdvs.find((r) => r.id === id);
+
     if (rdv) {
       rdv.status = status;
       if (status === 'confirmed') rdv.modificationNote = null;
+      if (status === 'done')      rdv.prixReel = prixReel;
     }
     emit('rdvs:changed');
   } catch (e) {
+    console.error(e);
     alert('Erreur lors de la mise à jour.');
+  }
+}
+
+async function editPrixReel(id) {
+  const rdv = store.allRdvs.find((r) => r.id === id);
+  if (!rdv) return;
+  const fallback = (typeof rdv.prixReel === 'number') ? rdv.prixReel : 70;
+  const prixReel = await promptInput({
+    title: '✏️ Modifier le prix facturé',
+    message: 'Saisis le prix réellement facturé pour cette intervention.',
+    type: 'number',
+    defaultValue: fallback,
+    unit: '€',
+    min: 0,
+    step: 1,
+  });
+  if (prixReel === null) return;
+  try {
+    const { doc, updateDoc } = fns;
+    await updateDoc(doc(db, 'reservations', id), { prixReel });
+    rdv.prixReel = prixReel;
+    emit('rdvs:changed');
+  } catch (e) {
+    console.error(e);
+    alert('Erreur lors de la mise à jour du prix.');
   }
 }
 
@@ -276,3 +333,4 @@ window.closeModal    = closeModal;
 window.updateStatus  = updateStatus;
 window.deleteRdv     = deleteRdv;
 window.sendReminder  = sendReminder;
+window.editPrixReel  = editPrixReel;

@@ -84,3 +84,9 @@
 .modal-info-icon{flex-shrink:0;margin-top:0.1rem}
 .modal-info-val{color:var(--muted)}
 .modal-info-val strong{color:var(--text)}
+
+/* ─── Prompt modal (input générique) ─────────────────────────────────────── */
+.prompt-input-wrap{display:flex;align-items:center;gap:0.5rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.85rem}
+.prompt-input-wrap input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.95rem;min-width:0}
+.prompt-input-wrap:focus-within{border-color:#3b82f660}
+.prompt-unit{color:var(--muted);font-size:0.85rem;flex-shrink:0}

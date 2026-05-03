@@ -3,26 +3,56 @@
    réservations, contrats, avis. Repris à l'identique de l'ancien admin.html.
    ────────────────────────────────────────────────────────────────────────── */
 
-/* ─── DASHBOARD : graphiques inline ──────────────────────────────────────── */
-.bar-chart{display:flex;align-items:flex-end;gap:0.5rem;height:120px}
-.bar-wrap{display:flex;flex-direction:column;align-items:center;gap:0.3rem;flex:1}
-.bar{width:100%;border-radius:4px 4px 0 0;transition:height 0.5s ease;min-height:4px;background:var(--accent);opacity:0.8}
-.bar:hover{opacity:1}
-.bar-label{font-size:0.7rem;color:var(--muted);text-align:center}
-.bar-val{font-size:0.7rem;color:var(--text);font-weight:500}
+/* ─── DASHBOARD ──────────────────────────────────────────────────────────── */
 
-.services-chart{display:flex;flex-direction:column;gap:0.6rem}
-.svc-bar-row{display:flex;align-items:center;gap:0.75rem;font-size:0.82rem}
-.svc-bar-name{width:180px;flex-shrink:0;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.svc-bar-track{flex:1;background:var(--card);border-radius:99px;height:8px;overflow:hidden}
-.svc-bar-fill{height:100%;border-radius:99px;background:var(--accent);transition:width 0.5s ease}
-.svc-bar-count{width:30px;text-align:right;color:var(--text);font-weight:500;flex-shrink:0}
+/* Sélecteur de période */
+.period-selector{display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center;margin-bottom:1.25rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0.55rem}
+.period-btn{background:transparent;border:1px solid transparent;color:var(--muted);padding:0.4rem 0.85rem;border-radius:8px;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all 0.15s}
+.period-btn:hover{color:var(--text)}
+.period-btn.active{background:#3b82f618;border-color:#3b82f660;color:var(--accent)}
+.period-label{margin-left:auto;font-size:0.78rem;color:var(--muted);padding:0 0.5rem}
 
-.revenue-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem}
-.rev-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem}
-.rev-label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem}
-.rev-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--success)}
-@media(max-width:480px){.revenue-grid{grid-template-columns:1fr}}
+/* KPI cards avec delta */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.75rem;margin-bottom:1.25rem}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem}
+.kpi-label{color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.45rem}
+.kpi-value{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:700;line-height:1.1}
+.kpi-delta{font-size:0.74rem;margin-top:0.4rem;color:var(--muted);min-height:1em}
+.kpi-delta-up{color:var(--success)}
+.kpi-delta-down{color:var(--danger)}
+.kpi-delta-flat{color:var(--muted)}
+
+/* Forecast banner */
+.forecast-banner{background:linear-gradient(135deg,#1a1a3a,#16162a);border:1px solid #3b82f640;border-radius:var(--r);padding:1.25rem 1.4rem;margin-bottom:1.25rem;display:grid;grid-template-columns:1fr 1.4fr;gap:1.5rem;align-items:center}
+.forecast-label{font-size:0.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.35rem}
+.forecast-val{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);line-height:1.1}
+.forecast-sub{font-size:0.78rem;color:var(--muted);margin-top:0.35rem}
+.forecast-progress{display:flex;flex-direction:column;gap:0.5rem}
+.forecast-progress-bar{background:var(--card);border-radius:99px;height:10px;overflow:hidden}
+.forecast-progress-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#a855f7);border-radius:99px;transition:width 0.5s ease;width:0%}
+.forecast-progress-label{font-size:0.74rem;color:var(--muted);text-align:right}
+@media(max-width:640px){.forecast-banner{grid-template-columns:1fr}}
+
+/* Charts row (Chart.js canvases) */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem}
+.chart-canvas-wrap{position:relative;height:240px}
+.chart-canvas-wrap canvas{max-height:100%}
+.chart-sub{font-size:0.72rem;color:var(--muted);font-weight:400}
+.chart-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:0.85rem}
+@media(max-width:768px){.charts-row{grid-template-columns:1fr}}
+
+/* Mini MRR card (côté contrats récurrents) */
+.mini-mrr{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem 1rem;text-align:center}
+.mini-mrr-val{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#a855f7}
+.mini-mrr-label{font-size:0.78rem;color:var(--muted);margin-top:0.5rem}
+
+/* Heatmap RDV */
+.heatmap{padding:0.5rem 0;overflow-x:auto}
+.heatmap-grid{display:grid;grid-template-columns:38px repeat(12,minmax(20px,1fr));gap:3px;min-width:300px}
+.heatmap-h{font-size:0.62rem;color:var(--muted);text-align:center;align-self:center}
+.heatmap-d{font-size:0.7rem;color:var(--muted);align-self:center;font-weight:500}
+.heatmap-cell{height:18px;background:rgba(59,130,246,0);border:1px solid var(--border);border-radius:3px;cursor:default;transition:background 0.2s}
+.heatmap-cell:hover{border-color:#3b82f680}
 
 /* ─── CALENDRIER ─────────────────────────────────────────────────────────── */
 .cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}

@@ -63,6 +63,18 @@ await admin.auth().setCustomUserClaims(uid, { admin: true });
 - `avis_en_attente`
 - `devis_web`
 
+## Champs admin sur `reservations`
+
+Champs écrits uniquement par l'admin (jamais par le client, qui est restreint
+par `reservationMutableFieldsOnly()`) :
+
+- `prixReel` *(number)* — prix réellement facturé pour l'intervention. Saisi
+  via la modale au moment où l'admin marque le RDV `done`. Sert au calcul du
+  CA réel dans le dashboard. Si absent (RDV historique), le dashboard retombe
+  sur un tarif estimé de 70 €.
+- `reminderSent`, `reminderSentAt`, `reminderSendCount`, `reminderLastError`,
+  `reminderSkip` — état du rappel email J-1.
+
 ## Patch 13 — demande automatique d'avis
 
 Une structure Firebase Functions a été ajoutée dans `functions/` pour préparer l'envoi automatique d'une demande d'avis après passage d'une réservation au statut `completed`.

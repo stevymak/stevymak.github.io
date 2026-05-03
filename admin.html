@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="admin/styles/admin.css">
 <link rel="stylesheet" href="admin/styles/components.css">
 <link rel="stylesheet" href="admin/styles/modules.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
 </head>
 <body>
 
@@ -65,29 +66,91 @@
 
       <!-- ─── DASHBOARD ──────────────────────────────────────────────── -->
       <section class="tab-content" id="tab-dashboard">
-        <div class="stats-row">
-          <div class="stat-card"><div class="stat-num" id="statTotal">–</div><div class="stat-label">Total RDV</div></div>
-          <div class="stat-card"><div class="stat-num" style="color:var(--warning)" id="statPending">–</div><div class="stat-label">En attente</div></div>
-          <div class="stat-card"><div class="stat-num" style="color:var(--success)" id="statConfirmed">–</div><div class="stat-label">Confirmés</div></div>
-          <div class="stat-card"><div class="stat-num" style="color:var(--muted)" id="statDone">–</div><div class="stat-label">Terminés</div></div>
-          <div class="stat-card"><div class="stat-num" style="color:var(--purple)" id="statContratsActifs">–</div><div class="stat-label">Contrats actifs</div></div>
+
+        <!-- Sélecteur de période -->
+        <div class="period-selector" role="tablist" aria-label="Sélection de période">
+          <button class="period-btn" data-period="day">Jour</button>
+          <button class="period-btn" data-period="week">Semaine</button>
+          <button class="period-btn active" data-period="month">Mois</button>
+          <button class="period-btn" data-period="quarter">Trimestre</button>
+          <button class="period-btn" data-period="year">Année</button>
+          <span class="period-label" id="periodLabel"></span>
         </div>
-        <div class="revenue-grid">
-          <div class="rev-card"><div class="rev-label">Revenus estimés ce mois</div><div class="rev-val" id="revMois">–</div><div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem">RDV confirmés × tarif moyen 70€</div></div>
-          <div class="rev-card"><div class="rev-label">MRR Contrats</div><div class="rev-val" id="revMRR" style="color:#a855f7">–</div><div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem">Revenus mensuels récurrents</div></div>
+
+        <!-- KPIs principaux (avec delta vs période précédente) -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">CA estimé</div>
+            <div class="kpi-value" id="kpiCA">–</div>
+            <div class="kpi-delta" id="kpiCADelta"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Interventions</div>
+            <div class="kpi-value" id="kpiRdv">–</div>
+            <div class="kpi-delta" id="kpiRdvDelta"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Panier moyen</div>
+            <div class="kpi-value" id="kpiPanier">–</div>
+            <div class="kpi-delta" id="kpiPanierDelta"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux confirmation</div>
+            <div class="kpi-value" id="kpiConv">–</div>
+            <div class="kpi-delta" id="kpiConvDelta"></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Nouveaux clients</div>
+            <div class="kpi-value" id="kpiNouveaux">–</div>
+            <div class="kpi-delta" id="kpiNouveauxDelta"></div>
+          </div>
         </div>
-        <div class="chart-card">
-          <div class="chart-title">Réservations par mois <span style="font-size:0.75rem;color:var(--muted);font-weight:400">6 derniers mois</span></div>
-          <div class="bar-chart" id="barChart"><div class="loading"><div class="spinner"></div></div></div>
+
+        <!-- Forecast fin de mois -->
+        <div class="forecast-banner">
+          <div>
+            <div class="forecast-label">Prévision CA fin de mois</div>
+            <div class="forecast-val" id="forecastVal">–</div>
+            <div class="forecast-sub" id="forecastSub">Sur tendance actuelle</div>
+          </div>
+          <div class="forecast-progress">
+            <div class="forecast-progress-bar"><div class="forecast-progress-fill" id="forecastFill"></div></div>
+            <div class="forecast-progress-label" id="forecastProgressLabel"></div>
+          </div>
         </div>
-        <div class="chart-card">
-          <div class="chart-title">Services les plus demandés</div>
-          <div class="services-chart" id="servicesChart"><div class="loading"><div class="spinner"></div></div></div>
+
+        <!-- Graphiques principaux -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-title">Évolution du CA <span class="chart-sub">12 derniers mois</span></div>
+            <div class="chart-canvas-wrap">
+              <canvas id="chartCA"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Répartition des prestations <span class="chart-sub" id="chartServicesSub">Période courante</span></div>
+            <div class="chart-canvas-wrap">
+              <canvas id="chartServices"></canvas>
+              <div class="chart-empty" id="chartServicesEmpty" style="display:none">Aucune intervention sur la période.</div>
+            </div>
+          </div>
         </div>
-        <div class="chart-card">
-          <div class="chart-title">Taux de confirmation</div>
-          <div id="tauxConfirm" style="font-size:0.88rem;color:var(--muted)">Chargement…</div>
+
+        <!-- Heatmap + carte MRR mini -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-title">Heatmap des interventions <span class="chart-sub">Habitudes 8h–20h</span></div>
+            <div class="heatmap" id="heatmap"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Contrats récurrents</div>
+            <div class="mini-mrr">
+              <div class="mini-mrr-val" id="revMRR">0 €</div>
+              <div class="mini-mrr-label">MRR — <span id="statContratsActifs">0</span> contrats actifs</div>
+            </div>
+          </div>
         </div>
+
       </section>
 
       <!-- ─── CALENDRIER ─────────────────────────────────────────────── -->
@@ -184,6 +247,22 @@
     </div>
     <div id="modalBody"></div>
     <div id="modalActions" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ─── Modale d'input générique (utilisée par admin/core/prompt.js) ────── -->
+<div class="modal-overlay" id="promptModal">
+  <div class="modal">
+    <h3 id="promptTitle"></h3>
+    <div id="promptMessage" style="color:var(--muted);font-size:0.85rem"></div>
+    <div class="prompt-input-wrap">
+      <input id="promptInput" />
+      <span class="prompt-unit" id="promptUnit"></span>
+    </div>
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+      <button class="btn-soft" id="promptCancel">Annuler</button>
+      <button class="btn-confirm" id="promptConfirm" style="flex:0 0 auto;padding-left:1.25rem;padding-right:1.25rem">Valider</button>
+    </div>
   </div>
 </div>
 
