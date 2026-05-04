@@ -4,7 +4,7 @@
 
 import { store, on } from '../core/store.js';
 import { MONTHS, DAYS } from '../core/ui.js';
-import { openRdvModal } from './reservations.js';
+import { openRdvModal, openCreateRdvForm } from './reservations.js';
 
 let calYear  = new Date().getFullYear();
 let calMonth = new Date().getMonth();
@@ -71,10 +71,13 @@ export function renderCalAdmin() {
       el.appendChild(more);
     }
 
-    if (rdvs.length > 0) {
+    // Clic sur la cellule : ouvrir le détail si 1 RDV, sinon créer un nouveau
+    if (!isPast) {
       el.onclick = () => {
         if (rdvs.length === 1) openRdvModal(rdvs[0]);
+        else if (rdvs.length === 0) openCreateRdvForm(dateKey);
       };
+      if (rdvs.length === 0) el.title = 'Cliquer pour créer un RDV ce jour';
     }
 
     grid.appendChild(el);

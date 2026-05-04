@@ -1,12 +1,29 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // reservations.js — Liste des RDV, filtres, modale détail, actions
 // (confirmer / terminer / annuler / supprimer / envoyer rappel).
+// Inclut la création / édition d'un RDV directement depuis l'admin.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { db, fns, callSendReminder } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
 import { formatDateLong } from '../core/ui.js';
 import { promptInput } from '../core/prompt.js';
+
+const SERVICES = [
+  'Dépannage informatique',
+  'Installation / Configuration PC',
+  'Récupération de données',
+  'Installation réseau & Wi-Fi',
+  'Formation informatique',
+  'Sauvegardes & Sécurité',
+  'Audit sécurité TPE',
+  'Intervention ponctuelle Pro',
+  'Maintenance contrat Pro',
+  'Intégration / Développement web',
+];
+
+// ID en cours d'édition (null = création)
+let _editingRdvId = null;
 
 let currentFilter = 'all';
 
@@ -109,6 +126,7 @@ export function renderRdvs() {
         ${rdv.status === 'pending' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
         ${rdv.status === 'confirmed' ? `<button class="btn-done" onclick="updateStatus('${rdv.id}','done')">✓ Terminé</button>` : ''}
         ${rdv.status === 'done' ? `<button class="btn-soft" onclick="editPrixReel('${rdv.id}')">✏️ Prix facturé</button>` : ''}
+        <button class="btn-soft" onclick="openEditRdvForm('${rdv.id}')" title="Modifier ce RDV">✏️ Éditer</button>
         ${rdv.status !== 'cancelled'
           ? `<button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler</button>`
           : `<button class="btn-cancel" onclick="deleteRdv('${rdv.id}')">🗑 Supprimer</button>`}
@@ -325,12 +343,136 @@ document.getElementById('rdvModal')?.addEventListener('click', (e) => {
   if (e.target.id === 'rdvModal') closeModal();
 });
 
+// ─── Création / Édition RDV depuis l'admin ───────────────────────────────
+
+export function openCreateRdvForm(prefillDateKey = '') {
+  _openRdvForm(null, prefillDateKey);
+}
+
+export function openEditRdvForm(id) {
+  const rdv = store.allRdvs.find((r) => r.id === id);
+  if (rdv) _openRdvForm(rdv, '');
+}
+
+function _openRdvForm(rdv, prefillDateKey) {
+  _editingRdvId = rdv?.id || null;
+  const isEdit  = !!rdv;
+
+  // Titre + libellé bouton
+  document.getElementById('rdvFormTitle').textContent   = isEdit ? '✏️ Modifier le RDV' : '+ Nouveau rendez-vous';
+  document.getElementById('rdvFormSubmit').textContent  = isEdit ? 'Enregistrer les modifications' : 'Créer le rendez-vous';
+  document.getElementById('rdvFormSubmit').disabled     = false;
+  document.getElementById('rdvFormErr').style.display   = 'none';
+
+  // Pré-remplissage champs
+  document.getElementById('rfService').value   = rdv?.service   || '';
+  document.getElementById('rfNom').value       = rdv?.nom       || '';
+  document.getElementById('rfTel').value       = rdv?.telephone || '';
+  document.getElementById('rfEmail').value     = rdv?.email     || '';
+  document.getElementById('rfAdresse').value   = rdv?.adresse   || '';
+  document.getElementById('rfDate').value      = rdv?.dateKey   || prefillDateKey || '';
+  document.getElementById('rfTime').value      = rdv?.time      || '09:00';
+  document.getElementById('rfTimeLabel').value = rdv?.timeLabel || '';
+  document.getElementById('rfPrice').value     = rdv?.price     || '';
+  document.getElementById('rfDesc').value      = rdv?.description || '';
+  document.getElementById('rfStatus').value    = rdv?.status    || 'pending';
+
+  // Remplir la datalist Services
+  const svcList = document.getElementById('rfServiceList');
+  svcList.innerHTML = SERVICES.map((s) => `<option value="${s}">`).join('');
+
+  // Remplir la datalist Clients depuis les RDV existants
+  const names = [...new Set(store.allRdvs.map((r) => r.nom).filter(Boolean))].sort();
+  document.getElementById('rfNomList').innerHTML = names.map((n) => `<option value="${n}">`).join('');
+
+  document.getElementById('rdvCreateModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  // Focus sur le service si création
+  if (!isEdit) setTimeout(() => document.getElementById('rfService').focus(), 60);
+}
+
+function _closeRdvCreateModal() {
+  document.getElementById('rdvCreateModal').classList.remove('show');
+  document.body.style.overflow = '';
+  _editingRdvId = null;
+}
+
+async function _submitRdvForm() {
+  const btn    = document.getElementById('rdvFormSubmit');
+  const errEl  = document.getElementById('rdvFormErr');
+  const isEdit = !!_editingRdvId;
+
+  const service     = document.getElementById('rfService').value.trim();
+  const nom         = document.getElementById('rfNom').value.trim();
+  const telephone   = document.getElementById('rfTel').value.trim();
+  const email       = document.getElementById('rfEmail').value.trim().toLowerCase();
+  const adresse     = document.getElementById('rfAdresse').value.trim();
+  const dateKey     = document.getElementById('rfDate').value;
+  const time        = document.getElementById('rfTime').value;
+  const timeLabel   = document.getElementById('rfTimeLabel').value.trim() || time;
+  const price       = document.getElementById('rfPrice').value.trim() || null;
+  const description = document.getElementById('rfDesc').value.trim()  || null;
+  const status      = document.getElementById('rfStatus').value;
+
+  if (!service || !nom || !dateKey || !time) {
+    errEl.textContent    = 'Les champs Service, Nom, Date et Heure sont obligatoires.';
+    errEl.style.display  = 'block';
+    return;
+  }
+
+  btn.disabled     = true;
+  btn.textContent  = isEdit ? 'Enregistrement…' : 'Création en cours…';
+  errEl.style.display = 'none';
+
+  try {
+    const { doc, updateDoc, addDoc, collection, serverTimestamp } = fns;
+
+    const data = {
+      service, nom, telephone, email, adresse,
+      dateKey, time, timeLabel, price,
+      description, status,
+      source: 'admin',
+    };
+
+    if (isEdit) {
+      await updateDoc(doc(db, 'reservations', _editingRdvId), data);
+      const idx = store.allRdvs.findIndex((r) => r.id === _editingRdvId);
+      if (idx !== -1) store.allRdvs[idx] = { ...store.allRdvs[idx], ...data };
+    } else {
+      data.createdAt = serverTimestamp();
+      const ref = await addDoc(collection(db, 'reservations'), data);
+      store.allRdvs.push({ id: ref.id, ...data });
+    }
+
+    // Re-tri chronologique
+    store.allRdvs.sort((a, b) => (a.dateKey + a.time < b.dateKey + b.time ? -1 : 1));
+
+    _closeRdvCreateModal();
+    emit('rdvs:changed');
+  } catch (e) {
+    console.error(e);
+    btn.disabled    = false;
+    btn.textContent = isEdit ? 'Enregistrer les modifications' : 'Créer le rendez-vous';
+    errEl.textContent   = 'Erreur Firebase : ' + (e.message || 'inconnue');
+    errEl.style.display = 'block';
+  }
+}
+
+// Fermeture sur clic overlay
+document.getElementById('rdvCreateModal')?.addEventListener('click', (e) => {
+  if (e.target.id === 'rdvCreateModal') _closeRdvCreateModal();
+});
+
 // ─── Compat handlers inline ───────────────────────────────────────────────
-window.loadAll       = loadAll;
-window.setFilter     = setFilter;
-window.openRdvModal  = openRdvModal;
-window.closeModal    = closeModal;
-window.updateStatus  = updateStatus;
-window.deleteRdv     = deleteRdv;
-window.sendReminder  = sendReminder;
-window.editPrixReel  = editPrixReel;
+window.loadAll            = loadAll;
+window.setFilter          = setFilter;
+window.openRdvModal       = openRdvModal;
+window.closeModal         = closeModal;
+window.updateStatus       = updateStatus;
+window.deleteRdv          = deleteRdv;
+window.sendReminder       = sendReminder;
+window.editPrixReel       = editPrixReel;
+window.openCreateRdvForm  = openCreateRdvForm;
+window.openEditRdvForm    = openEditRdvForm;
+window.closeRdvCreateModal = _closeRdvCreateModal;
+window.submitRdvForm      = _submitRdvForm;

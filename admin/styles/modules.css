@@ -205,6 +205,19 @@
   .fac-row-actions{grid-column:1/-1;justify-content:flex-end;border-top:1px solid var(--border);padding-top:0.5rem}
 }
 
+/* ─── Modal création / édition RDV ───────────────────────────────────────── */
+.rdv-form-modal{max-width:560px;max-height:92vh;overflow-y:auto;display:flex;flex-direction:column;gap:0.85rem}
+.rdv-form-body{display:grid;grid-template-columns:1fr 1fr;gap:0.65rem}
+.rdv-form-full{grid-column:1/-1}
+@media(max-width:580px){.rdv-form-body{grid-template-columns:1fr}}
+
+/* Curseur "créer" sur cellule calendrier vide future */
+.cal-cell:not(.cal-empty):not(.cal-past):not(.cal-has-rdv):hover::after{
+  content:'+ RDV';
+  position:absolute;bottom:3px;right:4px;
+  font-size:0.55rem;color:var(--accent);opacity:0.7;font-weight:700;pointer-events:none;
+}
+
 /* Modale facture */
 .facture-modal{max-width:760px;max-height:92vh;overflow-y:auto}
 .fac-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}

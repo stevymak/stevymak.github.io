@@ -164,6 +164,7 @@
           <button class="cal-nav-btn" onclick="calPrev()" aria-label="Mois précédent">‹</button>
           <div class="cal-month-title" id="calAdminTitle"></div>
           <button class="cal-nav-btn" onclick="calNext()" aria-label="Mois suivant">›</button>
+          <button class="btn-confirm" onclick="openCreateRdvForm()" style="padding:0.35rem 0.85rem;font-size:0.82rem;flex:0 0 auto">+ Nouveau RDV</button>
         </div>
         <div class="cal-grid-admin" id="calAdminGrid"></div>
         <div style="display:flex;gap:1rem;margin-top:0.75rem;font-size:0.75rem;flex-wrap:wrap">
@@ -177,7 +178,10 @@
       <section class="tab-content" id="tab-reservations">
         <div class="section-title-row">
           Rendez-vous
-          <button class="btn-soft" onclick="loadAll()">↻ Actualiser</button>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            <button class="btn-confirm" onclick="openCreateRdvForm()" style="padding:0.4rem 1rem;font-size:0.82rem">+ Nouveau RDV</button>
+            <button class="btn-soft" onclick="loadAll()">↻ Actualiser</button>
+          </div>
         </div>
         <div class="filter-tabs" style="margin-bottom:1rem">
           <button class="tab-filter active" onclick="setFilter('all',this)">Tous</button>
@@ -493,6 +497,87 @@
       </section>
 
     </main>
+  </div>
+</div>
+
+<!-- ─── Modal Création / Édition RDV ──────────────────────────────────── -->
+<div class="modal-overlay" id="rdvCreateModal">
+  <div class="modal rdv-form-modal">
+
+    <!-- En-tête -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.25rem">
+      <h3 id="rdvFormTitle">+ Nouveau rendez-vous</h3>
+      <button class="modal-close" onclick="closeRdvCreateModal()" aria-label="Fermer">✕</button>
+    </div>
+
+    <!-- Corps du formulaire -->
+    <div class="rdv-form-body">
+
+      <!-- Service -->
+      <div class="rdv-form-full">
+        <label class="fac-label">Service *
+          <input class="form-input" id="rfService" list="rfServiceList" placeholder="Dépannage, Formation, Réseau…" autocomplete="off">
+          <datalist id="rfServiceList"></datalist>
+        </label>
+      </div>
+
+      <!-- Client : Nom + Téléphone -->
+      <label class="fac-label">Nom du client *
+        <input class="form-input" id="rfNom" list="rfNomList" placeholder="Marie Dupont" autocomplete="off">
+        <datalist id="rfNomList"></datalist>
+      </label>
+      <label class="fac-label">Téléphone
+        <input class="form-input" id="rfTel" type="tel" placeholder="06 XX XX XX XX">
+      </label>
+
+      <!-- Email + Adresse -->
+      <label class="fac-label">Email
+        <input class="form-input" id="rfEmail" type="email" placeholder="client@email.com">
+      </label>
+      <label class="fac-label">Adresse d'intervention
+        <input class="form-input" id="rfAdresse" placeholder="12 rue de la Paix, Stains">
+      </label>
+
+      <!-- Date + Heure -->
+      <label class="fac-label">Date *
+        <input class="form-input" id="rfDate" type="date">
+      </label>
+      <label class="fac-label">Heure de début *
+        <input class="form-input" id="rfTime" type="time" value="09:00">
+      </label>
+
+      <!-- Plage affichée + Prix -->
+      <label class="fac-label">Plage horaire affichée
+        <input class="form-input" id="rfTimeLabel" placeholder="Ex : 09h – 11h (laissez vide pour auto)">
+      </label>
+      <label class="fac-label">Prix estimé (HT)
+        <input class="form-input" id="rfPrice" placeholder="75€/h ou 150€ fixe">
+      </label>
+
+      <!-- Statut -->
+      <label class="fac-label">Statut
+        <select class="form-input" id="rfStatus">
+          <option value="pending">⏳ En attente de confirmation</option>
+          <option value="confirmed">✓ Confirmé directement</option>
+        </select>
+      </label>
+
+      <!-- Notes -->
+      <div class="rdv-form-full">
+        <label class="fac-label">Notes / Description
+          <textarea class="form-input" id="rfDesc" rows="3" placeholder="Problème décrit par le client, matériel concerné, accès particulier…" style="resize:vertical"></textarea>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Erreur + Soumission -->
+    <div class="error-msg" id="rdvFormErr" style="margin-top:0.25rem"></div>
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap;margin-top:0.25rem">
+      <button class="btn-soft" onclick="closeRdvCreateModal()">Annuler</button>
+      <button class="btn-main" id="rdvFormSubmit" onclick="submitRdvForm()" style="flex:0 0 auto;padding:0.65rem 1.5rem;width:auto">Créer le rendez-vous</button>
+    </div>
+
   </div>
 </div>
 
