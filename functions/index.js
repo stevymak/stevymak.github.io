@@ -823,7 +823,7 @@ function buildDormantHtml(client) {
         Cela fait un moment qu'on ne s'est pas vus 👋. J'espère que tout va bien pour vous et votre matériel.
       </p>
       <p style="color:#9999bb;font-size:14px;margin:14px 0 0 0;line-height:1.55">
-        Si vous avez besoin d'un coup de main (lenteurs, sauvegarde, sécurité, formation, mise à jour), n'hésitez pas — je reste joignable au 06 19 51 57 56 ou par retour d'email.
+        Si vous avez besoin d'un coup de main (lenteurs, sauvegarde, sécurité, formation, mise à jour), n'hésitez pas — je reste joignable au 07 45 10 38 27 ou par retour d'email.
       </p>
       <p style="color:#9999bb;font-size:14px;margin:14px 0 0 0">À très vite peut-être 😊</p>
     </td></tr>

@@ -20,7 +20,19 @@
   <url><loc>https://makouezit.org/service-sauvegarde-securite.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://makouezit.org/service-formation.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
-  <!-- Pages SEO locales — départements principaux -->
+  <!-- Pages SEO locales — Landes (40), zone principale -->
+  <url><loc>https://makouezit.org/depannage-informatique-landes-40.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-mont-de-marsan.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-dax.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-biscarrosse.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-capbreton.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-soustons.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-mees.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-saint-paul-les-dax.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-saint-vincent-de-tyrosse.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://makouezit.org/depannage-informatique-mimizan.html</loc><lastmod>2026-06-05</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+
+  <!-- Pages SEO locales — Île-de-France (zone secondaire) -->
   <url><loc>https://makouezit.org/depannage-informatique-paris-75.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.90</priority></url>
   <url><loc>https://makouezit.org/depannage-informatique-hauts-de-seine-92.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://makouezit.org/depannage-informatique-seine-saint-denis.html</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
