@@ -260,7 +260,7 @@
     }catch(e){
       removeTyping();
       console.error('Chat:',e);
-      addMsg('Désolé, erreur. Contactez Stevy au 06 19 51 57 56.','bot');
+      addMsg('Désolé, erreur. Contactez Stevy au 07 45 10 38 27.','bot');
     }
     isLoading=false;
     document.getElementById('mkit-send').disabled=false;

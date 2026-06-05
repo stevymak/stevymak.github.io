@@ -70,7 +70,7 @@ export const BUSINESS_INFO = {
   cp:             '93380',
   ville:          'PIERREFITTE-SUR-SEINE',
   email:          'contact@makouezit.org',
-  telephone:      '06 19 51 57 56',
+  telephone:      '07 45 10 38 27',
   site:           'makouezit.org',
   mentionTVA:     'TVA non applicable, art. 293 B du CGI',
   iban:           'FR7616528001610001702031087',
