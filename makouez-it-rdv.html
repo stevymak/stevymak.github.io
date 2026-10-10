@@ -589,7 +589,7 @@ async function loadMonthCounts(year, month) {
   const end   = `${year}-${mm}-31`;
   try {
     const snap = await window._getDocs(window._query(
-      window._collection(window._db, 'reservations'),
+      window._collection(window._db, 'slots'),
       window._where('dateKey', '>=', start),
       window._where('dateKey', '<=', end)
     ));
@@ -608,7 +608,7 @@ async function getTakenSlots(dateKey) {
   if (!await waitFirebase()) return [];
   try {
     const snap = await window._getDocs(window._query(
-      window._collection(window._db, 'reservations'),
+      window._collection(window._db, 'slots'),
       window._where('dateKey', '==', dateKey)
     ));
     return snap.docs.map(d => d.data().timeLabel).filter(Boolean);
@@ -1010,6 +1010,14 @@ async function submitRDV() {
     if (user) reservationData.uid = user.uid;
 
     await window._addDoc(window._collection(window._db, 'reservations'), reservationData);
+
+    // Créneau pris (collection publique sans données personnelles)
+    try {
+      await window._addDoc(window._collection(window._db, 'slots'), {
+        dateKey: selectedDate,
+        timeLabel: selectedSlot,
+      });
+    } catch (slotErr) { console.warn('slots:', slotErr); }
 
     reservationCounts[selectedDate] = (reservationCounts[selectedDate] || 0) + 1;
 
