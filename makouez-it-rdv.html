@@ -15,7 +15,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { initializeFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -28,18 +28,21 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db  = getFirestore(app);
+    const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
 
     window._auth                  = auth;
     window._createUserWithEmailAndPassword = createUserWithEmailAndPassword;
     window._signInWithEmailAndPassword     = signInWithEmailAndPassword;
     window._updateProfile         = updateProfile;
     window._db                    = db;
-    window._addDoc                = addDoc;
+    const withTimeout = (p, ms = 12000) => Promise.race([
+      p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('timeout'), { code: 'timeout' })), ms))
+    ]);
+    window._addDoc = (...a) => withTimeout(addDoc(...a));
     window._collection            = collection;
     window._query                 = query;
     window._where                 = where;
-    window._getDocs               = getDocs;
+    window._getDocs = (...a) => withTimeout(getDocs(...a));
     window._firebaseReady         = true;
   </script>
 
@@ -590,6 +593,10 @@ async function loadMonthCounts(year, month) {
       window._where('dateKey', '>=', start),
       window._where('dateKey', '<=', end)
     ));
+    // Remet à zéro les compteurs du mois avant de recompter
+    Object.keys(reservationCounts)
+      .filter(k => k.startsWith(`${year}-${mm}`))
+      .forEach(k => delete reservationCounts[k]);
     snap.docs.forEach(doc => {
       const dk = doc.data().dateKey;
       if (dk) reservationCounts[dk] = (reservationCounts[dk] || 0) + 1;
@@ -838,7 +845,7 @@ function fetchSuggestions(input) {
   if (!autocompleteService) { showFallbackSuggestions(input); return; }
   autocompleteService.getPlacePredictions(
     { input, componentRestrictions:{country:'fr'}, types:['address'], location:new google.maps.LatLng(48.9,2.36), radius:40000 },
-    (preds, status) => { if (status===google.maps.places.PlacesServiceStatus.OK&&preds) showSuggestions(preds); else hideSuggestions(); }
+    (preds, status) => { if (status===google.maps.places.PlacesServiceStatus.OK&&preds) showSuggestions(preds); else showFallbackSuggestions(input); }
   );
 }
 function showSuggestions(preds) {
@@ -1025,6 +1032,10 @@ async function submitRDV() {
       err.textContent='Le mot de passe est trop faible. Choisissez au moins 6 caractères.';
     } else if (e?.code === 'auth/invalid-email') {
       err.textContent='Adresse email invalide.';
+    } else if (e?.code === 'timeout') {
+      err.textContent='Le serveur ne répond pas. Réessayez ou appelez le 07 45 10 38 27.';
+    } else if (e?.code === 'permission-denied') {
+      err.textContent='Réservation refusée par le serveur. Appelez le 07 45 10 38 27.';
     } else {
       err.textContent='Une erreur est survenue. Vérifiez vos informations et réessayez.';
     }
