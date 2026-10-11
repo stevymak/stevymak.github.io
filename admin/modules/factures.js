@@ -582,138 +582,339 @@ async function buildInvoicePdf(f) {
   const PDFLib = await ensurePdfLib();
   const { PDFDocument, StandardFonts, rgb } = PDFLib;
 
-  const doc  = await PDFDocument.create();
-  const page = doc.addPage([595.28, 841.89]); // A4
+  const doc      = await PDFDocument.create();
   const helv     = await doc.embedFont(StandardFonts.Helvetica);
   const helvBold = await doc.embedFont(StandardFonts.HelveticaBold);
 
-  const W = 595.28;
-  const margin = 40;
-  let y = 800;
+  doc.setTitle(`Facture ${f.numero || ''}`.trim());
+  doc.setAuthor(BUSINESS_INFO.nom || '');
+  doc.setCreator(BUSINESS_INFO.nom || '');
 
-  const drawText = (text, opts = {}) => {
-    const { x = margin, size = 10, bold = false, color = rgb(0.1, 0.1, 0.15), align } = opts;
-    const font = bold ? helvBold : helv;
-    const safe = sanitizeForPdf(String(text || ''));
-    let xPos = x;
-    if (align === 'right') {
-      const width = font.widthOfTextAtSize(safe, size);
-      xPos = (typeof opts.right === 'number' ? opts.right : W - margin) - width;
-    }
-    page.drawText(safe, { x: xPos, y: opts.y ?? y, size, font, color });
+  // ── Gabarit ──────────────────────────────────────────────────────────
+  const W = 595.28, H = 841.89;
+  const M  = 42;                 // marges gauche / droite
+  const CW = W - 2 * M;          // largeur utile
+  const FOOTER_H = 60;           // hauteur réservée au pied de page
+  const BOTTOM   = FOOTER_H + 16; // limite basse du contenu
+
+  const C = {
+    ink:    rgb(0.10, 0.11, 0.15),
+    muted:  rgb(0.42, 0.45, 0.52),
+    line:   rgb(0.87, 0.89, 0.93),
+    band:   rgb(0.96, 0.97, 0.99),
+    accent: rgb(0.05, 0.08, 0.18),
+    blue:   rgb(0.23, 0.51, 0.96),
+    green:  rgb(0.09, 0.55, 0.30),
+    red:    rgb(0.78, 0.16, 0.16),
+    white:  rgb(1, 1, 1),
   };
 
-  // Émetteur
-  drawText(BUSINESS_INFO.nom, { size: 16, bold: true });
-  y -= 16;
-  drawText(BUSINESS_INFO.formeJuridique, { size: 9, color: rgb(0.4, 0.4, 0.5) }); y -= 12;
-  drawText(BUSINESS_INFO.adresse,                              { size: 9 }); y -= 11;
-  drawText(`${BUSINESS_INFO.cp} ${BUSINESS_INFO.ville}`,      { size: 9 }); y -= 11;
-  drawText(`SIRET : ${BUSINESS_INFO.siret}`,                  { size: 9 }); y -= 11;
-  drawText(BUSINESS_INFO.email,                                { size: 9 }); y -= 11;
-  drawText(BUSINESS_INFO.telephone,                            { size: 9 }); y -= 11;
+  const pages = [];
+  let page, y;
 
-  // Bandeau titre
-  y -= 16;
-  page.drawRectangle({ x: margin, y: y - 4, width: W - 2 * margin, height: 32, color: rgb(0.05, 0.08, 0.18) });
-  drawText('FACTURE', { x: margin + 12, y: y + 8, size: 18, bold: true, color: rgb(1, 1, 1) });
-  drawText(f.numero || '', { x: W - margin - 12, y: y + 12, size: 12, bold: true, color: rgb(0.55, 0.7, 1), align: 'right' });
-  drawText(`Date : ${formatDateFR(f.date)}`, { x: W - margin - 12, y: y - 2, size: 8, color: rgb(0.8, 0.8, 1), align: 'right' });
-  y -= 36;
+  // ── Helpers de dessin ────────────────────────────────────────────────
+  const font    = (bold) => (bold ? helvBold : helv);
+  const clean   = (s) => sanitizeForPdf(s);
+  const widthOf = (s, size, bold) => font(bold).widthOfTextAtSize(clean(s), size);
 
-  // Bloc client
-  y -= 14;
-  drawText('Facturé à :', { size: 9, bold: true, color: rgb(0.4, 0.4, 0.5) }); y -= 14;
-  drawText(f.client?.nom || '–', { size: 11, bold: true }); y -= 13;
-  if (f.client?.adresse) { drawText(f.client.adresse, { size: 9 }); y -= 11; }
-  if (f.client?.email)   { drawText(f.client.email,   { size: 9 }); y -= 11; }
-  if (f.client?.telephone){drawText(f.client.telephone,{size: 9 }); y -= 11; }
+  // align 'right' : x = bord droit du texte
+  const text = (s, x, yy, { size = 10, bold = false, color = C.ink, align = 'left' } = {}) => {
+    const t = clean(s);
+    if (!t) return;
+    const px = align === 'right' ? x - widthOf(t, size, bold) : x;
+    page.drawText(t, { x: px, y: yy, size, font: font(bold), color });
+  };
+  const fill = (x, yy, w, h, color) =>
+    page.drawRectangle({ x, y: yy, width: w, height: h, color });
+  const hline = (x1, x2, yy, color = C.line, thickness = 0.6) =>
+    page.drawLine({ start: { x: x1, y: yy }, end: { x: x2, y: yy }, thickness, color });
+  const label = (s, x, yy) => text(String(s).toUpperCase(), x, yy, { size: 7.5, bold: true, color: C.muted });
 
-  // Échéance
-  y -= 8;
-  drawText(`Date d'échéance : ${formatDateFR(f.echeance)}`, { size: 9, color: rgb(0.4, 0.4, 0.5) });
+  // Retour à la ligne automatique (gère aussi les \n et les mots trop longs)
+  const wrap = (s, maxW, size, bold) => {
+    const out = [];
+    String(s ?? '').split(/\r?\n/).forEach((para) => {
+      const words = para.split(/\s+/).filter(Boolean);
+      if (words.length === 0) { out.push(''); return; }
+      let cur = '';
+      const flush = () => { if (cur) out.push(cur); cur = ''; };
+      words.forEach((word) => {
+        let w = word;
+        while (widthOf(w, size, bold) > maxW && w.length > 1) {
+          let cut = w.length - 1;
+          while (cut > 1 && widthOf(w.slice(0, cut), size, bold) > maxW) cut--;
+          flush();
+          out.push(w.slice(0, cut));
+          w = w.slice(cut);
+        }
+        const test = cur ? `${cur} ${w}` : w;
+        if (widthOf(test, size, bold) <= maxW) cur = test;
+        else { flush(); cur = w; }
+      });
+      flush();
+    });
+    return out;
+  };
 
-  // Tableau lignes
-  y -= 26;
-  page.drawRectangle({ x: margin, y: y - 4, width: W - 2 * margin, height: 22, color: rgb(0.93, 0.94, 0.97) });
-  drawText('Description', { x: margin + 8,                  y: y + 4, size: 9, bold: true });
-  drawText('Qté',         { x: W - margin - 200,            y: y + 4, size: 9, bold: true });
-  drawText('PU HT',       { x: W - margin - 130,            y: y + 4, size: 9, bold: true });
-  drawText('Total HT',    { x: W - margin - 12,             y: y + 4, size: 9, bold: true, align: 'right' });
+  // ── Pages ────────────────────────────────────────────────────────────
+  const newPage = () => {
+    page = doc.addPage([W, H]);
+    pages.push(page);
+    fill(0, H - 8, W, 8, C.accent);
+    y = H - 8;
+  };
+
+  const continuationPage = () => {
+    newPage();
+    y -= 36;
+    text(BUSINESS_INFO.nom, M, y, { size: 11, bold: true, color: C.accent });
+    text(`Facture ${f.numero || ''} (suite)`, W - M, y, { size: 10, bold: true, color: C.blue, align: 'right' });
+    y -= 12;
+    hline(M, W - M, y);
+    y -= 22;
+  };
+
+  // S'assure qu'il reste h points avant le pied de page, sinon nouvelle page
+  const ensureSpace = (h) => {
+    if (y - h < BOTTOM) { continuationPage(); return true; }
+    return false;
+  };
+
+  // ── Données ──────────────────────────────────────────────────────────
+  const status = statusOf(f);
+  const paid   = status === 'paid';
+  const items  = Array.isArray(f.items) ? f.items : [];
+  const paiementLabel = (PAIEMENT_MODES.find((p) => p.id === f.paiement)?.label) || f.paiement || '–';
+  const paidDate = f.paidAt ? new Date(f.paidAt).toLocaleDateString('fr-FR') : null;
+  const fmtQty = (q) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(Number(q) || 0);
+  const fmtIban = (s) => String(s).replace(/\s+/g, '').replace(/(.{4})/g, '$1 ').trim();
+
+  // ═════════════════════════════════════════════════════════════════════
+  // PAGE 1 : en-tête
+  // ═════════════════════════════════════════════════════════════════════
+  newPage();
+  y -= 40;
+  text(BUSINESS_INFO.nom, M, y, { size: 17, bold: true, color: C.accent });
+  text('FACTURE', W - M, y + 1, { size: 24, bold: true, color: C.accent, align: 'right' });
   y -= 18;
+  text(BUSINESS_INFO.formeJuridique, M, y, { size: 9, color: C.muted });
+  text(f.numero || '', W - M, y, { size: 12, bold: true, color: C.blue, align: 'right' });
 
-  (f.items || []).forEach((it) => {
-    if (y < 100) {
-      // (pas de saut de page géré ici — V1 tient sur une page pour des factures simples)
-      return;
+  if (paid) {
+    y -= 22;
+    const badge = `PAYÉE${paidDate ? ' LE ' + paidDate : ''}`;
+    const bw = widthOf(badge, 8.5, true) + 20;
+    page.drawRectangle({ x: W - M - bw, y: y - 5, width: bw, height: 18, borderColor: C.green, borderWidth: 1 });
+    text(badge, W - M - bw / 2 - widthOf(badge, 8.5, true) / 2, y + 1, { size: 8.5, bold: true, color: C.green });
+  }
+  y -= 24;
+
+  // Bandeau de références (émission / échéance / règlement)
+  const stripH = 46;
+  fill(M, y - stripH, CW, stripH, C.band);
+  const cellW = CW / 3;
+  const cells = [
+    { k: "Date d'émission",   v: formatDateFR(f.date),     color: C.ink },
+    { k: 'Échéance',          v: formatDateFR(f.echeance), color: status === 'late' ? C.red : C.ink },
+    { k: 'Mode de règlement', v: paiementLabel,            color: C.ink },
+  ];
+  cells.forEach((c, i) => {
+    const cx = M + 16 + i * cellW;
+    label(c.k, cx, y - 17);
+    text(c.v, cx, y - 34, { size: 11, bold: true, color: c.color });
+  });
+  y -= stripH + 28;
+
+  // Deux colonnes : émetteur / client
+  const colGap = 28;
+  const colW   = (CW - colGap) / 2;
+  const xL = M, xR = M + colW + colGap;
+
+  const column = (title, x, build) => {
+    let cy = y;
+    label(title, x, cy);
+    hline(x, x + colW, cy - 6, C.line, 0.8);
+    cy -= 22;
+    const put = (s, o = {}) => {
+      if (!s) return;
+      const size = o.size || 9.5;
+      wrap(s, colW, size, !!o.bold).forEach((ln) => {
+        text(ln, x, cy, { size, bold: !!o.bold, color: o.color || C.ink });
+        cy -= size + 3.5;
+      });
+    };
+    build(put);
+    return cy;
+  };
+
+  const yLeft = column('Émetteur', xL, (put) => {
+    put(BUSINESS_INFO.adresse);
+    put(`${BUSINESS_INFO.cp || ''} ${BUSINESS_INFO.ville || ''}`);
+    put(BUSINESS_INFO.siret ? `SIRET : ${BUSINESS_INFO.siret}` : '');
+    put(BUSINESS_INFO.email);
+    put(BUSINESS_INFO.telephone);
+  });
+  const yRight = column('Facturé à', xR, (put) => {
+    put(f.client?.nom || '–', { size: 11.5, bold: true });
+    put(f.client?.adresse);
+    put(f.client?.email);
+    put(f.client?.telephone);
+  });
+  y = Math.min(yLeft, yRight) - 14;
+
+  // ═════════════════════════════════════════════════════════════════════
+  // Tableau des prestations
+  // ═════════════════════════════════════════════════════════════════════
+  const xDesc  = M + 12;
+  const rTotal = W - M - 12;
+  const rPU    = rTotal - 92;
+  const rQty   = rPU - 86;
+  const descW  = rQty - 46 - xDesc;
+  const LH = 12.5, PAD = 8;
+
+  const tableHeader = () => {
+    fill(M, y - 22, CW, 22, C.accent);
+    const ty = y - 14.5;
+    text('DESCRIPTION', xDesc, ty, { size: 8, bold: true, color: C.white });
+    text('QTÉ',      rQty,   ty, { size: 8, bold: true, color: C.white, align: 'right' });
+    text('PU HT',    rPU,    ty, { size: 8, bold: true, color: C.white, align: 'right' });
+    text('TOTAL HT', rTotal, ty, { size: 8, bold: true, color: C.white, align: 'right' });
+    y -= 22;
+  };
+
+  ensureSpace(22 + 40);
+  tableHeader();
+
+  items.forEach((it, idx) => {
+    const lines = wrap(it.description || '–', descW, 10, false);
+    const rowH  = lines.length * LH + PAD * 2 - 3;
+
+    if (y - rowH < BOTTOM) {
+      continuationPage();
+      tableHeader();
     }
-    const total = (Number(it.quantite) || 0) * (Number(it.prixUnitaire) || 0);
-    drawText(it.description || '–', { x: margin + 8,         y: y + 4, size: 10 });
-    drawText(String(it.quantite),   { x: W - margin - 200,  y: y + 4, size: 10 });
-    drawText(fmtEURPdf(it.prixUnitaire), { x: W - margin - 130, y: y + 4, size: 10 });
-    drawText(fmtEURPdf(total),      { x: W - margin - 12,    y: y + 4, size: 10, align: 'right' });
-    y -= 18;
-    page.drawLine({ start: { x: margin, y: y + 12 }, end: { x: W - margin, y: y + 12 }, thickness: 0.4, color: rgb(0.85, 0.86, 0.9) });
+    if (idx % 2 === 1) fill(M, y - rowH, CW, rowH, C.band);
+
+    const base = y - PAD - 8;
+    lines.forEach((ln, i) => text(ln, xDesc, base - i * LH, { size: 10 }));
+    const q  = Number(it.quantite) || 0;
+    const pu = Number(it.prixUnitaire) || 0;
+    text(fmtQty(q),        rQty,   base, { size: 10, align: 'right' });
+    text(fmtEURPdf(pu),    rPU,    base, { size: 10, align: 'right' });
+    text(fmtEURPdf(q * pu), rTotal, base, { size: 10, bold: true, align: 'right' });
+
+    y -= rowH;
+    hline(M, W - M, y);
   });
 
-  // Totaux
-  y -= 14;
-  drawText('Total HT', { x: W - margin - 130, y: y + 4, size: 10 });
-  drawText(fmtEURPdf(f.totalHT || 0), { x: W - margin - 12, y: y + 4, size: 10, align: 'right' });
-  y -= 14;
+  // ═════════════════════════════════════════════════════════════════════
+  // Totaux + modalités de règlement (côte à côte)
+  // ═════════════════════════════════════════════════════════════════════
+  ensureSpace(160);
+  y -= 30;
 
-  if (Number(f.tva) > 0) {
-    drawText(`TVA (${f.tva}%)`, { x: W - margin - 130, y: y + 4, size: 10 });
-    drawText(fmtEURPdf(f.totalTVA || 0), { x: W - margin - 12, y: y + 4, size: 10, align: 'right' });
-    y -= 14;
-  }
+  const totW = 232;
+  const xT   = W - M - totW;
 
-  page.drawLine({ start: { x: W - margin - 200, y: y + 12 }, end: { x: W - margin, y: y + 12 }, thickness: 0.6, color: rgb(0.4, 0.4, 0.5) });
-  drawText('Total TTC',                  { x: W - margin - 130, y: y - 4, size: 12, bold: true });
-  drawText(fmtEURPdf(f.totalTTC || 0),   { x: W - margin - 12,  y: y - 4, size: 12, bold: true, align: 'right', color: rgb(0.23, 0.51, 0.96) });
-  y -= 28;
+  // — Colonne droite : totaux
+  let ty = y;
+  const totalRow = (lbl, val) => {
+    text(lbl, xT + 12, ty - 14, { size: 10, color: C.muted });
+    text(val, W - M - 12, ty - 14, { size: 10, align: 'right' });
+    ty -= 24;
+    hline(xT, W - M, ty);
+  };
+  totalRow('Total HT', fmtEURPdf(f.totalHT || 0));
+  if (Number(f.tva) > 0) totalRow(`TVA (${f.tva} %)`, fmtEURPdf(f.totalTVA || 0));
 
-  // Mention TVA si 0
-  if (Number(f.tva) === 0) {
-    y -= 8;
-    drawText(BUSINESS_INFO.mentionTVA, { size: 8, color: rgb(0.5, 0.5, 0.55) });
-    y -= 14;
-  }
+  fill(xT, ty - 32, totW, 32, C.accent);
+  text('TOTAL TTC', xT + 12, ty - 20, { size: 11, bold: true, color: C.white });
+  text(fmtEURPdf(f.totalTTC || 0), W - M - 12, ty - 20, { size: 13, bold: true, color: C.white, align: 'right' });
+  ty -= 32 + 16;
 
-  // Modalités de paiement
-  y -= 6;
-  const paiementLabel = (PAIEMENT_MODES.find((p) => p.id === f.paiement)?.label) || f.paiement || '–';
-  drawText(`Paiement : ${paiementLabel}`, { size: 9 }); y -= 12;
-  if (BUSINESS_INFO.iban && BUSINESS_INFO.iban !== 'À COMPLÉTER') {
-    drawText(`IBAN : ${BUSINESS_INFO.iban}`, { size: 9 }); y -= 11;
-  }
-  if (BUSINESS_INFO.bic && BUSINESS_INFO.bic !== 'À COMPLÉTER') {
-    drawText(`BIC : ${BUSINESS_INFO.bic}`, { size: 9 }); y -= 11;
-  }
-
-  // Notes
-  if (f.notes) {
-    y -= 12;
-    drawText('Notes :', { size: 9, bold: true, color: rgb(0.4, 0.4, 0.5) }); y -= 11;
-    splitTextLines(f.notes, 90).forEach((line) => {
-      drawText(line, { size: 9 }); y -= 11;
+  if (paid) {
+    text('Reste à payer : 0,00 EUR', W - M, ty, { size: 9.5, bold: true, color: C.green, align: 'right' });
+  } else {
+    text(`À régler avant le ${formatDateFR(f.echeance)}`, W - M, ty, {
+      size: 9.5, bold: true, color: status === 'late' ? C.red : C.ink, align: 'right',
     });
   }
+  ty -= 14;
 
-  // Pied de page
-  drawText(`Facture émise par ${BUSINESS_INFO.nom} · ${BUSINESS_INFO.site}`, {
-    x: margin, y: 30, size: 8, color: rgb(0.55, 0.55, 0.6),
+  // — Colonne gauche : règlement
+  let ly = y;
+  const leftW = CW - totW - 28;
+  label('Modalités de règlement', M, ly);
+  hline(M, M + leftW, ly - 6, C.line, 0.8);
+  ly -= 22;
+  const kv = (k, v) => {
+    if (!v) return;
+    text(k, M, ly, { size: 9, color: C.muted });
+    text(v, M + 62, ly, { size: 9.5, bold: true });
+    ly -= 14;
+  };
+  kv('Mode', paiementLabel);
+  if (BUSINESS_INFO.iban && BUSINESS_INFO.iban !== 'À COMPLÉTER') kv('IBAN', fmtIban(BUSINESS_INFO.iban));
+  if (BUSINESS_INFO.bic  && BUSINESS_INFO.bic  !== 'À COMPLÉTER') kv('BIC', BUSINESS_INFO.bic);
+  if (!paid) kv('Référence', f.numero);
+
+  y = Math.min(ly, ty) - 10;
+
+  // ═════════════════════════════════════════════════════════════════════
+  // Mentions, notes
+  // ═════════════════════════════════════════════════════════════════════
+  const paragraph = (title, str, size, color) => {
+    const lines = wrap(str, CW, size, false);
+    ensureSpace((title ? 24 : 0) + Math.min(lines.length, 3) * (size + 3.5));
+    if (title) { label(title, M, y); y -= 15; }
+    lines.forEach((ln) => {
+      if (y < BOTTOM) continuationPage();
+      text(ln, M, y, { size, color });
+      y -= size + 3.5;
+    });
+    y -= 8;
+  };
+
+  if (f.notes) paragraph('Notes', f.notes, 9.5, C.ink);
+
+  if (Number(f.tva) === 0 && BUSINESS_INFO.mentionTVA) {
+    paragraph('', BUSINESS_INFO.mentionTVA, 8.5, C.muted);
+  }
+
+  const retard = BUSINESS_INFO.mentionRetard ||
+    "En cas de retard de paiement, une pénalité égale à trois fois le taux d'intérêt légal sera appliquée, " +
+    "ainsi qu'une indemnité forfaitaire de 40 € pour frais de recouvrement (art. L441-10 du Code de commerce). " +
+    "Pas d'escompte pour paiement anticipé.";
+  paragraph('', retard, 8, C.muted);
+
+  // ═════════════════════════════════════════════════════════════════════
+  // Pied de page sur toutes les pages
+  // ═════════════════════════════════════════════════════════════════════
+  const total = pages.length;
+  pages.forEach((pg, i) => {
+    page = pg;
+    hline(M, W - M, FOOTER_H, C.line, 0.6);
+    const l1 = [BUSINESS_INFO.nom, BUSINESS_INFO.formeJuridique, BUSINESS_INFO.siret ? `SIRET ${BUSINESS_INFO.siret}` : '']
+      .filter(Boolean).join('  ·  ');
+    const l2 = [BUSINESS_INFO.email, BUSINESS_INFO.telephone, BUSINESS_INFO.site].filter(Boolean).join('  ·  ');
+    text(l1, M, FOOTER_H - 15, { size: 7.5, color: C.muted });
+    text(l2, M, FOOTER_H - 26, { size: 7.5, color: C.muted });
+    text(`Page ${i + 1} / ${total}`, W - M, FOOTER_H - 15, { size: 7.5, color: C.muted, align: 'right' });
   });
 
   return await doc.save();
 }
 
-// pdf-lib StandardFonts ne gèrent pas tous les caractères Unicode → on
-// nettoie les emojis et caractères qui posent problème. Les accents sont OK.
+// pdf-lib (polices standard) n'encode que le jeu WinAnsi. On remplace les
+// espaces insécables fines produites par Intl (U+202F) — qui faisaient
+// planter la génération dès 1 000 EUR — et on retire tout ce qui n'est pas
+// encodable (emojis, etc.). Accents, œ, guillemets et tirets sont conservés.
 function sanitizeForPdf(s) {
-  return s
-    .replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}]/gu, '')
+  return String(s ?? '')
+    .replace(/[\u202F\u00A0\u2009\u2007]/g, ' ')
     .replace(/€/g, 'EUR')
+    .replace(/[\r\n\t]+/g, ' ')
+    .replace(/[^\u0020-\u007E\u00A1-\u00FF\u0152\u0153\u0178\u2013\u2014\u2018\u2019\u201C\u201D\u2022\u2026]/g, '')
     .trim();
 }
 
@@ -725,22 +926,6 @@ function fmtEURPdf(n) {
 function formatDateFR(iso) {
   if (!iso) return '–';
   return new Date(iso + 'T12:00:00').toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-}
-
-function splitTextLines(text, maxChars) {
-  const words = String(text).split(/\s+/);
-  const lines = [];
-  let cur = '';
-  words.forEach((w) => {
-    if ((cur + ' ' + w).trim().length > maxChars) {
-      if (cur) lines.push(cur);
-      cur = w;
-    } else {
-      cur = (cur + ' ' + w).trim();
-    }
-  });
-  if (cur) lines.push(cur);
-  return lines;
 }
 
 // ─── Souscriptions + wiring ───────────────────────────────────────────────
