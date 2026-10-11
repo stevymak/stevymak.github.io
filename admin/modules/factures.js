@@ -412,6 +412,7 @@ async function saveFacture(downloadPdf) {
     let savedId = editingId;
     let payload = {
       client:    { nom, email, telephone: tel, adresse },
+      clientEmailLc: email.toLowerCase(),   // sert à retrouver la facture pour l'email de remerciement
       date, echeance,
       items,
       totalHT:   totals.totalHT,
@@ -447,9 +448,27 @@ async function saveFacture(downloadPdf) {
 
     emit('factures:changed');
 
-    if (downloadPdf) {
-      const f = allFactures.find((x) => x.id === savedId);
-      if (f) await downloadInvoicePdf(f);
+    // PDF généré une seule fois : copie conservée pour l'email de remerciement
+    // + téléchargement si on a cliqué sur « Enregistrer + PDF ».
+    const saved = allFactures.find((x) => x.id === savedId);
+    if (saved) {
+      let bytes = null;
+      try {
+        bytes = await buildInvoicePdf(saved);
+        await storeInvoicePdf(saved.id, saved.numero, bytes);
+      } catch (e) {
+        console.error('facture pdf store:', e);
+        alert("Facture enregistrée, mais la copie PDF destinée à l'email client n'a pas pu être sauvegardée.\n" + (e?.message || e));
+      }
+      if (downloadPdf) {
+        try {
+          bytes = bytes || await buildInvoicePdf(saved);
+          triggerPdfDownload(bytes, saved.numero);
+        } catch (e) {
+          console.error(e);
+          alert('Erreur génération PDF : ' + (e?.message || e));
+        }
+      }
     }
 
     closeFactureForm();
@@ -471,6 +490,8 @@ async function toggleFacturePaid(id) {
     f.paid   = paid;
     f.paidAt = paid ? Date.now() : null;
     emit('factures:changed');
+    try { await storeInvoicePdf(f.id, f.numero, await buildInvoicePdf(f)); }
+    catch (e) { console.error('facture pdf refresh:', e); }
   } catch (e) {
     console.error(e);
     alert('Erreur mise à jour du statut.');
@@ -533,6 +554,7 @@ async function deleteFacture(id) {
   try {
     const { doc, deleteDoc } = fns;
     await deleteDoc(doc(db, 'factures', id));
+    deleteDoc(doc(db, 'factures_pdf', id)).catch(() => {});
     allFactures = allFactures.filter((x) => x.id !== id);
     emit('factures:changed');
   } catch (e) {
@@ -554,18 +576,45 @@ async function ensurePdfLib() {
   return window.PDFLib;
 }
 
+function triggerPdfDownload(bytes, numero) {
+  const blob = new Blob([bytes], { type: 'application/pdf' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `${numero || 'facture'}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function bytesToBase64(bytes) {
+  let bin = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(bin);
+}
+
+// Copie du PDF dans `factures_pdf/{id}` (collection séparée pour ne pas
+// alourdir la liste des factures). La Cloud Function « Terminé » la joint
+// à l'email de remerciement.
+async function storeInvoicePdf(id, numero, bytes) {
+  const base64 = bytesToBase64(bytes);
+  if (base64.length > 900000) throw new Error('PDF trop volumineux pour être stocké');
+  const { doc, setDoc, serverTimestamp } = fns;
+  await setDoc(doc(db, 'factures_pdf', id), {
+    numero:    numero || '',
+    base64,
+    updatedAt: serverTimestamp(),
+  });
+}
+
 async function downloadInvoicePdf(f) {
   try {
     const bytes = await buildInvoicePdf(f);
-    const blob = new Blob([bytes], { type: 'application/pdf' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = `${f.numero || 'facture'}.pdf`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    triggerPdfDownload(bytes, f.numero);
   } catch (e) {
     console.error(e);
     alert('Erreur génération PDF : ' + (e?.message || e));
