@@ -46,3 +46,16 @@
 - `cgv.html` : article 9 SAP complet, tarifs actualisés (Découverte/Senior+/Famille)
 - `index.html` footer : mention légale astérisque + lien vers la page SAP
 - `sitemap.xml` : page SAP ajoutée (priority 0.75)
+
+## 2026-10-13 — Corrections issues de l'audit
+- Blog : contenu des 6 articles remis dans les bons fichiers ; canonicals `/blog/...` corrigés ; `pourquoi-mon-pc-est-lent.html` créé ; vraie page 404.
+- Accueil : 3 liens 404 réparés ; page `depannage-informatique-pierrefitte-sur-seine.html` créée.
+- Canonicals/JSON-LD `.fr` → `.org` (5 pages service) ; `vatID` erroné retiré.
+- SAP : prix « net » retirés, discours « déclaration » (plus d'agrément), plafond 3 000 €, section « exemple de coût réel » supprimée.
+- Prix : CGV alignées sur l'accueil, TTC/HT retirés (franchise en base, art. 293 B), Sérénité/Famille alignés (2 et 3 interventions/mois).
+- Légal : mentions, CGV (formulaire de rétractation), confidentialité (Google Maps, Analytics, FCM, PayPal, transferts).
+- Cookies : `consent.js` (Google Analytics seulement après accord, choix 6 mois).
+- Faux avis retirés ; état vide ; échappement HTML des avis.
+- Pages Landes : noindex ; sitemap nettoyé (pages noindex retirées, nouvelles pages ajoutées).
+- Firestore : `slots`, identifiants de contrats, champs/tailles bornés, e-mail vérifié, pas de réouverture d'une réservation annulée.
+- Admin : accès au tableau de bord réservé au claim `admin`. Webhook Resend : signature Svix (si RESEND_WEBHOOK_SECRET défini).

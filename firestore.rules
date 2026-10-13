@@ -13,11 +13,18 @@ service cloud.firestore {
       return signedIn() && uid != null && request.auth.uid == uid;
     }
 
+    // L'e-mail du jeton ne prouve rien tant qu'il n'est pas vérifié :
+    // n'importe qui peut créer un compte avec l'adresse d'un tiers.
     function isOwnerEmail(email) {
       return signedIn()
         && email is string
         && request.auth.token.email is string
+        && request.auth.token.email_verified == true
         && request.auth.token.email == email;
+    }
+
+    function str(v, max) {
+      return v is string && v.size() <= max;
     }
 
     function reservationMutableFieldsOnly() {
@@ -34,58 +41,66 @@ service cloud.firestore {
       ]);
     }
 
+    // Le client peut annuler, ou modifier une demande en attente / confirmée
+    // (elle repasse alors en 'pending'). Il ne peut pas rouvrir une réservation
+    // annulée ou terminée.
     function reservationClientUpdateAllowed() {
       return request.resource.data.status in ['pending', 'cancelled']
+        && resource.data.status in ['pending', 'confirmed']
         && reservationMutableFieldsOnly();
     }
 
     function validReservationCreate() {
-      return request.resource.data.keys().hasAll([
-        'service',
-        'dateKey',
-        'timeLabel',
-        'price',
-        'nom',
-        'telephone',
-        'email',
-        'adresse',
-        'status',
-        'createdAt'
+      let d = request.resource.data;
+      return d.keys().hasAll([
+        'service', 'dateKey', 'timeLabel', 'price', 'nom',
+        'telephone', 'email', 'adresse', 'status', 'createdAt'
       ])
-      && (!('uid' in request.resource.data)
+      && d.keys().hasOnly([
+        'service', 'dateKey', 'timeLabel', 'time', 'price', 'basePrice',
+        'promoCode', 'promoDiscount', 'nom', 'telephone', 'email',
+        'adresse', 'description', 'status', 'createdAt', 'uid'
+      ])
+      && (!('uid' in d)
         || (signedIn()
-          && request.resource.data.uid == request.auth.uid
-          && request.resource.data.email == request.auth.token.email))
-      && request.resource.data.service is string
-      && request.resource.data.dateKey is string
-      && request.resource.data.timeLabel is string
-      && request.resource.data.nom is string
-      && request.resource.data.telephone is string
-      && request.resource.data.email is string
-      && request.resource.data.adresse is string
-      && request.resource.data.status == 'pending';
+          && d.uid == request.auth.uid
+          && d.email == request.auth.token.email))
+      && str(d.service, 120)
+      && str(d.dateKey, 10)
+      && str(d.timeLabel, 40)
+      && str(d.nom, 120)
+      && str(d.telephone, 40)
+      && str(d.email, 200)
+      && str(d.adresse, 300)
+      && (!('description' in d) || d.description == null || str(d.description, 3000))
+      && d.status == 'pending';
     }
 
     function validContractCreate() {
-      return request.resource.data.keys().hasAll([
-        'contrat',
-        'nom',
-        'email',
-        'telephone',
-        'adresse',
-        'status',
-        'createdAt'
+      let d = request.resource.data;
+      return d.keys().hasAll([
+        'contrat', 'nom', 'email', 'telephone', 'adresse', 'status', 'createdAt'
       ])
-      && (!('uid' in request.resource.data)
+      && d.keys().hasOnly([
+        'contrat', 'type', 'societe', 'nom', 'email', 'telephone',
+        'adresse', 'note', 'status', 'createdAt', 'uid'
+      ])
+      && (!('uid' in d)
         || (signedIn()
-          && request.resource.data.uid == request.auth.uid
-          && request.resource.data.email == request.auth.token.email))
-      && request.resource.data.contrat in ['serenite', 'senior', 'famille']
-      && request.resource.data.nom is string
-      && request.resource.data.email is string
-      && request.resource.data.telephone is string
-      && request.resource.data.adresse is string
-      && request.resource.data.status == 'new';
+          && d.uid == request.auth.uid
+          && d.email == request.auth.token.email))
+      && d.contrat in [
+        'decouverte', 'serenite', 'senior', 'famille',
+        'pro-ponctuel', 'pro-essentiel', 'pro-confort', 'pro-premium',
+        'maintenance-essentielle', 'maintenance-pro', 'maintenance-evolution'
+      ]
+      && str(d.nom, 160)
+      && str(d.email, 200)
+      && str(d.telephone, 40)
+      && str(d.adresse, 300)
+      && (!('societe' in d) || str(d.societe, 160))
+      && (!('note' in d) || d.note == null || str(d.note, 3000))
+      && d.status == 'new';
     }
 
     function validClientMessageCreate() {
@@ -99,8 +114,11 @@ service cloud.firestore {
       ])
       && request.resource.data.uid == request.auth.uid
       && request.resource.data.email == request.auth.token.email
-      && request.resource.data.sujet is string
-      && request.resource.data.texte is string
+      && request.resource.data.keys().hasOnly([
+        'uid', 'email', 'sujet', 'texte', 'contratId', 'createdAt', 'lu'
+      ])
+      && str(request.resource.data.sujet, 200)
+      && str(request.resource.data.texte, 3000)
       && request.resource.data.lu == false;
     }
 
@@ -115,6 +133,17 @@ service cloud.firestore {
         || (isOwnerUid(resource.data.uid) && reservationClientUpdateAllowed());
 
       allow delete: if isAdmin();
+    }
+
+    // Créneaux pris : collection publique SANS données personnelles, lue et
+    // écrite par makouez-it-rdv.html. Sans cette règle, le calendrier ne voit
+    // aucun créneau occupé (tout est refusé par la règle finale).
+    match /slots/{slotId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['dateKey', 'timeLabel'])
+        && str(request.resource.data.dateKey, 10)
+        && str(request.resource.data.timeLabel, 40);
+      allow update, delete: if isAdmin();
     }
 
     match /contrats/{contratId} {
@@ -143,8 +172,9 @@ service cloud.firestore {
         'createdAt',
         'statut'
       ])
-      && request.resource.data.nom is string
-      && request.resource.data.comment is string
+      && request.resource.data.keys().hasOnly(['nom', 'comment', 'note', 'createdAt', 'statut'])
+      && str(request.resource.data.nom, 80)
+      && str(request.resource.data.comment, 1000)
       && request.resource.data.note is int
       && request.resource.data.note >= 1
       && request.resource.data.note <= 5
@@ -163,7 +193,17 @@ service cloud.firestore {
         'nom',
         'email',
         'createdAt'
-      ]);
+      ])
+      && request.resource.data.keys().hasOnly([
+        'type', 'description', 'budget', 'delai', 'nom', 'email', 'telephone', 'createdAt'
+      ])
+      && str(request.resource.data.type, 120)
+      && str(request.resource.data.description, 3000)
+      && str(request.resource.data.budget, 80)
+      && str(request.resource.data.delai, 80)
+      && str(request.resource.data.nom, 120)
+      && str(request.resource.data.email, 200)
+      && (!('telephone' in request.resource.data) || str(request.resource.data.telephone, 40));
       allow read, update, delete: if isAdmin();
     }
 

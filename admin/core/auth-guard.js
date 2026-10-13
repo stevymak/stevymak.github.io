@@ -20,10 +20,34 @@ import { loadTemplates,
 let routerStarted = false;
 
 export function bootAuth() {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     document.getElementById('pageLoader').classList.add('hidden');
 
     if (user) {
+      // Seuls les comptes avec le claim `admin` accèdent au tableau de bord.
+      // (Les clients de l'espace client sont aussi des utilisateurs Firebase.)
+      let isAdmin = false;
+      try {
+        let tok = await user.getIdTokenResult();
+        isAdmin = tok.claims && tok.claims.admin === true;
+        if (!isAdmin) {
+          tok = await user.getIdTokenResult(true); // jeton rafraîchi
+          isAdmin = tok.claims && tok.claims.admin === true;
+        }
+      } catch (e) { isAdmin = false; }
+
+      if (!isAdmin) {
+        await fns.signOut(auth);
+        document.getElementById('loginWrap').style.display = 'flex';
+        document.getElementById('dashboard').style.display = 'none';
+        const errBox = document.getElementById('errMsg');
+        if (errBox) {
+          errBox.textContent = "Ce compte n'a pas accès à l'administration.";
+          errBox.style.display = 'block';
+        }
+        return;
+      }
+
       document.getElementById('loginWrap').style.display = 'none';
       document.getElementById('dashboard').style.display = 'flex';
       document.getElementById('adminEmail').textContent  = user.email;

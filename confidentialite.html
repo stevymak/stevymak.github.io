@@ -2,9 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5963KCLEX1"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5963KCLEX1',{anonymize_ip:true});</script>
+<script src="/consent.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Politique de confidentialité – Makouez IT</title>
 <meta name="robots" content="noindex">
@@ -52,7 +50,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.82rem;borde
 <div class="page">
   <div class="page-label">Vos données personnelles</div>
   <h1>Politique de confidentialité</h1>
-  <div class="last-update">Dernière mise à jour : avril 2025 — Conforme au RGPD</div>
+  <div class="last-update">Dernière mise à jour : octobre 2026</div>
 
   <div class="section">
     <h2>👤 Qui est responsable de vos données ?</h2>
@@ -76,6 +74,9 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.82rem;borde
         <tr><td>Adresse postale</td><td>Localisation pour les interventions à domicile</td><td>Contrat</td><td>3 ans</td></tr>
         <tr><td>Description du problème</td><td>Préparation de l'intervention technique</td><td>Intérêt légitime</td><td>3 ans</td></tr>
         <tr><td>Avis clients</td><td>Publication sur le site avec votre consentement</td><td>Consentement</td><td>Jusqu'à suppression</td></tr>
+        <tr><td>Adresse saisie (autocomplétion)</td><td>Aide à la saisie de l'adresse d'intervention</td><td>Contrat</td><td>Non conservée par le service d'autocomplétion</td></tr>
+        <tr><td>Données de navigation (Google Analytics)</td><td>Mesure d'audience du site</td><td>Consentement</td><td>14 mois maximum côté Google</td></tr>
+        <tr><td>Jeton de notification (navigateur)</td><td>Envoi de rappels de rendez-vous si vous les activez</td><td>Consentement</td><td>Jusqu'au retrait de l'autorisation</td></tr>
       </tbody>
     </table>
   </div>
@@ -87,19 +88,24 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.82rem;borde
       <li><strong style="color:var(--text)">Google Firebase (Firestore & Auth)</strong> — stockage des réservations et comptes clients — Serveurs en Europe (europe-west1)</li>
       <li><strong style="color:var(--text)">Resend</strong> — envoi d'emails transactionnels de confirmation — Données transitent par leurs serveurs</li>
       <li><strong style="color:var(--text)">GitHub Pages / Cloudflare</strong> — hébergement du site web — CDN mondial</li>
-      <li><strong style="color:var(--text)">Anthropic Claude</strong> — assistant IA du chat widget — Données non stockées après la session</li>
+      <li><strong style="color:var(--text)">Anthropic Claude</strong> — assistant IA du chat widget — vos messages sont transmis à ce prestataire (États-Unis) pour générer la réponse ; ne saisissez pas de données sensibles dans le chat</li>
+      <li><strong style="color:var(--text)">Google Maps (Places)</strong> — autocomplétion de l'adresse dans le formulaire de réservation — Google LLC, États-Unis</li>
+      <li><strong style="color:var(--text)">Google Analytics</strong> — mesure d'audience, uniquement après votre accord — Google LLC, États-Unis</li>
+      <li><strong style="color:var(--text)">Firebase Cloud Messaging</strong> — notifications de rappel, uniquement si vous les activez</li>
+      <li><strong style="color:var(--text)">PayPal</strong> — paiement en ligne, si vous choisissez ce moyen — PayPal (Europe) S.à r.l. et Cie, S.C.A.</li>
+      <li><strong style="color:var(--text)">Google Fonts</strong> — polices d'affichage — Google LLC, États-Unis</li>
     </ul>
-    <p style="margin-top:0.75rem">Aucune donnée n'est vendue ou cédée à des tiers à des fins commerciales.</p>
+    <p style="margin-top:0.75rem">Certains de ces prestataires sont situés aux États-Unis : les transferts reposent sur les mécanismes prévus par le RGPD (décision d'adéquation du Data Privacy Framework ou clauses contractuelles types). Aucune donnée n'est vendue ou cédée à des tiers à des fins commerciales.</p>
   </div>
 
   <div class="section">
     <h2>🍪 Cookies et traceurs</h2>
-    <p>Ce site utilise uniquement des cookies techniques strictement nécessaires :</p>
+    <p>Ce site utilise :</p>
     <ul>
-      <li>Cookie d'authentification Firebase (session utilisateur espace client)</li>
-      <li>Préférences d'affichage locales (aucun tracking publicitaire)</li>
+      <li><strong style="color:var(--text)">Traceurs strictement nécessaires</strong> (exemptés de consentement) : authentification Firebase de l'espace client, mémorisation de votre choix sur les cookies.</li>
+      <li><strong style="color:var(--text)">Mesure d'audience Google Analytics</strong> : activée uniquement si vous cliquez sur « Accepter ». Votre choix est conservé 6 mois, puis redemandé.</li>
     </ul>
-    <p style="margin-top:0.75rem">Aucun cookie publicitaire, aucun pixel de tracking, aucune régie publicitaire.</p>
+    <p style="margin-top:0.75rem">Aucun cookie publicitaire, aucun pixel de suivi publicitaire. <a href="#" onclick="window.openCookieSettings&&openCookieSettings();return false" style="color:var(--accent)">Modifier mon choix sur les cookies</a></p>
   </div>
 
   <div class="section">
@@ -125,7 +131,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.82rem;borde
     <p>Makouez IT met en œuvre les mesures techniques et organisationnelles appropriées pour protéger vos données :</p>
     <ul>
       <li>Connexions chiffrées HTTPS (TLS 1.3)</li>
-      <li>Accès administrateur protégé par authentification Firebase (email + mot de passe)</li>
+      <li>Accès administrateur protégé par authentification Firebase et par des règles d'accès aux données</li>
       <li>Données stockées sur des serveurs Firebase sécurisés en Europe</li>
       <li>Accès aux données limité strictement au responsable du traitement</li>
     </ul>
@@ -138,7 +144,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.82rem;borde
 </div>
 
 <footer>
-  <div>© 2025 Makouez IT – Stevy | SIRET : 83955229600023</div>
+  <div>© 2026 Makouez IT – Stevy | SIRET : 83955229600023</div>
   <div class="footer-links">
     <a href="mentions-legales.html">Mentions légales</a>
     <a href="confidentialite.html">Politique de confidentialité</a>
