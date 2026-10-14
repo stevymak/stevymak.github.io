@@ -10,7 +10,7 @@ admin.initializeApp();
 
 const RESEND_API_KEY = defineSecret('RESEND_API_KEY');
 
-const REVIEW_LINK = 'https://g.page/r/TON-ID-GOOGLE/review';
+const REVIEW_LINK = 'https://g.page/r/Cc_MkTWnr_xGEAE/review';
 const SITE_URL    = 'https://makouezit.org';
 const FROM_EMAIL  = 'Makouez IT <contact@makouezit.org>';
 
