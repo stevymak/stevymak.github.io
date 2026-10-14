@@ -1,0 +1,81 @@
+/* Thème clair haute lisibilité — fond blanc, texte foncé, grands caractères.
+   Chargé en dernier dans <head> : surcharge les variables du thème sombre d'origine. */
+:root{
+  --bg:#ffffff; --bg2:#f4f7fb; --bg3:#e9eff8;
+  --accent:#1d4ed8; --accent2:#1e40af;
+  --text:#111827; --muted:#374151;
+  --border:rgba(15,23,42,.22); --card:#ffffff; --r:14px;
+  color-scheme:light;
+}
+html{font-size:112.5%}               /* 1rem = 18 px */
+body{background:#fff!important;color:#111827!important;font-size:1rem;line-height:1.7;-webkit-text-size-adjust:100%}
+p,li,td,th,label,input,select,textarea,summary{font-size:max(1rem,16px)}
+a{text-underline-offset:3px}
+p a,li a,.legal a{color:#1d4ed8;text-decoration:underline}
+h1,h2,h3,h4{color:#0b1220}
+nav{background:rgba(255,255,255,.98)!important;border-bottom:1px solid #cbd5e1!important;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+.logo{color:#0b1220!important}
+.logo span{color:#1d4ed8!important}
+.nav-links a{color:#1f2937!important;font-size:1rem!important;font-weight:600!important}
+.nav-links a:hover{color:#1d4ed8!important;text-decoration:underline}
+.hero,.hero *{text-shadow:none}
+.hero{background:linear-gradient(180deg,#eef4ff 0,#fff 100%)!important}
+.hero p,.lede,.section-sub{color:#1f2937!important}
+.stat-label{color:#374151!important;text-transform:none!important;letter-spacing:0!important;font-size:.95rem!important}
+section{background:#fff}
+section:nth-of-type(even){background:#f4f7fb}
+/* cartes : on garde les cadres d'origine (variables), on force seulement la lisibilité du texte */
+.faq-item,details{background:#fff!important;border:1.5px solid #cbd5e1!important;color:#111827!important}
+details summary{color:#0b1220!important;font-weight:700}
+.web-card,.plan-card,.contrat-card,.tarif-card,.local-card,.process-card,.service-card{background:#fff!important;border:1.5px solid #cbd5e1!important;box-shadow:0 1px 4px rgba(15,23,42,.06)}
+.web-card-name,.web-card-price,.web-card-type{background:transparent!important;border:0!important}
+.web-card-desc,.process-card p,.service-card p,.local-card p{color:#1f2937!important}
+.web-card-type.green,.web-sub-label.green,[class*="green"]:not(.web-btn):not(.wcb-green){color:#166534!important}
+.web-btn-green{background:#166534!important;color:#fff!important;border:2px solid #14532d!important}
+.web-btn-green-outline{background:#fff!important;color:#166534!important;border:2px solid #166534!important}
+.web-btn,.btn-card,.tarif-btn{font-weight:700!important;font-size:1rem!important}
+.web-card .web-card-type+*{}
+/* boutons : fort contraste */
+.btn-primary,.nav-cta,button[type=submit],.btn,.cta-btn{background:#1d4ed8!important;color:#fff!important;border:2px solid #1e3a8a!important;font-weight:700!important;font-size:1.05rem!important;box-shadow:none!important}
+.btn-outline,.btn-secondary,.nav-espace{background:#fff!important;color:#1d4ed8!important;border:2px solid #1d4ed8!important;font-weight:700!important}
+.hamburger span{background:#0b1220!important}
+.mobile-menu{background:#fff!important}
+.mobile-menu a{color:#0b1220!important;border-bottom:1px solid #e5e7eb!important;font-size:1.15rem!important}
+/* champs de formulaire */
+input,select,textarea{background:#fff!important;color:#111827!important;border:2px solid #64748b!important;border-radius:10px;min-height:48px}
+input::placeholder,textarea::placeholder{color:#4b5563}
+:focus-visible{outline:3px solid #f59e0b!important;outline-offset:2px}
+/* couleurs d'accent pâles → versions lisibles sur blanc */
+[style*="color:#60a5fa"],[style*="color:#93c5fd"],[style*="color: #60a5fa"]{color:#1d4ed8!important}
+[style*="color:#4ade80"],[style*="color:#22c55e"]{color:#166534!important}
+[style*="color:#fbbf24"],[style*="color:#f59e0b"]{color:#92400e!important}
+[style*="color:#9ca3af"],[style*="color:#6b7280"],[style*="color:#64748b"],[style*="color:#8888aa"]{color:#374151!important}
+footer{background:#0b1220!important;color:#e5e7eb!important}
+footer a{color:#bfdbfe!important;text-decoration:underline}
+footer p,footer li{color:#e5e7eb!important}
+@media (max-width:640px){html{font-size:106.25%}.nav-links{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.nav-links{gap:1.5rem!important}
+.nav-links a,.nav-espace,.nav-cta{white-space:nowrap}
+.hero{padding-top:7rem!important}
+.nav-espace .label{font-size:.95rem}
+.contact-section,#contact{background:#eef4ff!important;background-image:none!important}
+.contact-section h2,.contact-section p,#contact h2,#contact p{color:#0b1220!important}
+.contact-section .section-label,#contact .section-label{color:#1d4ed8!important}
+footer,footer *:not(a):not(button){color:#e5e7eb!important;opacity:1!important}
+footer .logo,footer .logo span{color:#fff!important}
+footer a{color:#bfdbfe!important}
+.section-label,.section-tag,[class*="eyebrow"]{color:#1d4ed8!important}
+:root{--green:#166534;--green2:#166534;--success:#166534;--red:#b91c1c;--warn:#92400e}
+.wcb-green,.maint-badge,.btn-maint{background:#166534!important;color:#fff!important}
+.btn-maint-out{color:#166534!important;border:2px solid #166534!important;background:#fff!important}
+.contrat-card.featured .btn-souscrire,.btn-souscrire{background:#1d4ed8!important;color:#fff!important}
+footer .logo,.logo{background:none!important;-webkit-text-fill-color:currentColor!important}
+@media (max-width:768px){
+  .nav-cta{display:none!important}
+  nav{max-height:none!important;min-height:60px}
+  .hamburger{display:flex!important;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+  .nav-espace{min-width:44px;min-height:44px;justify-content:center}
+}
+.hero{overflow:hidden}

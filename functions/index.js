@@ -130,7 +130,7 @@ function buildReminderHtml(rdv, rdvId) {
       <div style="background:#0a0a18;border:1px solid #ffffff10;border-radius:12px;padding:18px 20px">
         <div style="color:#f0f0ff;font-size:14px;font-weight:700;margin-bottom:12px">📞 Un imprévu ? Contactez-moi</div>
         <div style="color:#8888aa;font-size:13px;margin-bottom:8px">
-          📱 <a href="tel:+33XXXXXXXXX" style="color:#3b82f6;text-decoration:none;font-weight:500">06 XX XX XX XX</a>
+          📱 <a href="tel:+33745103827" style="color:#3b82f6;text-decoration:none;font-weight:500">07 45 10 38 27</a>
         </div>
         <div style="color:#8888aa;font-size:13px">
           ✉️ <a href="mailto:contact@makouezit.org" style="color:#3b82f6;text-decoration:none;font-weight:500">contact@makouezit.org</a>

@@ -59,3 +59,10 @@
 - Pages Landes : noindex ; sitemap nettoyé (pages noindex retirées, nouvelles pages ajoutées).
 - Firestore : `slots`, identifiants de contrats, champs/tailles bornés, e-mail vérifié, pas de réouverture d'une réservation annulée.
 - Admin : accès au tableau de bord réservé au claim `admin`. Webhook Resend : signature Svix (si RESEND_WEBHOOK_SECRET défini).
+
+## 2026-10-14 — Thème clair haute lisibilité + ménage
+- Nouveau `theme-clair.css` (fond blanc, texte #111827, base 18 px, contrastes ≥ 4,5:1 vérifiés par script, boutons 2 px, focus visible) chargé sur 25 pages ; polices < 14,4 px remontées.
+- Bandeau cookies clair, boutons Refuser/Accepter de même poids.
+- Accueil : menu réduit à Services, Tarifs, Avis, Contact (+ Espace client, Rendez-vous) ; menu mobile corrigé (le bouton RDV débordait).
+- 10 pages Landes supprimées (déjà en noindex) ; villes de la zone d'intervention cliquables (Aubervilliers, Stains, Épinay désormais liées).
+- Numéro de téléphone corrigé dans `functions/index.js` (07 45 10 38 27) ; restes d'obfuscation Cloudflare retirés de index.html et mon-rdv.html ; 5 titres raccourcis ; règle `str(d.get('service', null), 120)` dans firestore.rules.

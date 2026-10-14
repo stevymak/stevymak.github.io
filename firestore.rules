@@ -65,7 +65,7 @@ service cloud.firestore {
         || (signedIn()
           && d.uid == request.auth.uid
           && d.email == request.auth.token.email))
-      && str(d.service, 120)
+      && str(d.get('service', null), 120)
       && str(d.dateKey, 10)
       && str(d.timeLabel, 40)
       && str(d.nom, 120)

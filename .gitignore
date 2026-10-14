@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+firestore-debug.log
+ui-debug.log
+*.bak

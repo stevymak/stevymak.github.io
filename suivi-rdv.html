@@ -12,9 +12,9 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#09090f;--bg2:#111120;--bg3:#16162a;
+  --bg:#ffffff;--bg2:#f4f7fb;--bg3:#e9eff8;
   --accent:#3b82f6;--accent2:#60a5fa;
-  --text:#f0f0ff;--muted:#8888aa;
+  --text:#111827;--muted:#374151;
   --border:#ffffff14;--card:#ffffff08;--r:12px;
   --green:#22c55e;--orange:#f97316;--red:#ef4444;
 }
@@ -36,15 +36,15 @@ h1,h2{font-family:'Syne',sans-serif}
 .error-state{text-align:center;padding:1.5rem 0}
 .error-icon{font-size:2.5rem;margin-bottom:1rem}
 .error-state h2{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
-.error-state p{color:var(--muted);font-size:0.88rem}
+.error-state p{color:var(--muted);font-size:0.9rem}
 
 /* Header RDV */
 .rdv-header{margin-bottom:1.5rem}
 .rdv-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:0.3rem}
-.rdv-sub{color:var(--muted);font-size:0.85rem}
+.rdv-sub{color:var(--muted);font-size:0.9rem}
 
 /* Badge statut */
-.status-badge{display:inline-flex;align-items:center;gap:6px;padding:0.4rem 1rem;border-radius:99px;font-size:0.82rem;font-weight:600;margin:1rem 0}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:0.4rem 1rem;border-radius:99px;font-size:0.9rem;font-weight:600;margin:1rem 0}
 .status-badge.pending{background:#f9731620;color:var(--orange);border:1px solid #f9731640}
 .status-badge.confirmed{background:#22c55e18;color:var(--green);border:1px solid #22c55e30}
 .status-badge.cancelled{background:#ef444418;color:var(--red);border:1px solid #ef444430}
@@ -54,34 +54,35 @@ h1,h2{font-family:'Syne',sans-serif}
 .timeline{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
 .tl-item{display:flex;gap:1rem;align-items:flex-start;position:relative}
 .tl-item:not(:last-child)::after{content:'';position:absolute;left:15px;top:32px;width:2px;height:calc(100% - 8px);background:var(--border)}
-.tl-dot{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.85rem;border:2px solid var(--border);background:var(--bg2);z-index:1}
+.tl-dot{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;border:2px solid var(--border);background:var(--bg2);z-index:1}
 .tl-dot.done{background:#22c55e20;border-color:#22c55e60;color:var(--green)}
 .tl-dot.active{background:#3b82f620;border-color:#3b82f660;color:var(--accent2);animation:pulse-border 2s infinite}
 @keyframes pulse-border{0%,100%{border-color:#3b82f660}50%{border-color:#3b82f6}}
 .tl-dot.waiting{background:var(--card);border-color:var(--border);color:var(--muted)}
 .tl-content{padding:0.35rem 0 1.25rem}
-.tl-label{font-weight:600;font-size:0.88rem}
-.tl-desc{color:var(--muted);font-size:0.78rem;margin-top:0.1rem}
+.tl-label{font-weight:600;font-size:0.9rem}
+.tl-desc{color:var(--muted);font-size:0.9rem;margin-top:0.1rem}
 
 /* Infos RDV */
 .info-grid{display:flex;flex-direction:column;gap:0.75rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;margin-bottom:1.5rem}
-.info-row{display:flex;align-items:flex-start;gap:0.75rem;font-size:0.88rem}
+.info-row{display:flex;align-items:flex-start;gap:0.75rem;font-size:0.9rem}
 .info-icon{font-size:1rem;flex-shrink:0;margin-top:0.1rem}
-.info-label{color:var(--muted);font-size:0.75rem;display:block}
+.info-label{color:var(--muted);font-size:0.9rem;display:block}
 .info-value{font-weight:500}
 
 /* Message annulation */
-.cancelled-msg{background:#ef444410;border:1px solid #ef444430;border-radius:var(--r);padding:1rem;font-size:0.85rem;color:#fca5a5;margin-bottom:1rem}
+.cancelled-msg{background:#ef444410;border:1px solid #ef444430;border-radius:var(--r);padding:1rem;font-size:0.9rem;color:#b91c1c;margin-bottom:1rem}
 
 /* Boutons contact */
 .contact-row{display:flex;gap:0.75rem;flex-wrap:wrap}
-.btn-contact{display:flex;align-items:center;gap:0.4rem;padding:0.55rem 1rem;border-radius:8px;font-size:0.83rem;font-weight:500;text-decoration:none;border:1px solid var(--border);color:var(--text);background:var(--card);transition:border-color 0.2s}
+.btn-contact{display:flex;align-items:center;gap:0.4rem;padding:0.55rem 1rem;border-radius:8px;font-size:0.9rem;font-weight:500;text-decoration:none;border:1px solid var(--border);color:var(--text);background:var(--card);transition:border-color 0.2s}
 .btn-contact:hover{border-color:#3b82f640}
 .btn-new-rdv{display:block;text-align:center;background:var(--accent);color:#fff;padding:0.75rem;border-radius:10px;text-decoration:none;font-weight:500;font-size:0.9rem;margin-top:1rem;transition:opacity 0.2s}
 .btn-new-rdv:hover{opacity:0.85}
-.btn-back{display:block;text-align:center;color:var(--muted);font-size:0.82rem;text-decoration:none;margin-top:0.75rem;transition:color 0.2s}
+.btn-back{display:block;text-align:center;color:var(--muted);font-size:0.9rem;text-decoration:none;margin-top:0.75rem;transition:color 0.2s}
 .btn-back:hover{color:var(--text)}
 </style>
+<link rel="stylesheet" href="/theme-clair.css">
 </head>
 <body>
 
