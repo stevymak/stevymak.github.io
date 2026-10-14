@@ -110,6 +110,8 @@ async function login() {
 
 async function logout() {
   await fns.signOut(auth);
+  const lb = document.getElementById('loginBtn');
+  if (lb) { lb.disabled = false; lb.innerHTML = 'Se connecter'; }
   document.getElementById('emailInput').value = '';
   document.getElementById('pwdInput').value = '';
 }
