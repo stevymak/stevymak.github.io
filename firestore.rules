@@ -259,6 +259,12 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Données publiques en lecture seule (ex. avis Google synchronisés par une Cloud Function).
+    match /public/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

@@ -189,3 +189,14 @@ test('8b compte connecté SANS claim admin n’est pas admin', async () => {
 test('8c collection inconnue : refus par défaut', async () => {
   await assertFails(addDoc(collection(anon(), 'nimporte_quoi'), { a: 1 }));
 });
+
+// 9. Avis Google synchronisés (public/googleReviews)
+test('9a lecture publique de public/googleReviews', async () => {
+  await env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'public/googleReviews'), { rating: 5, count: 1, reviews: [] }));
+  await assertSucceeds(getDoc(doc(anon(), 'public/googleReviews')));
+});
+test('9b écriture interdite côté client, même admin (seule la Cloud Function écrit)', async () => {
+  await assertFails(setDoc(doc(anon(), 'public/googleReviews'), { rating: 5 }));
+  await assertFails(setDoc(doc(client(), 'public/googleReviews'), { rating: 5 }));
+  await assertFails(setDoc(doc(admin(), 'public/googleReviews'), { rating: 5 }));
+});
