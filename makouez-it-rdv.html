@@ -855,14 +855,15 @@ function onAddressInput(v) {
 async function fetchSuggestions(input) {
   // 1) Places API (nouvelle) 2) ancienne API 3) liste de villes
   try {
-    if (window._placesNew) {
+    if (window._placesNew || window.google?.maps?.places?.AutocompleteSuggestion) {
       const { suggestions } = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
         input, includedRegionCodes:['fr'], language:'fr', region:'fr',
         locationBias:{ center:{lat:48.9,lng:2.36}, radius:40000 }
       });
       const preds = (suggestions||[]).filter(x=>x.placePrediction).map(x=>({ description: x.placePrediction.text.toString() }));
+      console.info('[adresse] suggestions Google :', preds.length);
       if (preds.length) { showSuggestions(preds); return; }
-    }
+    } else console.info('[adresse] API Google Places non chargée, repli');
   } catch(e) { console.warn('Autocomplete (new) échec', e); }
   if (!autocompleteService) { showFallbackSuggestions(input); return; }
   try {
