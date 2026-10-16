@@ -824,23 +824,20 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
   </div>
 </section>
-<section id="avis" class="avis-section" id="avisSection">
+<section id="avis" class="avis-section">
   <div class="container">
     <div class="section-label">Avis clients</div>
     <h2 class="section-title">Ce que disent mes clients</h2>
-    <p class="section-sub">Les avis publiés ici sont ceux de clients ayant fait appel à Makouez IT, validés avant publication.</p>
+    <p class="section-sub">Ces avis sont ceux publiés par mes clients sur Google, affichés tels quels et mis à jour automatiquement.</p>
     <div class="avis-moyenne" id="avisMoyenne" style="display:none"></div>
     <div class="avis-grid" id="avisGrid">
-      <p id="avisVide" style="grid-column:1/-1;text-align:center;color:var(--muted)">Les premiers avis clients apparaîtront ici après validation. Vous avez fait appel à Makouez IT ? Votre retour compte.</p>
+      <p id="avisVide" style="grid-column:1/-1;text-align:center;color:var(--muted)">Les avis Google de mes clients s'afficheront ici.</p>
     </div>
     <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <!-- TODO: remplacer par le lien Google Business une fois le profil créé -->
-      <a href="#avis-form" class="btn-avis" data-open-review onclick="document.getElementById('btnLaisserAvis')?.click(); return false;" style="text-decoration:none;">
-        ⭐ Laisser un avis
-      </a>
-      <button class="btn-avis" id="btnLaisserAvis" type="button" style="display:none;">✍️ Laisser un avis sur le site</button>
+      <a id="avisVoirTous" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none">Voir tous les avis sur Google</a>
+      <a id="avisLaisser" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none">⭐ Laisser un avis sur Google</a>
     </div>
-    <p style="margin-top:1rem;color:var(--muted);font-size:0.9rem;text-align:center">Après chaque intervention, un lien d'avis est envoyé automatiquement par email.</p>
+    <p style="margin-top:1rem;color:var(--muted);font-size:0.9rem;text-align:center">Après chaque intervention, un lien vers le formulaire d'avis Google vous est envoyé par e-mail.</p>
   </div>
 </section>
 
@@ -1266,7 +1263,7 @@ const avisSuccessWrap = document.getElementById('avisSuccessWrap');
 function openAvisModal(){ avisModal.classList.add('open'); document.body.style.overflow='hidden'; }
 function closeAvisModal(){ avisModal.classList.remove('open'); document.body.style.overflow=''; }
 
-btnLaisserAvis.addEventListener('click', openAvisModal);
+btnLaisserAvis?.addEventListener('click', openAvisModal);
 avisModalClose.addEventListener('click', closeAvisModal);
 avisModal.addEventListener('click', e=>{ if(e.target===avisModal) closeAvisModal(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAvisModal(); });
@@ -1417,7 +1414,7 @@ function closeModal() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, orderBy, query, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, getDoc, doc, addDoc, orderBy, query, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const firebaseConfig = { apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a" };
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
@@ -1425,22 +1422,27 @@ const MSG_VIDE = '<div class="avis-empty">Aucun avis pour le moment.<br>Vous ave
 async function loadAvis() {
   const grid = document.getElementById('avisGrid');
   const moyenneEl = document.getElementById('avisMoyenne');
+  const esc=(v)=>String(v==null?'':v).replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeUrl=(u)=>/^https:\/\/(www\.)?(google\.[a-z.]+|maps\.app\.goo\.gl|goo\.gl|g\.page|search\.google\.com|lh\d\.googleusercontent\.com|maps\.google\.[a-z.]+)\//.test(u||'')?u:'';
   try {
-    const q = query(collection(db,'avis'),orderBy('createdAt','desc'),limit(12));
-    const snap = await getDocs(q);
-    const avis = snap.docs.map(d=>({id:d.id,...d.data()}));
-    // Ne remplacer les placeholders que si on a de vrais avis
-    if (avis.length === 0) return;
+    const snap = await getDoc(doc(db,'public','googleReviews'));
+    if (!snap.exists()) return;
+    const g = snap.data();
+    const avis = Array.isArray(g.reviews)?g.reviews:[];
+    const writeUrl = safeUrl(g.writeUri), allUrl = safeUrl(g.mapsUri);
+    if (writeUrl) { const b=document.getElementById('avisLaisser'); b.href=writeUrl; b.style.display=''; }
+    if (allUrl)   { const b=document.getElementById('avisVoirTous'); b.href=allUrl; b.style.display=''; }
+    if (!g.count || avis.length === 0) return;
     moyenneEl.style.display='';
-    const esc=(v)=>String(v==null?'':v).replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const moyenne=avis.reduce((s,a)=>s+(a.note||0),0)/avis.length;
-    moyenneEl.innerHTML=`<div class="avis-moyenne-num">${moyenne.toFixed(1)}</div><div><div class="avis-moyenne-stars">${'★'.repeat(Math.round(moyenne))}${'☆'.repeat(5-Math.round(moyenne))}</div><div class="avis-moyenne-count">${avis.length} avis client${avis.length>1?'s':''}</div></div>`;
+    const r=Math.round(g.rating||0);
+    moyenneEl.innerHTML=`<div class="avis-moyenne-num">${Number(g.rating).toFixed(1).replace('.',',')}</div><div><div class="avis-moyenne-stars" aria-label="Note moyenne ${Number(g.rating).toFixed(1)} sur 5">${'★'.repeat(r)}${'☆'.repeat(5-r)}</div><div class="avis-moyenne-count">${g.count} avis sur Google</div></div>`;
     grid.innerHTML=avis.map(a=>{
-      const stars='★'.repeat(a.note||0)+'☆'.repeat(5-(a.note||0));
-      const date=a.createdAt?.toDate?a.createdAt.toDate().toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'';
-      return`<div class="avis-card"><div class="avis-stars">${stars}</div><div class="avis-comment">"${esc(a.comment)}"</div><div style="display:flex;justify-content:space-between;align-items:center"><div class="avis-author">— ${esc(a.nom)}</div><div class="avis-date">${date}</div></div></div>`;
+      const n=Math.max(0,Math.min(5,Math.round(a.rating||0)));
+      const photo=safeUrl(a.photoUri);
+      const who=a.authorUri&&safeUrl(a.authorUri)?`<a href="${esc(safeUrl(a.authorUri))}" target="_blank" rel="noopener">${esc(a.author)}</a>`:esc(a.author);
+      return`<div class="avis-card"><div class="avis-stars" aria-label="${n} sur 5">${'★'.repeat(n)}${'☆'.repeat(5-n)}</div><div class="avis-comment">${a.text?'« '+esc(a.text)+' »':''}</div><div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem"><div class="avis-author">${photo?`<img src="${esc(photo)}" alt="" width="28" height="28" referrerpolicy="no-referrer" style="border-radius:50%;vertical-align:middle;margin-right:.4rem">`:''}${who}</div><div class="avis-date">${esc(a.relativeTime)}</div></div><div style="margin-top:.5rem;font-size:.9rem;color:var(--muted)">Avis publié sur Google</div></div>`;
     }).join('');
-  } catch(e){ /* Firebase indisponible, les avis provisoires restent affichés */ }
+  } catch(e){ /* Firestore indisponible : le message par défaut reste affiché */ }
 }
 loadAvis();
 
