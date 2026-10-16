@@ -521,7 +521,7 @@
   </div>
 </main>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5vvBCOQ5OcevUtnjUnHstyiwriVViuWs&libraries=places&language=fr" async defer onload="initMaps()"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5vvBCOQ5OcevUtnjUnHstyiwriVViuWs&libraries=places&language=fr&loading=async" async defer onload="initMaps()"></script>
 
 <script>
 // ══════════════════════════════════════════════
@@ -577,9 +577,12 @@ window.addEventListener('load', async () => {
 });
 
 function initMaps() {
-  if (window.google?.maps?.places)
-    autocompleteService = new google.maps.places.AutocompleteService();
+  try {
+    if (google.maps.importLibrary) google.maps.importLibrary('places').then(()=>{ window._placesNew = !!google.maps.places.AutocompleteSuggestion; if (google.maps.places.AutocompleteService) autocompleteService = new google.maps.places.AutocompleteService(); }).catch(()=>{});
+    else if (google.maps.places) autocompleteService = new google.maps.places.AutocompleteService();
+  } catch(e) { console.warn('Google Maps indisponible', e); }
 }
+window.gm_authFailure = () => { autocompleteService = null; window._placesNew = false; console.warn('Clé Google Maps refusée (restrictions / API non activée)'); };
 
 // ══════════════════════════════════════════════
 // FIRESTORE — comptes par jour
@@ -849,19 +852,33 @@ function onAddressInput(v) {
   if (!v||v.length<3) { hideSuggestions(); return; }
   acTimeout = setTimeout(() => fetchSuggestions(v), 300);
 }
-function fetchSuggestions(input) {
+async function fetchSuggestions(input) {
+  // 1) Places API (nouvelle) 2) ancienne API 3) liste de villes
+  try {
+    if (window._placesNew) {
+      const { suggestions } = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+        input, includedRegionCodes:['fr'], language:'fr', region:'fr',
+        locationBias:{ center:{lat:48.9,lng:2.36}, radius:40000 }
+      });
+      const preds = (suggestions||[]).filter(x=>x.placePrediction).map(x=>({ description: x.placePrediction.text.toString() }));
+      if (preds.length) { showSuggestions(preds); return; }
+    }
+  } catch(e) { console.warn('Autocomplete (new) échec', e); }
   if (!autocompleteService) { showFallbackSuggestions(input); return; }
-  autocompleteService.getPlacePredictions(
-    { input, componentRestrictions:{country:'fr'}, types:['address'], location:new google.maps.LatLng(48.9,2.36), radius:40000 },
-    (preds, status) => { if (status===google.maps.places.PlacesServiceStatus.OK&&preds) showSuggestions(preds); else showFallbackSuggestions(input); }
-  );
+  try {
+    autocompleteService.getPlacePredictions(
+      { input, componentRestrictions:{country:'fr'}, types:['address'], location:new google.maps.LatLng(48.9,2.36), radius:40000 },
+      (preds, status) => { if (status===google.maps.places.PlacesServiceStatus.OK&&preds) showSuggestions(preds); else showFallbackSuggestions(input); }
+    );
+  } catch(e) { showFallbackSuggestions(input); }
 }
+function esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function showSuggestions(preds) {
   const box = document.getElementById('addressSuggestions'); box.innerHTML='';
   preds.slice(0,5).forEach(p => {
     const item=document.createElement('div'); item.className='suggestion-item';
     const parts=p.description.split(',');
-    item.innerHTML=`<span style="color:var(--gray-400)">📍</span><div><div class="suggestion-main">${parts[0]}</div><div class="suggestion-sub">${parts.slice(1).join(',').trim()}</div></div>`;
+    item.innerHTML=`<span style="color:var(--gray-400)">📍</span><div><div class="suggestion-main">${esc(parts[0])}</div><div class="suggestion-sub">${esc(parts.slice(1).join(',').trim())}</div></div>`;
     item.onmousedown=()=>{ document.getElementById('faddress').value=p.description; hideSuggestions(); };
     box.appendChild(item);
   });
