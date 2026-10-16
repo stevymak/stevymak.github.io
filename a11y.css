@@ -1,0 +1,22 @@
+/* a11y.css – Makouez IT — corrections issues de l'audit (oct. 2026)
+   Chargé après les styles de chaque page. */
+/* Pas de défilement horizontal sur mobile */
+html{overflow-x:clip}
+body{max-width:100%;overflow-x:clip}
+.hero-dot{display:none!important}
+@media (max-width:480px){
+  .steps{gap:4px}
+  .step{gap:4px;min-width:0}
+  .step-label,.step-label.active{display:none}
+}
+/* Taille minimale du texte : 14,5 px (lisibilité public senior) */
+.mkit-status,.mkit-avatar,.step-label,.step-num,.subtitle,.price,.urgency-note,.required,
+.tag,.stat-label,.browser-url,.tagline,.mini-label,.project-client,.project-link,.tech-tag,
+.feature,.band-sub,.badge,.tarif-mini-sub,.tarif-mini-net,.small,small,
+.slot-web,.error-msg,.legend-item,.google-powered,.payment-methods h5,.urgency-note,form label,.form-group label{font-size:max(14.5px,.8rem)!important}
+/* Le bouton de chat (bas gauche) ne masque plus le bandeau promo */
+.promo-banner{padding-left:6.5rem!important}
+@media (max-width:480px){.promo-banner{padding-left:5.5rem!important}}
+/* Cibles tactiles confortables */
+button,.btn,input[type=submit]{min-height:44px}
+:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}

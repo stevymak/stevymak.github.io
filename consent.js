@@ -75,3 +75,40 @@
     else showBanner();
   }
 })();
+
+/* ── Accessibilité : donne un nom aux champs sans libellé (audit oct. 2026) ── */
+(function () {
+  function nameFor(el) {
+    var p = el.closest('.form-group,.field,.fg,div');
+    var l = p && p.querySelector('label');
+    if (l && l.textContent.trim()) return l.textContent.replace('*', '').trim();
+    if (el.placeholder) return el.placeholder;
+    if (el.title) return el.title;
+    return el.name || el.id || 'Champ de saisie';
+  }
+  function run() {
+    var q = 'input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=submit]),select,textarea';
+    document.querySelectorAll(q).forEach(function (el) {
+      if ((el.labels && el.labels.length) || el.getAttribute('aria-label') || el.getAttribute('aria-labelledby')) return;
+      el.setAttribute('aria-label', nameFor(el));
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+  setTimeout(run, 1500); // champs ajoutés dynamiquement
+})();
+
+/* ── Lisibilité : aucun texte courant sous 14,5 px (audit oct. 2026) ── */
+(function () {
+  function bump() {
+    var els = document.body ? document.body.querySelectorAll('p,span,div,strong,em,small,a,li,h5,h6,label,td,th') : [];
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i], hasText = false;
+      for (var n = el.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3 && n.nodeValue.trim()) { hasText = true; break; } }
+      if (!hasText) continue;
+      if (parseFloat(getComputedStyle(el).fontSize) < 14.5) el.style.fontSize = '14.5px';
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bump); else bump();
+  setTimeout(bump, 1500);
+})();
