@@ -85,20 +85,70 @@ function formatDate(dateKey) {
 // ═══════════════════════════════════════════════════════════════════════════════
 // 1. PROXY CLAUDE IA
 // ═══════════════════════════════════════════════════════════════════════════════
+// ─── Garde-fous anti-abus du chatbot (audit oct. 2026) ───────────────────────
+const CHAT_ALLOWED_ORIGINS = ["https://makouezit.org", "https://www.makouezit.org"];
+const CHAT_MAX_MESSAGES    = 10;     // messages gardés dans l'historique
+const CHAT_MAX_CHARS       = 1000;   // caractères par message
+const CHAT_IP_LIMIT        = 20;     // requêtes par IP et par fenêtre de 10 min
+const CHAT_DAILY_LIMIT     = 1500;   // requêtes par jour pour tout le site
+
+// Compte une requête dans Firestore (transaction) ; renvoie false si la limite est dépassée.
+async function chatRateOk(ip) {
+  const now   = new Date();
+  const day   = now.toISOString().slice(0, 10);
+  const win   = Math.floor(now.getTime() / 600000);            // fenêtre de 10 min
+  const ipKey = crypto.createHash("sha256").update(String(ip)).digest("hex").slice(0, 24);
+  const refIp  = db.collection("rate_limits").doc(`chat_${ipKey}_${win}`);
+  const refDay = db.collection("rate_limits").doc(`chat_day_${day}`);
+  const expireAt = admin.firestore.Timestamp.fromMillis(now.getTime() + 2 * 86400000);
+  return db.runTransaction(async (tx) => {
+    const [a, b] = await Promise.all([tx.get(refIp), tx.get(refDay)]);
+    const nIp  = (a.exists ? a.data().n : 0) + 1;
+    const nDay = (b.exists ? b.data().n : 0) + 1;
+    if (nIp > CHAT_IP_LIMIT || nDay > CHAT_DAILY_LIMIT) return false;
+    tx.set(refIp,  { n: nIp,  expireAt });
+    tx.set(refDay, { n: nDay, expireAt });
+    return true;
+  });
+}
+
+// Ne garde que des messages user/assistant en texte, bornés en nombre et en taille.
+function cleanChatMessages(input) {
+  if (!Array.isArray(input) || input.length === 0) return null;
+  const out = input.slice(-CHAT_MAX_MESSAGES)
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+    .map((m) => ({ role: m.role, content: m.content.slice(0, CHAT_MAX_CHARS) }))
+    .filter((m) => m.content.trim().length > 0);
+  while (out.length && out[0].role !== "user") out.shift();   // l'API exige de commencer par « user »
+  return out.length ? out : null;
+}
+
 exports.claudeProxy = onRequest(
   {
     region: "europe-west1",
-    cors: ["https://makouezit.org", "https://www.makouezit.org"],
+    cors: CHAT_ALLOWED_ORIGINS,
     secrets: [ANTHROPIC_API_KEY_SECRET],
+    maxInstances: 5,          // plafonne la montée en charge (et donc le coût)
+    timeoutSeconds: 30,
   },
   async (req, res) => {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
+    if (!CHAT_ALLOWED_ORIGINS.includes(req.headers.origin || "")) {
+      return res.status(403).json({ error: "Origin not allowed" });
+    }
     try {
-      const { messages } = req.body;
-      if (!messages || !Array.isArray(messages)) {
+      const messages = cleanChatMessages(req.body && req.body.messages);
+      if (!messages) {
         return res.status(400).json({ error: "messages array required" });
+      }
+      const ip = (req.headers["x-forwarded-for"] || req.ip || "").toString().split(",")[0].trim();
+      let allowed = true;
+      try { allowed = await chatRateOk(ip); }
+      catch (e) { console.error("chatRateOk indisponible (requête laissée passer):", e.message); }
+      if (!allowed) {
+        return res.status(429).json({ error: "Trop de requêtes, réessayez dans quelques minutes." });
       }
       const SYSTEM_PROMPT = `Tu es l'assistant virtuel de Makouez IT, une entreprise de dépannage informatique à domicile en Île-de-France, fondée par Stevy, technicien informatique avec 9 ans d'expérience.
 
