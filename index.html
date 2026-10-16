@@ -163,7 +163,7 @@ section{padding:5rem 2rem}
 .web-features li{font-size:0.9rem;color:var(--text);display:flex;align-items:flex-start;gap:7px}
 .web-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:2px}
 .web-features li.green::before{color:#22c55e}
-.web-card-note{font-size:0.9rem;color:var(--muted);font-style:italic;opacity:0.7}
+.web-card-note{font-size:0.9rem;color:#4b5563;font-style:italic}
 .web-btn{display:block;text-align:center;padding:0.65rem 1rem;border-radius:9px;font-size:0.9rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;margin-top:auto}
 .web-btn-solid{background:var(--accent);color:#fff}
 .web-btn-solid:hover{opacity:0.85}
@@ -188,7 +188,7 @@ section{padding:5rem 2rem}
 /* AVIS — centré */
 .avis-section{background:var(--bg3);text-align:center}
 .avis-section .section-sub{margin:0 auto}
-.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem;text-align:left}
+.avis-grid{min-height:260px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:2.5rem;text-align:left}
 .avis-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem}
 .avis-stars{color:#f59e0b;font-size:1rem;letter-spacing:2px}
 .avis-comment{color:var(--text);font-size:0.9rem;line-height:1.6;font-style:italic}
@@ -228,7 +228,7 @@ section{padding:5rem 2rem}
 .values{display:flex;flex-direction:column;gap:1rem}
 .value-item{display:flex;align-items:flex-start;gap:1rem}
 .value-icon{width:36px;height:36px;background:#3b82f618;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.value-item h4{font-size:0.95rem;font-weight:600;margin-bottom:0.2rem;font-family:'Syne',sans-serif}
+.value-item h3{font-size:0.95rem;font-weight:600;margin-bottom:0.2rem;font-family:'Syne',sans-serif}
 .value-item p{font-size:0.9rem;color:var(--muted)}
 
 /* ZONE */
@@ -241,7 +241,7 @@ section{padding:5rem 2rem}
 .seo-section{background:var(--bg3)}
 .seo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:2rem}
 .seo-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
-.seo-card h4{font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;color:var(--accent2)}
+.seo-card h3{font-size:0.9rem;font-weight:600;margin-bottom:0.4rem;color:var(--accent2)}
 .seo-card p{font-size:0.9rem;color:var(--muted);line-height:1.5}
 
 /* FAQ */
@@ -849,7 +849,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h2 class="section-title">Blog informatique</h2>
     <p class="section-sub">Des guides pratiques pour résoudre vos problèmes du quotidien, sans jargon.</p>
     <div class="blog-mini-grid">
-      <a href="blog.html" class="blog-mini-card" data-article="pc-lent" aria-label="Lire l'article Pourquoi mon PC est lent et comment y remédier">
+      <a href="blog.html" class="blog-mini-card" data-article="pc-lent">
         <div class="blog-mini-thumb">🐢</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Performance</div>
@@ -858,7 +858,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="comment-savoir-si-mon-pc-a-un-virus.html" class="blog-mini-card" data-article="virus" aria-label="Lire l'article Comment savoir si mon PC a un virus">
+      <a href="comment-savoir-si-mon-pc-a-un-virus.html" class="blog-mini-card" data-article="virus">
         <div class="blog-mini-thumb">🦠</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Sécurité</div>
@@ -867,7 +867,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="wifi-lent-solutions.html" class="blog-mini-card" data-article="wifi" aria-label="Lire l'article Wi-Fi lent ou qui coupe : les solutions">
+      <a href="wifi-lent-solutions.html" class="blog-mini-card" data-article="wifi">
         <div class="blog-mini-thumb">📶</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Réseau</div>
@@ -876,7 +876,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="reconnaitre-eviter-arnaques-en-ligne.html" class="blog-mini-card" data-article="arnaques" aria-label="Lire l'article Reconnaître et éviter les arnaques en ligne">
+      <a href="reconnaitre-eviter-arnaques-en-ligne.html" class="blog-mini-card" data-article="arnaques">
         <div class="blog-mini-thumb">📧</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Arnaque</div>
@@ -885,7 +885,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="sauvegarder-ses-donnees-guide-complet.html" class="blog-mini-card" data-article="sauvegarde" aria-label="Lire l'article Sauvegarder ses données : le guide complet">
+      <a href="sauvegarder-ses-donnees-guide-complet.html" class="blog-mini-card" data-article="sauvegarde">
         <div class="blog-mini-thumb">💾</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Données</div>
@@ -894,7 +894,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <div class="blog-mini-read">Lire l'article →</div>
         </div>
       </a>
-      <a href="10-astuces-booster-windows.html" class="blog-mini-card" data-article="booster-windows" aria-label="Lire l'article 10 astuces pour booster Windows">
+      <a href="10-astuces-booster-windows.html" class="blog-mini-card" data-article="booster-windows">
         <div class="blog-mini-thumb">⚡</div>
         <div class="blog-mini-body">
           <div class="blog-mini-tag">Optimisation</div>
@@ -941,11 +941,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#92400e;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">⭐ Premiers retours excellents</span>
         </div>
         <div class="values">
-          <div class="value-item"><div class="value-icon">🎯</div><div><h4>Transparence totale</h4><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
-          <div class="value-item"><div class="value-icon">⚡</div><div><h4>Réactivité</h4><p>Intervention généralement sous 24h, parfois le jour même selon les disponibilités.</p></div></div>
-          <div class="value-item"><div class="value-icon">🤝</div><div><h4>Pédagogie</h4><p>Je vous explique ce qui s'est passé et comment éviter que ça se reproduise.</p></div></div>
+          <div class="value-item"><div class="value-icon">🎯</div><div><h3>Transparence totale</h3><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
+          <div class="value-item"><div class="value-icon">⚡</div><div><h3>Réactivité</h3><p>Intervention généralement sous 24h, parfois le jour même selon les disponibilités.</p></div></div>
+          <div class="value-item"><div class="value-icon">🤝</div><div><h3>Pédagogie</h3><p>Je vous explique ce qui s'est passé et comment éviter que ça se reproduise.</p></div></div>
           <!-- RC Pro en attente d'attestation : décommenter et compléter avec l'assureur et la référence une fois disponible.
-          <div class="value-item"><div class="value-icon">🛡️</div><div><h4>Assurance RC Pro</h4><p>Couverture professionnelle dédiée aux interventions à domicile.</p></div></div>
+          <div class="value-item"><div class="value-icon">🛡️</div><div><h3>Assurance RC Pro</h3><p>Couverture professionnelle dédiée aux interventions à domicile.</p></div></div>
           -->
         </div>
       </div>
@@ -1021,10 +1021,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <div class="section-label">Pourquoi Makouez IT ?</div>
     <h2 class="section-title">Ce qui me différencie</h2>
     <div class="seo-grid">
-      <div class="seo-card"><h4>Technicien expérimenté</h4><p>Plus de 10 ans d'expérience professionnelle en itinérance pour de grandes entreprises, aujourd'hui au service des Franciliens.</p></div>
-      <div class="seo-card"><h4>Intervention à domicile uniquement</h4><p>Pas besoin de démonter votre ordinateur. Je viens chez vous.</p></div>
-      <div class="seo-card"><h4>Paiement après intervention</h4><p>Vous ne payez qu'une fois satisfait. Devis gratuit.</p></div>
-      <div class="seo-card"><h4>Disponible rapidement</h4><p>Disponible en semaine et souvent le week-end. Délai moyen : moins de 24h.</p></div>       <div class="seo-card" style="border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)"><h4>🌐 Technicien & Développeur web</h4><p>Dépannage informatique et création de sites web sous le même toit. Un seul interlocuteur pour tous vos besoins numériques.</p></div>     </div>
+      <div class="seo-card"><h3>Technicien expérimenté</h3><p>Plus de 10 ans d'expérience professionnelle en itinérance pour de grandes entreprises, aujourd'hui au service des Franciliens.</p></div>
+      <div class="seo-card"><h3>Intervention à domicile uniquement</h3><p>Pas besoin de démonter votre ordinateur. Je viens chez vous.</p></div>
+      <div class="seo-card"><h3>Paiement après intervention</h3><p>Vous ne payez qu'une fois satisfait. Devis gratuit.</p></div>
+      <div class="seo-card"><h3>Disponible rapidement</h3><p>Disponible en semaine et souvent le week-end. Délai moyen : moins de 24h.</p></div>       <div class="seo-card" style="border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)"><h4>🌐 Technicien & Développeur web</h4><p>Dépannage informatique et création de sites web sous le même toit. Un seul interlocuteur pour tous vos besoins numériques.</p></div>     </div>
     </div>
   </div>
 </section>
@@ -1152,11 +1152,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 </div>
 
 <!-- MODAL ARTICLES BLOG -->
-<div class="blog-modal-overlay" id="blogModal" role="dialog" aria-modal="true" aria-labelledby="blogModalTitle">
+<div class="blog-modal-overlay" id="blogModal" role="dialog" aria-modal="true" aria-label="Article du blog" aria-labelledby="blogModalTitle">
   <div class="blog-modal">
     <button class="blog-modal-close" id="blogModalClose" aria-label="Fermer l'article">✕</button>
     <div class="blog-modal-tag" id="blogModalTag"></div>
-    <h2 id="blogModalTitle"></h2>
+    <h2 id="blogModalTitle">Article</h2>
     <div class="blog-modal-body" id="blogModalBody"></div>
   </div>
 </div>

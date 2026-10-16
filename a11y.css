@@ -20,3 +20,12 @@ body{max-width:100%;overflow-x:clip}
 /* Cibles tactiles confortables */
 button,.btn,input[type=submit]{min-height:44px}
 :focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+
+/* ── Contrastes (audit PageSpeed / axe, oct. 2026) ── */
+.btn.btnp,a.btnp{background:#0b5cad!important;color:#fff!important}      /* bleu/orange pâles → 7:1 */
+.btn-urgency[href*="wa.me"]{background:#15803d!important;color:#fff!important}
+.left > div > h4{color:#b91c1c!important}
+#progressLabel{color:#4b5563!important}
+.project-link{opacity:1!important;color:#1d4ed8!important}
+p a:not(.btn),.small a:not(.btn){text-decoration:underline}
+.breadcrumb,.breadcrumb span,.breadcrumb a{color:#374151!important;opacity:1!important}
