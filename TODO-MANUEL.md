@@ -44,12 +44,17 @@ La clé `AIzaSyBx…` est la configuration web Firebase : elle est publique par 
 Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/firebase.json`, `/functions/index.js`, `/functions/legacy-v2.js`, `/README.md`, `/TODO-MANUEL.md`, `/tests/rules.test.mjs`.
 
 ### S5. Lot 3 — ordre de mise en production (important)
-1. **Déployer les fonctions** : `cd functions && npm ci && cd .. && firebase deploy --only functions` (nouvelles fonctions : `createReservation`, `syncSlot`, `rebuildSlots`, `unsubscribe`).
+1. **Déployer les fonctions** : `cd functions && npm ci && cd .. && firebase deploy --only functions` (nouvelles fonctions : `createReservation`, `syncSlot`, `rebuildSlots`, `unsubscribe`, et depuis le lot 4 `requestCallback` pour le formulaire « Être rappelé » de l'accueil).
 2. **Fusionner la branche** dans `main` (la page de réservation appelle désormais `createReservation`).
 3. **Admin → Réservations → « 🗓 Recalculer les créneaux »** (une seule fois) : libère les créneaux bloqués par d'anciennes réservations annulées.
 4. **S'être enrôlé en 2FA** (S1, étape 4) : les nouvelles règles exigent la 2FA pour tout accès admin aux données.
 5. **Seulement ensuite**, déployer les règles Firestore validées : `firebase deploy --only firestore:rules`. Avant ce déploiement, l'ancienne règle permet encore de créer des réservations sans passer par la fonction.
 6. Tests des règles (sur un poste avec Java) : `cd tests && npm install && npm test`. Tests des fonctions : `cd functions && npm ci && node ../tests/functions-lot3.test.cjs`.
+
+### S5 bis. Lot 4 — formulaire « Être rappelé »
+- Les demandes arrivent par email sur contact@makouezit.org (sujet « 📞 Rappel demandé ») et sont gardées dans la collection Firestore `rappels`.
+- Test après déploiement : remplir le formulaire en bas de l'accueil avec votre propre numéro, vérifier l'email reçu.
+- Les règles Firestore ne donnent aucun accès client à `rappels` (seule la fonction écrit). Si vous voulez les voir dans l'admin, je vous proposerai le diff des règles.
 
 ### S6. App Check (reCAPTCHA Enterprise)
 1. Google Cloud Console (projet `makouez-it`) → *Security* → *reCAPTCHA* → **Créer une clé** : type *Site Web*, domaines `makouezit.org` et `www.makouezit.org`, sans case à cocher (score). Copier l'**ID de la clé**.

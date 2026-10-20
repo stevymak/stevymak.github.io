@@ -9,3 +9,5 @@ const { _test: _bookingTest, ...booking } = require('./booking');
 Object.assign(exports, booking);
 // Désinscription des emails commerciaux — lot 3 de l'audit.
 Object.assign(exports, require('./unsubscribe').functions);
+// Demande de rappel depuis l'accueil — lot 4 de l'audit.
+Object.assign(exports, require('./callback'));
