@@ -47,6 +47,13 @@ Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/fir
 
 ## 🔴 Priorité haute
 
+### 0. Adhérer à un médiateur de la consommation (obligation légale)
+- **Pourquoi :** obligatoire pour vendre à des particuliers (art. L612-1 du Code de la consommation) ; l'absence peut être sanctionnée par une amende administrative.
+- **Action :** adhérer à un médiateur agréé (liste officielle sur https://www.economie.gouv.fr/mediation-conso, ex. CM2C, Médiation Consommateur Française), puis compléter les emplacements prévus en commentaire dans `cgv.html` (article 10) et `mentions-legales.html` (section Médiation).
+
+### 0 bis. Durée de conservation du chat
+- **Action :** console Firebase → Firestore → *Durée de vie (TTL)* → ajouter une règle sur la collection `rate_limits`, champ `expireAt`. Sans elle, les empreintes d'IP du chat ne sont pas supprimées après 48 h, contrairement à ce qu'indique la politique de confidentialité.
+
 ### 1. Google Analytics — vérifier l'ID GA4
 - **Fichier :** Tous les fichiers HTML (`G-5963KCLEX1` déjà présent)
 - **Action :** Confirmer que `G-5963KCLEX1` est le bon ID GA4 dans Google Analytics → Admin → Flux de données
@@ -60,11 +67,6 @@ Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/fir
 - **Fichier :** `index.html` (chercher `TODO-google-reviews`)
 - **Action :** Remplacer `#TODO-google-reviews` par l'URL de votre fiche Google My Business
 - **Format :** `https://g.page/r/VOTRE_PLACE_ID/review`
-
-### 4. Agrément SAP — mettre à jour le numéro
-- **Fichiers :** `services-a-la-personne.html`, `index.html`, `cgv.html`, `contrats.html`
-- **Action :** Dès réception de l'agrément DREETS, remplacer toutes les mentions "en cours" par le numéro officiel
-- **Recherche :** `grep -r "en cours" *.html`
 
 ---
 
@@ -93,9 +95,10 @@ Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/fir
 
 ## 🟢 Priorité basse
 
-### 9. Tarifs CGV — mise à jour annuelle
-- **Fichier :** `cgv.html` → Article 3 (Tarifs)
-- **Action :** Mettre à jour les tarifs dès qu'ils changent pour rester cohérent avec `index.html` et `contrats.html`
+### 9. Changer un prix
+- **Fichier unique :** `tarifs.json` (tous les prix du site, de l'admin, de l'espace client, des emails et du chat IA)
+- **Action :** modifier le prix dans `tarifs.json`, puis lancer `node tests/check-tarifs.mjs` : le test liste les pages dont le prix écrit en dur (celui que lit Google) est à mettre à jour.
+- **Puis :** `cp tarifs.json functions/tarifs.json` (fait automatiquement par `firebase deploy`) et redéployer les fonctions pour les emails et le chat.
 
 ### 10. Dates CGV et mentions légales
 - **Fichiers :** `cgv.html`, `mentions-legales.html`, `confidentialite.html`
@@ -104,11 +107,6 @@ Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/fir
 ### 11. Blog — ajouter de nouveaux articles
 - **Fichiers :** Créer `slug-de-larticle.html` + ajouter à `blog.html` + ajouter à `sitemap.xml`
 - **Thèmes suggérés :** sécuriser son mot de passe, choisir un antivirus, sauvegarder sur le cloud
-
-### 12. Numéro de médiateur de consommation
-- **Fichier :** `cgv.html` → Article 10 (Litiges)
-- **Action :** Indiquer le nom et l'URL du médiateur de la consommation (obligatoire pour les CGV B2C)
-- **Option :** CM2C, Médiateur du numérique, ou FEVAD selon votre secteur
 
 ---
 

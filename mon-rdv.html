@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="/consent.js"></script>
+<script src="/tarifs.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mon Espace – Makouez IT</title>
 <meta name="robots" content="noindex">
@@ -229,7 +230,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
         <div style="text-align:center;padding:2rem;color:var(--muted)"><div class="spinner" style="width:24px;height:24px;border-width:2px;margin:0 auto 1rem"></div>Chargement…</div>
       </div>
       <div style="margin-top:1.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-        <div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.2rem">Vous souhaitez souscrire à un contrat ?</div><div style="color:var(--muted);font-size:0.9rem">Assistance informatique illimitée à domicile dès 45€/mois</div></div>
+        <div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.2rem">Vous souhaitez souscrire à un contrat ?</div><div style="color:var(--muted);font-size:0.9rem">Assistance informatique à domicile dès <span data-tarif="contrats.senior.prix">55&nbsp;€</span>/mois, sans engagement</div></div>
         <a href="contrats.html" class="btn-new-rdv" style="white-space:nowrap">Voir nos contrats →</a>
       </div>
     </div>
@@ -324,7 +325,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <div class="modal-overlay" id="modal-resilier">
   <div class="modal">
     <h3>Résilier ce contrat ?</h3>
-    <p>Votre demande de résiliation sera envoyée à Stevy. Le contrat prendra fin après un préavis de 30 jours. Le mois en cours reste dû.</p>
+    <p>Votre demande de résiliation sera envoyée à Stevy. Sans préavis ni frais : le contrat prend fin à la fin du mois en cours, déjà payé.</p>
     <div class="modal-btns">
       <button class="btn-modal-cancel" onclick="closeModal('modal-resilier')">Annuler</button>
       <button class="btn-modal-confirm" onclick="confirmResilier()">Demander la résiliation</button>
@@ -492,17 +493,27 @@ function rdvCard(r,isPast) {
   </div>`;
 }
 
+// ── Grille tarifaire (source unique : /tarifs.json) ──
+const tarifsData=fetch('/tarifs.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).catch(()=>null);
+function contratGrid(t){
+  const src={serenite:t?.contrats?.serenite,senior:t?.contrats?.senior,famille:t?.contrats?.famille,
+    'maintenance-essentielle':t?.maintenanceWeb?.essentielle,'maintenance-pro':t?.maintenanceWeb?.pro,'maintenance-evolution':t?.maintenanceWeb?.evolution,
+    'pro-essentiel':t?.pro?.essentiel,'pro-confort':t?.pro?.confort,'pro-premium':t?.pro?.premium};
+  const LABELS={},TARIFS={};
+  for(const [k,v] of Object.entries(src)){ if(!v) continue; LABELS[k]=v.nom; TARIFS[k]=typeof v.prix==='number'?`${v.prix} €/mois`:'Sur devis'; }
+  return {LABELS,TARIFS};
+}
+
 // ── RENDER CONTRATS ──
-function renderContrats() {
+async function renderContrats() {
   const list=document.getElementById('list-contrats');
   document.getElementById('count-contrats').textContent=currentContrats.length?`(${currentContrats.length})`:'';
   if(currentContrats.length===0){
     list.innerHTML=`<div class="empty-state"><div class="empty-icon">📄</div><h3>Aucun contrat trouvé</h3><p>Vous n'avez pas encore de contrat rattaché à cet espace client. Si vous avez fait une demande sans créer de compte, Stevy vous recontactera directement.</p><a href="contrats.html" class="btn-new-rdv">Voir nos contrats →</a></div>`;
     return;
   }
-  const LABELS={serenite:'Contrat Sérénité',senior:'Pack Senior+',famille:'Pack Famille'};
   const PILLS={serenite:'pill-serenite',senior:'pill-senior',famille:'pill-famille'};
-  const TARIFS={serenite:'45€/mois',senior:'49€/mois',famille:'59€/mois'};
+  const {LABELS,TARIFS}=contratGrid(await tarifsData);
   const STATUS_MAP={new:{label:'🆕 Nouvelle demande',cls:'cs-new'},contacted:{label:'📞 Contacté',cls:'cs-contacted'},active:{label:'✅ Actif',cls:'cs-active'},cancelled:{label:'Résilié',cls:'cs-cancelled'}};
   const STEPS=['new','contacted','active'];
   list.innerHTML=currentContrats.map(c=>{

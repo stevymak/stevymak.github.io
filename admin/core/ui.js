@@ -9,24 +9,39 @@ export const MONTHS = [
 
 export const DAYS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
-export const CONTRAT_LABELS = {
-  serenite:      'Contrat Sérénité',
-  senior:        'Pack Senior+',
-  famille:       'Pack Famille',
-  'pro-essentiel': 'Pro Essentiel',
-  'pro-confort':   'Pro Confort',
-  'pro-premium':   'Pro Premium',
-  'pro-ponctuel':  'Intervention ponctuelle Pro',
+// Libellés et tarifs des contrats : source unique /tarifs.json (voir tests/check-tarifs.mjs).
+// Valeurs de secours identiques au JSON au 20/10/2026, utilisées si le fichier est inaccessible.
+const TARIFS_FALLBACK = {
+  contrats:       { serenite: { nom: 'Contrat Sérénité', prix: 65 }, senior: { nom: 'Pack Senior+', prix: 55 }, famille: { nom: 'Pack Famille', prix: 79 } },
+  maintenanceWeb: { essentielle: { nom: 'Maintenance Essentielle', prix: 49 }, pro: { nom: 'Maintenance Pro', prix: 99 }, evolution: { nom: 'Maintenance & Évolution', prix: 179 } },
+  pro:            { essentiel: { nom: 'Pro Essentiel', prix: 89 }, confort: { nom: 'Pro Confort', prix: 249 }, premium: { nom: 'Pro Premium', prix: null }, interventionHeure: { nom: 'Intervention ponctuelle', prix: 75 } },
+};
+export const TARIFS = await fetch('/tarifs.json', { cache: 'no-cache' })
+  .then((r) => (r.ok ? r.json() : TARIFS_FALLBACK))
+  .catch(() => TARIFS_FALLBACK);
+
+// id de contrat Firestore → entrée de la grille
+const CONTRAT_SOURCES = {
+  serenite:                  TARIFS.contrats?.serenite,
+  senior:                    TARIFS.contrats?.senior,
+  famille:                   TARIFS.contrats?.famille,
+  'maintenance-essentielle': TARIFS.maintenanceWeb?.essentielle,
+  'maintenance-pro':         TARIFS.maintenanceWeb?.pro,
+  'maintenance-evolution':   TARIFS.maintenanceWeb?.evolution,
+  'pro-essentiel':           TARIFS.pro?.essentiel,
+  'pro-confort':             TARIFS.pro?.confort,
+  'pro-premium':             TARIFS.pro?.premium,
 };
 
-export const CONTRAT_TARIFS = {
-  serenite:        45,
-  senior:          49,
-  famille:         59,
-  'pro-essentiel': 89,
-  'pro-confort':   249,
-  'pro-premium':   400,
+export const CONTRAT_LABELS = {
+  ...Object.fromEntries(Object.entries(CONTRAT_SOURCES).filter(([, v]) => v).map(([k, v]) => [k, v.nom])),
+  'pro-ponctuel': 'Intervention ponctuelle Pro',
 };
+
+// Montant mensuel en € (absent = sur devis : non compté dans le MRR).
+export const CONTRAT_TARIFS = Object.fromEntries(
+  Object.entries(CONTRAT_SOURCES).filter(([, v]) => v && typeof v.prix === 'number').map(([k, v]) => [k, v.prix]),
+);
 
 export const CONTRAT_PILLS = {
   serenite:        'pill-serenite',
@@ -83,7 +98,7 @@ export const PAIEMENT_MODES = [
   { id: 'virement', label: 'Virement bancaire' },
   { id: 'especes',  label: 'Espèces' },
   { id: 'cb',       label: 'Carte bancaire' },
-  { id: 'cheque',   label: 'Chèque' },
+  { id: 'paypal',   label: 'PayPal' },
   { id: 'lien',     label: 'Lien de paiement' },
 ];
 

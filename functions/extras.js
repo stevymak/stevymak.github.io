@@ -411,7 +411,7 @@ function buildInvoiceReminderHtml(facture, sendCount) {
       <div style="background:#0a0a18;border:1px solid #ffffff10;border-radius:12px;padding:18px 20px">
         <div style="color:#f0f0ff;font-size:14px;font-weight:700;margin-bottom:12px">💳 Modalités de paiement</div>
         <div style="color:#8888aa;font-size:13px;line-height:1.6">
-          Virement bancaire, espèces, carte ou chèque acceptés.<br>
+          Carte bancaire, virement, espèces ou PayPal acceptés.<br>
           Pour toute question ou justificatif déjà transmis, merci de répondre directement à cet email.
         </div>
       </div>

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Réinstallation Windows à domicile IDF | Makouez IT</title>
-<meta name="description" content="Réinstallation Windows 10/11 à domicile en Île-de-France. Configuration complète, sauvegarde avant, logiciels inclus. 89€ forfait Standard. Paiement après.">
+<meta name="description" content="Réinstallation Windows 10/11 à domicile en Île-de-France. Configuration complète, sauvegarde avant, logiciels inclus. À partir de 89 €. Paiement après.">
 <meta property="og:title" content="Installation & réinstallation Windows à domicile IDF | Makouez IT">
-<meta property="og:description" content="Réinstallation Windows 10/11 à domicile en Île-de-France. Configuration complète, sauvegarde avant, logiciels inclus. 89€ forfait Standard. Paiement après.">
+<meta property="og:description" content="Réinstallation Windows 10/11 à domicile en Île-de-France. Configuration complète, sauvegarde avant, logiciels inclus. À partir de 89 €. Paiement après.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://makouezit.org/service-installation-windows.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,7 @@
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"></noscript>
 
 <script src="/consent.js"></script>
+<script src="/tarifs.js" defer></script>
 
 <!-- Schema.org -->
 <script type="application/ld+json">
@@ -63,7 +64,7 @@
           "name": "Combien de temps dure une réinstallation complète ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Environ 2h30 à 3h pour une installation complète avec logiciels. Prévoir le forfait Long format (129€ / 64,50€ net*)."
+            "text": "Une installation simple tient dans le forfait Standard (89 €, 2 h). Avec sauvegarde et transfert de vos données, comptez 2h30 à 3h : forfait Long format (129 €)."
           }
         },
         {
@@ -185,21 +186,18 @@
     <div class="tarif-mini">
       <div class="tarif-mini-card">
         <div class="tarif-mini-name">Diag Express</div>
-        <div class="tarif-mini-price">55€</div>
-        <div class="tarif-mini-net">27,50€ net*</div>
+        <div class="tarif-mini-price" data-tarif="depannage.diagExpress.prix">55&nbsp;€</div>
       </div>
       <div class="tarif-mini-card">
         <div class="tarif-mini-name">Standard</div>
-        <div class="tarif-mini-price">89€</div>
-        <div class="tarif-mini-net">44,50€ net*</div>
+        <div class="tarif-mini-price" data-tarif="depannage.standard.prix">89&nbsp;€</div>
       </div>
       <div class="tarif-mini-card">
         <div class="tarif-mini-name">Long format</div>
-        <div class="tarif-mini-price">129€</div>
-        <div class="tarif-mini-net">64,50€ net*</div>
+        <div class="tarif-mini-price" data-tarif="depannage.longFormat.prix">129&nbsp;€</div>
       </div>
     </div>
-    <p class="sap-note">* Crédit d'impôt « services à la personne » non applicable à ce jour (déclaration en cours ; assistance à domicile uniquement, hors réparation de matériel). La réinstallation complète nécessite généralement le forfait Long format (3h).</p>
+    <p class="sap-note">Installation simple&nbsp;: forfait Standard. Avec sauvegarde et transfert de vos données&nbsp;: forfait Long format. Heure supplémentaire&nbsp;: <span data-tarif="depannage.heureSup.prix">45&nbsp;€</span>. Paiement après l'intervention.</p>
   </section>
 
   <section class="section">
@@ -217,7 +215,7 @@
 
     <div class="faq-item">
       <div class="faq-q">Combien de temps dure une réinstallation complète&nbsp;? <span class="faq-arr">+</span></div>
-      <div class="faq-a">Environ 2h30 à 3h pour une installation complète avec logiciels. Il faut prévoir le forfait Long format (129€ / 64,50€ net*). Ce temps inclut la sauvegarde, l'installation et la configuration.</div>
+      <div class="faq-a">Une installation simple tient dans le forfait Standard (<span data-tarif="depannage.standard.prix">89&nbsp;€</span>, 2&nbsp;h). Avec sauvegarde et transfert de vos données, comptez 2h30 à 3h&nbsp;: forfait Long format (<span data-tarif="depannage.longFormat.prix">129&nbsp;€</span>), qui inclut la sauvegarde, l'installation et la configuration.</div>
     </div>
 
     <div class="faq-item">
