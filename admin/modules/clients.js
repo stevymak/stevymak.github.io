@@ -9,6 +9,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { db, fns } from '../core/firebase.js';
+import { escapeHtml, escapeAttr, jsArg } from '../core/escape.js';
 import { store, emit, on } from '../core/store.js';
 import {
   CLIENT_TAGS_PRESET,
@@ -218,7 +219,7 @@ function clientRowHtml(c) {
   const display  = c.nom || c.email || c.telephone || '–';
 
   return `
-    <div class="client-row" onclick="openClientCard('${c.id}')">
+    <div class="client-row" onclick="openClientCard(${jsArg(c.id)})">
       <div class="client-avatar" style="background:${c.segment.color}20;color:${c.segment.color}">${escapeHtml(initials)}</div>
       <div class="client-row-main">
         <div class="client-row-top">
@@ -445,10 +446,6 @@ function closeClientModal() {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-}
-function escapeAttr(s) { return escapeHtml(s).replace(/`/g, '&#96;'); }
 
 // ─── Souscriptions + wiring ───────────────────────────────────────────────
 async function rebuild() {

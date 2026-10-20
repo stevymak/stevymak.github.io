@@ -465,6 +465,8 @@ function renderRdvs() {
   paEl.innerHTML=past.length?past.map(r=>rdvCard(r,true)).join(''):`<div style="color:var(--muted);font-size:0.9rem;padding:1rem 0">Aucun historique pour le moment.</div>`;
 }
 
+const esc=(v)=>String(v==null?'':v).replace(/[&<>"'`]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
+const jsArg=(v)=>esc(JSON.stringify(String(v==null?'':v)));
 function rdvCard(r,isPast) {
   const d=getReservationDate(r);
   const day=d.getDate();
@@ -475,16 +477,16 @@ function rdvCard(r,isPast) {
   const st=statusMap[r.status]||statusMap.pending;
   const canAct=!isPast&&r.status!=='cancelled';
   const modifBadge=r.modificationNote!==undefined&&r.status==='pending'?`<div style="margin-top:0.4rem;font-size:0.9rem;color:var(--orange)">⏳ Modification en attente de confirmation</div>`:'';
-  return `<div class="rdv-card" id="card-${r.id}">
+  return `<div class="rdv-card" id="card-${esc(r.id)}">
     <div class="rdv-date-block"><div class="rdv-day">${day}</div><div class="rdv-month">${mon} ${year}</div></div>
     <div class="rdv-info">
-      <h4>${r.service||'—'}</h4>
+      <h4>${esc(r.service||'—')}</h4>
       <div class="rdv-meta">
-        <span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${heureDisplay}</span>
-        ${r.adresse?`<span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${r.adresse}</span>`:''}
+        <span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${esc(heureDisplay)}</span>
+        ${r.adresse?`<span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${esc(r.adresse)}</span>`:''}
       </div>
       ${modifBadge}
-      ${canAct?`<div class="rdv-actions"><button class="btn-sm primary" onclick="askEdit('${r.id}')">✏️ Modifier</button><button class="btn-sm danger" onclick="askCancel('${r.id}')">Annuler ce RDV</button></div>`:''}
+      ${canAct?`<div class="rdv-actions"><button class="btn-sm primary" onclick="askEdit(${jsArg(r.id)})">✏️ Modifier</button><button class="btn-sm danger" onclick="askCancel(${jsArg(r.id)})">Annuler ce RDV</button></div>`:''}
     </div>
     <div class="rdv-status"><div class="badge-status ${st.cls}"><span class="badge-dot-s"></span>${st.label}</div></div>
   </div>`;
@@ -525,7 +527,7 @@ function renderContrats() {
       </div>`;
     return `<div class="contrat-suivi-card ${c.status==='active'?'cs-active-border':''}">
       <div class="contrat-suivi-header">
-        <div class="contrat-suivi-name">${label} <span class="contrat-pill ${pill}">${tarif}</span></div>
+        <div class="contrat-suivi-name">${esc(label)} <span class="contrat-pill ${pill}">${esc(tarif)}</span></div>
         <div class="cs-badge ${st.cls}">${st.label}</div>
       </div>
       ${progress}
@@ -533,10 +535,10 @@ function renderContrats() {
         <div class="ci-item"><div class="ci-label">📅 Demande reçue</div><div>${date}</div></div>
         ${dateActive?`<div class="ci-item"><div class="ci-label">✅ Actif depuis</div><div>${dateActive}</div></div>`:''}
         <div class="ci-item"><div class="ci-label">💰 Tarif mensuel</div><div>${tarif}</div></div>
-        <div class="ci-item"><div class="ci-label">📋 Référence</div><div style="font-size:0.9rem;color:var(--muted)">${c.id.slice(0,8)}…</div></div>
+        <div class="ci-item"><div class="ci-label">📋 Référence</div><div style="font-size:0.9rem;color:var(--muted)">${esc(String(c.id).slice(0,8))}…</div></div>
       </div>
-      ${c.note?`<div style="font-size:0.9rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)">💬 ${c.note}</div>`:''}
-      ${c.status!=='cancelled'?`<button class="btn-resilier" onclick="askResilier('${c.id}')">Demander la résiliation</button>`:''}
+      ${c.note?`<div style="font-size:0.9rem;color:var(--muted);background:var(--card);border-radius:8px;padding:0.6rem 0.75rem;border:1px solid var(--border)">💬 ${esc(c.note)}</div>`:''}
+      ${c.status!=='cancelled'?`<button class="btn-resilier" onclick="askResilier(${jsArg(c.id)})">Demander la résiliation</button>`:''}
     </div>`;
   }).join('');
 }

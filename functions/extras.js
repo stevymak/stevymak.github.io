@@ -6,6 +6,11 @@ const crypto = require('crypto');
 const { defineSecret } = require('firebase-functions/params');
 const { Resend } = require('resend');
 
+// Échappe les données client avant insertion dans le HTML des emails.
+const escHtml = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
+
 if (!admin.apps.length) admin.initializeApp();
 
 const RESEND_API_KEY = defineSecret('RESEND_API_KEY');
@@ -89,7 +94,7 @@ function buildReminderHtml(rdv, rdvId) {
 
     <!-- Accroche -->
     <tr><td style="background:#111128;padding:24px 32px;border-bottom:1px solid #ffffff10">
-      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 6px 0">Bonjour ${prenom} 👋</p>
+      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 6px 0">Bonjour ${escHtml(prenom)} 👋</p>
       <p style="color:#9999bb;font-size:14px;margin:0">Votre rendez-vous a lieu <strong style="color:#3b82f6">demain</strong>. Voici toutes les informations.</p>
     </td></tr>
 
@@ -99,23 +104,23 @@ function buildReminderHtml(rdv, rdvId) {
         style="background:#0a0a18;border:1px solid #3b82f630;border-radius:12px;margin-top:20px;overflow:hidden">
         <tr><td style="background:#3b82f610;padding:14px 20px;border-bottom:1px solid #3b82f620">
           <div style="color:#3b82f6;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">📋 Prestation réservée</div>
-          <div style="color:#f0f0ff;font-size:16px;font-weight:700;margin-top:4px">${rdv.service || '–'}</div>
+          <div style="color:#f0f0ff;font-size:16px;font-weight:700;margin-top:4px">${escHtml(rdv.service || '–')}</div>
         </td></tr>
         <tr><td>
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="padding:14px 20px;border-bottom:1px solid #ffffff08;border-right:1px solid #ffffff08;width:50%;vertical-align:top">
                 <div style="color:#555577;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">📅 Date</div>
-                <div style="color:#e0e0ff;font-size:13px;margin-top:4px">${dateLabel}</div>
+                <div style="color:#e0e0ff;font-size:13px;margin-top:4px">${escHtml(dateLabel)}</div>
               </td>
               <td style="padding:14px 20px;border-bottom:1px solid #ffffff08;width:50%;vertical-align:top">
                 <div style="color:#555577;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">🕐 Plage horaire</div>
-                <div style="color:#e0e0ff;font-size:13px;margin-top:4px">${plage}</div>
+                <div style="color:#e0e0ff;font-size:13px;margin-top:4px">${escHtml(plage)}</div>
               </td>
             </tr>
             <tr><td colspan="2" style="padding:14px 20px">
               <div style="color:#555577;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">📍 Adresse</div>
-              <div style="color:#e0e0ff;font-size:13px;margin-top:4px">${rdv.adresse || '–'}</div>
+              <div style="color:#e0e0ff;font-size:13px;margin-top:4px">${escHtml(rdv.adresse || '–')}</div>
             </td></tr>
           </table>
         </td></tr>
@@ -145,7 +150,7 @@ function buildReminderHtml(rdv, rdvId) {
 
     <!-- Bouton reporter/annuler -->
     <tr><td style="background:#111128;padding:0 32px 32px;text-align:center">
-      <a href="${cancelUrl}"
+      <a href="${escHtml(cancelUrl)}"
         style="display:inline-block;color:#8888aa;font-size:13px;border:1px solid #3b82f630;border-radius:8px;padding:12px 28px;text-decoration:none;background:#0a0a18">
         Reporter ou annuler le rendez-vous
       </a>
@@ -246,7 +251,7 @@ exports.requestReviewAfterIntervention = functions.region('europe-west1').firest
       to:            email,
       subject:       'Comment s\'est passée votre intervention ?',
       html: `
-        <p>Bonjour ${firstName},</p>
+        <p>Bonjour ${escHtml(firstName)},</p>
         <p>Merci de m'avoir fait confiance pour votre intervention.</p>
         <p>Si tout s'est bien passé, je serais reconnaissant que vous laissiez un avis Google. Cela aide énormément les autres particuliers à me trouver.</p>
         <p>
@@ -376,15 +381,15 @@ function buildInvoiceReminderHtml(facture, sendCount) {
       <div style="color:#6666aa;font-size:12px;margin-top:6px">Facturation</div>
     </td></tr>
     <tr><td style="background:#111128;padding:24px 32px">
-      <p style="color:#f0f0ff;font-size:16px;font-weight:600;margin:0 0 8px 0">Bonjour ${prenom},</p>
-      <p style="color:#9999bb;font-size:14px;margin:0;line-height:1.5">${intro}</p>
+      <p style="color:#f0f0ff;font-size:16px;font-weight:600;margin:0 0 8px 0">Bonjour ${escHtml(prenom)},</p>
+      <p style="color:#9999bb;font-size:14px;margin:0;line-height:1.5">${escHtml(intro)}</p>
     </td></tr>
     <tr><td style="background:#111128;padding:0 32px 24px">
       <table width="100%" cellpadding="0" cellspacing="0"
         style="background:#0a0a18;border:1px solid #3b82f630;border-radius:12px;margin-top:12px;overflow:hidden">
         <tr><td style="background:#3b82f610;padding:14px 20px;border-bottom:1px solid #3b82f620">
           <div style="color:#3b82f6;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">📋 Facture concernée</div>
-          <div style="color:#f0f0ff;font-size:18px;font-weight:700;margin-top:6px">${numero}</div>
+          <div style="color:#f0f0ff;font-size:18px;font-weight:700;margin-top:6px">${escHtml(numero)}</div>
         </td></tr>
         <tr><td>
           <table width="100%" cellpadding="0" cellspacing="0">
@@ -756,7 +761,7 @@ function buildWelcomeHtml(rdv) {
       <div style="font-size:23px;font-weight:800;color:#fff">Makouez <span style="color:#3b82f6">IT</span></div>
     </td></tr>
     <tr><td style="padding:24px 32px">
-      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 10px 0">Bonjour ${prenom},</p>
+      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 10px 0">Bonjour ${escHtml(prenom)},</p>
       <p style="color:#9999bb;font-size:14px;margin:0;line-height:1.55">
         Merci d'avoir fait appel à <strong style="color:#fff">Makouez IT</strong> pour cette première intervention. J'espère que vous êtes pleinement satisfait du service.
       </p>
@@ -827,7 +832,7 @@ function buildDormantHtml(client) {
       <div style="font-size:23px;font-weight:800;color:#fff">Makouez <span style="color:#3b82f6">IT</span></div>
     </td></tr>
     <tr><td style="padding:24px 32px">
-      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 10px 0">Bonjour ${prenom},</p>
+      <p style="color:#f0f0ff;font-size:17px;font-weight:600;margin:0 0 10px 0">Bonjour ${escHtml(prenom)},</p>
       <p style="color:#9999bb;font-size:14px;margin:0;line-height:1.55">
         Cela fait un moment qu'on ne s'est pas vus 👋. J'espère que tout va bien pour vous et votre matériel.
       </p>

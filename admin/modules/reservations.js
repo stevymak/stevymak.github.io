@@ -8,6 +8,7 @@ import { db, fns, callSendReminder } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
 import { formatDateLong } from '../core/ui.js';
 import { promptInput } from '../core/prompt.js';
+import { esc, attr, jsArg } from '../core/escape.js';
 
 const SERVICES = [
   'Dépannage informatique',
@@ -105,34 +106,34 @@ export function renderRdvs() {
 
     card.innerHTML = `
       <div class="rdv-top">
-        <div class="rdv-service">${rdv.service || '–'}</div>
+        <div class="rdv-service">${esc(rdv.service || '–')}</div>
         <div class="rdv-badges">
           ${hasModif ? `<div class="badge-modif">✏️ Modification</div>` : ''}
-          <div class="rdv-badge ${badgeMap[rdv.status] || 'badge-pending'}">${labelMap[rdv.status] || rdv.status}</div>
+          <div class="rdv-badge ${badgeMap[rdv.status] || 'badge-pending'}">${labelMap[rdv.status] || esc(rdv.status)}</div>
         </div>
       </div>
       <div class="rdv-info">
-        <div class="rdv-info-item"><div class="rdv-info-label">📅 Date</div><div>${dateLabel}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">🕐 Plage</div><div>${rdv.timeLabel || rdv.time || '–'}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">👤 Client</div><div>${rdv.nom || '–'}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${rdv.telephone || '–'}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${rdv.email || '–'}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📅 Date</div><div>${esc(dateLabel)}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">🕐 Plage</div><div>${esc(rdv.timeLabel || rdv.time || '–')}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">👤 Client</div><div>${esc(rdv.nom || '–')}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${esc(rdv.telephone || '–')}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${esc(rdv.email || '–')}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">💰 Tarif</div><div>${formatRdvPrix(rdv)}</div></div>
-        <div class="rdv-info-item" style="grid-column:1/-1"><div class="rdv-info-label">📍 Adresse</div><div>${rdv.adresse || '–'}</div></div>
+        <div class="rdv-info-item" style="grid-column:1/-1"><div class="rdv-info-label">📍 Adresse</div><div>${esc(rdv.adresse || '–')}</div></div>
       </div>
-      ${rdv.description ? `<div class="rdv-desc">💬 ${rdv.description}</div>` : ''}
-      ${hasModif ? `<div class="rdv-modif-note"><span>✏️</span><div><strong>Message du client :</strong> ${rdv.modificationNote}</div></div>` : ''}
+      ${rdv.description ? `<div class="rdv-desc">💬 ${esc(rdv.description)}</div>` : ''}
+      ${hasModif ? `<div class="rdv-modif-note"><span>✏️</span><div><strong>Message du client :</strong> ${esc(rdv.modificationNote)}</div></div>` : ''}
       <div class="rdv-actions">
-        ${rdv.status === 'pending' ? `<button class="btn-confirm" onclick="updateStatus('${rdv.id}','confirmed')">✓ Confirmer</button>` : ''}
-        ${rdv.status === 'confirmed' ? `<button class="btn-done" onclick="updateStatus('${rdv.id}','done')">✓ Terminé</button>` : ''}
-        ${rdv.status === 'done' ? `<button class="btn-soft" onclick="editPrixReel('${rdv.id}')">✏️ Prix facturé</button>` : ''}
-        <button class="btn-soft" onclick="openEditRdvForm('${rdv.id}')" title="Modifier ce RDV">✏️ Éditer</button>
+        ${rdv.status === 'pending' ? `<button class="btn-confirm" onclick="updateStatus(${jsArg(rdv.id)},'confirmed')">✓ Confirmer</button>` : ''}
+        ${rdv.status === 'confirmed' ? `<button class="btn-done" onclick="updateStatus(${jsArg(rdv.id)},'done')">✓ Terminé</button>` : ''}
+        ${rdv.status === 'done' ? `<button class="btn-soft" onclick="editPrixReel(${jsArg(rdv.id)})">✏️ Prix facturé</button>` : ''}
+        <button class="btn-soft" onclick="openEditRdvForm(${jsArg(rdv.id)})" title="Modifier ce RDV">✏️ Éditer</button>
         ${rdv.status !== 'cancelled'
-          ? `<button class="btn-cancel" onclick="updateStatus('${rdv.id}','cancelled')">✗ Annuler</button>`
-          : `<button class="btn-cancel" onclick="deleteRdv('${rdv.id}')">🗑 Supprimer</button>`}
+          ? `<button class="btn-cancel" onclick="updateStatus(${jsArg(rdv.id)},'cancelled')">✗ Annuler</button>`
+          : `<button class="btn-cancel" onclick="deleteRdv(${jsArg(rdv.id)})">🗑 Supprimer</button>`}
         ${rdv.status !== 'cancelled' && rdv.status !== 'done'
           ? `<div style="display:flex;flex-direction:column;flex:1;min-width:0">
-              <button class="btn-reminder" data-reminder-id="${rdv.id}" onclick="sendReminder('${rdv.id}')">📧 ${rdv.reminderSent ? 'Renvoyer rappel' : 'Envoyer rappel'}</button>
+              <button class="btn-reminder" data-reminder-id="${attr(rdv.id)}" onclick="sendReminder(${jsArg(rdv.id)})">📧 ${rdv.reminderSent ? 'Renvoyer rappel' : 'Envoyer rappel'}</button>
               ${rdv.reminderSent && rdv.reminderSentAt?.toDate
                 ? `<div class="reminder-status">Dernier envoi : ${rdv.reminderSentAt.toDate().toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</div>`
                 : ''}
@@ -159,17 +160,17 @@ export function openRdvModal(r) {
     done: '✓ Terminé',
   };
 
-  document.getElementById('modalTitle').innerHTML = `${r.service || '–'} <span class="rdv-badge ${badgeMap[r.status] || 'badge-pending'}" style="font-size:0.7rem;vertical-align:middle">${labelMap[r.status] || r.status}</span>`;
+  document.getElementById('modalTitle').innerHTML = `${esc(r.service || '–')} <span class="rdv-badge ${badgeMap[r.status] || 'badge-pending'}" style="font-size:0.7rem;vertical-align:middle">${labelMap[r.status] || esc(r.status)}</span>`;
 
   document.getElementById('modalBody').innerHTML = `
     <div style="display:flex;flex-direction:column;gap:0.5rem">
-      <div class="modal-info-row"><span class="modal-info-icon">👤</span><div class="modal-info-val"><strong>${r.nom || '–'}</strong></div></div>
-      <div class="modal-info-row"><span class="modal-info-icon">📞</span><div class="modal-info-val">${r.telephone || '–'}</div></div>
-      <div class="modal-info-row"><span class="modal-info-icon">📧</span><div class="modal-info-val">${r.email || '–'}</div></div>
-      <div class="modal-info-row"><span class="modal-info-icon">📅</span><div class="modal-info-val">${dateLabel}</div></div>
-      <div class="modal-info-row"><span class="modal-info-icon">🕐</span><div class="modal-info-val">${r.timeLabel || r.time || '–'}</div></div>
-      <div class="modal-info-row"><span class="modal-info-icon">📍</span><div class="modal-info-val">${r.adresse || '–'}</div></div>
-      ${r.description ? `<div class="modal-info-row"><span class="modal-info-icon">💬</span><div class="modal-info-val">${r.description}</div></div>` : ''}
+      <div class="modal-info-row"><span class="modal-info-icon">👤</span><div class="modal-info-val"><strong>${esc(r.nom || '–')}</strong></div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📞</span><div class="modal-info-val">${esc(r.telephone || '–')}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📧</span><div class="modal-info-val">${esc(r.email || '–')}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📅</span><div class="modal-info-val">${esc(dateLabel)}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">🕐</span><div class="modal-info-val">${esc(r.timeLabel || r.time || '–')}</div></div>
+      <div class="modal-info-row"><span class="modal-info-icon">📍</span><div class="modal-info-val">${esc(r.adresse || '–')}</div></div>
+      ${r.description ? `<div class="modal-info-row"><span class="modal-info-icon">💬</span><div class="modal-info-val">${esc(r.description)}</div></div>` : ''}
     </div>`;
 
   const actions = document.getElementById('modalActions');
@@ -208,7 +209,7 @@ function formatRdvPrix(rdv) {
   if (typeof rdv.prixReel === 'number' && Number.isFinite(rdv.prixReel)) {
     return rdv.prixReel + ' € <span style="color:var(--muted);font-size:0.7rem">facturé</span>';
   }
-  return rdv.price || '–';
+  return esc(rdv.price || '–');
 }
 
 // ─── Mutations ────────────────────────────────────────────────────────────
@@ -379,11 +380,11 @@ function _openRdvForm(rdv, prefillDateKey) {
 
   // Remplir la datalist Services
   const svcList = document.getElementById('rfServiceList');
-  svcList.innerHTML = SERVICES.map((s) => `<option value="${s}">`).join('');
+  svcList.innerHTML = SERVICES.map((s) => `<option value="${attr(s)}">`).join('');
 
   // Remplir la datalist Clients depuis les RDV existants
   const names = [...new Set(store.allRdvs.map((r) => r.nom).filter(Boolean))].sort();
-  document.getElementById('rfNomList').innerHTML = names.map((n) => `<option value="${n}">`).join('');
+  document.getElementById('rfNomList').innerHTML = names.map((n) => `<option value="${attr(n)}">`).join('');
 
   document.getElementById('rdvCreateModal').classList.add('show');
   document.body.style.overflow = 'hidden';

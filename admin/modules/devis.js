@@ -14,6 +14,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { db, fns } from '../core/firebase.js';
+import { escapeHtml, jsArg } from '../core/escape.js';
 import { store, emit, on } from '../core/store.js';
 import { BUSINESS_INFO, PAIEMENT_MODES } from '../core/ui.js';
 
@@ -66,9 +67,6 @@ function statusOf(d) {
   return 'sent';
 }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-}
 
 function recomputeLineTotals(line) {
   return (Number(line.quantite) || 0) * (Number(line.prixUnitaire) || 0);
@@ -174,18 +172,18 @@ function devisRowHtml(d) {
   const client = d.client?.nom || d.client?.email || '–';
 
   const actions = [];
-  actions.push(`<button class="btn-soft" onclick="downloadDevisPdf('${d.id}')" title="PDF">📄</button>`);
-  actions.push(`<button class="btn-soft" onclick="openDevisForm('${d.id}')" title="Modifier">✏️</button>`);
+  actions.push(`<button class="btn-soft" onclick="downloadDevisPdf(${jsArg(d.id)})" title="PDF">📄</button>`);
+  actions.push(`<button class="btn-soft" onclick="openDevisForm(${jsArg(d.id)})" title="Modifier">✏️</button>`);
 
   if (st === 'sent') {
-    actions.push(`<button class="btn-confirm" onclick="setDevisStatus('${d.id}','accepted')" title="Accepter">✓ Accepter</button>`);
-    actions.push(`<button class="btn-cancel"  onclick="setDevisStatus('${d.id}','refused')"  title="Refuser">✗</button>`);
+    actions.push(`<button class="btn-confirm" onclick="setDevisStatus(${jsArg(d.id)},'accepted')" title="Accepter">✓ Accepter</button>`);
+    actions.push(`<button class="btn-cancel"  onclick="setDevisStatus(${jsArg(d.id)},'refused')"  title="Refuser">✗</button>`);
   } else if (st === 'accepted') {
-    actions.push(`<button class="btn-purple" onclick="convertDevisToFacture('${d.id}')" title="Convertir en facture">🧾 Facturer</button>`);
+    actions.push(`<button class="btn-purple" onclick="convertDevisToFacture(${jsArg(d.id)})" title="Convertir en facture">🧾 Facturer</button>`);
   } else if (st === 'converted' && d.factureId) {
-    actions.push(`<button class="btn-soft" onclick="goToFactureFromDevis('${d.factureId}')" title="Voir la facture">→ Facture</button>`);
+    actions.push(`<button class="btn-soft" onclick="goToFactureFromDevis(${jsArg(d.factureId)})" title="Voir la facture">→ Facture</button>`);
   }
-  actions.push(`<button class="btn-cancel" onclick="deleteDevis('${d.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>`);
+  actions.push(`<button class="btn-cancel" onclick="deleteDevis(${jsArg(d.id)})" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>`);
 
   return `
     <div class="fac-row ${st === 'expired' ? 'late' : ''} ${st === 'converted' ? 'paid' : ''}">

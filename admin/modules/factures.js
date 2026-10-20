@@ -15,6 +15,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { db, fns, callSendInvoiceReminder } from '../core/firebase.js';
+import { escapeHtml, jsArg } from '../core/escape.js';
 import { store, emit, on } from '../core/store.js';
 import { BUSINESS_INFO, PAIEMENT_MODES } from '../core/ui.js';
 
@@ -66,9 +67,6 @@ function statusOf(f) {
   return 'unpaid';
 }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-}
 
 function recomputeLineTotals(line) {
   const qty = Number(line.quantite) || 0;
@@ -194,13 +192,13 @@ function factureRowHtml(f) {
         <div style="margin-top:0.2rem"><span class="fac-status-pill fac-status-${st}">${STATUS_LABEL[st]}</span></div>
       </div>
       <div class="fac-row-actions">
-        <button class="btn-soft" onclick="downloadFacturePdf('${f.id}')" title="Télécharger PDF">📄</button>
-        <button class="btn-soft" onclick="openFactureForm('${f.id}')" title="Modifier">✏️</button>
+        <button class="btn-soft" onclick="downloadFacturePdf(${jsArg(f.id)})" title="Télécharger PDF">📄</button>
+        <button class="btn-soft" onclick="openFactureForm(${jsArg(f.id)})" title="Modifier">✏️</button>
         ${!f.paid && f.client?.email
-          ? `<button class="btn-reminder" data-fac-reminder-id="${f.id}" onclick="sendFactureReminder('${f.id}')" title="Envoyer une relance email">📧 ${f.reminderSendCount ? `Relance ${f.reminderSendCount + 1}` : 'Relance'}</button>`
+          ? `<button class="btn-reminder" data-fac-reminder-id="${escapeHtml(f.id)}" onclick="sendFactureReminder(${jsArg(f.id)})" title="Envoyer une relance email">📧 ${f.reminderSendCount ? `Relance ${f.reminderSendCount + 1}` : 'Relance'}</button>`
           : ''}
-        <button class="btn-${f.paid ? 'soft' : 'confirm'}" onclick="toggleFacturePaid('${f.id}')" title="Statut paiement">${f.paid ? '↩ Impayée' : '✓ Payée'}</button>
-        <button class="btn-cancel" onclick="deleteFacture('${f.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
+        <button class="btn-${f.paid ? 'soft' : 'confirm'}" onclick="toggleFacturePaid(${jsArg(f.id)})" title="Statut paiement">${f.paid ? '↩ Impayée' : '✓ Payée'}</button>
+        <button class="btn-cancel" onclick="deleteFacture(${jsArg(f.id)})" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
       </div>
       ${f.reminderSendCount && !f.paid
         ? `<div class="reminder-status" style="grid-column:1/-1;text-align:right;font-size:0.72rem;color:var(--muted);margin-top:0.25rem">Dernière relance : ${reminderTimeLabel(f)} · ${f.reminderSendCount}/3</div>`

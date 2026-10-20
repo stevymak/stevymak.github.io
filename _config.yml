@@ -1,0 +1,33 @@
+# Configuration GitHub Pages (Jekyll) — makouezit.org
+#
+# Le site est du HTML statique : Jekyll ne fait que copier les fichiers.
+# Cette liste empêche la publication des fichiers de développement et de
+# déploiement (code des Cloud Functions, règles Firestore, notes internes,
+# scripts et tests). Ils restent dans le dépôt, mais ne sont plus servis.
+#
+# Ajouter ici tout nouveau fichier qui ne doit pas être public.
+
+exclude:
+  # Firebase : règles, configuration, code serveur
+  - firestore.rules
+  - firebase.json
+  - .firebaserc
+  - functions/
+  # Tests et scripts de maintenance
+  - tests/
+  - patch_done_email.py
+  - patch_functions.py
+  # Notes internes
+  - README.md
+  - CHANGELOG.md
+  - CORRECTIONS-APPLIQUEES.md
+  - FIRESTORE_NOTES.md
+  - TODO-MANUEL.md
+  # Exclusions par défaut de Jekyll (remplacées par cette liste, donc recopiées)
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

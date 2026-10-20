@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="admin/styles/components.css">
 <link rel="stylesheet" href="admin/styles/modules.css">
 <script src="/vendor/chart.umd.js" defer></script>
+<script src="/vendor/qrcode.js" defer></script>
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
@@ -21,7 +22,7 @@
 
 <!-- ─── LOGIN ──────────────────────────────────────────────────────────── -->
 <div class="login-wrap" id="loginWrap" style="display:none">
-  <div class="login-card">
+  <div class="login-card" id="loginCard">
     <div class="login-logo">Makouez <span>IT</span></div>
     <div class="login-sub">Espace administrateur</div>
     <input class="form-input" type="email" id="emailInput" placeholder="Email" onkeydown="if(event.key==='Enter')login()">
@@ -30,7 +31,39 @@
     <div class="error-msg" id="errMsg"></div>
     <a href="index.html" class="login-back">← Retour au site</a>
   </div>
+
+  <!-- Étape 2 : code de l'application d'authentification (2FA) -->
+  <div class="login-card mfa-card" id="mfaStep" style="display:none">
+    <div class="login-logo">Makouez <span>IT</span></div>
+    <div class="login-sub">Vérification en deux étapes</div>
+    <p class="mfa-help">Ouvrez votre application d'authentification (Google Authenticator, Microsoft Authenticator…) et saisissez le code à 6 chiffres affiché pour <strong>Makouez IT</strong>.</p>
+    <input class="form-input mfa-code" type="text" id="mfaCodeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" aria-label="Code à 6 chiffres" onkeydown="if(event.key==='Enter')verifyMfaCode()">
+    <button class="btn-main" id="mfaBtn" onclick="verifyMfaCode()">Valider</button>
+    <div class="error-msg" id="mfaErr"></div>
+    <a href="#" class="login-back" onclick="cancelMfa();return false;">← Changer de compte</a>
+  </div>
+
+  <!-- Enrôlement 2FA obligatoire au premier accès admin -->
+  <div class="login-card mfa-card" id="mfaEnroll" style="display:none">
+    <div class="login-logo">Makouez <span>IT</span></div>
+    <div class="login-sub">Activer la vérification en deux étapes</div>
+    <ol class="mfa-steps">
+      <li>Installez une application d'authentification sur votre téléphone (Google Authenticator, Microsoft Authenticator…).</li>
+      <li>Scannez ce QR code avec l'application.</li>
+      <li>Saisissez le code à 6 chiffres qu'elle affiche.</li>
+    </ol>
+    <div class="mfa-qr" id="mfaQr" aria-label="QR code d'enrôlement"></div>
+    <details class="mfa-secret-wrap">
+      <summary>Impossible de scanner ? Saisir la clé à la main</summary>
+      <code class="mfa-secret" id="mfaSecret"></code>
+    </details>
+    <input class="form-input mfa-code" type="text" id="mfaEnrollCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" aria-label="Code à 6 chiffres" onkeydown="if(event.key==='Enter')confirmMfaEnroll()">
+    <button class="btn-main" id="mfaEnrollBtn" onclick="confirmMfaEnroll()">Activer la 2FA</button>
+    <div class="error-msg" id="mfaEnrollErr"></div>
+    <a href="#" class="login-back" onclick="logout();return false;">← Se déconnecter</a>
+  </div>
 </div>
+<div class="mfa-warning" id="mfaWarning" role="status" style="display:none"></div>
 
 <!-- ─── DASHBOARD SHELL ────────────────────────────────────────────────── -->
 <div class="dashboard" id="dashboard">

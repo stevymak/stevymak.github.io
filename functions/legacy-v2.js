@@ -239,7 +239,7 @@ exports.sendConfirmationEmail = onDocumentCreated(
         from: "Makouez IT <contact@makouezit.org>",
         to: [data.email],
         subject: `⏳ Votre demande est en attente – Makouez IT (${new Date().toLocaleDateString("fr-FR")})`,
-        html: `<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head> <body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"> <tr><td align="center"> <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"> <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"> <span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span> </td></tr> <tr><td align="center" style="padding:36px 32px 20px"> <div style="font-size:48px">⏳</div> <h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">Demande bien reçue !</h1> <p style="margin:0;color:#8888aa;font-size:15px"> Bonjour <strong style="color:#f0f0ff">${data.nom || data.name}</strong>, votre demande est bien enregistrée.<br> Elle est <strong style="color:#f59e0b">en attente de confirmation</strong>.<br><br> Stevy reviendra vers vous rapidement. </p> <div style="display:inline-block;margin-top:16px;padding:8px 20px;background:#f59e0b20;border:1px solid #f59e0b40;border-radius:99px;color:#f59e0b;font-size:14px;font-weight:600">⏳ En attente de confirmation</div> </td></tr> <tr><td style="padding:0 32px 32px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🔧 Service</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${data.service}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">📅 Date</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${dateFormatted}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🕐 Plage horaire</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${timeLabel}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">📍 Adresse</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${data.adresse || "—"}</span> </td></tr> <tr><td style="padding:16px 20px"> <span style="color:#8888aa;font-size:13px">💰 Tarif indicatif</span><br> <span style="color:#3b82f6;font-size:15px;font-weight:600">${data.price}</span> </td></tr> </table> <div style="text-align:center;margin-top:24px"> <a href="${suiviUrl}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500">→ Suivre ma réservation en temps réel</a> </div> <p style="margin:24px 0 0;text-align:center;color:#8888aa;font-size:12px;line-height:1.6"> Une question ? Répondez à cet email ou contactez directement Stevy.<br> <span style="color:#ffffff30">Makouez IT – Intervention à domicile en Île-de-France</span> </p> </td></tr> </table> </td></tr> </table> </body></html>`
+        html: `<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head> <body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"> <tr><td align="center"> <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"> <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"> <span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span> </td></tr> <tr><td align="center" style="padding:36px 32px 20px"> <div style="font-size:48px">⏳</div> <h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">Demande bien reçue !</h1> <p style="margin:0;color:#8888aa;font-size:15px"> Bonjour <strong style="color:#f0f0ff">${escHtml(data.nom || data.name)}</strong>, votre demande est bien enregistrée.<br> Elle est <strong style="color:#f59e0b">en attente de confirmation</strong>.<br><br> Stevy reviendra vers vous rapidement. </p> <div style="display:inline-block;margin-top:16px;padding:8px 20px;background:#f59e0b20;border:1px solid #f59e0b40;border-radius:99px;color:#f59e0b;font-size:14px;font-weight:600">⏳ En attente de confirmation</div> </td></tr> <tr><td style="padding:0 32px 32px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🔧 Service</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(data.service)}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">📅 Date</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(dateFormatted)}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🕐 Plage horaire</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(timeLabel)}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">📍 Adresse</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(data.adresse || "—")}</span> </td></tr> <tr><td style="padding:16px 20px"> <span style="color:#8888aa;font-size:13px">💰 Tarif indicatif</span><br> <span style="color:#3b82f6;font-size:15px;font-weight:600">${escHtml(data.price)}</span> </td></tr> </table> <div style="text-align:center;margin-top:24px"> <a href="${escHtml(suiviUrl)}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500">→ Suivre ma réservation en temps réel</a> </div> <p style="margin:24px 0 0;text-align:center;color:#8888aa;font-size:12px;line-height:1.6"> Une question ? Répondez à cet email ou contactez directement Stevy.<br> <span style="color:#ffffff30">Makouez IT – Intervention à domicile en Île-de-France</span> </p> </td></tr> </table> </td></tr> </table> </body></html>`
       });
       console.log("✅ Email client envoyé à " + data.email);
     } catch (err) {
@@ -252,7 +252,7 @@ exports.sendConfirmationEmail = onDocumentCreated(
         from: "Makouez IT <contact@makouezit.org>",
         to: [data.adminEmail || "contact@makouezit.org"],
         subject: "🔔 Nouveau RDV – " + (data.nom || data.name) + " – " + dateFormatted,
-        html: `<div style="font-family:Arial,sans-serif;max-width:500px;padding:20px"> <h2 style="color:#3b82f6">Nouvelle réservation reçue</h2> <table style="border-collapse:collapse;width:100%"> <tr><td style="padding:8px;color:#666;width:130px">Nom</td><td style="padding:8px;font-weight:bold">${data.nom || data.name}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Email</td><td style="padding:8px">${data.email}</td></tr> <tr><td style="padding:8px;color:#666">Téléphone</td><td style="padding:8px">${data.telephone || data.phone || "—"}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Service</td><td style="padding:8px">${data.service}</td></tr> <tr><td style="padding:8px;color:#666">Date</td><td style="padding:8px">${dateFormatted}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Plage horaire</td><td style="padding:8px">${timeLabel}</td></tr> <tr><td style="padding:8px;color:#666">Adresse</td><td style="padding:8px">${data.adresse || "—"}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Description</td><td style="padding:8px">${data.description || "–"}</td></tr> <tr><td style="padding:8px;color:#666">Tarif</td><td style="padding:8px;color:#3b82f6;font-weight:bold">${data.price}</td></tr> </table> <div style="margin-top:16px;text-align:center"> <a href="${SITE_URL}/admin.html" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:500">→ Ouvrir l'espace admin</a> </div> </div>`
+        html: `<div style="font-family:Arial,sans-serif;max-width:500px;padding:20px"> <h2 style="color:#3b82f6">Nouvelle réservation reçue</h2> <table style="border-collapse:collapse;width:100%"> <tr><td style="padding:8px;color:#666;width:130px">Nom</td><td style="padding:8px;font-weight:bold">${escHtml(data.nom || data.name)}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Email</td><td style="padding:8px">${escHtml(data.email)}</td></tr> <tr><td style="padding:8px;color:#666">Téléphone</td><td style="padding:8px">${escHtml(data.telephone || data.phone || "—")}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Service</td><td style="padding:8px">${escHtml(data.service)}</td></tr> <tr><td style="padding:8px;color:#666">Date</td><td style="padding:8px">${escHtml(dateFormatted)}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Plage horaire</td><td style="padding:8px">${escHtml(timeLabel)}</td></tr> <tr><td style="padding:8px;color:#666">Adresse</td><td style="padding:8px">${escHtml(data.adresse || "—")}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Description</td><td style="padding:8px">${escHtml(data.description || "–")}</td></tr> <tr><td style="padding:8px;color:#666">Tarif</td><td style="padding:8px;color:#3b82f6;font-weight:bold">${escHtml(data.price)}</td></tr> </table> <div style="margin-top:16px;text-align:center"> <a href="${SITE_URL}/admin.html" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:500">→ Ouvrir l'espace admin</a> </div> </div>`
       });
       console.log("✅ Notification admin envoyée");
     } catch (err) {
@@ -289,7 +289,7 @@ exports.sendStatusUpdateEmail = onDocumentUpdated(
           from: "Makouez IT <contact@makouezit.org>",
           to: ["contact@makouezit.org"],
           subject: `✏️ Modification demandée – ${after.nom} – ${dateFormatted}`,
-          html: `<div style="font-family:Arial,sans-serif;max-width:500px;padding:20px"> <h2 style="color:#f59e0b">✏️ Demande de modification de RDV</h2> <table style="border-collapse:collapse;width:100%"> <tr><td style="padding:8px;color:#666;width:130px">Client</td><td style="padding:8px;font-weight:bold">${after.nom}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Email</td><td style="padding:8px">${after.email}</td></tr> <tr><td style="padding:8px;color:#666">Téléphone</td><td style="padding:8px">${after.telephone}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Service</td><td style="padding:8px">${after.service}</td></tr> <tr><td style="padding:8px;color:#666">Date</td><td style="padding:8px">${dateFormatted}</td></tr> <tr style="background:#fff3cd"><td style="padding:8px;color:#666">Message client</td><td style="padding:8px;font-style:italic;color:#856404">${after.modificationNote}</td></tr> </table> <div style="margin-top:16px;text-align:center"> <a href="${SITE_URL}/admin.html" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:500">→ Ouvrir l'espace admin</a> </div> </div>`
+          html: `<div style="font-family:Arial,sans-serif;max-width:500px;padding:20px"> <h2 style="color:#f59e0b">✏️ Demande de modification de RDV</h2> <table style="border-collapse:collapse;width:100%"> <tr><td style="padding:8px;color:#666;width:130px">Client</td><td style="padding:8px;font-weight:bold">${escHtml(after.nom)}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Email</td><td style="padding:8px">${escHtml(after.email)}</td></tr> <tr><td style="padding:8px;color:#666">Téléphone</td><td style="padding:8px">${escHtml(after.telephone)}</td></tr> <tr style="background:#f9f9f9"><td style="padding:8px;color:#666">Service</td><td style="padding:8px">${escHtml(after.service)}</td></tr> <tr><td style="padding:8px;color:#666">Date</td><td style="padding:8px">${escHtml(dateFormatted)}</td></tr> <tr style="background:#fff3cd"><td style="padding:8px;color:#666">Message client</td><td style="padding:8px;font-style:italic;color:#856404">${escHtml(after.modificationNote)}</td></tr> </table> <div style="margin-top:16px;text-align:center"> <a href="${SITE_URL}/admin.html" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:500">→ Ouvrir l'espace admin</a> </div> </div>`
         });
       } catch (err) {
         console.error("❌ Erreur notification modification :", err);
@@ -337,7 +337,7 @@ exports.sendStatusUpdateEmail = onDocumentUpdated(
         console.log("ℹ️ Email « terminé » déjà envoyé pour " + rdvId + ", ignoré");
         return null;
       }
-      const prenom      = escHtml((after.nom || after.name || "").trim().split(" ")[0]);
+      const prenom      = (after.nom || after.name || "").trim().split(" ")[0];
       const montant     = typeof after.prixReel === "number"
         ? new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(after.prixReel)
         : null;
@@ -355,14 +355,14 @@ exports.sendStatusUpdateEmail = onDocumentUpdated(
 
       const doneHtml = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head><body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"><table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"><tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden">
 <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"><span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span></td></tr>
-<tr><td align="center" style="padding:36px 32px 12px"><div style="font-size:48px">🙏</div><h1 style="margin:18px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">Merci pour votre confiance${prenom ? ", " + prenom : ""} !</h1>
+<tr><td align="center" style="padding:36px 32px 12px"><div style="font-size:48px">🙏</div><h1 style="margin:18px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">Merci pour votre confiance${prenom ? ", " + escHtml(prenom) : ""} !</h1>
 <p style="margin:0;color:#c8c8d8;font-size:15px;line-height:1.7">Merci de m'avoir contacté et de m'avoir ouvert votre porte. J'espère que tout fonctionne à votre entière satisfaction.</p></td></tr>
 <tr><td style="padding:16px 32px 8px"><p style="margin:0 0 10px;color:#8888aa;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Récapitulatif de l'intervention</p>
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden">${recapRows}</table></td></tr>
 <tr><td style="padding:20px 32px 8px"><table width="100%" cellpadding="0" cellspacing="0" style="background:#f59e0b10;border:1px solid #f59e0b30;border-radius:12px"><tr><td align="center" style="padding:22px 20px">
 <p style="margin:0 0 8px;color:#f59e0b;font-size:15px;font-weight:700">⭐ Votre avis compte beaucoup</p>
 <p style="margin:0 0 16px;color:#c8c8d8;font-size:14px;line-height:1.6">Si vous êtes satisfait, un avis sur ma fiche Google prend 1 minute et m'aide énormément à me faire connaître.</p>
-<a href="${reviewUrl}" style="display:inline-block;background:#f59e0b;color:#111;text-decoration:none;padding:12px 26px;border-radius:10px;font-size:15px;font-weight:700">${reviewLabel}</a></td></tr></table></td></tr>
+<a href="${escHtml(reviewUrl)}" style="display:inline-block;background:#f59e0b;color:#111;text-decoration:none;padding:12px 26px;border-radius:10px;font-size:15px;font-weight:700">${reviewLabel}</a></td></tr></table></td></tr>
 <tr><td style="padding:12px 32px 8px"><table width="100%" cellpadding="0" cellspacing="0" style="background:#3b82f610;border:1px solid #3b82f640;border-radius:12px"><tr><td style="padding:18px 20px">
 <p style="margin:0 0 6px;color:#f0f0ff;font-size:15px;font-weight:700">Un besoin, une question ?</p>
 <p style="margin:0 0 10px;color:#c8c8d8;font-size:14px;line-height:1.6">Si quelque chose ne fonctionne plus ou si vous avez un nouveau besoin, n'hésitez pas à me rappeler, je reste disponible.</p>
@@ -387,14 +387,14 @@ exports.sendStatusUpdateEmail = onDocumentUpdated(
       }
       return null;
     }
-    const avisBlock = isDone ? `<div style="margin-top:24px;background:#f59e0b10;border:1px solid #f59e0b30;border-radius:12px;padding:20px;text-align:center"> <p style="margin:0 0 12px;color:#f59e0b;font-size:14px;font-weight:600">⭐ Votre avis compte !</p> <p style="margin:0 0 16px;color:#8888aa;font-size:13px">Partagez votre expérience pour aider d'autres clients.</p> <a href="${avisUrl}" style="display:inline-block;background:#f59e0b;color:#fff;text-decoration:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:500">Laisser un avis →</a> </div>` : "";
+    const avisBlock = isDone ? `<div style="margin-top:24px;background:#f59e0b10;border:1px solid #f59e0b30;border-radius:12px;padding:20px;text-align:center"> <p style="margin:0 0 12px;color:#f59e0b;font-size:14px;font-weight:600">⭐ Votre avis compte !</p> <p style="margin:0 0 16px;color:#8888aa;font-size:13px">Partagez votre expérience pour aider d'autres clients.</p> <a href="${escHtml(avisUrl)}" style="display:inline-block;background:#f59e0b;color:#fff;text-decoration:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:500">Laisser un avis →</a> </div>` : "";
 
     try {
       await resend.emails.send({
         from: "Makouez IT <contact@makouezit.org>",
         to: [after.email],
         subject: cfg.subject,
-        html: `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head><body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"><table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"><tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"><tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"><span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span></td></tr><tr><td align="center" style="padding:36px 32px 20px"><div style="font-size:48px">${cfg.emoji}</div><h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">${cfg.titre}</h1><p style="margin:0;color:#8888aa;font-size:15px">${cfg.message}</p><div style="display:inline-block;margin-top:16px;padding:8px 20px;background:${cfg.badge.bg};border:1px solid ${cfg.badge.border};border-radius:99px;color:${cfg.badge.color};font-size:14px;font-weight:600">${cfg.badge.label}</div></td></tr><tr><td style="padding:0 32px 32px"><table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"><tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"><span style="color:#8888aa;font-size:13px">🔧 Service</span><br><span style="color:#f0f0ff;font-size:15px;font-weight:500">${after.service}</span></td></tr><tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"><span style="color:#8888aa;font-size:13px">📅 Date</span><br><span style="color:#f0f0ff;font-size:15px;font-weight:500">${dateFormatted}</span></td></tr><tr><td style="padding:16px 20px"><span style="color:#8888aa;font-size:13px">🕐 Plage horaire</span><br><span style="color:#f0f0ff;font-size:15px;font-weight:500">${timeLabel}</span></td></tr></table><div style="text-align:center;margin-top:24px"><a href="${suiviUrl}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500">→ Suivre ma réservation</a></div>${avisBlock}</td></tr></table></td></tr></table></body></html>`
+        html: `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head><body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"><table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"><tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"><tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"><span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span></td></tr><tr><td align="center" style="padding:36px 32px 20px"><div style="font-size:48px">${cfg.emoji}</div><h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">${cfg.titre}</h1><p style="margin:0;color:#8888aa;font-size:15px">${cfg.message}</p><div style="display:inline-block;margin-top:16px;padding:8px 20px;background:${cfg.badge.bg};border:1px solid ${cfg.badge.border};border-radius:99px;color:${cfg.badge.color};font-size:14px;font-weight:600">${cfg.badge.label}</div></td></tr><tr><td style="padding:0 32px 32px"><table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"><tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"><span style="color:#8888aa;font-size:13px">🔧 Service</span><br><span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(after.service)}</span></td></tr><tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"><span style="color:#8888aa;font-size:13px">📅 Date</span><br><span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(dateFormatted)}</span></td></tr><tr><td style="padding:16px 20px"><span style="color:#8888aa;font-size:13px">🕐 Plage horaire</span><br><span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(timeLabel)}</span></td></tr></table><div style="text-align:center;margin-top:24px"><a href="${escHtml(suiviUrl)}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500">→ Suivre ma réservation</a></div>${avisBlock}</td></tr></table></td></tr></table></body></html>`
       });
       console.log(`✅ Email statut "${after.status}" envoyé à ${after.email}`);
     } catch (err) {
@@ -449,7 +449,7 @@ exports.resendSuiviLink = onRequest(
         from: "Makouez IT <contact@makouezit.org>",
         to: [email],
         subject: `Vos demandes Makouez IT – ${new Date().toLocaleDateString("fr-FR")}`,
-        html: `<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head> <body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"> <tr><td align="center"> <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"> <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"> <span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span> </td></tr> <tr><td align="center" style="padding:36px 32px 20px"> <div style="font-size:48px">📋</div> <h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">Vos demandes</h1> <p style="margin:0;color:#8888aa;font-size:15px"> Nous avons trouvé <strong style="color:#f0f0ff">${count} demande${count > 1 ? "s" : ""}</strong> associée${count > 1 ? "s" : ""} à votre email. </p> </td></tr> <tr><td style="padding:0 32px 16px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">Dernière demande — Service</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${latest.service || "–"}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">Date</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${dateFormatted}</span> </td></tr> <tr><td style="padding:16px 20px"> <span style="color:#8888aa;font-size:13px">Plage horaire</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${timeLabel}</span> </td></tr> </table> </td></tr> <tr><td style="padding:8px 32px 36px;text-align:center"> <a href="${mesDemandesUrl}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500"> Voir mes ${count} demande${count > 1 ? "s" : ""} → </a> <p style="margin:16px 0 0;color:#8888aa;font-size:12px">Ce lien est personnel. Ne le partagez pas.</p> </td></tr> </table> </td></tr> </table> </body></html>`
+        html: `<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head> <body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"> <tr><td align="center"> <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"> <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"> <span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span> </td></tr> <tr><td align="center" style="padding:36px 32px 20px"> <div style="font-size:48px">📋</div> <h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">Vos demandes</h1> <p style="margin:0;color:#8888aa;font-size:15px"> Nous avons trouvé <strong style="color:#f0f0ff">${count} demande${count > 1 ? "s" : ""}</strong> associée${count > 1 ? "s" : ""} à votre email. </p> </td></tr> <tr><td style="padding:0 32px 16px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">Dernière demande — Service</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(latest.service || "–")}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">Date</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(dateFormatted)}</span> </td></tr> <tr><td style="padding:16px 20px"> <span style="color:#8888aa;font-size:13px">Plage horaire</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(timeLabel)}</span> </td></tr> </table> </td></tr> <tr><td style="padding:8px 32px 36px;text-align:center"> <a href="${escHtml(mesDemandesUrl)}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500"> Voir mes ${count} demande${count > 1 ? "s" : ""} → </a> <p style="margin:16px 0 0;color:#8888aa;font-size:12px">Ce lien est personnel. Ne le partagez pas.</p> </td></tr> </table> </td></tr> </table> </body></html>`
       });
 
       console.log(`Email mes-demandes envoyé à ${email} — ${count} réservation(s)`);
@@ -501,21 +501,21 @@ exports.sendContratConfirmation = onDocumentCreated(
   </div>
   <div style="background:#111120;border:1px solid #ffffff14;border-radius:16px;padding:2rem;margin-bottom:1.5rem">
     <div style="font-size:2rem;margin-bottom:1rem;text-align:center">✅</div>
-    <h1 style="font-size:1.3rem;font-weight:700;margin:0 0 0.75rem;text-align:center">Demande bien reçue, ${prenom} !</h1>
+    <h1 style="font-size:1.3rem;font-weight:700;margin:0 0 0.75rem;text-align:center">Demande bien reçue, ${escHtml(prenom)} !</h1>
     <p style="color:#8888aa;font-size:0.9rem;line-height:1.6;margin:0 0 1.5rem;text-align:center">
-      Stevy a bien reçu votre demande de souscription au <strong style="color:#f0f0ff">${label}</strong>.<br>
+      Stevy a bien reçu votre demande de souscription au <strong style="color:#f0f0ff">${escHtml(label)}</strong>.<br>
       Il vous contactera sous <strong style="color:#3b82f6">24h</strong> pour finaliser votre contrat.
     </p>
     <div style="background:#16162a;border:1px solid #ffffff14;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-        <div style="font-weight:700">${label}</div>
-        <div style="color:#3b82f6;font-weight:700;font-size:1.1rem">${tarif}</div>
+        <div style="font-weight:700">${escHtml(label)}</div>
+        <div style="color:#3b82f6;font-weight:700;font-size:1.1rem">${escHtml(tarif)}</div>
       </div>
       ${features.map(f => `<div style="font-size:0.88rem;color:#8888aa;margin-bottom:0.35rem">✓ ${f}</div>`).join("")}
     </div>
     <div style="text-align:center;margin-bottom:1rem">
       <p style="color:#8888aa;font-size:0.85rem;margin-bottom:1rem">Suivez l'état de votre demande en temps réel :</p>
-      <a href="${lienSuivi}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:0.85rem 2rem;border-radius:10px;font-weight:500;font-size:0.95rem">Suivre ma demande →</a>
+      <a href="${escHtml(lienSuivi)}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:0.85rem 2rem;border-radius:10px;font-weight:500;font-size:0.95rem">Suivre ma demande →</a>
     </div>
     <p style="color:#8888aa;font-size:0.78rem;text-align:center;margin:0">
       Conservez ce lien pour suivre l'évolution de votre contrat.<br>
@@ -547,12 +547,12 @@ exports.sendContratConfirmation = onDocumentCreated(
   <div style="background:#a855f718;border:1px solid #a855f740;border-radius:12px;padding:1.5rem;margin-bottom:1rem">
     <h2 style="margin:0 0 1rem;color:#a855f7;font-size:1.1rem">🆕 Nouvelle demande de contrat</h2>
     <table style="width:100%;font-size:0.88rem;border-collapse:collapse">
-      <tr><td style="color:#8888aa;padding:0.3rem 0;width:40%">Contrat</td><td style="font-weight:700;color:#a855f7">${label} — ${tarif}</td></tr>
-      <tr><td style="color:#8888aa;padding:0.3rem 0">Nom</td><td>${data.nom || "–"}</td></tr>
-      <tr><td style="color:#8888aa;padding:0.3rem 0">Email</td><td><a href="mailto:${email}" style="color:#60a5fa">${email}</a></td></tr>
-      <tr><td style="color:#8888aa;padding:0.3rem 0">Téléphone</td><td><a href="tel:${data.telephone || data.phone || "—"}" style="color:#60a5fa">${data.telephone || "–"}</a></td></tr>
-      <tr><td style="color:#8888aa;padding:0.3rem 0">Adresse</td><td>${data.adresse || "–"}</td></tr>
-      ${data.note ? `<tr><td style="color:#8888aa;padding:0.3rem 0">Message</td><td style="font-style:italic">${data.note}</td></tr>` : ""}
+      <tr><td style="color:#8888aa;padding:0.3rem 0;width:40%">Contrat</td><td style="font-weight:700;color:#a855f7">${escHtml(label)} — ${escHtml(tarif)}</td></tr>
+      <tr><td style="color:#8888aa;padding:0.3rem 0">Nom</td><td>${escHtml(data.nom || "–")}</td></tr>
+      <tr><td style="color:#8888aa;padding:0.3rem 0">Email</td><td><a href="mailto:${escHtml(email)}" style="color:#60a5fa">${escHtml(email)}</a></td></tr>
+      <tr><td style="color:#8888aa;padding:0.3rem 0">Téléphone</td><td><a href="tel:${escHtml(data.telephone || data.phone || "—")}" style="color:#60a5fa">${escHtml(data.telephone || "–")}</a></td></tr>
+      <tr><td style="color:#8888aa;padding:0.3rem 0">Adresse</td><td>${escHtml(data.adresse || "–")}</td></tr>
+      ${data.note ? `<tr><td style="color:#8888aa;padding:0.3rem 0">Message</td><td style="font-style:italic">${escHtml(data.note)}</td></tr>` : ""}
     </table>
   </div>
   <div style="text-align:center">
@@ -625,9 +625,9 @@ exports.resendContratLink = onRequest(
       html: `
         <div style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:2rem;background:#09090f;color:#f0f0ff;border-radius:12px">
           <h2 style="color:#3b82f6">Makouez IT</h2>
-          <p>Voici votre lien de suivi pour votre <strong>${label}</strong> :</p>
+          <p>Voici votre lien de suivi pour votre <strong>${escHtml(label)}</strong> :</p>
           <div style="text-align:center;margin:1.5rem 0">
-            <a href="${lien}" style="background:#3b82f6;color:#fff;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:500">Suivre ma demande →</a>
+            <a href="${escHtml(lien)}" style="background:#3b82f6;color:#fff;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:500">Suivre ma demande →</a>
           </div>
           <p style="color:#8888aa;font-size:0.82rem">Si vous n'avez pas demandé ce lien, ignorez cet email.</p>
         </div>`,
@@ -696,7 +696,7 @@ exports.noirlandSendConfirmation = onDocumentCreated(
     <p style="font-family:monospace;font-size:0.72rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 28px">Session · CCRecords Studio</p>
 
     <p style="font-size:0.95rem;color:#c8c8c0;line-height:1.7;margin:0 0 28px">
-      Yo <strong style="color:#f5f5f0">${name}</strong>, ta demande est bien enregistrée.<br>
+      Yo <strong style="color:#f5f5f0">${escHtml(name)}</strong>, ta demande est bien enregistrée.<br>
       On te confirme le créneau sous <strong style="color:#f5f5f0">24h</strong>.
     </p>
 
@@ -704,25 +704,25 @@ exports.noirlandSendConfirmation = onDocumentCreated(
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1c1c1a;margin-bottom:28px">
       <tr><td style="background:#0e0e0c;padding:12px 20px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.65rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Service</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${service}</span>
+        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(service)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:12px 20px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.65rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Date</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${date}</span>
+        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(date)}</span>
       </td></tr>
       <tr><td style="background:#0e0e0c;padding:12px 20px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.65rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Créneau</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${time}</span>
+        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(time)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:12px 20px">
         <span style="font-family:monospace;font-size:0.65rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Durée</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${data.duration || '–'}</span>
+        <span style="font-size:0.9rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(data.duration || '–')}</span>
       </td></tr>
     </table>
 
     <!-- CTA -->
     <div style="text-align:center;margin-bottom:28px">
-      <a href="${confirmUrl}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:14px 32px;font-family:monospace;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:bold">
+      <a href="${escHtml(confirmUrl)}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:14px 32px;font-family:monospace;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:bold">
         SUIVRE MA SESSION →
       </a>
     </div>
@@ -763,15 +763,15 @@ exports.noirlandSendConfirmation = onDocumentCreated(
   <div style="background:#111110;border:1px solid #1c1c1a;border-top:none;padding:24px">
 
     <table width="100%" cellpadding="0" cellspacing="0" style="font-size:0.85rem;border-collapse:collapse">
-      <tr><td style="color:#888882;padding:8px 0;width:110px;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Nom</td><td style="padding:8px 0;font-weight:bold;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${name}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Email</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${email}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Téléphone</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${data.phone || '–'}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Service</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${service}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Date</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${date}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Créneau</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${time}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Durée</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${data.duration || '–'}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Artistes</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${data.artists || '–'}</td></tr>
-      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase">Projet</td><td style="padding:8px 0;color:#f5f5f0">${data.project || '–'}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;width:110px;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Nom</td><td style="padding:8px 0;font-weight:bold;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(name)}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Email</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(email)}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Téléphone</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(data.phone || '–')}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Service</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(service)}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Date</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(date)}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Créneau</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(time)}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Durée</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(data.duration || '–')}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #1c1c1a">Artistes</td><td style="padding:8px 0;color:#f5f5f0;border-bottom:1px solid #1c1c1a">${escHtml(data.artists || '–')}</td></tr>
+      <tr><td style="color:#888882;padding:8px 0;font-family:monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase">Projet</td><td style="padding:8px 0;color:#f5f5f0">${escHtml(data.project || '–')}</td></tr>
     </table>
 
     <div style="text-align:center;margin-top:24px">
@@ -861,7 +861,7 @@ exports.noirlandSendStatusUpdate = onDocumentUpdated(
   </td></tr>
   <tr><td style="background:#111110;border-left:1px solid #1c1c1a;border-right:1px solid #1c1c1a;padding:0 28px 20px">
     <p style="font-size:0.95rem;color:#c8c8c0;line-height:1.75;margin:0">
-      Yo <strong style="color:#f5f5f0">${name}</strong> 🏴<br><br>
+      Yo <strong style="color:#f5f5f0">${escHtml(name)}</strong> 🏴<br><br>
       Ta session est <strong style="color:#4ade80">officiellement confirmée</strong>. Voici tout ce qu'il te faut pour préparer ta venue au studio.
     </p>
   </td></tr>
@@ -869,19 +869,19 @@ exports.noirlandSendStatusUpdate = onDocumentUpdated(
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1c1c1a">
       <tr><td style="background:#0e0e0c;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">🎵 Service</span><br>
-        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:500">${service}</span>
+        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:500">${escHtml(service)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">📅 Date</span><br>
-        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:600">${dateDisplay}</span>
+        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:600">${escHtml(dateDisplay)}</span>
       </td></tr>
       <tr><td style="background:#0e0e0c;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">🕐 Heure de début</span><br>
-        <span style="font-size:1rem;color:#4ade80;margin-top:4px;display:block;font-weight:700">${time}</span>
+        <span style="font-size:1rem;color:#4ade80;margin-top:4px;display:block;font-weight:700">${escHtml(time)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:12px 18px">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">⏱ Durée</span><br>
-        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block">${after.duration || "–"} heure(s)</span>
+        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(after.duration || "–")} heure(s)</span>
       </td></tr>
     </table>
   </td></tr>
@@ -957,7 +957,7 @@ exports.noirlandSendStatusUpdate = onDocumentUpdated(
     </table>
   </td></tr>
   <tr><td style="background:#111110;border-left:1px solid #1c1c1a;border-right:1px solid #1c1c1a;padding:0 28px 32px;text-align:center">
-    <a href="${confirmUrl}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:14px 36px;font-family:monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:16px">
+    <a href="${escHtml(confirmUrl)}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:14px 36px;font-family:monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:16px">
       VOIR MA RÉSERVATION →
     </a>
     <p style="font-family:monospace;font-size:0.6rem;color:#444440;margin:0;letter-spacing:0.08em">
@@ -1001,19 +1001,19 @@ exports.noirlandSendStatusUpdate = onDocumentUpdated(
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#0e0e0c;border:1px solid #1c1c1a;margin-bottom:24px">
       <tr><td style="padding:12px 16px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:.12em;text-transform:uppercase">Service</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:3px;display:block">${service}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:3px;display:block">${escHtml(service)}</span>
       </td></tr>
       <tr><td style="padding:12px 16px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:.12em;text-transform:uppercase">Date</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:3px;display:block">${dateDisplay}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:3px;display:block">${escHtml(dateDisplay)}</span>
       </td></tr>
       <tr><td style="padding:12px 16px">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:.12em;text-transform:uppercase">Créneau</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:3px;display:block">${time}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:3px;display:block">${escHtml(time)}</span>
       </td></tr>
     </table>
     <div style="text-align:center">
-      <a href="${confirmUrl}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:12px 28px;font-family:monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">
+      <a href="${escHtml(confirmUrl)}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:12px 28px;font-family:monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">
         VOIR MA RÉSERVATION →
       </a>
     </div>
@@ -1118,19 +1118,19 @@ exports.noirlandResendConfirmation = onRequest(
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1c1c1a">
       <tr><td style="background:#0e0e0c;padding:10px 16px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:0.12em">🎵 Service</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0">${service}</span>
+        <span style="font-size:0.9rem;color:#f5f5f0">${escHtml(service)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:10px 16px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:0.12em">📅 Date</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0;font-weight:600">${dateDisplay}</span>
+        <span style="font-size:0.9rem;color:#f5f5f0;font-weight:600">${escHtml(dateDisplay)}</span>
       </td></tr>
       <tr><td style="background:#0e0e0c;padding:10px 16px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:0.12em">🕐 Heure</span><br>
-        <span style="font-size:1rem;color:#4ade80;font-weight:700">${time}</span>
+        <span style="font-size:1rem;color:#4ade80;font-weight:700">${escHtml(time)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:10px 16px">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:0.12em">⏱ Durée</span><br>
-        <span style="font-size:0.9rem;color:#f5f5f0">${data.duration || "–"}h</span>
+        <span style="font-size:0.9rem;color:#f5f5f0">${escHtml(data.duration || "–")}h</span>
       </td></tr>
     </table>
   </td></tr>
@@ -1152,7 +1152,7 @@ exports.noirlandResendConfirmation = onRequest(
     </table>
   </td></tr>
   <tr><td style="background:#111110;border-left:1px solid #1c1c1a;border-right:1px solid #1c1c1a;padding:0 28px 28px;text-align:center">
-    <a href="${confirmUrl}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:12px 28px;font-family:monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">
+    <a href="${escHtml(confirmUrl)}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:12px 28px;font-family:monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">
       VOIR MA RÉSERVATION →
     </a>
     <p style="font-family:monospace;font-size:0.56rem;color:#444440;margin:12px 0 0">@noirlandmusic · noirlandmusic.com</p>
@@ -1173,24 +1173,24 @@ exports.noirlandResendConfirmation = onRequest(
     <div style="font-size:2rem;margin-bottom:10px">⏳</div>
     <p style="font-size:1rem;font-weight:600;color:#fbbf24;margin:0 0 14px">DEMANDE EN ATTENTE</p>
     <p style="font-size:0.88rem;color:#c8c8c0;line-height:1.7;margin:0 0 20px">
-      Yo <strong style="color:#f5f5f0">${name}</strong>, ta demande est bien enregistrée.<br>
+      Yo <strong style="color:#f5f5f0">${escHtml(name)}</strong>, ta demande est bien enregistrée.<br>
       On revient vers toi sous <strong style="color:#f5f5f0">24h</strong> pour confirmer ton créneau.
     </p>
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#0e0e0c;border:1px solid #1c1c1a;margin-bottom:20px;text-align:left">
       <tr><td style="padding:10px 14px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:.1em">Service</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0">${service}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0">${escHtml(service)}</span>
       </td></tr>
       <tr><td style="padding:10px 14px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:.1em">Date demandée</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0">${dateDisplay}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0">${escHtml(dateDisplay)}</span>
       </td></tr>
       <tr><td style="padding:10px 14px">
         <span style="font-family:monospace;font-size:0.58rem;color:#888882;text-transform:uppercase;letter-spacing:.1em">Créneau</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0">${time}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0">${escHtml(time)}</span>
       </td></tr>
     </table>
-    <a href="${confirmUrl}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:11px 24px;font-family:monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">
+    <a href="${escHtml(confirmUrl)}" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:11px 24px;font-family:monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">
       SUIVRE MA DEMANDE →
     </a>
     <p style="font-family:monospace;font-size:0.54rem;color:#333330;margin:12px 0 0">Noirland Music · noirlandmusic.com</p>
@@ -1278,7 +1278,7 @@ exports.noirlandConsultingRequest = onDocumentCreated(
   <!-- MESSAGE PERSO -->
   <tr><td style="background:#111110;border-left:1px solid #1c1c1a;border-right:1px solid #1c1c1a;padding:0 28px 20px">
     <p style="font-size:0.95rem;color:#c8c8c0;line-height:1.75;margin:0">
-      Yo <strong style="color:#f5f5f0">${name}</strong> 🏴<br><br>
+      Yo <strong style="color:#f5f5f0">${escHtml(name)}</strong> 🏴<br><br>
       Ta demande de consulting est bien enregistrée. On a tout lu et on revient vers toi sous <strong style="color:#f5f5f0">48h</strong>. Voici le récap de ce que tu nous as envoyé.
     </p>
   </td></tr>
@@ -1288,19 +1288,19 @@ exports.noirlandConsultingRequest = onDocumentCreated(
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1c1c1a">
       <tr><td style="background:#0e0e0c;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Type de consulting</span><br>
-        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:500">${type}</span>
+        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:500">${escHtml(type)}</span>
       </td></tr>
       <tr><td style="background:#080808;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Ton message</span><br>
-        <span style="font-size:0.88rem;color:#c8c8c0;margin-top:6px;display:block;line-height:1.65;white-space:pre-line">${message}</span>
+        <span style="font-size:0.88rem;color:#c8c8c0;margin-top:6px;display:block;line-height:1.65;white-space:pre-line">${escHtml(message)}</span>
       </td></tr>
       ${links && links !== "–" ? `<tr><td style="background:#0e0e0c;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">Liens partagés</span><br>
-        <span style="font-size:0.85rem;color:#c8c8c0;margin-top:4px;display:block;word-break:break-all">${links}</span>
+        <span style="font-size:0.85rem;color:#c8c8c0;margin-top:4px;display:block;word-break:break-all">${escHtml(links)}</span>
       </td></tr>` : ""}
       <tr><td style="background:#080808;padding:12px 18px">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">📅 Date de la demande</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:4px;display:block">${date}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(date)}</span>
       </td></tr>
     </table>
   </td></tr>
@@ -1381,44 +1381,44 @@ exports.noirlandConsultingRequest = onDocumentCreated(
     <table width="100%" cellpadding="0" cellspacing="0" style="font-size:0.85rem;border-collapse:collapse;margin-bottom:20px">
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;width:130px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Nom</td>
-        <td style="padding:10px 0;font-weight:bold;color:#f5f5f0">${name}</td>
+        <td style="padding:10px 0;font-weight:bold;color:#f5f5f0">${escHtml(name)}</td>
       </tr>
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Email</td>
-        <td style="padding:10px 0"><a href="mailto:${email}" style="color:#f5f5f0;text-decoration:none">${email}</a></td>
+        <td style="padding:10px 0"><a href="mailto:${escHtml(email)}" style="color:#f5f5f0;text-decoration:none">${escHtml(email)}</a></td>
       </tr>
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Téléphone</td>
-        <td style="padding:10px 0;color:#f5f5f0">${phone && phone !== "–" ? `<a href="tel:${phone}" style="color:#f5f5f0;text-decoration:none">${phone}</a>` : "–"}</td>
+        <td style="padding:10px 0;color:#f5f5f0">${phone && phone !== "–" ? `<a href="tel:${escHtml(phone)}" style="color:#f5f5f0;text-decoration:none">${escHtml(phone)}</a>` : "–"}</td>
       </tr>
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Type</td>
-        <td style="padding:10px 0;color:#f5f5f0;font-weight:500">${type}</td>
+        <td style="padding:10px 0;color:#f5f5f0;font-weight:500">${escHtml(type)}</td>
       </tr>
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Message</td>
-        <td style="padding:10px 0;color:#c8c8c0;line-height:1.65;white-space:pre-line">${message}</td>
+        <td style="padding:10px 0;color:#c8c8c0;line-height:1.65;white-space:pre-line">${escHtml(message)}</td>
       </tr>
       ${links && links !== "–" ? `<tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Liens</td>
-        <td style="padding:10px 0;color:#c8c8c0;word-break:break-all">${links}</td>
+        <td style="padding:10px 0;color:#c8c8c0;word-break:break-all">${escHtml(links)}</td>
       </tr>` : ""}
       <tr>
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Date</td>
-        <td style="padding:10px 0;color:#f5f5f0">${date}</td>
+        <td style="padding:10px 0;color:#f5f5f0">${escHtml(date)}</td>
       </tr>
     </table>
 
     <div style="background:#0e0e0c;border:1px solid #1c1c1a;padding:14px 16px;margin-bottom:20px">
       <p style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 8px">Actions rapides</p>
-      <a href="mailto:${email}?subject=Re: Ta demande de consulting – Noirland Music&body=Yo ${name},%0A%0A" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-right:8px">
+      <a href="mailto:${escHtml(email)}?subject=Re: Ta demande de consulting – Noirland Music&body=Yo ${escHtml(name)},%0A%0A" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-right:8px">
         Répondre →
       </a>
-      ${phone && phone !== "–" ? `<a href="tel:${phone}" style="display:inline-block;background:transparent;color:#f5f5f0;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #1c1c1a">Appeler</a>` : ""}
+      ${phone && phone !== "–" ? `<a href="tel:${escHtml(phone)}" style="display:inline-block;background:transparent;color:#f5f5f0;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #1c1c1a">Appeler</a>` : ""}
     </div>
 
     <p style="font-family:monospace;font-size:0.56rem;color:#444440;text-align:center;margin:0;letter-spacing:0.08em">
-      Noirland Music · Demande consulting · ID: ${requestId}
+      Noirland Music · Demande consulting · ID: ${escHtml(requestId)}
     </p>
 
   </td></tr>
@@ -1520,7 +1520,7 @@ exports.noirlandDemoSubmission = onDocumentCreated(
   <!-- MESSAGE -->
   <tr><td style="background:#111110;border-left:1px solid #1c1c1a;border-right:1px solid #1c1c1a;padding:0 28px 20px">
     <p style="font-size:0.95rem;color:#c8c8c0;line-height:1.75;margin:0">
-      Yo <strong style="color:#f5f5f0">${nom}</strong> 🏴<br><br>
+      Yo <strong style="color:#f5f5f0">${escHtml(nom)}</strong> 🏴<br><br>
       Ta démo est bien reçue et enregistrée chez Noirland Music. On l'écoute et on revient vers toi sous <strong style="color:#f5f5f0">7 jours</strong> si le projet nous intéresse.<br><br>
       Voici le récap de ce que tu nous as soumis.
     </p>
@@ -1531,23 +1531,23 @@ exports.noirlandDemoSubmission = onDocumentCreated(
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1c1c1a">
       <tr><td style="background:#0e0e0c;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">🎵 Genre musical</span><br>
-        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:500">${genre}</span>
+        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block;font-weight:500">${escHtml(genre)}</span>
       </td></tr>
       ${ville && ville !== "–" ? `<tr><td style="background:#080808;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">📍 Ville / Département</span><br>
-        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block">${ville}</span>
+        <span style="font-size:0.95rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(ville)}</span>
       </td></tr>` : ""}
       <tr><td style="background:#0e0e0c;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">🔗 Lien de ta démo</span><br>
-        <a href="${lien}" style="font-size:0.88rem;color:#f5f5f0;margin-top:4px;display:block;word-break:break-all;text-decoration:underline">${lien}</a>
+        <a href="${escHtml(lien)}" style="font-size:0.88rem;color:#f5f5f0;margin-top:4px;display:block;word-break:break-all;text-decoration:underline">${escHtml(lien)}</a>
       </td></tr>
       ${message ? `<tr><td style="background:#080808;padding:12px 18px;border-bottom:1px solid #1c1c1a">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">💬 Ton message</span><br>
-        <span style="font-size:0.88rem;color:#c8c8c0;margin-top:6px;display:block;line-height:1.65;white-space:pre-line">${message}</span>
+        <span style="font-size:0.88rem;color:#c8c8c0;margin-top:6px;display:block;line-height:1.65;white-space:pre-line">${escHtml(message)}</span>
       </td></tr>` : ""}
       <tr><td style="background:#0e0e0c;padding:12px 18px">
         <span style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.15em;text-transform:uppercase">📅 Date de soumission</span><br>
-        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:4px;display:block">${date}</span>
+        <span style="font-size:0.88rem;color:#f5f5f0;margin-top:4px;display:block">${escHtml(date)}</span>
       </td></tr>
     </table>
   </td></tr>
@@ -1623,47 +1623,47 @@ exports.noirlandDemoSubmission = onDocumentCreated(
     <table width="100%" cellpadding="0" cellspacing="0" style="font-size:0.85rem;border-collapse:collapse;margin-bottom:20px">
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;width:130px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Artiste</td>
-        <td style="padding:10px 0;font-weight:bold;color:#f5f5f0">${nom}</td>
+        <td style="padding:10px 0;font-weight:bold;color:#f5f5f0">${escHtml(nom)}</td>
       </tr>
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Email</td>
-        <td style="padding:10px 0"><a href="mailto:${email}" style="color:#f5f5f0;text-decoration:none">${email}</a></td>
+        <td style="padding:10px 0"><a href="mailto:${escHtml(email)}" style="color:#f5f5f0;text-decoration:none">${escHtml(email)}</a></td>
       </tr>
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Genre</td>
-        <td style="padding:10px 0;color:#f5f5f0;font-weight:500">${genre}</td>
+        <td style="padding:10px 0;color:#f5f5f0;font-weight:500">${escHtml(genre)}</td>
       </tr>
       ${ville && ville !== "–" ? `<tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Ville</td>
-        <td style="padding:10px 0;color:#f5f5f0">${ville}</td>
+        <td style="padding:10px 0;color:#f5f5f0">${escHtml(ville)}</td>
       </tr>` : ""}
       <tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Démo</td>
-        <td style="padding:10px 0"><a href="${lien}" style="color:#f5f5f0;text-decoration:underline;word-break:break-all">${lien}</a></td>
+        <td style="padding:10px 0"><a href="${escHtml(lien)}" style="color:#f5f5f0;text-decoration:underline;word-break:break-all">${escHtml(lien)}</a></td>
       </tr>
       ${message ? `<tr style="border-bottom:1px solid #1c1c1a">
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Message</td>
-        <td style="padding:10px 0;color:#c8c8c0;line-height:1.65;white-space:pre-line">${message}</td>
+        <td style="padding:10px 0;color:#c8c8c0;line-height:1.65;white-space:pre-line">${escHtml(message)}</td>
       </tr>` : ""}
       <tr>
         <td style="color:#888882;padding:10px 0;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top">Date</td>
-        <td style="padding:10px 0;color:#f5f5f0">${date}</td>
+        <td style="padding:10px 0;color:#f5f5f0">${escHtml(date)}</td>
       </tr>
     </table>
 
     <!-- Actions rapides -->
     <div style="background:#0e0e0c;border:1px solid #1c1c1a;padding:14px 16px;margin-bottom:16px">
       <p style="font-family:monospace;font-size:0.6rem;color:#888882;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 10px">Actions rapides</p>
-      <a href="${lien}" target="_blank" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-right:8px">
+      <a href="${escHtml(lien)}" target="_blank" style="display:inline-block;background:#f5f5f0;color:#080808;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-right:8px">
         🎵 Écouter la démo →
       </a>
-      <a href="mailto:${email}?subject=Ta démo – Noirland Music&body=Yo ${nom},%0A%0A" style="display:inline-block;background:transparent;color:#f5f5f0;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #1c1c1a">
+      <a href="mailto:${escHtml(email)}?subject=Ta démo – Noirland Music&body=Yo ${escHtml(nom)},%0A%0A" style="display:inline-block;background:transparent;color:#f5f5f0;text-decoration:none;padding:8px 18px;font-family:monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #1c1c1a">
         Répondre
       </a>
     </div>
 
     <p style="font-family:monospace;font-size:0.56rem;color:#444440;text-align:center;margin:0;letter-spacing:0.08em">
-      Noirland Music · Soumission démo · ID: ${id}
+      Noirland Music · Soumission démo · ID: ${escHtml(id)}
     </p>
   </td></tr>
 </table>
@@ -1754,7 +1754,7 @@ exports.sendReminderManual = onCall(
         from: "Makouez IT <contact@makouezit.org>",
         to: [email],
         subject: `🔔 Rappel : votre RDV Makouez IT demain – ${dateFormatted}`,
-        html: `<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head> <body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"> <tr><td align="center"> <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"> <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"> <span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span> </td></tr> <tr><td align="center" style="padding:36px 32px 20px"> <div style="font-size:48px">🔔</div> <h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">C'est pour demain !</h1> <p style="margin:0;color:#8888aa;font-size:15px"> Bonjour <strong style="color:#f0f0ff">${nom}</strong>,<br> petit rappel : votre rendez-vous Makouez IT a lieu <strong style="color:#3b82f6">demain</strong>.<br> Voici tout ce qu'il faut savoir pour bien le préparer. </p> </td></tr> <tr><td style="padding:0 32px 16px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🔧 Service</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${service}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">📅 Date</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${dateFormatted}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🕐 Plage horaire</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${timeLabel}</span> </td></tr> <tr><td style="padding:16px 20px${price ? ';border-bottom:1px solid #ffffff10' : ''}"> <span style="color:#8888aa;font-size:13px">📍 Adresse</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${adresse}</span> </td></tr> ${price ? `<tr><td style="padding:16px 20px"> <span style="color:#8888aa;font-size:13px">💰 Tarif indicatif</span><br> <span style="color:#3b82f6;font-size:15px;font-weight:600">${price}</span> </td></tr>` : ""} </table> </td></tr> <tr><td style="padding:8px 32px 24px"> <h2 style="margin:16px 0 12px;font-size:16px;font-weight:700;color:#3b82f6">📋 Préparez votre rendez-vous</h2> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff05;border-left:3px solid #3b82f6;border-radius:6px"> <tr><td style="padding:14px 18px"> <table cellpadding="0" cellspacing="0" style="font-size:14px;color:#c8c8d8;line-height:1.9"> <tr><td>✓ Sauvegardez vos données importantes si possible</td></tr> <tr><td>✓ Ayez vos identifiants et mots de passe à portée</td></tr> <tr><td>✓ Préparez l'appareil concerné, branché et accessible</td></tr> <tr><td>✓ Prévoyez une prise électrique disponible</td></tr> <tr><td>✓ Listez les problèmes ou symptômes rencontrés</td></tr> <tr><td>✓ Prévoyez un moyen de paiement (espèces, virement, CB)</td></tr> </table> </td></tr> </table> </td></tr> <tr><td style="padding:0 32px 24px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#3b82f610;border:1px solid #3b82f640;border-radius:10px"> <tr><td style="padding:14px 18px"> <p style="margin:0;color:#f0f0ff;font-size:14px;line-height:1.6"> <strong>Empêchement ou question ?</strong><br> <span style="color:#8888aa">Contactez Stevy au plus vite :</span><br> 📞 <a href="tel:+33745103827" style="color:#3b82f6;text-decoration:none">07 45 10 38 27</a><br> ✉️ <a href="mailto:s.makouezi@gmail.com" style="color:#3b82f6;text-decoration:none">s.makouezi@gmail.com</a> </p> </td></tr> </table> <div style="text-align:center;margin-top:24px"> <a href="${SITE_URL}/suivi-rdv.html?id=${rdvId}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500">→ Voir / modifier ma réservation</a> </div> <p style="margin:24px 0 0;text-align:center;color:#8888aa;font-size:12px;line-height:1.6"> À demain !<br> <strong style="color:#f0f0ff">Stevy — Makouez IT</strong><br> <span style="color:#ffffff30">Intervention à domicile en Île-de-France</span> </p> </td></tr> </table> </td></tr> </table> </body></html>`,
+        html: `<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head> <body style="margin:0;padding:0;background:#09090f;font-family:'Segoe UI',Arial,sans-serif;color:#f0f0ff"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#09090f;padding:40px 20px"> <tr><td align="center"> <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#111120;border:1px solid #ffffff14;border-radius:16px;overflow:hidden"> <tr><td style="background:#16162a;padding:24px 32px;border-bottom:1px solid #ffffff14"> <span style="font-size:20px;font-weight:800;color:#f0f0ff">Makouez <span style="color:#3b82f6">IT</span></span> </td></tr> <tr><td align="center" style="padding:36px 32px 20px"> <div style="font-size:48px">🔔</div> <h1 style="margin:20px 0 8px;font-size:22px;font-weight:700;color:#f0f0ff">C'est pour demain !</h1> <p style="margin:0;color:#8888aa;font-size:15px"> Bonjour <strong style="color:#f0f0ff">${escHtml(nom)}</strong>,<br> petit rappel : votre rendez-vous Makouez IT a lieu <strong style="color:#3b82f6">demain</strong>.<br> Voici tout ce qu'il faut savoir pour bien le préparer. </p> </td></tr> <tr><td style="padding:0 32px 16px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;overflow:hidden"> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🔧 Service</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(service)}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">📅 Date</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(dateFormatted)}</span> </td></tr> <tr><td style="padding:16px 20px;border-bottom:1px solid #ffffff10"> <span style="color:#8888aa;font-size:13px">🕐 Plage horaire</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(timeLabel)}</span> </td></tr> <tr><td style="padding:16px 20px${price ? ';border-bottom:1px solid #ffffff10' : ''}"> <span style="color:#8888aa;font-size:13px">📍 Adresse</span><br> <span style="color:#f0f0ff;font-size:15px;font-weight:500">${escHtml(adresse)}</span> </td></tr> ${price ? `<tr><td style="padding:16px 20px"> <span style="color:#8888aa;font-size:13px">💰 Tarif indicatif</span><br> <span style="color:#3b82f6;font-size:15px;font-weight:600">${escHtml(price)}</span> </td></tr>` : ""} </table> </td></tr> <tr><td style="padding:8px 32px 24px"> <h2 style="margin:16px 0 12px;font-size:16px;font-weight:700;color:#3b82f6">📋 Préparez votre rendez-vous</h2> <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff05;border-left:3px solid #3b82f6;border-radius:6px"> <tr><td style="padding:14px 18px"> <table cellpadding="0" cellspacing="0" style="font-size:14px;color:#c8c8d8;line-height:1.9"> <tr><td>✓ Sauvegardez vos données importantes si possible</td></tr> <tr><td>✓ Ayez vos identifiants et mots de passe à portée</td></tr> <tr><td>✓ Préparez l'appareil concerné, branché et accessible</td></tr> <tr><td>✓ Prévoyez une prise électrique disponible</td></tr> <tr><td>✓ Listez les problèmes ou symptômes rencontrés</td></tr> <tr><td>✓ Prévoyez un moyen de paiement (espèces, virement, CB)</td></tr> </table> </td></tr> </table> </td></tr> <tr><td style="padding:0 32px 24px"> <table width="100%" cellpadding="0" cellspacing="0" style="background:#3b82f610;border:1px solid #3b82f640;border-radius:10px"> <tr><td style="padding:14px 18px"> <p style="margin:0;color:#f0f0ff;font-size:14px;line-height:1.6"> <strong>Empêchement ou question ?</strong><br> <span style="color:#8888aa">Contactez Stevy au plus vite :</span><br> 📞 <a href="tel:+33745103827" style="color:#3b82f6;text-decoration:none">07 45 10 38 27</a><br> ✉️ <a href="mailto:s.makouezi@gmail.com" style="color:#3b82f6;text-decoration:none">s.makouezi@gmail.com</a> </p> </td></tr> </table> <div style="text-align:center;margin-top:24px"> <a href="${SITE_URL}/suivi-rdv.html?id=${escHtml(rdvId)}" style="display:inline-block;background:#3b82f6;color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:500">→ Voir / modifier ma réservation</a> </div> <p style="margin:24px 0 0;text-align:center;color:#8888aa;font-size:12px;line-height:1.6"> À demain !<br> <strong style="color:#f0f0ff">Stevy — Makouez IT</strong><br> <span style="color:#ffffff30">Intervention à domicile en Île-de-France</span> </p> </td></tr> </table> </td></tr> </table> </body></html>`,
       });
       console.log(`✅ Rappel J-1 envoyé à ${email} pour RDV ${rdvId}`);
     } catch (err) {

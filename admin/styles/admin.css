@@ -72,3 +72,14 @@ h1,h2{font-family:'Syne',sans-serif}
 @media (max-width:480px){
   .content-area{padding:1rem}
 }
+
+/* ─── 2FA (TOTP) ─────────────────────────────────────────────────────────── */
+.mfa-help{color:var(--muted);font-size:0.85rem;line-height:1.5;margin:0}
+.mfa-steps{color:var(--muted);font-size:0.85rem;line-height:1.5;margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:0.35rem}
+.mfa-code{text-align:center;font-size:1.4rem;letter-spacing:0.4em;font-variant-numeric:tabular-nums}
+.mfa-qr{display:flex;justify-content:center;background:#fff;border-radius:12px;padding:0.75rem;min-height:120px}
+.mfa-qr img{width:200px;height:200px;image-rendering:pixelated}
+.mfa-secret-wrap{font-size:0.82rem;color:var(--muted)}
+.mfa-secret-wrap summary{cursor:pointer}
+.mfa-secret{display:block;margin-top:0.5rem;padding:0.5rem;border:1px solid var(--border);border-radius:8px;word-break:break-all;font-size:0.85rem;color:var(--text)}
+.mfa-warning{position:fixed;left:0;right:0;bottom:0;z-index:999;background:#fef3c7;color:#92400e;border-top:1px solid #f59e0b;padding:0.6rem 1rem;font-size:0.85rem;text-align:center}
