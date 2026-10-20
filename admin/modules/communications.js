@@ -11,6 +11,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { db, fns, callSendCampaign } from '../core/firebase.js';
+import { escapeHtml, jsArg } from '../core/escape.js';
 import { store, emit, on } from '../core/store.js';
 import { TEMPLATE_KINDS, CLIENT_TAGS_PRESET } from '../core/ui.js';
 import { getClientsIndex } from './clients.js';
@@ -118,9 +119,6 @@ export async function loadCampagnes() {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-}
 
 function formatDate(ts) {
   if (!ts) return '–';
@@ -157,9 +155,9 @@ function renderTemplates() {
         </div>
         <div class="comm-row-stats"></div>
         <div class="comm-row-actions">
-          <button class="btn-soft" onclick="openTemplateForm('${t.id}')" title="Modifier">✏️</button>
-          <button class="btn-soft" onclick="useTemplateForCampagne('${t.id}')" title="Utiliser pour une campagne">📤 Utiliser</button>
-          <button class="btn-cancel" onclick="deleteTemplate('${t.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
+          <button class="btn-soft" onclick="openTemplateForm(${jsArg(t.id)})" title="Modifier">✏️</button>
+          <button class="btn-soft" onclick="useTemplateForCampagne(${jsArg(t.id)})" title="Utiliser pour une campagne">📤 Utiliser</button>
+          <button class="btn-cancel" onclick="deleteTemplate(${jsArg(t.id)})" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
         </div>
       </div>`;
   }).join('');
@@ -187,13 +185,13 @@ function renderCampagnes() {
 
     const actions = [];
     if (!c.sentAt) {
-      actions.push(`<button class="btn-soft"    onclick="openCampagneForm('${c.id}')" title="Modifier">✏️</button>`);
-      actions.push(`<button class="btn-confirm" onclick="sendExistingCampagne('${c.id}')" title="Envoyer">📤 Envoyer</button>`);
+      actions.push(`<button class="btn-soft"    onclick="openCampagneForm(${jsArg(c.id)})" title="Modifier">✏️</button>`);
+      actions.push(`<button class="btn-confirm" onclick="sendExistingCampagne(${jsArg(c.id)})" title="Envoyer">📤 Envoyer</button>`);
     } else {
-      actions.push(`<button class="btn-soft"    onclick="openCampagneForm('${c.id}')" title="Voir détails">👁</button>`);
-      actions.push(`<button class="btn-soft"    onclick="duplicateCampagne('${c.id}')" title="Dupliquer">⧉</button>`);
+      actions.push(`<button class="btn-soft"    onclick="openCampagneForm(${jsArg(c.id)})" title="Voir détails">👁</button>`);
+      actions.push(`<button class="btn-soft"    onclick="duplicateCampagne(${jsArg(c.id)})" title="Dupliquer">⧉</button>`);
     }
-    actions.push(`<button class="btn-cancel" onclick="deleteCampagne('${c.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>`);
+    actions.push(`<button class="btn-cancel" onclick="deleteCampagne(${jsArg(c.id)})" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>`);
 
     return `
       <div class="comm-row">
@@ -581,9 +579,9 @@ function renderFiches() {
           ${f.downloads ? `<strong>${f.downloads}</strong> téléch.` : ''}
         </div>
         <div class="comm-row-actions">
-          <button class="btn-soft" onclick="openFicheForm('${f.id}')" title="Modifier">✏️</button>
-          <button class="btn-soft" onclick="copyFicheUrl('${f.id}')" title="Copier l'URL">⧉</button>
-          <button class="btn-cancel" onclick="deleteFiche('${f.id}')" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
+          <button class="btn-soft" onclick="openFicheForm(${jsArg(f.id)})" title="Modifier">✏️</button>
+          <button class="btn-soft" onclick="copyFicheUrl(${jsArg(f.id)})" title="Copier l'URL">⧉</button>
+          <button class="btn-cancel" onclick="deleteFiche(${jsArg(f.id)})" title="Supprimer" style="flex:0 0 auto;padding:0.4rem 0.6rem">🗑</button>
         </div>
       </div>`;
   }).join('');

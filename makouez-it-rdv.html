@@ -948,7 +948,7 @@ function renderSummary() {
     rows.push({key:'Tarif indicatif',val:pricing.displayPrice});
   }
 
-  document.getElementById('summaryRows').innerHTML=rows.map(r=>`<div class="summary-row"><span class="key">${r.key}</span><span class="val">${r.val||'—'}</span></div>`).join('');
+  document.getElementById('summaryRows').innerHTML=rows.map(r=>`<div class="summary-row"><span class="key">${esc(r.key)}</span><span class="val">${esc(r.val||'—')}</span></div>`).join('');
 }
 
 // ══════════════════════════════════════════════

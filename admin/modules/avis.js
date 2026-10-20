@@ -6,6 +6,7 @@
 import { db, fns } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
 import { setSidebarBadge } from '../core/ui.js';
+import { esc, attr, jsArg } from '../core/escape.js';
 
 // ─── Chargements ──────────────────────────────────────────────────────────
 export async function loadAvis() {
@@ -50,25 +51,26 @@ function renderAvisEnAttente() {
 
   list.innerHTML = store.avisEnAttente
     .map((a) => {
-      const stars = '★'.repeat(a.note || 0) + '☆'.repeat(5 - (a.note || 0));
+      const n = Math.max(0, Math.min(5, Math.round(Number(a.note) || 0)));
+      const stars = '★'.repeat(n) + '☆'.repeat(5 - n);
       const date = a.createdAt?.toDate
         ? a.createdAt
             .toDate()
             .toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
         : '';
-      return `<div class="avis-attente-card" id="attente-${a.id}">
+      return `<div class="avis-attente-card" id="attente-${attr(a.id)}">
         <div class="avis-attente-top">
           <div style="display:flex;align-items:center;gap:0.75rem">
             <span style="color:#f59e0b;font-size:0.9rem">${stars}</span>
-            <strong style="font-size:0.9rem">${a.nom || '–'}</strong>
+            <strong style="font-size:0.9rem">${esc(a.nom || '–')}</strong>
             <span style="color:var(--muted);font-size:0.75rem">${date}</span>
           </div>
           <div class="avis-attente-actions">
-            <button class="btn-approve" onclick="approuverAvis('${a.id}')">✓ Approuver</button>
-            <button class="btn-reject" onclick="rejeterAvis('${a.id}')">✗ Rejeter</button>
+            <button class="btn-approve" onclick="approuverAvis(${jsArg(a.id)})">✓ Approuver</button>
+            <button class="btn-reject" onclick="rejeterAvis(${jsArg(a.id)})">✗ Rejeter</button>
           </div>
         </div>
-        <div style="color:var(--muted);font-size:0.85rem;font-style:italic">"${a.comment || ''}"</div>
+        <div style="color:var(--muted);font-size:0.85rem;font-style:italic">"${esc(a.comment || '')}"</div>
       </div>`;
     })
     .join('');
@@ -89,24 +91,25 @@ function renderAvis() {
 
   list.innerHTML = store.allAvis
     .map((a) => {
-      const stars = '★'.repeat(a.note || 0) + '☆'.repeat(5 - (a.note || 0));
+      const n = Math.max(0, Math.min(5, Math.round(Number(a.note) || 0)));
+      const stars = '★'.repeat(n) + '☆'.repeat(5 - n);
       const date = a.createdAt?.toDate
         ? a.createdAt
             .toDate()
             .toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
         : '';
-      return `<div class="avis-admin-card" id="avis-${a.id}">
+      return `<div class="avis-admin-card" id="avis-${attr(a.id)}">
         <div class="avis-admin-top">
           <div style="display:flex;align-items:center;gap:0.75rem">
             <div class="avis-stars-display">${stars}</div>
-            <div class="avis-nom">${a.nom || '–'}</div>
+            <div class="avis-nom">${esc(a.nom || '–')}</div>
           </div>
           <div style="display:flex;align-items:center;gap:0.75rem">
             <div class="avis-date-text">${date}</div>
-            <button class="btn-delete-avis" onclick="deleteAvis('${a.id}')">🗑 Supprimer</button>
+            <button class="btn-delete-avis" onclick="deleteAvis(${jsArg(a.id)})">🗑 Supprimer</button>
           </div>
         </div>
-        <div class="avis-comment-text">"${a.comment || ''}"</div>
+        <div class="avis-comment-text">"${esc(a.comment || '')}"</div>
       </div>`;
     })
     .join('');

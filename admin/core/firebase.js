@@ -25,6 +25,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  multiFactor,
+  getMultiFactorResolver,
+  TotpMultiFactorGenerator,
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import {
   getFunctions,
@@ -60,6 +63,10 @@ export const fns = {
   runTransaction,
   signInWithEmailAndPassword,
   signOut,
+  // 2FA (TOTP — application d'authentification)
+  multiFactor,
+  getMultiFactorResolver,
+  TotpMultiFactorGenerator,
 };
 
 export { onAuthStateChanged };

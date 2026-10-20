@@ -6,6 +6,7 @@
 
 import { db, fns } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
+import { esc, jsArg } from '../core/escape.js';
 import {
   CONTRAT_LABELS,
   CONTRAT_TARIFS,
@@ -64,8 +65,8 @@ function updateContratStats() {
     .map(
       ([k, count]) => `
         <div class="mrr-line">
-          <div class="mrr-dot" style="background:${colors[k]}"></div>
-          <span style="color:var(--muted)">${CONTRAT_LABELS[k]}</span>
+          <div class="mrr-dot" style="background:${colors[k] || '#94a3b8'}"></div>
+          <span style="color:var(--muted)">${esc(CONTRAT_LABELS[k] || k)}</span>
           <span style="margin-left:auto;font-weight:600">${count}×${CONTRAT_TARIFS[k]}€</span>
         </div>`,
     )
@@ -129,30 +130,30 @@ function renderContrats() {
     card.className = `contrat-card-admin ${c.status}`;
     card.innerHTML = `
       <div class="contrat-top">
-        <div class="contrat-name">${c.nom || '–'} <span class="contrat-pill ${pill}">${label}</span></div>
+        <div class="contrat-name">${esc(c.nom || '–')} <span class="contrat-pill ${pill}">${esc(label)}</span></div>
         <div class="rdv-badges">
-          <div class="rdv-badge ${badgeMap[c.status] || ''}">${statusMap[c.status] || c.status}</div>
+          <div class="rdv-badge ${badgeMap[c.status] || ''}">${statusMap[c.status] || esc(c.status)}</div>
           ${c.status === 'active'
             ? `<div class="rdv-badge" style="background:#a855f715;color:#a855f7;border:1px solid #a855f730">${tarif}</div>`
             : ''}
         </div>
       </div>
       <div class="rdv-info">
-        <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${c.telephone || '–'}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${c.email || '–'}</div></div>
-        <div class="rdv-info-item"><div class="rdv-info-label">📍 Adresse</div><div>${c.adresse || '–'}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📞 Téléphone</div><div>${esc(c.telephone || '–')}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📧 Email</div><div>${esc(c.email || '–')}</div></div>
+        <div class="rdv-info-item"><div class="rdv-info-label">📍 Adresse</div><div>${esc(c.adresse || '–')}</div></div>
         <div class="rdv-info-item"><div class="rdv-info-label">📅 Demande reçue</div><div>${date}</div></div>
         ${dateAct ? `<div class="rdv-info-item"><div class="rdv-info-label">✅ Actif depuis</div><div>${dateAct}</div></div>` : ''}
         <div class="rdv-info-item"><div class="rdv-info-label">💰 Tarif</div><div>${tarif}</div></div>
       </div>
-      ${c.note ? `<div class="rdv-desc">💬 ${c.note}</div>` : ''}
+      ${c.note ? `<div class="rdv-desc">💬 ${esc(c.note)}</div>` : ''}
       <div class="rdv-actions">
-        ${c.status === 'new' ? `<button class="btn-purple" onclick="updateContratStatus('${c.id}','contacted')">📞 Marquer contacté</button>` : ''}
-        ${c.status === 'contacted' ? `<button class="btn-confirm" onclick="updateContratStatus('${c.id}','active')">✅ Activer le contrat</button>` : ''}
-        ${c.status === 'active' ? `<button class="btn-done" onclick="updateContratStatus('${c.id}','contacted')">↩ Repasser en contacté</button>` : ''}
+        ${c.status === 'new' ? `<button class="btn-purple" onclick="updateContratStatus(${jsArg(c.id)},'contacted')">📞 Marquer contacté</button>` : ''}
+        ${c.status === 'contacted' ? `<button class="btn-confirm" onclick="updateContratStatus(${jsArg(c.id)},'active')">✅ Activer le contrat</button>` : ''}
+        ${c.status === 'active' ? `<button class="btn-done" onclick="updateContratStatus(${jsArg(c.id)},'contacted')">↩ Repasser en contacté</button>` : ''}
         ${c.status !== 'cancelled'
-          ? `<button class="btn-cancel" onclick="updateContratStatus('${c.id}','cancelled')">Résilier</button>`
-          : `<button class="btn-cancel" onclick="deleteContrat('${c.id}')">🗑 Supprimer</button>`}
+          ? `<button class="btn-cancel" onclick="updateContratStatus(${jsArg(c.id)},'cancelled')">Résilier</button>`
+          : `<button class="btn-cancel" onclick="deleteContrat(${jsArg(c.id)})">🗑 Supprimer</button>`}
       </div>`;
     list.appendChild(card);
   });
