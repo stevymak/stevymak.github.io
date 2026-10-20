@@ -12,12 +12,12 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
     import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { initializeFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    import { initializeFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js";
 
     const firebaseConfig = {
       apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -503,16 +503,16 @@
   <!-- SUCCESS -->
   <div class="success-card" id="successCard">
   <div class="success-icon"><span aria-hidden="true">✅</span></div>
-  <h2>Demande envoyee</h2>
-  <p>Stevy vous confirmera votre rendez-vous par email ou telephone des que possible.</p>
+  <h2>Demande envoyée</h2>
+  <p>Stevy vous confirmera votre rendez-vous par email ou téléphone dès que possible.</p>
   <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.82rem;color:#92400e;text-align:left;">
-    <span aria-hidden="true">📬</span> <strong>Pensez a verifier votre boite mail.</strong> Si vous ne voyez rien dans les 5 minutes, regardez aussi vos spams ou indésirables.
+    <span aria-hidden="true">📬</span> <strong>Pensez à vérifier votre boîte mail.</strong> Si vous ne voyez rien dans les 5 minutes, regardez aussi vos spams ou indésirables.
   </div>
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.82rem;color:#475569;text-align:left;">
       <strong>Ce qui se passe ensuite :</strong><br>
-      1. Stevy verifie votre demande.<br>
-      2. Il vous confirme le creneau ou vous recontacte rapidement.<br>
-      3. Si vous avez cree un compte, vous pourrez suivre la demande depuis votre espace client.
+      1. Stevy vérifie votre demande.<br>
+      2. Il vous confirme le créneau ou vous recontacte rapidement.<br>
+      3. Si vous avez créé un compte, vous pourrez suivre la demande depuis votre espace client.
     </div>
     <div class="success-actions">
       <a href="mon-rdv.html" class="btn btn-primary" style="text-decoration:none;">→ Voir mon espace client</a>

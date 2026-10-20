@@ -5,8 +5,8 @@
 // pour faciliter une migration progressive vers les imports ES modules natifs.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js';
 
 import { APP_CHECK_SITE_KEY } from '/appcheck-config.js';
 import {
@@ -22,7 +22,7 @@ import {
   query,
   serverTimestamp,
   runTransaction,
-} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -31,11 +31,11 @@ import {
   multiFactor,
   getMultiFactorResolver,
   TotpMultiFactorGenerator,
-} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 import {
   getFunctions,
   httpsCallable,
-} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js';
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0',

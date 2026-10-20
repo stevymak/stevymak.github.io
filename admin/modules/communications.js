@@ -53,7 +53,7 @@ export async function loadAutomationSettings() {
   try {
     const { doc, getDocs, collection } = fns;
     // Méthode simple : on lit directement le doc settings/automations
-    const { getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const { getDoc } = await import('https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js');
     const ref  = doc(db, 'settings', 'automations');
     const snap = await getDoc(ref);
     const s    = snap.exists() ? snap.data() : {};
