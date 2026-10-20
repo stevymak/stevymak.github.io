@@ -25,7 +25,7 @@ Le code de l'admin exige désormais une application d'authentification. Tant que
 4. **Enrôler le téléphone** : après fusion, se connecter à `/admin.html` → l'écran « Activer la vérification en deux étapes » s'affiche → scanner le QR code avec Google Authenticator / Microsoft Authenticator → saisir le code → se reconnecter (le code est alors demandé à chaque connexion).
 5. **Conserver la clé de secours** affichée sous « Impossible de scanner ? » dans un gestionnaire de mots de passe : en cas de perte du téléphone, c'est le seul moyen de régénérer les codes. À défaut, retirer la 2FA depuis Google Cloud Shell, puis se reconnecter pour en enrôler une nouvelle :
    ```bash
-   npm i firebase-admin && node -e "const a=require('firebase-admin');a.initializeApp({projectId:'makouez-it'});a.auth().getUserByEmail('s.makouezi@gmail.com').then(u=>a.auth().updateUser(u.uid,{multiFactor:{enrolledFactors:null}})).then(()=>console.log('2FA retirée'))"
+   npm i firebase-admin && node -e "const {initializeApp}=require('firebase-admin/app');const {getAuth}=require('firebase-admin/auth');initializeApp({projectId:'makouez-it'});getAuth().getUserByEmail('s.makouezi@gmail.com').then(u=>getAuth().updateUser(u.uid,{multiFactor:{enrolledFactors:null}})).then(()=>console.log('2FA retirée')).catch(e=>console.error('Erreur :',e.message))"
    ```
 
 Source : https://firebase.google.com/docs/auth/web/totp-mfa
