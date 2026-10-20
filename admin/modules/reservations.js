@@ -4,7 +4,7 @@
 // Inclut la création / édition d'un RDV directement depuis l'admin.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { db, fns, callSendReminder } from '../core/firebase.js';
+import { db, fns, callSendReminder, callRebuildSlots } from '../core/firebase.js';
 import { store, emit, on } from '../core/store.js';
 import { formatDateLong } from '../core/ui.js';
 import { promptInput } from '../core/prompt.js';
@@ -465,6 +465,18 @@ document.getElementById('rdvCreateModal')?.addEventListener('click', (e) => {
 });
 
 // ─── Compat handlers inline ───────────────────────────────────────────────
+// Recalcule la collection publique `slots` (Cloud Function rebuildSlots, admin seulement).
+async function rebuildSlots() {
+  if (!confirm('Recalculer les créneaux du calendrier public à partir des réservations actives ?')) return;
+  try {
+    const { data } = await callRebuildSlots();
+    alert(`Créneaux recalculés : ${data.recrees} créneau(x) actif(s) (${data.supprimes} ancien(s) remplacé(s)).`);
+  } catch (e) {
+    alert('Échec du recalcul : ' + (e?.message || e));
+  }
+}
+
+window.rebuildSlots       = rebuildSlots;
 window.loadAll            = loadAll;
 window.setFilter          = setFilter;
 window.openRdvModal       = openRdvModal;

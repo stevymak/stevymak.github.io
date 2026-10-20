@@ -1750,7 +1750,7 @@ exports.sendReminderManual = onCall(
     if (!request.auth) {
       throw new HttpsError("unauthenticated", "Connexion requise.");
     }
-    if (!request.auth.token.admin && request.auth.token.email !== "s.makouezi@gmail.com") {
+    if (request.auth.token.admin !== true) {
       throw new HttpsError("permission-denied", "Accès admin requis.");
     }
 

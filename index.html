@@ -1406,9 +1406,16 @@ function closeModal() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
 import { getFirestore, collection, getDocs, getDoc, doc, addDoc, orderBy, query, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const firebaseConfig = { apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a" };
 const app = initializeApp(firebaseConfig);
+// App Check (reCAPTCHA Enterprise) : actif dès que la clé est renseignée dans /appcheck-config.js
+if (APP_CHECK_SITE_KEY) {
+  try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); }
+  catch (e) { console.warn('App Check indisponible :', e); }
+}
 const db  = getFirestore(app);
 const MSG_VIDE = '<div class="avis-empty">Aucun avis pour le moment.<br>Vous avez fait appel à Makouez IT ? N\'hésitez pas à laisser le vôtre, ça m\'aide beaucoup !</div>';
 async function loadAvis() {

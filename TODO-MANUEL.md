@@ -43,6 +43,41 @@ La clé `AIzaSyBx…` est la configuration web Firebase : elle est publique par 
 ### S4. Après fusion : vérifier les 404
 Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/firebase.json`, `/functions/index.js`, `/functions/legacy-v2.js`, `/README.md`, `/TODO-MANUEL.md`, `/tests/rules.test.mjs`.
 
+### S5. Lot 3 — ordre de mise en production (important)
+1. **Déployer les fonctions** : `cd functions && npm ci && cd .. && firebase deploy --only functions` (nouvelles fonctions : `createReservation`, `syncSlot`, `rebuildSlots`, `unsubscribe`).
+2. **Fusionner la branche** dans `main` (la page de réservation appelle désormais `createReservation`).
+3. **Admin → Réservations → « 🗓 Recalculer les créneaux »** (une seule fois) : libère les créneaux bloqués par d'anciennes réservations annulées.
+4. **S'être enrôlé en 2FA** (S1, étape 4) : les nouvelles règles exigent la 2FA pour tout accès admin aux données.
+5. **Seulement ensuite**, déployer les règles Firestore validées : `firebase deploy --only firestore:rules`. Avant ce déploiement, l'ancienne règle permet encore de créer des réservations sans passer par la fonction.
+6. Tests des règles (sur un poste avec Java) : `cd tests && npm install && npm test`. Tests des fonctions : `cd functions && npm ci && node ../tests/functions-lot3.test.cjs`.
+
+### S6. App Check (reCAPTCHA Enterprise)
+1. Google Cloud Console (projet `makouez-it`) → *Security* → *reCAPTCHA* → **Créer une clé** : type *Site Web*, domaines `makouezit.org` et `www.makouezit.org`, sans case à cocher (score). Copier l'**ID de la clé**.
+2. Console Firebase → *App Check* → *Apps* → l'application web → **reCAPTCHA Enterprise** → coller l'ID de la clé → Enregistrer.
+3. Me donner l'ID de la clé (ou le coller dans `appcheck-config.js` : `APP_CHECK_SITE_KEY = 'xxxx'`), puis publier.
+4. **Attendre une semaine** en regardant *App Check → APIs → Cloud Firestore* : la part de requêtes « vérifiées » doit approcher 100 %.
+5. Ensuite seulement : *App Check → Cloud Firestore* et *Authentication* → **Appliquer**, et passer `ENFORCE_APP_CHECK = true` dans `functions/booking.js` puis redéployer les fonctions.
+   Ne pas appliquer avant : les visiteurs sans jeton valide seraient bloqués.
+
+### S7. En-têtes de sécurité (Cloudflare)
+Le site est servi directement par GitHub Pages (Cloudflare ne fait aujourd'hui que le DNS). GitHub Pages ne permet pas d'ajouter d'en-têtes : il faut faire passer le trafic par Cloudflare.
+1. Cloudflare → `makouezit.org` → **SSL/TLS** → Vue d'ensemble → mode **Complet (Full)**. Pas « Flexible » (boucle de redirection), pas « Complet (strict) » (risque de coupure lors du renouvellement du certificat GitHub).
+2. **DNS** → passer les enregistrements `makouezit.org` et `www` en **Proxied** (nuage orange). Vérifier que le site s'affiche.
+3. **SSL/TLS → Certificats Edge** → activer **Toujours utiliser HTTPS** et **HSTS** : `max-age` 12 mois, *sans* « includeSubDomains » ni « preload » pour commencer.
+4. **Règles → Transform Rules → Modifier l'en-tête de réponse** → créer une règle « Sécurité » s'appliquant à *Toutes les requêtes entrantes* avec :
+   - Définir `Content-Security-Policy-Report-Only` = contenu de `securite/csp.txt` (une ligne)
+   - Définir `X-Frame-Options` = `DENY`
+   - Définir `X-Content-Type-Options` = `nosniff`
+   - Définir `Referrer-Policy` = `strict-origin-when-cross-origin`
+   - Définir `Permissions-Policy` = `camera=(), microphone=(), geolocation=(), payment=(), usb=()`
+   - Définir `Cross-Origin-Opener-Policy` = `same-origin-allow-popups`
+   - Supprimer `Access-Control-Allow-Origin` (ajouté par GitHub Pages, inutile pour ce site)
+5. Après une semaine sans erreur « Content Security Policy » dans la console du navigateur (accueil, réservation, contrats, espace client, admin, chat), **renommer** l'en-tête `Content-Security-Policy-Report-Only` en `Content-Security-Policy`.
+6. Vérifier sur https://securityheaders.com/?q=makouezit.org (objectif : note A).
+
+### S8. Noirland Music — réservations de studio
+Les règles actuelles refusent les demandes de session envoyées par `reservation.html` de noirlandmusic.com (champs `name`, `date`, `source`…). Elles échouent probablement depuis le durcissement des règles. Les nouvelles règles (S5, étape 5) réautorisent exactement ce format. Le panneau admin de Noirland lit aussi `reservations` : avec les nouvelles règles, il faudra un compte avec le claim `admin` **et** la 2FA.
+
 ---
 
 ## 🔴 Priorité haute

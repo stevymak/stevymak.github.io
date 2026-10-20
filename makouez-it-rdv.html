@@ -13,8 +13,11 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+    import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { initializeFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
     const firebaseConfig = {
       apiKey:            "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
@@ -26,6 +29,11 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    // App Check (reCAPTCHA Enterprise) : actif dès que la clé est renseignée dans /appcheck-config.js
+    if (APP_CHECK_SITE_KEY) {
+      try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); }
+      catch (e) { console.warn('App Check indisponible :', e); }
+    }
     const auth = getAuth(app);
     const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
 
@@ -42,6 +50,9 @@
     window._query                 = query;
     window._where                 = where;
     window._getDocs = (...a) => withTimeout(getDocs(...a));
+    // Création de réservation côté serveur (quota, créneau et prix vérifiés par la Cloud Function)
+    const createReservationFn = httpsCallable(getFunctions(app, 'europe-west1'), 'createReservation');
+    window._createReservation = (data) => withTimeout(createReservationFn(data), 20000);
     window._firebaseReady         = true;
   </script>
 
@@ -1019,44 +1030,30 @@ async function submitRDV() {
       user = null;
     }
 
-    const pricing = getPricingSummary();
-    const reservationData = {
+    // La Cloud Function revérifie tout : champs, jour, créneau, quota de 5 RDV/jour,
+    // prix (tarifs.json) et code promo (première réservation uniquement).
+    const result = await window._createReservation({
       service:     selectedService,
       dateKey:     selectedDate,
       timeLabel:   selectedSlot,
-      time:        selectedSlot,
-      price:       pricing.total !== null ? formatEuroAmount(pricing.total) : selectedPrice,
-      basePrice:   selectedBasePrice || null,
-      promoCode:   pricing.discountLabel || null,
-      promoDiscount: pricing.discountAmount !== null ? Number(pricing.discountAmount.toFixed(2)) : null,
       nom:         name,
       telephone:   phone,
       email:       email,
       adresse:     address,
       description: description,
-      status:      'pending',
-      createdAt:   new Date().toISOString(),
-    };
-
-    if (user) reservationData.uid = user.uid;
-
-    await window._addDoc(window._collection(window._db, 'reservations'), reservationData);
-
-    // Créneau pris (collection publique sans données personnelles)
-    try {
-      await window._addDoc(window._collection(window._db, 'slots'), {
-        dateKey: selectedDate,
-        timeLabel: selectedSlot,
-      });
-    } catch (slotErr) { console.warn('slots:', slotErr); }
+      promoCode:   window.activePromo ? window.activePromo.code : null,
+      acceptCgv:   document.getElementById('cgvRdv').checked,
+    });
+    const promoRefusee = !!window.activePromo && !result?.data?.promoApplique;
 
     reservationCounts[selectedDate] = (reservationCounts[selectedDate] || 0) + 1;
 
     const successText = document.querySelector('#successCard p');
     if (successText) {
-      successText.textContent = user
+      successText.textContent = (user
         ? 'Votre rendez-vous a été enregistré et rattaché à votre espace client sécurisé. Vous pouvez suivre son évolution depuis votre compte.'
-        : 'Votre rendez-vous a été envoyé. Stevy vous confirmera le créneau par email ou téléphone. Créez un espace client lors d’une prochaine demande si vous souhaitez un suivi en ligne.';
+        : 'Votre rendez-vous a été envoyé. Stevy vous confirmera le créneau par email ou téléphone. Créez un espace client lors d’une prochaine demande si vous souhaitez un suivi en ligne.')
+        + (promoRefusee ? ' Le code BIENVENUE10 est réservé à une première réservation : le tarif normal s’applique.' : '');
     }
 
     [1,2,3,4].forEach(i=>document.getElementById('step'+i).classList.remove('active'));
@@ -1073,6 +1070,11 @@ async function submitRDV() {
       err.textContent='Adresse email invalide.';
     } else if (e?.code === 'timeout') {
       err.textContent='Le serveur ne répond pas. Réessayez ou appelez le 07 45 10 38 27.';
+    } else if (['functions/resource-exhausted','functions/already-exists','functions/invalid-argument','functions/failed-precondition','functions/permission-denied'].includes(e?.code) && e?.message) {
+      err.textContent=e.message;
+      if (e.code==='functions/resource-exhausted' || e.code==='functions/already-exists') {
+        loadMonthCounts(calYear, calMonth).then(()=>{ renderCalendar(); getTakenSlots(selectedDate).then(t=>renderSlots(selectedDate,t)); });
+      }
     } else if (e?.code === 'permission-denied') {
       err.textContent='Réservation refusée par le serveur. Appelez le 07 45 10 38 27.';
     } else {

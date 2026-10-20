@@ -216,6 +216,7 @@
           <div style="display:flex;gap:0.5rem;align-items:center">
             <button class="btn-confirm" onclick="openCreateRdvForm()" style="padding:0.4rem 1rem;font-size:0.82rem">+ Nouveau RDV</button>
             <button class="btn-soft" onclick="loadAll()">↻ Actualiser</button>
+            <button class="btn-soft" onclick="rebuildSlots()" title="Recalcule les créneaux publics à partir des réservations actives (libère ceux des RDV annulés)">🗓 Recalculer les créneaux</button>
           </div>
         </div>
         <div class="filter-tabs" style="margin-bottom:1rem">
