@@ -153,6 +153,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">
@@ -160,7 +161,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     Retour au site
   </a>
 </nav>
-<div class="page">
+<div class="page" id="contenu" tabindex="-1">
 
   <!-- LOGIN -->
   <div id="login-view">
@@ -209,23 +210,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
     <!-- Navigation onglets -->
     <div class="tabs-nav-main">
-      <button class="tab-btn-main active" onclick="switchMainTab('rdv',this)">📅 Mes rendez-vous</button>
-      <button class="tab-btn-main" onclick="switchMainTab('contrats',this)">📄 Mes contrats</button>
-      <button class="tab-btn-main" onclick="switchMainTab('contact',this)">✉️ Contacter Stevy</button>
+      <button class="tab-btn-main active" onclick="switchMainTab('rdv',this)"><span aria-hidden="true">📅</span> Mes rendez-vous</button>
+      <button class="tab-btn-main" onclick="switchMainTab('contrats',this)"><span aria-hidden="true">📄</span> Mes contrats</button>
+      <button class="tab-btn-main" onclick="switchMainTab('contact',this)"><span aria-hidden="true">✉️</span> Contacter Stevy</button>
     </div>
 
     <!-- ── ONGLET RDV ── -->
     <div class="tab-section active" id="tab-rdv">
       <div class="summary-grid" id="summary-grid"></div>
-      <div class="sec-title">📅 Rendez-vous à venir <span id="count-upcoming"></span></div>
+      <div class="sec-title"><span aria-hidden="true">📅</span> Rendez-vous à venir <span id="count-upcoming"></span></div>
       <div class="rdv-list" id="list-upcoming"></div>
-      <div class="sec-title" style="margin-top:1rem">🕓 Historique <span id="count-past"></span></div>
+      <div class="sec-title" style="margin-top:1rem"><span aria-hidden="true">🕓</span> Historique <span id="count-past"></span></div>
       <div class="rdv-list" id="list-past"></div>
     </div>
 
     <!-- ── ONGLET CONTRATS ── -->
     <div class="tab-section" id="tab-contrats">
-      <div class="sec-title">📄 Mes contrats <span id="count-contrats"></span></div>
+      <div class="sec-title"><span aria-hidden="true">📄</span> Mes contrats <span id="count-contrats"></span></div>
       <div id="list-contrats">
         <div style="text-align:center;padding:2rem;color:var(--muted)"><div class="spinner" style="width:24px;height:24px;border-width:2px;margin:0 auto 1rem"></div>Chargement…</div>
       </div>
@@ -257,7 +258,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       </div>
 
       <div class="msg-form-box">
-        <h3>💬 Envoyer un message depuis votre espace</h3>
+        <h3><span aria-hidden="true">💬</span> Envoyer un message depuis votre espace</h3>
         <p style="font-size:0.9rem;color:var(--muted)">Stevy vous répondra sous 24h par email ou téléphone.</p>
         <select id="msgSujet" oninput="checkMsg()">
           <option value="">— Sujet du message —</option>
@@ -269,7 +270,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <option value="autre">Autre</option>
         </select>
         <textarea id="msgTexte" placeholder="Décrivez votre question ou demande..." oninput="checkMsg()"></textarea>
-        <div class="msg-success" id="msgSuccess">✅ Votre message a bien été envoyé à Stevy. Il vous répondra sous 24h.</div>
+        <div class="msg-success" id="msgSuccess"><span aria-hidden="true">✅</span> Votre message a bien été envoyé à Stevy. Il vous répondra sous 24h.</div>
         <button class="btn-send-msg" id="btnSendMsg" disabled onclick="sendMessage()">Envoyer le message →</button>
       </div>
     </div>
@@ -292,7 +293,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <!-- MODAL MODIFICATION -->
 <div class="modal-overlay" id="modal-edit">
   <div class="modal" style="max-width:500px">
-    <h3>✏️ Modifier le rendez-vous</h3>
+    <h3><span aria-hidden="true">✏️</span> Modifier le rendez-vous</h3>
     <p>Stevy sera notifié et confirmera les changements.</p>
     <div class="field">
       <label>Service</label>
@@ -312,7 +313,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="field">
       <label>Message pour Stevy <span style="font-size:0.9rem;color:var(--muted);text-transform:none;letter-spacing:0">(optionnel)</span></label>
       <textarea id="edit-note" placeholder="Précisez vos modifications…"></textarea>
-      <div class="field-hint">⚠️ La modification reste soumise à la disponibilité de Stevy.</div>
+      <div class="field-hint"><span aria-hidden="true">⚠️</span> La modification reste soumise à la disponibilité de Stevy.</div>
     </div>
     <div class="modal-btns">
       <button class="btn-modal-cancel" onclick="closeModal('modal-edit')">Annuler</button>
@@ -680,4 +681,10 @@ document.getElementById('reset-email').addEventListener('keydown',e=>{if(e.key==
 <script>
 let pwVisible=false;
 function togglePassword(){ pwVisible=!pwVisible; const input=document.getElementById('input-password'); input.type=pwVisible?'text':'password'; document.getElementById('eye-icon').innerHTML=pwVisible?`<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`:`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`; }
-function showResetView(e){ e.preventDefault(); document.getElementById('login-view').style.display='none'; document.getElementById('reset-view').style.display='block'; document.getElementById('reset-email').val
+function showResetView(e){ e.preventDefault(); document.getElementById('login-view').style.display='none'; document.getElementById('reset-view').style.display='block'; document.getElementById('reset-email').value=document.getElementById('input-email').value; }
+function showLoginView(e){ e.preventDefault(); document.getElementById('reset-view').style.display='none'; document.getElementById('login-view').style.display='block'; }
+</script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
+</body>
+</html>

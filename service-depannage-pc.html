@@ -115,6 +115,7 @@
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez<span>IT</span></a>
@@ -122,7 +123,7 @@
   <a href="makouez-it-rdv.html?service=depannage-pc" class="nav-rdv">Prendre RDV</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu" tabindex="-1">
   <section class="hero-svc">
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <a href="index.html">Accueil</a>
@@ -146,22 +147,22 @@
     <h2>Ce que Stevy répare</h2>
     <div class="points-grid">
       <div class="point-card">
-        <div class="point-icon">🐢</div>
+        <div class="point-icon"><span aria-hidden="true">🐢</span></div>
         <div class="point-title">PC lent ou qui rame</div>
         <div class="point-desc">Optimisation, nettoyage registre, désactivation démarrages inutiles, nettoyage disque. Votre PC retrouve une seconde jeunesse.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🖥️</div>
+        <div class="point-icon"><span aria-hidden="true">🖥️</span></div>
         <div class="point-title">Écran noir ou blocage</div>
         <div class="point-desc">Diagnostic matériel et logiciel, remplacement de composant si nécessaire, récupération des données en priorité.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🦠</div>
+        <div class="point-icon"><span aria-hidden="true">🦠</span></div>
         <div class="point-title">Virus et malwares</div>
         <div class="point-desc">Suppression complète, sécurisation du système, antivirus configuré et conseils de navigation pour éviter la récidive.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">⚡</div>
+        <div class="point-icon"><span aria-hidden="true">⚡</span></div>
         <div class="point-title">PC qui ne démarre plus</div>
         <div class="point-desc">Réparation bootloader, réinstallation Windows si nécessaire, récupération des données en priorité absolue.</div>
       </div>
@@ -281,5 +282,7 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   });
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

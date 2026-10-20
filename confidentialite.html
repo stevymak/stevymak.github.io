@@ -45,11 +45,12 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">← Retour au site</a>
 </nav>
-<div class="page">
+<div class="page" id="contenu" tabindex="-1">
   <div class="page-label">Vos données personnelles</div>
   <h1>Politique de confidentialité</h1>
   <div class="last-update">Dernière mise à jour : 20 octobre 2026</div>
@@ -63,7 +64,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
        - mention « chat IA » : vérifier la politique de conservation d'Anthropic côté API. -->
 
   <div class="section">
-    <h2>👤 Qui est responsable de vos données ?</h2>
+    <h2><span aria-hidden="true">👤</span> Qui est responsable de vos données ?</h2>
     <p>Le responsable du traitement de vos données personnelles est :</p>
     <p><strong style="color:var(--text)">Stevy – Makouez IT</strong><br>
     Micro-entrepreneur | SIRET : 83955229600023<br>
@@ -72,7 +73,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
   </div>
 
   <div class="section">
-    <h2>📋 Quelles données collectons-nous ?</h2>
+    <h2><span aria-hidden="true">📋</span> Quelles données collectons-nous ?</h2>
     <table class="data-table">
       <thead>
         <tr><th>Données collectées</th><th>Finalité</th><th>Base légale</th><th>Durée de conservation</th></tr>
@@ -97,7 +98,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
   </div>
 
   <div class="section">
-    <h2>🔧 Sous-traitants et transferts</h2>
+    <h2><span aria-hidden="true">🔧</span> Sous-traitants et transferts</h2>
     <p>Makouez IT utilise les services tiers suivants pour faire fonctionner le site :</p>
     <ul>
       <li><strong style="color:var(--text)">Google Firebase</strong> — Firestore (réservations, contrats, factures) : serveurs en Europe (europe-west1, Belgique) ; Authentication (comptes clients) et Cloud Functions : infrastructure Google, dont des serveurs hors UE — Google Ireland Limited</li>
@@ -115,7 +116,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
   </div>
 
   <div class="section">
-    <h2>🍪 Cookies et traceurs</h2>
+    <h2><span aria-hidden="true">🍪</span> Cookies et traceurs</h2>
     <p>Ce site utilise :</p>
     <ul>
       <li><strong style="color:var(--text)">Traceurs strictement nécessaires</strong> (exemptés de consentement) : authentification Firebase de l'espace client, mémorisation de votre choix sur les cookies.</li>
@@ -125,7 +126,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
   </div>
 
   <div class="section">
-    <h2>✅ Vos droits (RGPD)</h2>
+    <h2><span aria-hidden="true">✅</span> Vos droits (RGPD)</h2>
     <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :</p>
     <ul>
       <li><strong style="color:var(--text)">Droit d'accès</strong> — obtenir une copie de vos données</li>
@@ -144,7 +145,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
   </div>
 
   <div class="section">
-    <h2>🔒 Sécurité</h2>
+    <h2><span aria-hidden="true">🔒</span> Sécurité</h2>
     <p>Makouez IT met en œuvre les mesures techniques et organisationnelles appropriées pour protéger vos données :</p>
     <ul>
       <li>Connexions chiffrées HTTPS (TLS 1.3)</li>
@@ -155,7 +156,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
   </div>
 
   <div class="section">
-    <h2>✏️ Modifications</h2>
+    <h2><span aria-hidden="true">✏️</span> Modifications</h2>
     <p>Cette politique de confidentialité peut être mise à jour. La date de dernière mise à jour est indiquée en haut de cette page. En cas de modification substantielle, vous en serez informé par email si vous avez un compte client.</p>
   </div>
 </div>
@@ -169,5 +170,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:0.9rem;border
     <a href="index.html">Retour au site</a>
   </div>
 </footer>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

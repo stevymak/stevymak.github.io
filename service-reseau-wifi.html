@@ -106,6 +106,7 @@
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez<span>IT</span></a>
@@ -113,7 +114,7 @@
   <a href="makouez-it-rdv.html?service=reseau-wifi" class="nav-rdv">Prendre RDV</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu" tabindex="-1">
   <section class="hero-svc">
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <a href="index.html">Accueil</a>
@@ -137,22 +138,22 @@
     <h2>Problèmes résolus</h2>
     <div class="points-grid">
       <div class="point-card">
-        <div class="point-icon">📶</div>
+        <div class="point-icon"><span aria-hidden="true">📶</span></div>
         <div class="point-title">Wi-Fi qui coupe</div>
         <div class="point-desc">Diagnostic du canal Wi-Fi, repositionnement de la box, configuration du routeur, répéteur Wi-Fi si nécessaire.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🐌</div>
+        <div class="point-icon"><span aria-hidden="true">🐌</span></div>
         <div class="point-title">Réseau lent</div>
         <div class="point-desc">Mesure du débit réel, identification des goulets d'étranglement, optimisation DNS, conseil opérateur si nécessaire.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🏠</div>
+        <div class="point-icon"><span aria-hidden="true">🏠</span></div>
         <div class="point-title">Couverture insuffisante</div>
         <div class="point-desc">Extension par répéteur Wi-Fi, CPL (courant porteur en ligne), câble Ethernet selon la configuration de votre logement.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🔐</div>
+        <div class="point-icon"><span aria-hidden="true">🔐</span></div>
         <div class="point-title">Sécurité réseau</div>
         <div class="point-desc">Changement du mot de passe Wi-Fi, activation WPA3/WPA2, détection des appareils inconnus connectés, vérification du pare-feu.</div>
       </div>
@@ -267,5 +268,7 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   });
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

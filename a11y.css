@@ -29,3 +29,37 @@ button,.btn,input[type=submit]{min-height:44px}
 .project-link{opacity:1!important;color:#1d4ed8!important}
 p a:not(.btn),.small a:not(.btn){text-decoration:underline}
 .breadcrumb,.breadcrumb span,.breadcrumb a{color:#374151!important;opacity:1!important}
+
+/* ── Lot 4 (UX senior / accessibilité) ── */
+[hidden]{display:none!important}
+/* Lien « Aller au contenu principal » : visible uniquement au clavier */
+.skip-link{position:absolute;left:-9999px;top:0;z-index:100000;background:#1d4ed8;color:#fff!important;
+  padding:.75rem 1.1rem;border-radius:0 0 10px 0;font:600 1rem/1.3 system-ui,sans-serif;text-decoration:none}
+.skip-link:focus{left:0}
+[tabindex="-1"]:focus{outline:none}
+/* Bouton d'appel fixe en bas d'écran (mobile uniquement) */
+.call-bar{display:none}
+@media (max-width:768px){
+  .call-bar{display:flex;align-items:center;justify-content:center;gap:.5rem;position:fixed;left:0;right:0;bottom:0;z-index:9990;
+    min-height:56px;padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom));background:#15803d;color:#fff!important;
+    font:700 1.1rem/1.2 system-ui,-apple-system,sans-serif;text-decoration:none!important;box-shadow:0 -4px 16px rgba(0,0,0,.18)}
+  .call-bar:active{background:#166534}
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  /* Les boutons flottants (WhatsApp, chat) passent au-dessus de la barre */
+  .fab-wa,.whatsapp-fab{bottom:calc(72px + env(safe-area-inset-bottom))!important}
+  html body #mkit-fab{bottom:calc(72px + env(safe-area-inset-bottom))!important}
+  html body #mkit-window{bottom:calc(150px + env(safe-area-inset-bottom))!important}
+  .promo-banner{bottom:calc(56px + env(safe-area-inset-bottom))!important}
+  #mit-consent{bottom:calc(64px + env(safe-area-inset-bottom))!important}
+}
+/* Cibles tactiles d'au moins 44 × 44 px sur écran tactile / mobile (WCAG 2.5.5) */
+@media (pointer:coarse),(max-width:768px){
+  .footer-links a,.zone-chip,.internal-nav a,.breadcrumb a,.nav-back,.back-link,a.back,nav .logo,header .logo,.wrap>.logo,
+  a.logo,.cta-secondary,.btn-urgency,.promo-banner-cta,.mmlink,.nav-cta,.mobile-cta,
+  footer a,.link-forgot a,.login-hint a,.project-link,.cta-btn,.btn-back{
+    display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px}
+  .footer-links a{padding:0 .4rem}
+  .faq-q{min-height:44px;display:flex;align-items:center}
+  .suivi-modal-close,.avis-modal-close,.blog-modal-close,.promo-banner-close,.toggle-pw{min-width:44px;min-height:44px}
+  .consent-cgv input[type=checkbox]{width:28px!important;height:28px!important}
+}

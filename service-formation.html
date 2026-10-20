@@ -115,6 +115,7 @@
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez<span>IT</span></a>
@@ -122,7 +123,7 @@
   <a href="makouez-it-rdv.html?service=formation" class="nav-rdv">Prendre RDV</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu" tabindex="-1">
   <section class="hero-svc">
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <a href="index.html">Accueil</a>
@@ -146,22 +147,22 @@
     <h2>Thèmes abordés</h2>
     <div class="points-grid">
       <div class="point-card">
-        <div class="point-icon">🖥️</div>
+        <div class="point-icon"><span aria-hidden="true">🖥️</span></div>
         <div class="point-title">Prise en main PC</div>
         <div class="point-desc">Démarrage, bureau Windows, utilisation de la souris et du clavier, gestion des fichiers et dossiers, imprimante, mises à jour.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🌐</div>
+        <div class="point-icon"><span aria-hidden="true">🌐</span></div>
         <div class="point-title">Internet &amp; email</div>
         <div class="point-desc">Navigation sécurisée, création et gestion d'une boîte email, arnaques à éviter, achats en ligne sécurisés, mots de passe.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">📱</div>
+        <div class="point-icon"><span aria-hidden="true">📱</span></div>
         <div class="point-title">Smartphone &amp; tablette</div>
         <div class="point-desc">Android ou iPhone&nbsp;: appels vidéo, WhatsApp, gestion des photos, applications utiles du quotidien, mises à jour.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">📄</div>
+        <div class="point-icon"><span aria-hidden="true">📄</span></div>
         <div class="point-title">Outils du quotidien</div>
         <div class="point-desc">Word et Excel basique, scan de documents, stockage cloud (OneDrive, Google Drive), visioconférence (Zoom, Teams).</div>
       </div>
@@ -284,5 +285,7 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   });
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

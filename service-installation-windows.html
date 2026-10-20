@@ -106,6 +106,7 @@
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez<span>IT</span></a>
@@ -113,7 +114,7 @@
   <a href="makouez-it-rdv.html?service=installation-windows" class="nav-rdv">Prendre RDV</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu" tabindex="-1">
   <section class="hero-svc">
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <a href="index.html">Accueil</a>
@@ -137,22 +138,22 @@
     <h2>Ce qui est inclus dans la prestation</h2>
     <div class="points-grid">
       <div class="point-card">
-        <div class="point-icon">💾</div>
+        <div class="point-icon"><span aria-hidden="true">💾</span></div>
         <div class="point-title">Sauvegarde préalable</div>
         <div class="point-desc">Photos, documents, emails sauvegardés avant toute opération. Rien ne se perd — la sauvegarde est vérifiée avant de commencer.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🪟</div>
+        <div class="point-icon"><span aria-hidden="true">🪟</span></div>
         <div class="point-title">Installation propre</div>
         <div class="point-desc">Windows 10 ou 11 selon votre matériel, clé d'activation vérifiée. Pas de bloatware, pas de logiciels inutiles.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">⚙️</div>
+        <div class="point-icon"><span aria-hidden="true">⚙️</span></div>
         <div class="point-title">Drivers &amp; logiciels</div>
         <div class="point-desc">Tous les pilotes installés, logiciels essentiels (Office, navigateur, antivirus) configurés et opérationnels.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🔒</div>
+        <div class="point-icon"><span aria-hidden="true">🔒</span></div>
         <div class="point-title">Sécurisation</div>
         <div class="point-desc">Antivirus, mises à jour activées, compte Microsoft configuré selon vos préférences. Votre PC est protégé dès le départ.</div>
       </div>
@@ -267,5 +268,7 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   });
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

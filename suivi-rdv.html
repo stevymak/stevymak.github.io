@@ -86,6 +86,7 @@ h1,h2{font-family:'Syne',sans-serif}
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#mainCard">Aller au contenu principal</a>
 
 <div class="logo-wrap">
   <div class="logo">Makouez <span>IT</span></div>
@@ -93,9 +94,9 @@ h1,h2{font-family:'Syne',sans-serif}
 
 <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Suivi de réservation Makouez IT</h1>
 
-<div class="card" id="mainCard">
+<div class="card" id="mainCard" tabindex="-1">
   <div class="error-state">
-    <div class="error-icon">🔐</div>
+    <div class="error-icon"><span aria-hidden="true">🔐</span></div>
     <h2>Suivi direct désactivé</h2>
     <p>Le suivi d'une réservation par simple identifiant d'URL n'est plus autorisé. Utilisez l'espace client sécurisé pour consulter et gérer vos rendez-vous.</p>
     <a href="mon-rdv.html" class="btn-new-rdv" style="margin-top:1.5rem">Accéder à mon espace client →</a>
@@ -103,5 +104,7 @@ h1,h2{font-family:'Syne',sans-serif}
     <a href="index.html" class="btn-back">← Retour au site</a>
   </div>
 </div>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

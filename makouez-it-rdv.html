@@ -275,6 +275,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Makouez IT – Réserver un rendez-vous", "description": "Réservez un rendez-vous Makouez IT pour un dépannage informatique à domicile, une assistance réseau ou une prestation web.", "url": "https://makouezit.org/makouez-it-rdv.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <header>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
@@ -283,30 +284,30 @@
 
 <div class="urgency-banner">
   <div class="left">
-    <div class="icon">🚨</div>
+    <div class="icon"><span aria-hidden="true">🚨</span></div>
     <div><h3>Problème urgent ? Je décroche.</h3><p>Pas besoin de formulaire — appelez ou écrivez directement</p></div>
   </div>
   <div style="display:flex;gap:10px;flex-wrap:wrap;">
-    <a href="tel:+33745103827" class="btn-urgency btn-urgency-phone">📞 07 45 10 38 27</a>
-    <a href="https://wa.me/33745103827?text=Bonjour%20Stevy%2C%20j%27ai%20un%20probl%C3%A8me%20urgent." class="btn-urgency" style="background:#25D366;color:#fff;">💬 WhatsApp</a>
+    <a href="tel:+33745103827" class="btn-urgency btn-urgency-phone"><span aria-hidden="true">📞</span> 07 45 10 38 27</a>
+    <a href="https://wa.me/33745103827?text=Bonjour%20Stevy%2C%20j%27ai%20un%20probl%C3%A8me%20urgent." class="btn-urgency" style="background:#25D366;color:#fff;"><span aria-hidden="true">💬</span> WhatsApp</a>
   </div>
 </div>
 
-<main>
+<main id="contenu" tabindex="-1">
   <div class="page-title">
-    <h1>📅 Prendre rendez-vous</h1>
+    <h1><span aria-hidden="true">📅</span> Prendre rendez-vous</h1>
     <p>Réservation en ligne rapide · Confirmation par email</p>
   </div>
 
   <div class="urgency-toggle" id="urgencyToggle" onclick="toggleUrgency()">
     <div class="left">
-      <span style="font-size:1.5rem;">🚨</span>
+      <span style="font-size:1.5rem;"><span aria-hidden="true">🚨</span></span>
       <div><h4 aria-level="2">C'est urgent ?</h4><p>PC ne démarre plus, virus actif, données en danger…</p></div>
     </div>
     <span class="toggle-icon">▼</span>
   </div>
   <div class="urgency-panel" id="urgencyPanel">
-    <h4 aria-level="2">⚡ Contact direct pour urgences</h4>
+    <h4 aria-level="2"><span aria-hidden="true">⚡</span> Contact direct pour urgences</h4>
     <div class="urgency-options">
       <a href="tel:+33745103827" class="urgency-option phone">
         <span class="emoji">📞</span><strong>Appel direct</strong>
@@ -319,7 +320,7 @@
         <span style="font-size:0.75rem;color:#6b7280;">Réponse rapide</span>
       </a>
     </div>
-    <p class="urgency-note">💡 Pour les urgences, le contact direct garantit la meilleure réactivité.</p>
+    <p class="urgency-note"><span aria-hidden="true">💡</span> Pour les urgences, le contact direct garantit la meilleure réactivité.</p>
   </div>
 
   <!-- STEPS -->
@@ -338,29 +339,29 @@
     <h2>Quel service ?</h2>
     <p class="subtitle">Sélectionnez le type d'intervention</p>
     <div class="service-selected-info" id="preSelected">
-      <span>✓</span><span id="preSelectedName">Service pré-sélectionné</span>
+      <span><span aria-hidden="true">✓</span></span><span id="preSelectedName">Service pré-sélectionné</span>
     </div>
     <div class="services-grid">
       <div class="service-card" data-service="Dépannage PC" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">💻</span><span class="name">Dépannage PC</span><span class="price">À partir de <span data-tarif="services.depannagePc.prix">55&nbsp;€</span></span>
+        <span class="emoji"><span aria-hidden="true">💻</span></span><span class="name">Dépannage PC</span><span class="price">À partir de <span data-tarif="services.depannagePc.prix">55&nbsp;€</span></span>
       </div>
       <div class="service-card" data-service="Installation Windows et logiciels" data-price="À partir de 89€" data-base-price="89" onclick="selectService(this)">
-        <span class="emoji">🪟</span><span class="name">Installation Windows et logiciels</span><span class="price">À partir de <span data-tarif="services.installationWindows.prix">89&nbsp;€</span></span>
+        <span class="emoji"><span aria-hidden="true">🪟</span></span><span class="name">Installation Windows et logiciels</span><span class="price">À partir de <span data-tarif="services.installationWindows.prix">89&nbsp;€</span></span>
       </div>
       <div class="service-card" data-service="Réseau Wi-Fi" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">📶</span><span class="name">Réseau Wi-Fi</span><span class="price">À partir de <span data-tarif="services.reseauWifi.prix">55&nbsp;€</span></span>
+        <span class="emoji"><span aria-hidden="true">📶</span></span><span class="name">Réseau Wi-Fi</span><span class="price">À partir de <span data-tarif="services.reseauWifi.prix">55&nbsp;€</span></span>
       </div>
       <div class="service-card" data-service="Récupération de données" data-price="89€ (forfait Standard)" data-base-price="89" onclick="selectService(this)">
-        <span class="emoji">💾</span><span class="name">Récupération données</span><span class="price"><span data-tarif="services.recuperationDonnees.prix">89&nbsp;€</span> · forfait Standard</span>
+        <span class="emoji"><span aria-hidden="true">💾</span></span><span class="name">Récupération données</span><span class="price"><span data-tarif="services.recuperationDonnees.prix">89&nbsp;€</span> · forfait Standard</span>
       </div>
       <div class="service-card" data-service="Sauvegarde et sécurité" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">🔒</span><span class="name">Sauvegarde & sécurité</span><span class="price">À partir de <span data-tarif="services.sauvegardeSecurite.prix">55&nbsp;€</span></span>
+        <span class="emoji"><span aria-hidden="true">🔒</span></span><span class="name">Sauvegarde & sécurité</span><span class="price">À partir de <span data-tarif="services.sauvegardeSecurite.prix">55&nbsp;€</span></span>
       </div>
       <div class="service-card" data-service="Formation et accompagnement" data-price="40€/h" data-base-price="40" onclick="selectService(this)">
-        <span class="emoji">🎓</span><span class="name">Formation</span><span class="price"><span data-tarif="services.formation.prix">40&nbsp;€</span> / heure</span>
+        <span class="emoji"><span aria-hidden="true">🎓</span></span><span class="name">Formation</span><span class="price"><span data-tarif="services.formation.prix">40&nbsp;€</span> / heure</span>
       </div>
       <div class="service-card" data-service="Intégration / Développement web" data-price="À partir de 990€" data-base-price="990" onclick="selectService(this)" style="grid-column:span 2;">
-        <span class="emoji">🌐</span>
+        <span class="emoji"><span aria-hidden="true">🌐</span></span>
         <span class="name">Développement web <span style="background:var(--blue);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-left:4px;">Nouveau</span></span>
         <span class="price">À partir de <span data-tarif="services.developpementWeb.prix">990&nbsp;€</span></span>
       </div>
@@ -372,7 +373,7 @@
 
   <!-- WEB FORM -->
   <div class="card" id="webStep">
-    <h2>🌐 Demande de développement web</h2>
+    <h2><span aria-hidden="true">🌐</span> Demande de développement web</h2>
     <p class="subtitle">Décrivez votre projet — Stevy vous recontactera avec un devis gratuit sous 24h.</p>
     <div class="form-group">
       <label>Type de projet <span class="required">*</span></label>
@@ -436,7 +437,7 @@
     </div>
 
     <div class="slots-section" id="slotsSection">
-      <p class="no-date-msg">👆 Sélectionnez un jour disponible pour voir les créneaux</p>
+      <p class="no-date-msg"><span aria-hidden="true">👆</span> Sélectionnez un jour disponible pour voir les créneaux</p>
     </div>
 
     <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">
@@ -458,11 +459,11 @@
         <input class="form-control" id="faddress" type="text" placeholder="Commencez à taper votre adresse…" autocomplete="off" oninput="onAddressInput(this.value)" onblur="setTimeout(hideSuggestions,200)" />
         <div class="address-suggestions" id="addressSuggestions"></div>
       </div>
-      <p class="google-powered">🔍 Recherche d'adresse propulsée par Google Maps</p>
+      <p class="google-powered"><span aria-hidden="true">🔍</span> Recherche d'adresse propulsée par Google Maps</p>
     </div>
     <div class="form-group"><label>Description du problème</label><textarea class="form-control" id="fdesc" placeholder="Décrivez brièvement le problème (facultatif)…"></textarea></div>
     <div class="password-section">
-      <h5>🔐 Espace client (optionnel)</h5>
+      <h5><span aria-hidden="true">🔐</span> Espace client (optionnel)</h5>
       <p>Optionnel : créez un espace client pour suivre et gérer votre rendez-vous. Sans mot de passe, votre demande est envoyée normalement et Stevy vous recontacte par email ou téléphone.</p>
       <div class="pwd-wrap">
         <input class="form-control" id="fpwd" type="password" placeholder="Mot de passe (min. 6 caractères)" />
@@ -482,30 +483,30 @@
     <p class="subtitle">Vérifiez avant de confirmer</p>
     <div class="summary-rows" id="summaryRows"></div>
     <div class="payment-methods">
-      <h5>💳 Modes de paiement acceptés</h5>
+      <h5><span aria-hidden="true">💳</span> Modes de paiement acceptés</h5>
       <div class="payment-icons">
-        <div class="pay-badge">💳 Carte bancaire</div>
-        <div class="pay-badge">🏦 Virement</div>
-        <div class="pay-badge">💵 Espèces</div>
-        <div class="pay-badge">🅿️ PayPal</div>
+        <div class="pay-badge"><span aria-hidden="true">💳</span> Carte bancaire</div>
+        <div class="pay-badge"><span aria-hidden="true">🏦</span> Virement</div>
+        <div class="pay-badge"><span aria-hidden="true">💵</span> Espèces</div>
+        <div class="pay-badge"><span aria-hidden="true">🅿️</span> PayPal</div>
       </div>
-      <p style="font-size:0.75rem;color:var(--gray-500);margin-top:8px;">✅ Paiement uniquement après intervention · Devis gratuit</p>
+      <p style="font-size:0.75rem;color:var(--gray-500);margin-top:8px;"><span aria-hidden="true">✅</span> Paiement uniquement après intervention · Devis gratuit</p>
     </div>
     <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;margin:.75rem 0;cursor:pointer;text-align:left"><input type="checkbox" id="cgvRdv" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>. J'accepte d'être recontacté par Stevy (Makouez IT) au sujet de cette demande. Mes données sont traitées selon la <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
     <div class="error-msg" id="step4Error">Une erreur est survenue. Veuillez réessayer.</div>
     <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
       <button class="btn btn-back" onclick="goStep3()">← Modifier</button>
-      <button class="btn btn-primary" id="confirmBtn" onclick="submitRDV()">✓ Confirmer le rendez-vous</button>
+      <button class="btn btn-primary" id="confirmBtn" onclick="submitRDV()"><span aria-hidden="true">✓</span> Confirmer le rendez-vous</button>
     </div>
   </div>
 
   <!-- SUCCESS -->
   <div class="success-card" id="successCard">
-  <div class="success-icon">✅</div>
+  <div class="success-icon"><span aria-hidden="true">✅</span></div>
   <h2>Demande envoyee</h2>
   <p>Stevy vous confirmera votre rendez-vous par email ou telephone des que possible.</p>
   <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.82rem;color:#92400e;text-align:left;">
-    📬 <strong>Pensez a verifier votre boite mail.</strong> Si vous ne voyez rien dans les 5 minutes, regardez aussi vos spams ou indésirables.
+    <span aria-hidden="true">📬</span> <strong>Pensez a verifier votre boite mail.</strong> Si vous ne voyez rien dans les 5 minutes, regardez aussi vos spams ou indésirables.
   </div>
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.82rem;color:#475569;text-align:left;">
       <strong>Ce qui se passe ensuite :</strong><br>
@@ -521,14 +522,14 @@
 
   <!-- WEB SUCCESS -->
   <div class="success-card" id="webSuccess">
-    <div class="success-icon">🌐</div>
+    <div class="success-icon"><span aria-hidden="true">🌐</span></div>
     <h2>Demande envoyée !</h2>
     <p>Stevy vous recontactera sous 24h avec un devis gratuit.</p>
     <div style="text-align:left;background:var(--gray-50);border-radius:10px;padding:16px;margin-bottom:20px;">
       <p style="font-size:0.875rem;font-weight:700;margin-bottom:10px;">Ce qui se passe ensuite :</p>
-      <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:6px;">📞 Stevy vous contacte pour un brief rapide</p>
-      <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:6px;">📝 Devis détaillé envoyé par email</p>
-      <p style="font-size:0.85rem;color:var(--gray-600);">🚀 Démarrage du projet après validation</p>
+      <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:6px;"><span aria-hidden="true">📞</span> Stevy vous contacte pour un brief rapide</p>
+      <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:6px;"><span aria-hidden="true">📝</span> Devis détaillé envoyé par email</p>
+      <p style="font-size:0.85rem;color:var(--gray-600);"><span aria-hidden="true">🚀</span> Démarrage du projet après validation</p>
     </div>
     <a href="index.html" class="btn btn-primary" style="text-decoration:none;">← Retour au site</a>
   </div>
@@ -917,8 +918,41 @@ function togglePwd() { const f=document.getElementById('fpwd'); f.type=f.type===
 // ══════════════════════════════════════════════
 // SUMMARY
 // ══════════════════════════════════════════════
+// Détail du forfait affiché dans le récapitulatif (source : /tarifs.json via tarifs.js)
+const FORFAIT_PAR_SERVICE = {
+  'Dépannage PC':                      { forfait: 'diagExpress', suite: true },
+  'Installation Windows et logiciels': { forfait: 'standard',    note: 'Long format (3 h) si sauvegarde ou transfert de vos données' },
+  'Réseau Wi-Fi':                      { forfait: 'diagExpress', suite: true },
+  'Récupération de données':           { forfait: 'standard' },
+  'Sauvegarde et sécurité':            { forfait: 'diagExpress', suite: true },
+  'Formation et accompagnement':       { horaire: true },
+};
+function getServiceDetails(service) {
+  const t = window.MAKOUEZ_TARIFS;
+  const cfg = FORFAIT_PAR_SERVICE[service];
+  if (!t || !cfg) return [];
+  const fmt = window.formatTarif || ((v) => v + ' €');
+  const d = t.depannage;
+  if (cfg.horaire) {
+    return [
+      { key: 'Durée prévue', val: '1 à 2 heures selon le thème' },
+      { key: 'Inclus', val: `Déplacement inclus · ${fmt(t.services.formation.prix)} de l'heure` },
+    ];
+  }
+  const f = d[cfg.forfait];
+  const rows = [
+    { key: 'Forfait', val: `${f.nom} — ${fmt(f.prix)}` },
+    { key: 'Durée prévue', val: f.duree },
+    { key: 'Inclus', val: `${f.detail}, déplacement inclus` },
+  ];
+  if (cfg.note) rows.push({ key: 'À savoir', val: `${cfg.note} : ${fmt(d.longFormat.prix)}` });
+  if (cfg.suite) rows.push({ key: 'Si c\'est plus long', val: `${d.standard.nom} ${fmt(d.standard.prix)} (${d.standard.duree}) ou ${d.longFormat.nom} ${fmt(d.longFormat.prix)} (${d.longFormat.duree}), toujours annoncé avant` });
+  return rows;
+}
+
 function getPricingSummary() {
-  if (!selectedBasePrice || !window.activePromo) {
+  // Pas de remise sur la formation (tarif horaire) — même règle que le serveur
+  if (!selectedBasePrice || !window.activePromo || selectedService === 'Formation et accompagnement') {
     return {
       displayPrice: selectedPrice,
       subtotal: null,
@@ -955,11 +989,14 @@ function renderSummary() {
     rows.push(
       {key:'Sous-total',val:formatEuroAmount(pricing.subtotal)},
       {key:`Remise ${pricing.discountLabel} (-10%)`,val:`-${formatEuroAmount(pricing.discountAmount)}`},
-      {key:'Total estimatif',val:formatEuroAmount(pricing.total)}
+      {key:'Total estimatif',val:formatEuroAmount(pricing.total)+' (code valable pour une première réservation)'}
     );
   } else {
     rows.push({key:'Tarif indicatif',val:pricing.displayPrice});
   }
+  rows.push(...getServiceDetails(selectedService));
+  const paiement = window.MAKOUEZ_TARIFS?.paiement;
+  rows.push({key:'Paiement',val:`Après l'intervention${paiement ? ' · ' + paiement.moyens.join(', ') : ''}`});
 
   document.getElementById('summaryRows').innerHTML=rows.map(r=>`<div class="summary-row"><span class="key">${esc(r.key)}</span><span class="val">${esc(r.val||'—')}</span></div>`).join('');
 }
@@ -1137,5 +1174,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

@@ -411,6 +411,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Aller au contenu principal</a>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -424,7 +425,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#tarifs">Tarifs</a></li>
-    <li><a href="#avis">Avis</a></li>
+    <li class="js-avis-link" hidden><a href="#avis">Avis</a></li>
         <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
@@ -432,7 +433,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="label">Mon espace client</span>
     </a>
-    <a href="#rdv" class="nav-cta">📅 Prendre rendez-vous</a>
+    <a href="#rdv" class="nav-cta"><span aria-hidden="true">📅</span> Prendre rendez-vous</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
@@ -443,17 +444,17 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services" onclick="closeMobileMenu()">Services</a>
   <a href="#tarifs" onclick="closeMobileMenu()">Tarifs & Contrats</a>
-  <a href="#avis" onclick="closeMobileMenu()">Avis clients</a>
+  <a href="#avis" class="js-avis-link" hidden onclick="closeMobileMenu()">Avis clients</a>
   <a href="#blog" onclick="closeMobileMenu()">Blog</a>
   <a href="portfolio.html" onclick="closeMobileMenu()">Portfolio</a>
   <a href="#about" onclick="closeMobileMenu()">À propos</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-  <a href="makouez-it-rdv.html" class="mobile-cta">📅 Prendre rendez-vous</a>
+  <a href="makouez-it-rdv.html" class="mobile-cta"><span aria-hidden="true">📅</span> Prendre rendez-vous</a>
   <button class="mmlink" onclick="openSuiviModal();closeMobileMenu()">Déjà client ? Suivre ma demande</button>
-  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()">👤 Mon espace client</a>
+  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()"><span aria-hidden="true">👤</span> Mon espace client</a>
 </div>
 
-<main id="main-content">
+<main id="main-content" tabindex="-1">
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-dot"></div>
@@ -462,16 +463,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     <h1>Votre PC en panne ? <br> Stevy intervient à domicile sous 24h.</h1>
     <p class="lede">Dépannage, virus, Wi-Fi, formation : un technicien expérimenté chez vous, sans jargon. <strong>Devis gratuit, paiement après intervention.</strong></p>
     <div class="hero-btns fade-up delay-3">
-      <a href="#rdv" class="cta-primary">📅 Prendre rendez-vous</a>
+      <a href="#rdv" class="cta-primary"><span aria-hidden="true">📅</span> Prendre rendez-vous</a>
       <a href="diagnostic.html" class="cta-secondary">Pas sûr du problème ? Diagnostic 2 min →</a>
     </div>
     <div style="margin-top:1rem;color:var(--muted);font-size:0.9rem" class="fade-up delay-3">Devis gratuit · Paiement après intervention · Compte client facultatif</div>
     <!-- Trust badges -->
     <div class="hero-trust fade-up delay-4">
-      <span class="hero-trust-badge">⭐ Premiers retours excellents</span>
-      <span class="hero-trust-badge">🏆 10 ans d'expérience</span>
-      <span class="hero-trust-badge">🔒 SIRET 83955229600023</span>
-      <span class="hero-trust-badge">📍 Île-de-France (93)</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">⭐</span> Premiers retours excellents</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">🏆</span> 10 ans d'expérience</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">🔒</span> SIRET 83955229600023</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">📍</span> Île-de-France (93)</span>
     </div>
     <div class="hero-stats fade-up delay-4">
       <div class="stat"><div class="stat-num">10 ans</div><div class="stat-label">d'expérience</div></div>
@@ -528,7 +529,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   </div>
   <div style="text-align:center;margin-top:28px;">
   <a href="diagnostic.html" style="display:inline-flex;align-items:center;gap:8px;background:#eff6ff;color:#2563eb;padding:12px 24px;border-radius:10px;font-weight:600;font-size:0.9rem;text-decoration:none;border:1px solid #bfdbfe;">
-    🔍 Pas sûr de votre problème ? Faites le diagnostic gratuit
+    <span aria-hidden="true">🔍</span> Pas sûr de votre problème ? Faites le diagnostic gratuit
   </a>
 </div>
 </section>
@@ -581,17 +582,17 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px;text-align:left;">
       <div style="background:#f9fafb;border-radius:12px;padding:18px;">
-        <div style="font-size:1.4rem;margin-bottom:8px;">🔍</div>
+        <div style="font-size:1.4rem;margin-bottom:8px;"><span aria-hidden="true">🔍</span></div>
         <p style="font-weight:700;font-size:0.9rem;color:#374151;margin-bottom:4px;">Diagnostic précis</p>
         <p style="font-size:0.9rem;color:#374151;">Questions ciblées pour identifier votre problème</p>
       </div>
       <div style="background:#f9fafb;border-radius:12px;padding:18px;">
-        <div style="font-size:1.4rem;margin-bottom:8px;">💡</div>
+        <div style="font-size:1.4rem;margin-bottom:8px;"><span aria-hidden="true">💡</span></div>
         <p style="font-weight:700;font-size:0.9rem;color:#374151;margin-bottom:4px;">Conseils gratuits</p>
         <p style="font-size:0.9rem;color:#374151;">Ce que vous pouvez essayer vous-même</p>
       </div>
       <div style="background:#f9fafb;border-radius:12px;padding:18px;">
-        <div style="font-size:1.4rem;margin-bottom:8px;">💰</div>
+        <div style="font-size:1.4rem;margin-bottom:8px;"><span aria-hidden="true">💰</span></div>
         <p style="font-weight:700;font-size:0.9rem;color:#374151;margin-bottom:4px;">Estimation de prix</p>
         <p style="font-size:0.9rem;color:#374151;">Le service adapté avec son tarif indicatif</p>
       </div>
@@ -599,7 +600,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 
     <a href="diagnostic.html" style="display:inline-flex;align-items:center;gap:8px;background:#2563eb;color:#fff;padding:16px 36px;border-radius:12px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .2s;"
       onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
-      🔍 Lancer le diagnostic gratuit
+      <span aria-hidden="true">🔍</span> Lancer le diagnostic gratuit
     </a>
     <p style="font-size:0.9rem;color:#374151;margin-top:10px;">Sans inscription · 2 minutes · 100% gratuit</p>
   </div>
@@ -818,7 +819,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
   </div>
 </section>
-<section id="avis" class="avis-section">
+<section id="avis" class="avis-section" hidden>
   <div class="container">
     <div class="section-label">Avis clients</div>
     <h2 class="section-title">Ce que disent mes clients</h2>
@@ -829,7 +830,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
     </div>
     <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
       <a id="avisVoirTous" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none">Voir tous les avis sur Google</a>
-      <a id="avisLaisser" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none">⭐ Laisser un avis sur Google</a>
+      <a id="avisLaisser" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none"><span aria-hidden="true">⭐</span> Laisser un avis sur Google</a>
     </div>
     <p style="margin-top:1rem;color:var(--muted);font-size:0.9rem;text-align:center">Après chaque intervention, un lien vers le formulaire d'avis Google vous est envoyé par e-mail.</p>
   </div>
@@ -929,14 +930,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         </div>
         <!-- Badges de confiance -->
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:0.25rem">
-          <span style="background:#3b82f618;border:1px solid #3b82f630;color:var(--accent2);padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">🏆 10 ans d'exp.</span>
-          <span style="background:#22c55e14;border:1px solid #22c55e30;color:#166534;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">✅ SIRET vérifié</span>
-          <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#92400e;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">⭐ Premiers retours excellents</span>
+          <span style="background:#3b82f618;border:1px solid #3b82f630;color:var(--accent2);padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600"><span aria-hidden="true">🏆</span> 10 ans d'exp.</span>
+          <span style="background:#22c55e14;border:1px solid #22c55e30;color:#166534;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600"><span aria-hidden="true">✅</span> SIRET vérifié</span>
+          <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#92400e;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600"><span aria-hidden="true">⭐</span> Premiers retours excellents</span>
         </div>
         <div class="values">
-          <div class="value-item"><div class="value-icon">🎯</div><div><h3>Transparence totale</h3><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
-          <div class="value-item"><div class="value-icon">⚡</div><div><h3>Réactivité</h3><p>Intervention généralement sous 24h, parfois le jour même selon les disponibilités.</p></div></div>
-          <div class="value-item"><div class="value-icon">🤝</div><div><h3>Pédagogie</h3><p>Je vous explique ce qui s'est passé et comment éviter que ça se reproduise.</p></div></div>
+          <div class="value-item"><div class="value-icon"><span aria-hidden="true">🎯</span></div><div><h3>Transparence totale</h3><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
+          <div class="value-item"><div class="value-icon"><span aria-hidden="true">⚡</span></div><div><h3>Réactivité</h3><p>Intervention généralement sous 24h, parfois le jour même selon les disponibilités.</p></div></div>
+          <div class="value-item"><div class="value-icon"><span aria-hidden="true">🤝</span></div><div><h3>Pédagogie</h3><p>Je vous explique ce qui s'est passé et comment éviter que ça se reproduise.</p></div></div>
           <!-- RC Pro en attente d'attestation : décommenter et compléter avec l'assureur et la référence une fois disponible.
           <div class="value-item"><div class="value-icon">🛡️</div><div><h3>Assurance RC Pro</h3><p>Couverture professionnelle dédiée aux interventions à domicile.</p></div></div>
           -->
@@ -1017,7 +1018,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <div class="seo-card"><h3>Technicien expérimenté</h3><p>Plus de 10 ans d'expérience professionnelle en itinérance pour de grandes entreprises, aujourd'hui au service des Franciliens.</p></div>
       <div class="seo-card"><h3>Intervention à domicile uniquement</h3><p>Pas besoin de démonter votre ordinateur. Je viens chez vous.</p></div>
       <div class="seo-card"><h3>Paiement après intervention</h3><p>Vous ne payez qu'une fois satisfait. Devis gratuit.</p></div>
-      <div class="seo-card"><h3>Disponible rapidement</h3><p>Disponible en semaine et souvent le week-end. Délai moyen : moins de 24h.</p></div>       <div class="seo-card" style="border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)"><h4>🌐 Technicien & Développeur web</h4><p>Dépannage informatique et création de sites web sous le même toit. Un seul interlocuteur pour tous vos besoins numériques.</p></div>     </div>
+      <div class="seo-card"><h3>Disponible rapidement</h3><p>Disponible en semaine et souvent le week-end. Délai moyen : moins de 24h.</p></div>       <div class="seo-card" style="border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)"><h4><span aria-hidden="true">🌐</span> Technicien & Développeur web</h4><p>Dépannage informatique et création de sites web sous le même toit. Un seul interlocuteur pour tous vos besoins numériques.</p></div>     </div>
     </div>
   </div>
 </section>
@@ -1052,7 +1053,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
         </div>
       </div>
       <div id="rdv" class="contact-cta-box" style="margin-top:0;align-self:center">
-        <div style="font-size:2.5rem;margin-bottom:0.75rem">📅</div>
+        <div style="font-size:2.5rem;margin-bottom:0.75rem"><span aria-hidden="true">📅</span></div>
         <h3>Prendre rendez-vous</h3>
         <p>Réservez votre créneau en ligne en quelques secondes. Je confirme sous 24h.</p>
         <a href="makouez-it-rdv.html" class="btn-primary" onclick="trackEvent('conversion','rdv_click','contact_section')">Réserver un créneau →</a>
@@ -1090,7 +1091,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="suivi-modal">
     <button class="suivi-modal-close" onclick="closeSuiviModal()" aria-label="Fermer la fenêtre">✕</button>
     <div id="suiviFormWrap">
-      <h3 id="suiviModalTitle">🔍 Suivre ma demande</h3>
+      <h3 id="suiviModalTitle"><span aria-hidden="true">🔍</span> Suivre ma demande</h3>
       <p>Entrez votre adresse email pour recevoir à nouveau le lien de suivi de votre réservation.</p>
       <input class="suivi-input" type="email" id="suiviEmail" placeholder="votre@email.com" oninput="checkSuiviForm()">
       <div class="suivi-error" id="suiviError"></div>
@@ -1098,7 +1099,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <p style="font-size:0.9rem;color:var(--muted);text-align:center">Vous n'avez pas encore de réservation ? <a href="makouez-it-rdv.html" style="color:var(--accent2);text-decoration:none">Prendre rendez-vous →</a></p>
     </div>
     <div id="suiviSuccessWrap" style="display:none" class="suivi-success">
-      <div class="suivi-success-icon">📧</div>
+      <div class="suivi-success-icon"><span aria-hidden="true">📧</span></div>
       <div style="font-family:Syne,sans-serif;font-weight:700;font-size:1rem">Email envoyé !</div>
       <p>Le lien de suivi de votre réservation a été envoyé à votre adresse email. Vérifiez votre boîte de réception.</p>
       <button onclick="closeSuiviModal()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.6rem 1.2rem;cursor:pointer;font-family:DM Sans,sans-serif;font-size:0.9rem">Fermer</button>
@@ -1135,7 +1136,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <button class="btn-submit-avis" id="btnSubmitAvis">Envoyer mon avis</button>
     </div>
     <div id="avisSuccessWrap" class="avis-success" style="display:none">
-      <div class="avis-success-icon">🎉</div>
+      <div class="avis-success-icon"><span aria-hidden="true">🎉</span></div>
       <h4>Merci pour votre avis !</h4>
       <p>Votre retour a bien été enregistré. Il apparaîtra prochainement sur le site.</p>
     </div>
@@ -1432,6 +1433,9 @@ async function loadAvis() {
     if (writeUrl) { const b=document.getElementById('avisLaisser'); b.href=writeUrl; b.style.display=''; }
     if (allUrl)   { const b=document.getElementById('avisVoirTous'); b.href=allUrl; b.style.display=''; }
     if (!g.count || avis.length === 0) return;
+    // Le bloc et ses liens de menu ne s'affichent que s'il y a de vrais avis
+    document.getElementById('avis').hidden = false;
+    document.querySelectorAll('.js-avis-link').forEach((el) => { el.hidden = false; });
     moyenneEl.style.display='';
     const r=Math.round(g.rating||0);
     moyenneEl.innerHTML=`<div class="avis-moyenne-num">${Number(g.rating).toFixed(1).replace('.',',')}</div><div><div class="avis-moyenne-stars" aria-label="Note moyenne ${Number(g.rating).toFixed(1)} sur 5">${'★'.repeat(r)}${'☆'.repeat(5-r)}</div><div class="avis-moyenne-count">${g.count} avis sur Google</div></div>`;
@@ -1478,7 +1482,7 @@ document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
 <!-- BANDEAU PROMO BAS — BIENVENUE10 -->
 <div class="promo-banner" id="promoBanner" role="region" aria-label="Offre de bienvenue">
   <div class="promo-banner-text">
-    🎁 <strong>−10% sur votre 1ère intervention</strong> — code&nbsp;<span class="promo-banner-code">BIENVENUE10</span>&nbsp;à mentionner à la réservation
+    <span aria-hidden="true">🎁</span> <strong>−10% sur votre 1ère intervention</strong> — code&nbsp;<span class="promo-banner-code">BIENVENUE10</span>&nbsp;à mentionner à la réservation
   </div>
   <div class="promo-banner-actions">
     <a href="makouez-it-rdv.html?promo=BIENVENUE10" class="promo-banner-cta" onclick="trackEvent('conversion','promo_banner_rdv','bandeau')">Réserver →</a>
@@ -1517,5 +1521,7 @@ document.querySelectorAll('a[href^="tel:"]').forEach(a=>{
   a.addEventListener('click',()=>trackEvent('conversion','phone_click','tel_link'));
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

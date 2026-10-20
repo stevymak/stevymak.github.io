@@ -107,6 +107,7 @@
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez<span>IT</span></a>
@@ -114,7 +115,7 @@
   <a href="makouez-it-rdv.html?service=sauvegarde-securite" class="nav-rdv">Prendre RDV</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu" tabindex="-1">
   <section class="hero-svc">
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <a href="index.html">Accueil</a>
@@ -138,22 +139,22 @@
     <h2>Ce que Stevy met en place</h2>
     <div class="points-grid">
       <div class="point-card">
-        <div class="point-icon">💾</div>
+        <div class="point-icon"><span aria-hidden="true">💾</span></div>
         <div class="point-title">Sauvegarde automatique</div>
         <div class="point-desc">Configuration d'une sauvegarde planifiée (Windows Backup, Macrium, OneDrive) qui s'exécute sans que vous ayez à y penser.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🛡️</div>
+        <div class="point-icon"><span aria-hidden="true">🛡️</span></div>
         <div class="point-title">Antivirus &amp; pare-feu</div>
         <div class="point-desc">Installation et configuration d'un antivirus efficace, vérification et activation du pare-feu Windows, mises à jour automatiques.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🎣</div>
+        <div class="point-icon"><span aria-hidden="true">🎣</span></div>
         <div class="point-title">Protection anti-arnaques</div>
         <div class="point-desc">Blocage des sites malveillants, extensions de navigateur protectrices, sensibilisation concrète aux tentatives de phishing.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">☁️</div>
+        <div class="point-icon"><span aria-hidden="true">☁️</span></div>
         <div class="point-title">Règle 3-2-1 expliquée</div>
         <div class="point-desc">3 copies de vos données, sur 2 supports différents (PC + disque externe), avec 1 sauvegarde hors site (cloud). La méthode des professionnels.</div>
       </div>
@@ -286,5 +287,7 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   });
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

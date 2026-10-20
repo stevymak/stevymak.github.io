@@ -84,13 +84,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Blog", "name": "Blog & Conseils informatiques – Makouez IT", "description": "Conseils, astuces et mini-tutos informatiques par Stevy (Makouez IT). Apprenez à résoudre vos problèmes informatiques facilement.", "url": "https://makouezit.org/blog.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">← Retour au site</a>
 </nav>
 
-<div class="page">
+<div class="page" id="contenu" tabindex="-1">
   <div class="page-label">Conseils & Astuces</div>
   <h1 class="page-title">Blog informatique</h1>
   <p class="page-sub">Des guides pratiques rédigés par Stevy pour vous aider à résoudre vos problèmes informatiques du quotidien — sans jargon.</p>
@@ -621,5 +622,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeArticle();
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>
