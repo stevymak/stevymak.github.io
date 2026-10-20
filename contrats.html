@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <script src="/consent.js"></script>
+<script src="/tarifs.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contrats & Forfaits Particuliers – Makouez IT | Île-de-France</title>
 <link rel="canonical" href="https://makouezit.org/contrats.html">
-<meta name="description" content="Choisissez votre contrat Makouez IT : Découverte 19€/mois, Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.">
+<meta name="description" content="Choisissez votre contrat Makouez IT : Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
@@ -134,11 +135,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Makouez IT">
 <meta property="og:title" content="Contrats &amp; Forfaits Particuliers – Makouez IT | Île-de-France">
-<meta property="og:description" content="Choisissez votre contrat Makouez IT : Découverte 19€/mois, Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.">
+<meta property="og:description" content="Choisissez votre contrat Makouez IT : Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.">
 <meta property="og:url" content="https://makouezit.org/contrats.html">
 <meta property="og:image" content="https://makouezit.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Contrats & Forfaits Particuliers – Makouez IT | Île-de-France", "description": "Choisissez votre contrat Makouez IT : Découverte 19€/mois, Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.", "url": "https://makouezit.org/contrats.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Contrats & Forfaits Particuliers – Makouez IT | Île-de-France", "description": "Choisissez votre contrat Makouez IT : Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.", "url": "https://makouezit.org/contrats.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
 </head>
 <body>
 <nav>
@@ -150,30 +151,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   <h1 class="page-title">Choisissez votre contrat</h1>
   <p class="page-sub">Un accompagnement informatique à domicile, adapté à votre situation. Sans engagement, résiliable à tout moment.</p>
 
-  <div class="sap-info">
-    🎁 <strong>Crédit d'impôt « services à la personne » : démarche en cours</strong><br>
-    <span style="font-size:0.9rem;font-style:italic">* Information : le crédit d'impôt « services à la personne » (50 %) n'est pas encore applicable. L'activité est en cours de déclaration. Il ne concernera que l'assistance informatique à domicile pour les particuliers (hors réparation de matériel et hors interventions à distance), dans la limite de 3 000 € de dépenses par an. Aucun avantage fiscal n'est garanti à ce jour. Prix en euros, TVA non applicable (art. 293 B du CGI).</span>
-  </div>
+  <p class="page-sub" style="font-size:0.9rem;margin-top:-1rem">Prix en euros, TVA non applicable (art. 293 B du CGI).</p>
 
   <div class="contrats-grid">
-    <div class="contrat-card">
-      <div class="contrat-icon">🚀</div>
-      <div class="contrat-name">Découverte</div>
-      <div class="contrat-price">19€ <span>/mois</span></div>
-      <div class="contrat-desc">Idéal pour démarrer — 1 intervention à distance + hotline email</div>
-      <ul class="contrat-features">
-        <li>1 intervention à distance / mois</li>
-        <li>Hotline email (réponse sous 48h)</li>
-        <li>Conseils & guides personnalisés</li>
-        <li>Sans engagement</li>
-      </ul>
-      <button class="btn-souscrire" onclick="openModal('decouverte','Contrat Découverte','19€/mois')">Demander ma souscription →</button>
-    </div>
     <div class="contrat-card featured">
       <div class="contrat-badge">Le plus demandé</div>
       <div class="contrat-icon">🛡️</div>
       <div class="contrat-name">Contrat Sérénité</div>
-      <div class="contrat-price">65€ <span>/mois</span></div>
+      <div class="contrat-price"><span data-tarif="contrats.serenite.prix">65&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Assistance prioritaire toute l'année pour particuliers</div>
       <ul class="contrat-features">
         <li>2 interventions/mois incluses à domicile</li><li>Priorité de passage (sous 24h)</li>
@@ -185,7 +170,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="contrat-card">
       <div class="contrat-icon">👴</div>
       <div class="contrat-name">Pack Senior+</div>
-      <div class="contrat-price">55€ <span>/mois</span></div>
+      <div class="contrat-price"><span data-tarif="contrats.senior.prix">55&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Accompagnement doux et pédagogique pour les seniors</div>
       <ul class="contrat-features">
         <li>Visites régulières à domicile</li><li>Formation progressive à votre rythme</li>
@@ -197,7 +182,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="contrat-card">
       <div class="contrat-icon">👨‍👩‍👧‍👦</div>
       <div class="contrat-name">Pack Famille</div>
-      <div class="contrat-price">79€ <span>/mois</span></div>
+      <div class="contrat-price"><span data-tarif="contrats.famille.prix">79&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Toute la famille couverte sur 3 appareils</div>
       <ul class="contrat-features">
         <li>3 appareils couverts</li><li>3 interventions/mois incluses</li>
@@ -212,24 +197,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="compare-title">Comparatif détaillé</div>
     <div style="overflow-x:auto">
       <table class="compare-table">
-        <thead><tr><th style="width:30%">Fonctionnalité</th><th>Découverte</th><th>Sérénité</th><th>Senior+</th><th>Famille</th></tr></thead>
+        <thead><tr><th style="width:34%">Fonctionnalité</th><th>Sérénité</th><th>Senior+</th><th>Famille</th></tr></thead>
         <tbody>
-          <tr><td class="feat">Interventions à domicile</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Intervention à distance</td><td>1/mois</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Priorité sous 24h</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
-          <tr><td class="feat">Hotline email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Support téléphonique</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Formation incluse</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td></tr>
-          <tr><td class="feat">Contrôle parental</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Nombre d'appareils</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
-          <tr><td class="feat">Bilan annuel</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Protection anti-arnaques</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Interventions à domicile</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Intervention à distance</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Priorité sous 24h</td><td><span class="check">✓</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
+          <tr><td class="feat">Hotline email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Support téléphonique</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Formation incluse</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td></tr>
+          <tr><td class="feat">Contrôle parental</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Nombre d'appareils</td><td>1</td><td>1</td><td>3</td></tr>
+          <tr><td class="feat">Bilan annuel</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Protection anti-arnaques</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr><td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">19€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">65€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">55€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">79€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="contrats.serenite.prix">65&nbsp;€</span></td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="contrats.senior.prix">55&nbsp;€</span></td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="contrats.famille.prix">79&nbsp;€</span></td>
           </tr>
         </tbody>
       </table>
@@ -238,9 +222,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
   <div class="faq-mini">
     <div class="faq-mini-title">Questions fréquentes sur les contrats</div>
-    <div class="faq-item"><div class="faq-q">Comment fonctionne l'abonnement ? <span class="faq-arrow">+</span></div><div class="faq-a">Après validation de votre demande, Stevy vous contacte pour confirmer les modalités. Le paiement est mensuel, par virement ou prélèvement. Vous pouvez résilier à tout moment avec un préavis de 30 jours.</div></div>
-    <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous êtes libre de résilier à tout moment avec un simple email. Le premier mois est intégralement dû.</div></div>
-    <div class="faq-item"><div class="faq-q">Combien d'interventions puis-je demander par mois ? <span class="faq-arrow">+</span></div><div class="faq-a">Le contrat Sérénité inclut 2 interventions par mois et le Pack Famille 3 interventions par mois. Au-delà, une intervention supplémentaire est facturée au tarif en vigueur (heure supplémentaire : 45 €/h).</div></div>
+    <div class="faq-item"><div class="faq-q">Comment fonctionne l'abonnement ? <span class="faq-arrow">+</span></div><div class="faq-a">Après validation de votre demande, Stevy vous contacte pour confirmer les modalités. Le paiement est mensuel (carte bancaire, virement, espèces ou PayPal). Vous pouvez résilier à tout moment, sans frais ni préavis : la résiliation prend effet à la fin du mois en cours.</div></div>
+    <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous êtes libre de résilier à tout moment par simple email, sans préavis : le contrat s'arrête à la fin du mois en cours, déjà payé.</div></div>
+    <div class="faq-item"><div class="faq-q">Combien d'interventions puis-je demander par mois ? <span class="faq-arrow">+</span></div><div class="faq-a">Le contrat Sérénité inclut 2 interventions par mois et le Pack Famille 3 interventions par mois. Au-delà, une intervention supplémentaire est facturée au tarif en vigueur (heure supplémentaire : <span data-tarif="depannage.heureSup.prix">45&nbsp;€</span>/h).</div></div>
     <div class="faq-item"><div class="faq-q">Puis-je changer de formule ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, vous pouvez passer d'une formule à une autre à tout moment. Le changement prend effet le mois suivant.</div></div>
     <div class="faq-item"><div class="faq-q">Comment suivre ma demande après souscription ? <span class="faq-arrow">+</span></div><div class="faq-a">Après soumission du formulaire, Stevy vous recontacte par email ou téléphone. Si vous créez un espace client lors de la souscription, votre contrat sera aussi visible dans votre espace sécurisé.</div></div>
   </div>
@@ -264,7 +248,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="maint-card">
       <div class="maint-type">Basique</div>
       <div class="maint-name">Maintenance Essentielle</div>
-      <div class="maint-price">49€ <span>/mois</span></div>
+      <div class="maint-price"><span data-tarif="maintenanceWeb.essentielle.prix">49&nbsp;€</span> <span>/mois</span></div>
       <div class="maint-desc">Pour les sites vitrines simples. Surveillance passive et corrections légères.</div>
       <div class="maint-divider"></div>
       <ul class="maint-features">
@@ -281,7 +265,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="maint-badge">Recommandé</div>
       <div class="maint-type">Pro</div>
       <div class="maint-name">Maintenance Pro</div>
-      <div class="maint-price">99€ <span>/mois</span></div>
+      <div class="maint-price"><span data-tarif="maintenanceWeb.pro.prix">99&nbsp;€</span> <span>/mois</span></div>
       <div class="maint-desc">Pour les sites Firebase, RDV, espace client. Réactivité garantie sous 48h.</div>
       <div class="maint-divider"></div>
       <ul class="maint-features">
@@ -300,7 +284,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="maint-card">
       <div class="maint-type">Premium</div>
       <div class="maint-name">Maintenance & Évolution</div>
-      <div class="maint-price">179€ <span>/mois</span></div>
+      <div class="maint-price"><span data-tarif="maintenanceWeb.evolution.prix">179&nbsp;€</span> <span>/mois</span></div>
       <div class="maint-desc">Pour les sites actifs à fort usage. Heures de développement incluses chaque mois.</div>
       <div class="maint-divider"></div>
       <ul class="maint-features">
@@ -335,9 +319,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
           <tr><td class="feat">1 mois offert (site Makouez IT)</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr>
             <td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
-            <td class="maint-price-cell">49€</td>
-            <td class="maint-price-cell">99€</td>
-            <td class="maint-price-cell">179€</td>
+            <td class="maint-price-cell"><span data-tarif="maintenanceWeb.essentielle.prix">49&nbsp;€</span></td>
+            <td class="maint-price-cell"><span data-tarif="maintenanceWeb.pro.prix">99&nbsp;€</span></td>
+            <td class="maint-price-cell"><span data-tarif="maintenanceWeb.evolution.prix">179&nbsp;€</span></td>
           </tr>
         </tbody>
       </table>
@@ -350,7 +334,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     <div class="faq-item"><div class="faq-q">Mon site a été créé par quelqu'un d'autre, puis-je souscrire ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, tout à fait. Stevy effectuera un audit technique préalable de votre site (gratuit) pour vérifier la compatibilité avant de démarrer le contrat de maintenance.</div></div>
     <div class="faq-item"><div class="faq-q">Que couvre une "modification de contenu" ? <span class="faq-arrow">+</span></div><div class="faq-a">Mise à jour d'un texte, d'une image, d'un prix ou d'une information sur votre site. Les modifications de fonctionnalités (nouveau formulaire, nouvelle page) relèvent des heures de développement du forfait Évolution.</div></div>
     <div class="faq-item"><div class="faq-q">Que se passe-t-il si je n'utilise pas mes heures de dev (forfait Évolution) ? <span class="faq-arrow">+</span></div><div class="faq-a">Les heures non utilisées sont reportées au mois suivant, dans la limite de 3 mois de cumul maximum. Elles ne sont pas remboursables.</div></div>
-    <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous pouvez résilier à tout moment avec un préavis de 30 jours par email. Le premier mois est intégralement dû.</div></div>
+    <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous pouvez résilier à tout moment par simple email, sans préavis : le contrat s'arrête à la fin du mois en cours, déjà payé.</div></div>
   </div>
 
 </div>
@@ -380,6 +364,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="field"><label>Adresse *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine"></div>
       <div class="field"><label>Mot de passe espace client (optionnel)</label><input class="form-input" id="fPwd" type="password" placeholder="6 caracteres minimum"><div style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem">Optionnel : creez votre espace client maintenant pour suivre plus facilement vos contrats et demandes.</div></div>
       <div class="field"><label>Message (optionnel)</label><input class="form-input" id="fMessage" type="text" placeholder="Précisions, questions..."></div>
+      <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;margin:.75rem 0;cursor:pointer;text-align:left"><input type="checkbox" id="fCgv" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>. Le contrat est sans engagement et résiliable à tout moment. Mes données sont traitées selon la <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
       <button class="btn-submit" id="btnSubmit" disabled><span id="btnText">Envoyer ma demande →</span></button>
       <button class="btn-cancel" id="btnCancel">Annuler</button>
     </div>
@@ -431,7 +416,8 @@ function checkForm() {
     && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('fEmail').value.trim())
     && $('fTel').value.trim()
     && $('fAdresse').value.trim()
-    && (!$('fPwd').value.trim() || $('fPwd').value.trim().length >= 6);
+    && (!$('fPwd').value.trim() || $('fPwd').value.trim().length >= 6)
+    && $('fCgv').checked;
   $('btnSubmit').disabled = !ok;
 }
 
@@ -445,6 +431,7 @@ window.openModal = function(key, label, price) {
   $('errMsg').style.display      = 'none';
   $('btnText').textContent       = 'Envoyer ma demande →';
   $('btnSubmit').disabled        = true;
+  $('fCgv').checked             = false;
   // Reset champs
   ['fPrenom','fNom','fEmail','fTel','fAdresse','fPwd','fMessage'].forEach(id => $(id).value = '');
   $('modalOverlay').classList.add('show');
@@ -554,6 +541,7 @@ $('modalOverlay').addEventListener('click', e => { if (e.target === $('modalOver
 
 // Validation en temps réel
 ['fPrenom','fNom','fEmail','fTel','fAdresse'].forEach(id => $(id).addEventListener('input', checkForm));
+$('fCgv').addEventListener('change', checkForm);
 
 // ── FAQ ──
 document.querySelectorAll('.faq-item').forEach(item => {
@@ -565,7 +553,6 @@ const params = new URLSearchParams(window.location.search);
 const cp = params.get('contrat');
 if (cp) {
   const map = {
-    decouverte: ['decouverte', 'Contrat Découverte', '19€/mois'],
     serenite:   ['serenite',   'Contrat Sérénité',   '65€/mois'],
     senior:     ['senior',     'Pack Senior+',        '55€/mois'],
     famille:    ['famille',    'Pack Famille',         '79€/mois'],

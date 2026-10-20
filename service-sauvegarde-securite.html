@@ -15,6 +15,7 @@
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"></noscript>
 
 <script src="/consent.js"></script>
+<script src="/tarifs.js" defer></script>
 
 <!-- Schema.org -->
 <script type="application/ld+json">
@@ -204,21 +205,18 @@
     <div class="tarif-mini">
       <div class="tarif-mini-card">
         <div class="tarif-mini-name">Diag Express</div>
-        <div class="tarif-mini-price">55€</div>
-        <div class="tarif-mini-net">27,50€ net*</div>
+        <div class="tarif-mini-price" data-tarif="depannage.diagExpress.prix">55&nbsp;€</div>
       </div>
       <div class="tarif-mini-card">
         <div class="tarif-mini-name">Standard</div>
-        <div class="tarif-mini-price">89€</div>
-        <div class="tarif-mini-net">44,50€ net*</div>
+        <div class="tarif-mini-price" data-tarif="depannage.standard.prix">89&nbsp;€</div>
       </div>
       <div class="tarif-mini-card">
         <div class="tarif-mini-name">Long format</div>
-        <div class="tarif-mini-price">129€</div>
-        <div class="tarif-mini-net">64,50€ net*</div>
+        <div class="tarif-mini-price" data-tarif="depannage.longFormat.prix">129&nbsp;€</div>
       </div>
     </div>
-    <p class="sap-note">* Crédit d'impôt « services à la personne » non applicable à ce jour (déclaration en cours ; assistance à domicile uniquement, hors réparation de matériel). Configuration sauvegarde + sécurité en général dans le forfait Diag Express ou Standard (1h-2h).</p>
+    <p class="sap-note">Configuration sauvegarde + sécurité en général dans le forfait Diag Express ou Standard (1h-2h). Heure supplémentaire&nbsp;: <span data-tarif="depannage.heureSup.prix">45&nbsp;€</span>. Paiement après l'intervention.</p>
   </section>
 
   <section class="section">
@@ -241,7 +239,7 @@
 
     <div class="faq-item">
       <div class="faq-q">Combien de temps prend la mise en place&nbsp;? <span class="faq-arr">+</span></div>
-      <div class="faq-a">Environ 1h pour une configuration complète couvrant sauvegarde automatique et sécurité de base. Cela correspond au forfait Diag Express (55€ / 27,50€ net*). Si vous souhaitez aller plus loin (formation incluse, multi-appareils), prévoir le forfait Standard.</div>
+      <div class="faq-a">Environ 1h pour une configuration complète couvrant sauvegarde automatique et sécurité de base. Cela correspond au forfait Diag Express (<span data-tarif="depannage.diagExpress.prix">55&nbsp;€</span>). Si vous souhaitez aller plus loin (formation incluse, multi-appareils), prévoir le forfait Standard.</div>
     </div>
   </section>
 

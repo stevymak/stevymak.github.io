@@ -1,0 +1,49 @@
+{
+  "_doc": "Grille tarifaire unique de Makouez IT. Modifier UNIQUEMENT ce fichier, puis lancer `node tests/check-tarifs.mjs` : le test liste les pages dont le prix écrit en dur (repris par Google) ne correspond plus. Prix TTC, TVA non applicable (art. 293 B du CGI) ; offres pro en HT (identique, franchise en base de TVA). null = sur devis.",
+  "maj": "2026-10-20",
+  "depannage": {
+    "diagExpress": { "nom": "Diag Express", "prix": 55, "duree": "1 h", "detail": "Déplacement + diagnostic + 1 réparation simple" },
+    "standard":    { "nom": "Standard",     "prix": 89, "duree": "2 h", "detail": "Diagnostic complet + dépannage + conseils" },
+    "longFormat":  { "nom": "Long format",  "prix": 129, "duree": "3 h", "detail": "Réinstallation Windows ou récupération de données, sauvegarde et transfert inclus" },
+    "heureSup":    { "nom": "Heure supplémentaire", "prix": 45, "unite": "h" },
+    "deplacementSansSolution": { "nom": "Déplacement si le problème ne peut pas être résolu", "prix": 30 }
+  },
+  "services": {
+    "depannagePc":          { "nom": "Dépannage PC",                      "prix": 55,  "aPartirDe": true },
+    "installationWindows":  { "nom": "Installation Windows et logiciels", "prix": 89,  "aPartirDe": true, "note": "Long format (129 €) si sauvegarde ou transfert de données" },
+    "reseauWifi":           { "nom": "Réseau Wi-Fi",                      "prix": 55,  "aPartirDe": true },
+    "recuperationDonnees":  { "nom": "Récupération de données",           "prix": 89,  "aPartirDe": false, "note": "Forfait Standard" },
+    "sauvegardeSecurite":   { "nom": "Sauvegarde & sécurité",             "prix": 55,  "aPartirDe": true },
+    "formation":            { "nom": "Formation et accompagnement",       "prix": 40,  "unite": "h" },
+    "developpementWeb":     { "nom": "Intégration / Développement web",   "prix": 990, "aPartirDe": true }
+  },
+  "contrats": {
+    "serenite": { "nom": "Contrat Sérénité", "prix": 65, "unite": "mois" },
+    "senior":   { "nom": "Pack Senior+",     "prix": 55, "unite": "mois" },
+    "famille":  { "nom": "Pack Famille",     "prix": 79, "unite": "mois" }
+  },
+  "web": {
+    "essentiel":      { "nom": "Site vitrine",     "prix": 990,  "aPartirDe": true },
+    "pro":            { "nom": "Site pro",         "prix": 1890, "aPartirDe": true },
+    "applicationWeb": { "nom": "Application web",  "prix": 3500, "aPartirDe": true }
+  },
+  "maintenanceWeb": {
+    "essentielle": { "nom": "Maintenance Essentielle", "prix": 49,  "unite": "mois" },
+    "pro":         { "nom": "Maintenance Pro",         "prix": 99,  "unite": "mois" },
+    "evolution":   { "nom": "Maintenance & Évolution", "prix": 179, "unite": "mois" }
+  },
+  "pro": {
+    "interventionHeure":  { "nom": "Intervention ponctuelle", "prix": 75,  "unite": "h", "ht": true },
+    "installationPoste":  { "nom": "Pack installation poste", "prix": 180, "ht": true },
+    "auditSecurite":      { "nom": "Audit sécurité TPE",      "prix": 290, "ht": true },
+    "essentiel":          { "nom": "Pro Essentiel",           "prix": 89,  "unite": "mois", "ht": true },
+    "confort":            { "nom": "Pro Confort",             "prix": 249, "unite": "mois", "ht": true },
+    "premium":            { "nom": "Pro Premium",             "prix": null, "ht": true }
+  },
+  "paiement": {
+    "moyens": ["Carte bancaire", "Virement", "Espèces", "PayPal"],
+    "moment": "Après l'intervention, aucun prépaiement",
+    "web": "Acompte de 30 % à la commande, solde à la livraison"
+  },
+  "resiliation": "Sans engagement : résiliable à tout moment, effet à la fin du mois en cours, sans préavis ni frais."
+}

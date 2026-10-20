@@ -54,21 +54,67 @@ function getTransporter() {
 }
 
 // ─── Tarifs et labels contrats ────────────────────────────────────────────────
-const CONTRAT_LABELS = {
-  serenite: "Contrat Sérénité",
-  senior:   "Pack Senior+",
-  famille:  "Pack Famille",
+// ─── Grille tarifaire : copie de /tarifs.json (copiée au déploiement, voir firebase.json) ───
+const TARIFS = (() => {
+  try { return require("./tarifs.json"); }
+  catch (e) { console.error("tarifs.json introuvable dans functions/ :", e.message); return null; }
+})();
+const eur = (v) => (v === null || v === undefined ? "sur devis" : `${v} €`);
+
+const CONTRAT_SOURCES = {
+  serenite:                  TARIFS?.contrats?.serenite,
+  senior:                    TARIFS?.contrats?.senior,
+  famille:                   TARIFS?.contrats?.famille,
+  "maintenance-essentielle": TARIFS?.maintenanceWeb?.essentielle,
+  "maintenance-pro":         TARIFS?.maintenanceWeb?.pro,
+  "maintenance-evolution":   TARIFS?.maintenanceWeb?.evolution,
+  "pro-essentiel":           TARIFS?.pro?.essentiel,
+  "pro-confort":             TARIFS?.pro?.confort,
+  "pro-premium":             TARIFS?.pro?.premium,
 };
-const CONTRAT_TARIFS = {
-  serenite: "65€/mois",
-  senior:   "60€/mois",
-  famille:  "70€/mois",
-};
+const CONTRAT_LABELS = Object.fromEntries(Object.entries(CONTRAT_SOURCES).filter(([, v]) => v).map(([k, v]) => [k, v.nom]));
+const CONTRAT_TARIFS = Object.fromEntries(Object.entries(CONTRAT_SOURCES).filter(([, v]) => v)
+  .map(([k, v]) => [k, typeof v.prix === "number" ? `${v.prix}€/mois` : "Sur devis"]));
+// Avantages repris à l'identique des cartes de contrats.html
 const CONTRAT_FEATURES = {
-  serenite: ["Interventions illimitées à domicile", "Priorité de passage (sous 24h)", "Support téléphonique inclus", "Bilan informatique annuel", "Sans engagement"],
+  serenite: ["2 interventions/mois incluses à domicile", "Priorité de passage (sous 24h)", "Support téléphonique inclus", "Bilan informatique annuel", "Sans engagement"],
   senior:   ["Visites régulières à domicile", "Formation progressive à votre rythme", "Hotline dédiée (lun-sam)", "Protection anti-arnaques", "Sans engagement"],
-  famille:  ["3 appareils couverts (PC, Mac, tablette…)", "Interventions illimitées", "Contrôle parental inclus", "Support pour toute la famille", "Sans engagement"],
+  famille:  ["3 appareils couverts", "3 interventions/mois incluses", "Contrôle parental inclus", "Support pour tous les membres", "Sans engagement"],
 };
+
+// Bloc « tarifs » du prompt du chat, généré depuis la grille pour ne jamais diverger du site.
+function tarifsPrompt(t) {
+  if (!t) return "TARIFS : indisponibles, inviter le visiteur à consulter la page Tarifs du site ou à appeler le 07 45 10 38 27.";
+  const d = t.depannage, sv = t.services, c = t.contrats, w = t.web, m = t.maintenanceWeb, p = t.pro;
+  const ap = (x) => `${x.aPartirDe ? "à partir de " : ""}${eur(x.prix)}`;
+  return `FORFAITS D'INTERVENTION À DOMICILE (déplacement inclus, paiement après l'intervention) :
+- ${d.diagExpress.nom} : ${eur(d.diagExpress.prix)} (${d.diagExpress.duree}) — ${d.diagExpress.detail}
+- ${d.standard.nom} : ${eur(d.standard.prix)} (${d.standard.duree}) — ${d.standard.detail}
+- ${d.longFormat.nom} : ${eur(d.longFormat.prix)} (${d.longFormat.duree}) — ${d.longFormat.detail}
+- Heure supplémentaire : ${eur(d.heureSup.prix)}
+- Si le problème ne peut pas être résolu : seul le déplacement est facturé, ${eur(d.deplacementSansSolution.prix)}
+
+PAR SERVICE :
+- ${sv.depannagePc.nom} : ${ap(sv.depannagePc)}
+- ${sv.installationWindows.nom} : ${ap(sv.installationWindows)} (${sv.installationWindows.note})
+- ${sv.reseauWifi.nom} : ${ap(sv.reseauWifi)}
+- ${sv.recuperationDonnees.nom} : ${ap(sv.recuperationDonnees)} (${sv.recuperationDonnees.note})
+- ${sv.sauvegardeSecurite.nom} : ${ap(sv.sauvegardeSecurite)}
+- ${sv.formation.nom} : ${eur(sv.formation.prix)} de l'heure
+- Création de site : ${w.essentiel.nom} ${ap(w.essentiel)}, ${w.pro.nom} ${ap(w.pro)}, ${w.applicationWeb.nom} ${ap(w.applicationWeb)} (devis gratuit)
+
+CONTRATS MENSUELS PARTICULIERS (${t.resiliation}) :
+- ${c.serenite.nom} : ${eur(c.serenite.prix)}/mois — 2 interventions/mois incluses, priorité 24h, support téléphonique
+- ${c.senior.nom} : ${eur(c.senior.prix)}/mois — visites régulières, formation progressive, hotline dédiée
+- ${c.famille.nom} : ${eur(c.famille.prix)}/mois — 3 appareils couverts, 3 interventions/mois, contrôle parental
+
+MAINTENANCE DE SITE WEB : ${m.essentielle.nom} ${eur(m.essentielle.prix)}/mois, ${m.pro.nom} ${eur(m.pro.prix)}/mois, ${m.evolution.nom} ${eur(m.evolution.prix)}/mois.
+
+PROFESSIONNELS (HT) : intervention ${eur(p.interventionHeure.prix)}/h, ${p.installationPoste.nom} ${eur(p.installationPoste.prix)}, ${p.auditSecurite.nom} ${eur(p.auditSecurite.prix)}, ${p.essentiel.nom} ${eur(p.essentiel.prix)}/mois, ${p.confort.nom} ${eur(p.confort.prix)}/mois, ${p.premium.nom} ${eur(p.premium.prix)}.
+
+PAIEMENT : ${t.paiement.moyens.join(", ")}. ${t.paiement.moment}.
+Aucun crédit d'impôt n'est applicable : ne jamais en promettre.`;
+}
 
 // ─── HELPER : formater une date depuis un dateKey ─────────────────────────────
 function formatDate(dateKey) {
@@ -154,25 +200,12 @@ exports.claudeProxy = onRequest(
 
 Ton rôle : répondre aux questions des visiteurs sur les services, tarifs, disponibilités et orienter vers la prise de rendez-vous.
 
-SERVICES ET TARIFS :
-- Dépannage PC / Mac : 50€ à 100€
-- Installation Windows / Logiciels : à partir de 50€
-- Réseau Wi-Fi : à partir de 50€
-- Récupération de données : à partir de 80€
-- Sauvegarde & sécurité : à partir de 50€
-- Formation / Accompagnement : 55€/h
-- Intégration / Développement web : à partir de 800€ (devis gratuit)
-
-CONTRATS MENSUELS (sans engagement) :
-- Contrat Sérénité : 65€/mois — 2 interventions/mois incluses, priorité 24h, support téléphonique
-- Pack Senior+ : 60€/mois — visites régulières, formation progressive, hotline dédiée
-- Pack Famille : 70€/mois — 3 appareils couverts, contrôle parental, interventions illimitées
+${tarifsPrompt(TARIFS)}
 
 INFOS PRATIQUES :
 - Zone : Île-de-France, principalement 93 (Seine-Saint-Denis) — Pierrefitte-sur-Seine, Saint-Denis, Stains, Saint-Ouen et environs
 - Délai d'intervention : sous 24h à 48h en général
-- Paiement après intervention, devis gratuit avant de commencer
-- Déplacement inclus dans le tarif
+- Devis gratuit avant de commencer
 - Contact : 07 45 10 38 27 | contact@makouezit.org | WhatsApp disponible
 - Prise de RDV en ligne sur le site
 

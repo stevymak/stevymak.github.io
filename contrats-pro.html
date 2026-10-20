@@ -8,6 +8,7 @@
 <meta name="description" content="Forfaits informatiques pour TPE-PME en Île-de-France : intervention ponctuelle 75€/h, infogérance Pro Essentiel 89€/mois, audit sécurité, maintenance multi-postes.">
 <meta name="robots" content="index, follow">
 <script src="/consent.js"></script>
+<script src="/tarifs.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"LocalBusiness","@id":"https://makouezit.org/#business","name":"Makouez IT","telephone":"+33745103827","email":"contact@makouezit.org","url":"https://makouezit.org","areaServed":{"@type":"AdministrativeArea","name":"Île-de-France"}},
@@ -174,26 +175,26 @@ footer a:hover{color:var(--text)}
     <div class="ponctuel-card">
       <div class="ponctuel-icon">🔧</div>
       <div class="ponctuel-name">Intervention ponctuelle</div>
-      <div class="ponctuel-price">75€ <span>/h · minimum 1h</span></div>
+      <div class="ponctuel-price"><span data-tarif="pro.interventionHeure.prix">75&nbsp;€</span> <span>/h · minimum 1h</span></div>
       <div class="ponctuel-desc">Dépannage, configuration, installation logiciel. Déplacement en Île-de-France inclus.</div>
       <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Intervention ponctuelle','75€/h')">Demander un devis →</button>
     </div>
     <div class="ponctuel-card">
       <div class="ponctuel-icon">💻</div>
       <div class="ponctuel-name">Pack installation poste</div>
-      <div class="ponctuel-price">180€ <span>/ poste</span></div>
+      <div class="ponctuel-price"><span data-tarif="pro.installationPoste.prix">180&nbsp;€</span> <span>/ poste</span></div>
       <div class="ponctuel-desc">Montage, configuration Windows, profil utilisateur, logiciels métier, sécurité. Prêt à l'emploi.</div>
       <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Pack installation poste','180€ HT/poste')">Demander un devis →</button>
     </div>
     <div class="ponctuel-card">
       <div class="ponctuel-icon">🔒</div>
       <div class="ponctuel-name">Audit sécurité TPE</div>
-      <div class="ponctuel-price">290€ <span>· ≤ 5 postes</span></div>
+      <div class="ponctuel-price"><span data-tarif="pro.auditSecurite.prix">290&nbsp;€</span> <span>· ≤ 5 postes</span></div>
       <div class="ponctuel-desc">Analyse des risques, vérification mots de passe, antivirus, sauvegardes. Rapport écrit fourni.</div>
       <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Audit sécurité TPE','290€')">Demander un devis →</button>
     </div>
   </div>
-  <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0.5rem">Au-delà de la durée prévue : 75€/h supplémentaire.</p>
+  <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0.5rem">Au-delà de la durée prévue : <span data-tarif="pro.interventionHeure.prix">75&nbsp;€</span>/h supplémentaire.</p>
 
   <!-- CONTRATS PRO -->
   <div class="sub-label">Contrats Pro — assistance régulière</div>
@@ -202,7 +203,7 @@ footer a:hover{color:var(--text)}
     <div class="contrat-pro-card">
       <div class="contrat-pro-icon">🏢</div>
       <div class="contrat-pro-name">Pro Essentiel</div>
-      <div class="contrat-pro-price">89€ <span>/mois</span></div>
+      <div class="contrat-pro-price"><span data-tarif="pro.essentiel.prix">89&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-pro-target">1–3 postes</div>
       <div class="contrat-pro-desc">Téléassistance illimitée + 1 visite trimestrielle à domicile ou en entreprise.</div>
       <ul class="pro-features">
@@ -219,7 +220,7 @@ footer a:hover{color:var(--text)}
       <div class="contrat-pro-badge">Recommandé</div>
       <div class="contrat-pro-icon">🏪</div>
       <div class="contrat-pro-name">Pro Confort</div>
-      <div class="contrat-pro-price">249€ <span>/mois</span></div>
+      <div class="contrat-pro-price"><span data-tarif="pro.confort.prix">249&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-pro-target">4–10 postes</div>
       <div class="contrat-pro-desc">Téléassistance + 1 visite mensuelle + surveillance des sauvegardes.</div>
       <ul class="pro-features">
@@ -236,7 +237,7 @@ footer a:hover{color:var(--text)}
     <div class="contrat-pro-card">
       <div class="contrat-pro-icon">🏬</div>
       <div class="contrat-pro-name">Pro Premium</div>
-      <div class="contrat-pro-price">400€ <span>/mois · à partir de</span></div>
+      <div class="contrat-pro-price"><span data-tarif="pro.premium.prix">Sur devis</span></div>
       <div class="contrat-pro-target">Infogérance complète</div>
       <div class="contrat-pro-desc">Externalisation complète de l'informatique. Tarif sur devis selon taille et besoins.</div>
       <ul class="pro-features">
@@ -247,7 +248,7 @@ footer a:hover{color:var(--text)}
         <li>Accords de niveau de service (SLA)</li>
         <li>Rapport mensuel complet</li>
       </ul>
-      <button class="btn-contact-pro-out" onclick="openModal('pro-premium','Pro Premium','À partir de 400€/mois')">Demander un devis →</button>
+      <button class="btn-contact-pro-out" onclick="openModal('pro-premium','Pro Premium','Sur devis')">Demander un devis →</button>
     </div>
 
   </div>
@@ -270,8 +271,8 @@ footer a:hover{color:var(--text)}
           <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
           <tr>
             <td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">89€</td>
-            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">249€</td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="pro.essentiel.prix">89&nbsp;€</span></td>
+            <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="pro.confort.prix">249&nbsp;€</span></td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif">Sur devis</td>
           </tr>
         </tbody>
@@ -317,7 +318,7 @@ footer a:hover{color:var(--text)}
     <a href="confidentialite.html">Confidentialité</a>
     <a href="cgv.html">CGV</a>
   </div>
-  <div>© 2025 Makouez IT – Stevy Makouezi · SIRET 83955229600023 · <a href="tel:+33745103827">07 45 10 38 27</a> · <a href="mailto:contact@makouezit.org">contact@makouezit.org</a></div>
+  <div>© 2026 Makouez IT – Stevy Makouezi · SIRET 83955229600023 · <a href="tel:+33745103827">07 45 10 38 27</a> · <a href="mailto:contact@makouezit.org">contact@makouezit.org</a></div>
 </footer>
 
 <!-- MODAL DEMANDE PRO -->
@@ -351,6 +352,7 @@ footer a:hover{color:var(--text)}
         <label>Nombre de postes / précisions (optionnel)</label>
         <input class="form-input" id="fMessage" type="text" placeholder="Ex : 5 postes Windows 11, réseau Wi-Fi, imprimante réseau…">
       </div>
+      <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;margin:.75rem 0;cursor:pointer;text-align:left"><input type="checkbox" id="fCgv" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>. Mes données sont traitées selon la <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
       <button class="btn-submit" id="btnSubmit" disabled><span id="btnText">Envoyer ma demande →</span></button>
       <button class="btn-modal-cancel" id="btnCancel">Annuler</button>
     </div>
@@ -393,7 +395,8 @@ function checkForm() {
     && $('fNom').value.trim()
     && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('fEmail').value.trim())
     && $('fTel').value.trim()
-    && $('fAdresse').value.trim();
+    && $('fAdresse').value.trim()
+    && $('fCgv').checked;
   $('btnSubmit').disabled = !ok;
 }
 
@@ -406,6 +409,7 @@ window.openModal = function(key, label, price) {
   $('errMsg').style.display      = 'none';
   $('btnText').textContent       = 'Envoyer ma demande →';
   $('btnSubmit').disabled        = true;
+  $('fCgv').checked             = false;
   ['fSociete','fPrenom','fNom','fEmail','fTel','fAdresse','fMessage'].forEach(id => $(id).value = '');
   $('modalOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -464,6 +468,7 @@ $('btnSubmit').addEventListener('click', submitForm);
 $('modalOverlay').addEventListener('click', e => { if (e.target === $('modalOverlay')) closeModal(); });
 
 ['fSociete','fPrenom','fNom','fEmail','fTel','fAdresse'].forEach(id => $(id).addEventListener('input', checkForm));
+$('fCgv').addEventListener('change', checkForm);
 
 document.querySelectorAll('.faq-item').forEach(item => {
   item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
@@ -476,7 +481,7 @@ if (cp) {
   const map = {
     'pro-essentiel': ['pro-essentiel', 'Pro Essentiel',              '89€/mois'],
     'pro-confort':   ['pro-confort',   'Pro Confort',                '249€/mois'],
-    'pro-premium':   ['pro-premium',   'Pro Premium',                'À partir de 400€/mois'],
+    'pro-premium':   ['pro-premium',   'Pro Premium',                'Sur devis'],
     'pro-ponctuel':  ['pro-ponctuel',  'Intervention ponctuelle Pro', 'Sur devis'],
   };
   if (map[cp]) window.openModal(...map[cp]);

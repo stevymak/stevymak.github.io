@@ -2,7 +2,10 @@
   "functions": [
     {
       "source": "functions",
-      "codebase": "default"
+      "codebase": "default",
+      "predeploy": [
+        "cp \"$PROJECT_DIR/tarifs.json\" \"$RESOURCE_DIR/tarifs.json\""
+      ]
     }
   ],
   "firestore": {

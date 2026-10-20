@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <script src="/consent.js"></script>
+<script src="/tarifs.js" defer></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Makouez IT – Réserver un rendez-vous</title>
@@ -330,27 +331,27 @@
     </div>
     <div class="services-grid">
       <div class="service-card" data-service="Dépannage PC" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">💻</span><span class="name">Dépannage PC</span><span class="price">À partir de 55€</span>
+        <span class="emoji">💻</span><span class="name">Dépannage PC</span><span class="price">À partir de <span data-tarif="services.depannagePc.prix">55&nbsp;€</span></span>
       </div>
-      <div class="service-card" data-service="Installation Windows et logiciels" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">🪟</span><span class="name">Installation Windows et logiciels</span><span class="price">À partir de 55€</span>
+      <div class="service-card" data-service="Installation Windows et logiciels" data-price="À partir de 89€" data-base-price="89" onclick="selectService(this)">
+        <span class="emoji">🪟</span><span class="name">Installation Windows et logiciels</span><span class="price">À partir de <span data-tarif="services.installationWindows.prix">89&nbsp;€</span></span>
       </div>
       <div class="service-card" data-service="Réseau Wi-Fi" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">📶</span><span class="name">Réseau Wi-Fi</span><span class="price">À partir de 55€</span>
+        <span class="emoji">📶</span><span class="name">Réseau Wi-Fi</span><span class="price">À partir de <span data-tarif="services.reseauWifi.prix">55&nbsp;€</span></span>
       </div>
-      <div class="service-card" data-service="Récupération de données" data-price="À partir de 89€" data-base-price="89" onclick="selectService(this)">
-        <span class="emoji">💾</span><span class="name">Récupération données</span><span class="price">À partir de 89€</span>
+      <div class="service-card" data-service="Récupération de données" data-price="89€ (forfait Standard)" data-base-price="89" onclick="selectService(this)">
+        <span class="emoji">💾</span><span class="name">Récupération données</span><span class="price"><span data-tarif="services.recuperationDonnees.prix">89&nbsp;€</span> · forfait Standard</span>
       </div>
       <div class="service-card" data-service="Sauvegarde et sécurité" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">🔒</span><span class="name">Sauvegarde & sécurité</span><span class="price">À partir de 55€</span>
+        <span class="emoji">🔒</span><span class="name">Sauvegarde & sécurité</span><span class="price">À partir de <span data-tarif="services.sauvegardeSecurite.prix">55&nbsp;€</span></span>
       </div>
-      <div class="service-card" data-service="Formation et accompagnement" data-price="55€/h" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji">🎓</span><span class="name">Formation</span><span class="price">À partir de 55€ (1h)</span>
+      <div class="service-card" data-service="Formation et accompagnement" data-price="40€/h" data-base-price="40" onclick="selectService(this)">
+        <span class="emoji">🎓</span><span class="name">Formation</span><span class="price"><span data-tarif="services.formation.prix">40&nbsp;€</span> / heure</span>
       </div>
       <div class="service-card" data-service="Intégration / Développement web" data-price="À partir de 990€" data-base-price="990" onclick="selectService(this)" style="grid-column:span 2;">
         <span class="emoji">🌐</span>
         <span class="name">Développement web <span style="background:var(--blue);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-left:4px;">Nouveau</span></span>
-        <span class="price">À partir de 990€</span>
+        <span class="price">À partir de <span data-tarif="services.developpementWeb.prix">990&nbsp;€</span></span>
       </div>
     </div>
     <div style="margin-top:20px;">
@@ -378,9 +379,9 @@
     <div class="form-group">
       <label>Budget envisagé</label>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="budgetGrid">
-        <div class="slot-web" onclick="selectBudget(this,'800€')">800€</div>
-        <div class="slot-web" onclick="selectBudget(this,'800€ - 1200€')">800€ – 1 200€</div>
-        <div class="slot-web" onclick="selectBudget(this,'800€ - 1200€')">800€ – 1200€</div>
+        <div class="slot-web" onclick="selectBudget(this,'Moins de 1 500 €')">Moins de 1&nbsp;500&nbsp;€</div>
+        <div class="slot-web" onclick="selectBudget(this,'1 500 € – 3 500 €')">1&nbsp;500 – 3&nbsp;500&nbsp;€</div>
+        <div class="slot-web" onclick="selectBudget(this,'Plus de 3 500 €')">Plus de 3&nbsp;500&nbsp;€</div>
         <div class="slot-web" onclick="selectBudget(this,'À définir')">À définir</div>
       </div>
     </div>
@@ -396,6 +397,7 @@
     <div class="form-group"><label>Prénom et nom <span class="required">*</span></label><input class="form-control" id="webName" type="text" placeholder="Jean Dupont" /></div>
     <div class="form-group"><label>Email <span class="required">*</span></label><input class="form-control" id="webEmail" type="email" placeholder="jean@email.com" /></div>
     <div class="form-group"><label>Téléphone</label><input class="form-control" id="webPhone" type="tel" placeholder="06 XX XX XX XX" /></div>
+    <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;margin:.75rem 0;cursor:pointer;text-align:left"><input type="checkbox" id="cgvWeb" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>. Mes données sont traitées selon la <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
     <div class="error-msg" id="webError">Veuillez remplir les champs obligatoires.</div>
     <button class="btn btn-back" onclick="goStep1()">← Retour</button>
     <button class="btn btn-primary" onclick="submitWeb()">Envoyer ma demande →</button>
@@ -478,7 +480,7 @@
       </div>
       <p style="font-size:0.75rem;color:var(--gray-500);margin-top:8px;">✅ Paiement uniquement après intervention · Devis gratuit</p>
     </div>
-    <p style="font-size:0.75rem;color:var(--gray-400);text-align:center;margin-top:12px;">En confirmant, vous acceptez d'être contacté par Stevy (Makouez IT).</p>
+    <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;margin:.75rem 0;cursor:pointer;text-align:left"><input type="checkbox" id="cgvRdv" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>. J'accepte d'être recontacté par Stevy (Makouez IT) au sujet de cette demande. Mes données sont traitées selon la <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
     <div class="error-msg" id="step4Error">Une erreur est survenue. Veuillez réessayer.</div>
     <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
       <button class="btn btn-back" onclick="goStep3()">← Modifier</button>
@@ -956,6 +958,9 @@ function renderSummary() {
 // ══════════════════════════════════════════════
 async function submitRDV() {
   const btn=document.getElementById('confirmBtn'), err=document.getElementById('step4Error');
+  if (!document.getElementById('cgvRdv').checked) {
+    err.textContent='Merci de cocher la case d\'acceptation des conditions générales de vente.'; err.classList.add('visible'); return;
+  }
   btn.disabled=true; btn.textContent='Envoi en cours…'; err.classList.remove('visible');
 
   if (!await waitFirebase()) {
@@ -1085,7 +1090,8 @@ async function submitWeb() {
   const type=document.getElementById('webType').value, desc=document.getElementById('webDesc').value.trim(),
         name=document.getElementById('webName').value.trim(), email=document.getElementById('webEmail').value.trim(),
         err=document.getElementById('webError');
-  if (!type||!desc||!name||!email) { err.classList.add('visible'); return; }
+  if (!type||!desc||!name||!email) { err.textContent='Veuillez remplir les champs obligatoires.'; err.classList.add('visible'); return; }
+  if (!document.getElementById('cgvWeb').checked) { err.textContent='Merci de cocher la case d\'acceptation des conditions générales de vente.'; err.classList.add('visible'); return; }
   err.classList.remove('visible');
   if (await waitFirebase()) {
     try {
