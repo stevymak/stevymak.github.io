@@ -50,16 +50,17 @@
     b.id = 'mit-consent';
     b.setAttribute('role', 'dialog');
     b.setAttribute('aria-label', 'Choix sur les cookies');
-    b.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;max-width:560px;margin:0 auto;' +
-      'background:#ffffff;color:#111827;border:2px solid #1d4ed8;box-shadow:0 8px 30px rgba(15,23,42,.25);font-size:18px;line-height:1.5;border-radius:14px;padding:18px 20px;' +
-      'font:14px/1.5 "DM Sans",Arial,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.5)';
+    // Bandeau compact : une ou deux lignes de texte + deux boutons de même poids (CNIL)
+    b.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;max-width:760px;margin:0 auto;' +
+      'display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:#ffffff;color:#111827;' +
+      'border:2px solid #1d4ed8;border-radius:12px;padding:10px 12px;box-shadow:0 6px 24px rgba(15,23,42,.25);' +
+      'font:15px/1.4 "DM Sans",Arial,sans-serif';
     b.innerHTML =
-      '<p style="margin:0 0 12px">Ce site utilise Google Analytics pour mesurer sa fréquentation. ' +
-      'Aucun cookie de mesure n\u2019est déposé sans votre accord. ' +
+      '<p style="margin:0;flex:1 1 220px">Statistiques de visite (Google Analytics) uniquement avec votre accord. ' +
       '<a href="/confidentialite.html" style="color:#1d4ed8;text-decoration:underline">En savoir plus</a></p>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-      '<button id="mit-refuse" type="button" style="flex:1;min-width:130px;padding:14px 16px;border-radius:10px;border:2px solid #1d4ed8;background:#fff;color:#1d4ed8;font:inherit;font-weight:700;cursor:pointer">Refuser</button>' +
-      '<button id="mit-accept" type="button" style="flex:1;min-width:130px;padding:14px 16px;border-radius:10px;border:2px solid #1d4ed8;background:#1d4ed8;color:#fff;font:inherit;font-weight:700;cursor:pointer">Accepter</button>' +
+      '<div style="display:flex;gap:8px;flex:1 1 220px;max-width:280px">' +
+      '<button id="mit-refuse" type="button" style="flex:1;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid #1d4ed8;background:#fff;color:#1d4ed8;font:inherit;font-weight:700;cursor:pointer">Refuser</button>' +
+      '<button id="mit-accept" type="button" style="flex:1;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid #1d4ed8;background:#1d4ed8;color:#fff;font:inherit;font-weight:700;cursor:pointer">Accepter</button>' +
       '</div>';
     document.body.appendChild(b);
     document.getElementById('mit-accept').onclick = function () { write('granted'); closeBanner(); loadGA(); };

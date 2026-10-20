@@ -312,15 +312,16 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Diagnostic en ligne – Makouez IT", "description": "Diagnostic informatique en ligne Makouez IT : identifiez votre problème PC, Wi-Fi, logiciel ou sécurité avant une intervention.", "url": "https://makouezit.org/diagnostic.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <header>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="back-link">← Retour au site</a>
 </header>
 
-<main>
+<main id="contenu" tabindex="-1">
   <div class="diag-hero">
-    <div class="icon-wrap">🔍</div>
+    <div class="icon-wrap"><span aria-hidden="true">🔍</span></div>
     <h1>Diagnostic en ligne</h1>
     <p>Répondez à quelques questions pour identifier votre problème et le service adapté.</p>
   </div>
@@ -333,10 +334,10 @@
 
   <!-- INTRO -->
   <div class="intro-card" id="introCard">
-    <div style="font-size:2.5rem;margin-bottom:16px;">💻</div>
+    <div style="font-size:2.5rem;margin-bottom:16px;"><span aria-hidden="true">💻</span></div>
     <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Quel est votre problème ?</h2>
     <p style="color:var(--gray-500);font-size:0.9rem;line-height:1.6;">En 2 minutes, identifiez votre panne et obtenez une estimation de prix. Sans inscription, sans jargon.</p>
-    <button class="start-btn" onclick="startDiag()">🚀 Démarrer le diagnostic</button>
+    <button class="start-btn" onclick="startDiag()"><span aria-hidden="true">🚀</span> Démarrer le diagnostic</button>
   </div>
 
   <!-- QUESTIONS -->
@@ -348,7 +349,7 @@
     <div class="result-title" id="resultTitle"></div>
     <div class="result-desc" id="resultDesc"></div>
     <div class="result-tips">
-      <h4>💡 Ce que vous pouvez essayer vous-même :</h4>
+      <h4><span aria-hidden="true">💡</span> Ce que vous pouvez essayer vous-même :</h4>
       <div id="resultTips"></div>
     </div>
     <div class="result-service" id="resultService"></div>
@@ -709,5 +710,7 @@ function restart() {
 }
 </script>
 
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

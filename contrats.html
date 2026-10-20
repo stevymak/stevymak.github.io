@@ -142,11 +142,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Contrats & Forfaits Particuliers – Makouez IT | Île-de-France", "description": "Choisissez votre contrat Makouez IT : Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.", "url": "https://makouezit.org/contrats.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">← Retour au site</a>
 </nav>
-<div class="page">
+<div class="page" id="contenu" tabindex="-1">
   <div class="page-label">Nos forfaits</div>
   <h1 class="page-title">Choisissez votre contrat</h1>
   <p class="page-sub">Un accompagnement informatique à domicile, adapté à votre situation. Sans engagement, résiliable à tout moment.</p>
@@ -156,7 +157,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   <div class="contrats-grid">
     <div class="contrat-card featured">
       <div class="contrat-badge">Le plus demandé</div>
-      <div class="contrat-icon">🛡️</div>
+      <div class="contrat-icon"><span aria-hidden="true">🛡️</span></div>
       <div class="contrat-name">Contrat Sérénité</div>
       <div class="contrat-price"><span data-tarif="contrats.serenite.prix">65&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Assistance prioritaire toute l'année pour particuliers</div>
@@ -168,7 +169,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','65€/mois')">Demander ma souscription →</button>
     </div>
     <div class="contrat-card">
-      <div class="contrat-icon">👴</div>
+      <div class="contrat-icon"><span aria-hidden="true">👴</span></div>
       <div class="contrat-name">Pack Senior+</div>
       <div class="contrat-price"><span data-tarif="contrats.senior.prix">55&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Accompagnement doux et pédagogique pour les seniors</div>
@@ -180,7 +181,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','55€/mois')">Demander ma souscription →</button>
     </div>
     <div class="contrat-card">
-      <div class="contrat-icon">👨‍👩‍👧‍👦</div>
+      <div class="contrat-icon"><span aria-hidden="true">👨‍👩‍👧‍👦</span></div>
       <div class="contrat-name">Pack Famille</div>
       <div class="contrat-price"><span data-tarif="contrats.famille.prix">79&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Toute la famille couverte sur 3 appareils</div>
@@ -199,17 +200,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <table class="compare-table">
         <thead><tr><th style="width:34%">Fonctionnalité</th><th>Sérénité</th><th>Senior+</th><th>Famille</th></tr></thead>
         <tbody>
-          <tr><td class="feat">Interventions à domicile</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Intervention à distance</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Priorité sous 24h</td><td><span class="check">✓</span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
-          <tr><td class="feat">Hotline email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Support téléphonique</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Formation incluse</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="cross">–</span></td></tr>
-          <tr><td class="feat">Contrôle parental</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Interventions à domicile</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Intervention à distance</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Priorité sous 24h</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="cross">–</span></td><td><span class="cross">–</span></td></tr>
+          <tr><td class="feat">Hotline email</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Support téléphonique</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Formation incluse</td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="cross">–</span></td></tr>
+          <tr><td class="feat">Contrôle parental</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr><td class="feat">Nombre d'appareils</td><td>1</td><td>1</td><td>3</td></tr>
-          <tr><td class="feat">Bilan annuel</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Protection anti-arnaques</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Bilan annuel</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Protection anti-arnaques</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Sans engagement</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr><td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="contrats.serenite.prix">65&nbsp;€</span></td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="contrats.senior.prix">55&nbsp;€</span></td>
@@ -308,15 +309,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <table class="compare-table">
         <thead><tr><th style="width:40%">Fonctionnalité</th><th>Essentielle</th><th>Pro</th><th>Évolution</th></tr></thead>
         <tbody>
-          <tr><td class="feat">Surveillance uptime 24h/24</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Surveillance uptime 24h/24</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr><td class="feat">Modifications / mois</td><td>1</td><td>3</td><td>Illimitées</td></tr>
           <tr><td class="feat">Délai correction bugs</td><td>Sous 72h</td><td>Sous 48h</td><td>Sous 24h</td></tr>
-          <tr><td class="feat">Sauvegarde mensuelle du code</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Suivi Firebase</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Support WhatsApp & email</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Sauvegarde mensuelle du code</td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Suivi Firebase</td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Support WhatsApp & email</td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr><td class="feat">Heures de développement / mois</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td>3h</td></tr>
-          <tr><td class="feat">Appel mensuel de suivi</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">1 mois offert (site Makouez IT)</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Appel mensuel de suivi</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">1 mois offert (site Makouez IT)</td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr>
             <td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
             <td class="maint-price-cell"><span data-tarif="maintenanceWeb.essentielle.prix">49&nbsp;€</span></td>
@@ -369,15 +370,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <button class="btn-cancel" id="btnCancel">Annuler</button>
     </div>
     <div class="success-view" id="successView">
-      <div class="success-icon">✓</div>
+      <div class="success-icon"><span aria-hidden="true">✓</span></div>
       <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700">Demande envoyée !</div>
       <div id="successLead" style="color:var(--muted);font-size:0.9rem;max-width:320px;line-height:1.6">Stevy vous contactera sous 24h. Votre demande a bien été enregistrée.</div>
       <div class="success-info" id="successInfoBox">
-        <strong>📩 Suite de votre demande</strong><br>
+        <strong><span aria-hidden="true">📩</span> Suite de votre demande</strong><br>
         Vous serez recontacté rapidement par email ou téléphone pour la mise en place du contrat.
       </div>
-      <a id="btnSuiviLink" href="mon-rdv.html" class="btn-suivi">👤 Accéder à mon espace client</a>
-      <a href="mon-rdv.html" class="btn-espace">🔐 Ouvrir mon espace client</a>
+      <a id="btnSuiviLink" href="mon-rdv.html" class="btn-suivi"><span aria-hidden="true">👤</span> Accéder à mon espace client</a>
+      <a href="mon-rdv.html" class="btn-espace"><span aria-hidden="true">🔐</span> Ouvrir mon espace client</a>
       <button class="btn-cancel" id="btnFermer">Fermer</button>
     </div>
   </div>
@@ -386,6 +387,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <!-- TOUT dans un seul script type="module" pour éviter le problème d'initialisation async -->
 <script type="module">
 import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -399,6 +402,11 @@ const firebaseConfig = {
   appId:             "1:558314427247:web:83e656344dd79019ccce9a"
 };
 const app = initializeApp(firebaseConfig);
+// App Check (reCAPTCHA Enterprise) : actif dès que la clé est renseignée dans /appcheck-config.js
+if (APP_CHECK_SITE_KEY) {
+  try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); }
+  catch (e) { console.warn('App Check indisponible :', e); }
+}
 const auth = getAuth(app);
 const db  = getFirestore(app);
 
@@ -563,5 +571,7 @@ if (cp) {
   if (map[cp]) window.openModal(...map[cp]);
 }
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

@@ -5,8 +5,12 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // Admin = claim `admin` ET connexion avec la vérification en deux étapes (TOTP).
+    // Un mot de passe admin volé ne suffit donc plus pour lire ou modifier les données.
     function isAdmin() {
-      return signedIn() && request.auth.token.admin == true;
+      return signedIn()
+        && request.auth.token.admin == true
+        && request.auth.token.firebase.sign_in_second_factor == 'totp';
     }
 
     function isOwnerUid(uid) {
@@ -50,30 +54,22 @@ service cloud.firestore {
         && reservationMutableFieldsOnly();
     }
 
-    function validReservationCreate() {
+    // Payload de reservation.html sur noirlandmusic.com (dépôt stevymak/Noirlandmusic).
+    function validNoirlandCreate() {
       let d = request.resource.data;
-      return d.keys().hasAll([
-        'service', 'dateKey', 'timeLabel', 'price', 'nom',
-        'telephone', 'email', 'adresse', 'status', 'createdAt'
-      ])
-      && d.keys().hasOnly([
-        'service', 'dateKey', 'timeLabel', 'time', 'price', 'basePrice',
-        'promoCode', 'promoDiscount', 'nom', 'telephone', 'email',
-        'adresse', 'description', 'status', 'createdAt', 'uid'
-      ])
-      && (!('uid' in d)
-        || (signedIn()
-          && d.uid == request.auth.uid
-          && d.email == request.auth.token.email))
-      && str(d.get('service', null), 120)
-      && str(d.dateKey, 10)
-      && str(d.timeLabel, 40)
-      && str(d.nom, 120)
-      && str(d.telephone, 40)
-      && str(d.email, 200)
-      && str(d.adresse, 300)
-      && (!('description' in d) || d.description == null || str(d.description, 3000))
-      && d.status == 'pending';
+      return d.source == 'noirlandmusic.com'
+        && d.keys().hasAll(['name', 'email', 'service', 'date', 'status', 'source', 'createdAt'])
+        && d.keys().hasOnly(['name', 'email', 'phone', 'service', 'date', 'time', 'duration',
+                             'artists', 'project', 'notes', 'status', 'adminEmail', 'source', 'createdAt'])
+        && str(d.name, 120) && str(d.email, 200) && str(d.service, 120) && str(d.date, 40)
+        && (!('phone' in d) || str(d.phone, 40))
+        && (!('time' in d) || str(d.time, 40))
+        && (!('duration' in d) || str(d.duration, 40))
+        && (!('artists' in d) || str(d.artists, 40))
+        && (!('project' in d) || str(d.project, 3000))
+        && (!('notes' in d) || str(d.notes, 3000))
+        && (!('adminEmail' in d) || d.adminEmail == 'noirlandmusic@gmail.com')
+        && d.status == 'pending';
     }
 
     function validContractCreate() {
@@ -90,7 +86,7 @@ service cloud.firestore {
           && d.uid == request.auth.uid
           && d.email == request.auth.token.email))
       && d.contrat in [
-        'decouverte', 'serenite', 'senior', 'famille',
+        'serenite', 'senior', 'famille',
         'pro-ponctuel', 'pro-essentiel', 'pro-confort', 'pro-premium',
         'maintenance-essentielle', 'maintenance-pro', 'maintenance-evolution'
       ]
@@ -125,9 +121,10 @@ service cloud.firestore {
     match /reservations/{reservationId} {
       allow read: if isAdmin() || isOwnerUid(resource.data.uid);
 
-      // Public creation remains allowed for the current public booking flow.
-      // Prefer migrating this to a backend or authenticated flow.
-      allow create: if validReservationCreate();
+      // Création réservée à la Cloud Function createReservation (Admin SDK, hors
+      // règles) qui vérifie quota, créneau et prix — et à l'admin depuis le panneau.
+      // Exception : demandes de session du site Noirland Music (même projet Firebase).
+      allow create: if isAdmin() || validNoirlandCreate();
 
       allow update: if isAdmin()
         || (isOwnerUid(resource.data.uid) && reservationClientUpdateAllowed());
@@ -135,15 +132,12 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // Créneaux pris : collection publique SANS données personnelles, lue et
-    // écrite par makouez-it-rdv.html. Sans cette règle, le calendrier ne voit
-    // aucun créneau occupé (tout est refusé par la règle finale).
+    // Créneaux pris : collection publique SANS données personnelles, lue par
+    // le calendrier de makouez-it-rdv.html et écrite uniquement par la Cloud
+    // Function syncSlot à partir des réservations.
     match /slots/{slotId} {
       allow read: if true;
-      allow create: if request.resource.data.keys().hasOnly(['dateKey', 'timeLabel'])
-        && str(request.resource.data.dateKey, 10)
-        && str(request.resource.data.timeLabel, 40);
-      allow update, delete: if isAdmin();
+      allow write: if false;
     }
 
     match /contrats/{contratId} {
@@ -262,6 +256,12 @@ service cloud.firestore {
     // Données publiques en lecture seule (ex. avis Google synchronisés par une Cloud Function).
     match /public/{docId} {
       allow read: if true;
+      allow write: if false;
+    }
+
+    // Emails désinscrits des envois commerciaux (écrits par la Cloud Function unsubscribe).
+    match /desinscriptions/{hashId} {
+      allow read: if isAdmin();
       allow write: if false;
     }
 

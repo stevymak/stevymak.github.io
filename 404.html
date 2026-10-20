@@ -20,7 +20,8 @@ a.primary{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
-<main class="box">
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+<main class="box" id="contenu" tabindex="-1">
   <div class="code">404</div>
   <h1>Cette page n'existe pas (ou plus)</h1>
   <p>Le lien est peut-être erroné ou la page a été déplacée. Voici où aller :</p>
@@ -30,5 +31,7 @@ a.primary{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
     <a href="/blog.html">Conseils informatiques</a>
   </div>
 </main>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

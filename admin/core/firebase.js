@@ -6,6 +6,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js';
+
+import { APP_CHECK_SITE_KEY } from '/appcheck-config.js';
 import {
   getFirestore,
   collection,
@@ -44,6 +47,11 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+// App Check (reCAPTCHA Enterprise) : actif dès que la clé est renseignée dans /appcheck-config.js
+if (APP_CHECK_SITE_KEY) {
+  try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); }
+  catch (e) { console.warn('App Check indisponible :', e); }
+}
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
@@ -72,6 +80,7 @@ export const fns = {
 export { onAuthStateChanged };
 
 export const callSendReminder         = httpsCallable(functionsInstance, 'sendReminderManual');
+export const callRebuildSlots        = httpsCallable(functionsInstance, 'rebuildSlots');
 export const callSendInvoiceReminder  = httpsCallable(functionsInstance, 'sendInvoiceReminderManual');
 export const callSendCampaign         = httpsCallable(functionsInstance, 'sendCampaign');
 

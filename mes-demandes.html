@@ -70,10 +70,11 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <a class="back-link" href="index.html">← Retour au site</a>
 
-<div class="page-header">
+<div class="page-header" id="contenu" tabindex="-1">
   <div class="logo">Makouez <span>IT</span></div>
   <h1>Mes demandes</h1>
   <p id="pageSubtitle">Chargement de vos réservations…</p>
@@ -81,7 +82,7 @@ h1,h2,h3{font-family:'Syne',sans-serif}
 
 <div id="mainContent">
   <div class="empty-state">
-    <div class="empty-icon">🔐</div>
+    <div class="empty-icon"><span aria-hidden="true">🔐</span></div>
     <div class="empty-title">Suivi direct désactivé</div>
     <div class="empty-sub">Cette page n'affiche plus les réservations par simple lien email, afin de respecter des règles Firestore strictes. Utilisez désormais l'espace client sécurisé pour suivre vos rendez-vous.</div>
     <div class="actions">
@@ -91,5 +92,7 @@ h1,h2,h3{font-family:'Syne',sans-serif}
     </div>
   </div>
 </div>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

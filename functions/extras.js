@@ -5,6 +5,7 @@ const admin = require('firebase-admin');
 const crypto = require('crypto');
 const { defineSecret } = require('firebase-functions/params');
 const { Resend } = require('resend');
+const { unsubscribedAmong, unsubscribeParts, withFooter } = require('./unsubscribe');
 
 // Échappe les données client avant insertion dans le HTML des emails.
 const escHtml = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => (
@@ -604,18 +605,24 @@ exports.sendCampaign = functions.region('europe-west1')
     const campRef= db.collection('campagnes').doc(campagneId);
 
     let sent     = 0;
+    let skipped  = 0;
     const errors = [];
+    // Destinataires désinscrits : jamais d'envoi (art. L.34-5 CPCE)
+    const desinscrits = await unsubscribedAmong(recipients.map((r) => r?.email));
 
     for (const r of recipients) {
       if (!r?.email) { errors.push({ email: '?', error: 'email manquant' }); continue; }
+      if (desinscrits.has(String(r.email).trim().toLowerCase())) { skipped++; continue; }
       try {
         const personalSubject = personalize(subject, r);
-        const personalHtml    = personalize(html, r);
+        const unsub           = await unsubscribeParts(r.email);
+        const personalHtml    = withFooter(personalize(html, r), unsub.footerHtml);
         const { error } = await resend.emails.send({
           from:    NEWSLETTER_FROM,
           to:      r.email,
           subject: personalSubject,
           html:    personalHtml,
+          headers: unsub.headers,
           tags: [
             { name: 'campagne_id', value: campagneId },
             { name: 'kind',        value: 'newsletter' },
@@ -637,6 +644,7 @@ exports.sendCampaign = functions.region('europe-west1')
       recipientCount: recipients.length,
       'stats.sent':   admin.firestore.FieldValue.increment(sent),
       'stats.errors': admin.firestore.FieldValue.increment(errors.length),
+      'stats.desinscrits': admin.firestore.FieldValue.increment(skipped),
       lastErrors:     errors.slice(0, 10), // garder un échantillon
     }, { merge: true });
 
@@ -807,12 +815,18 @@ exports.automationWelcomeOnDone = functions.region('europe-west1')
     }
 
     try {
+      if ((await unsubscribedAmong([after.email])).size) {
+        functions.logger.info('Welcome ignoré – client désinscrit', { id: ctx.params.id });
+        return null;
+      }
       const resend = new Resend(RESEND_API_KEY.value());
+      const unsub  = await unsubscribeParts(after.email);
       await resend.emails.send({
         from:    NEWSLETTER_FROM,
         to:      after.email,
         subject: 'Merci pour votre confiance — Makouez IT',
-        html:    buildWelcomeHtml(after),
+        html:    withFooter(buildWelcomeHtml(after), unsub.footerHtml),
+        headers: unsub.headers,
       });
       functions.logger.info('Welcome envoyé', { id: ctx.params.id, email: after.email });
     } catch (err) {
@@ -892,18 +906,22 @@ exports.automationDormantWeekly = functions.region('europe-west1')
       if (lastSent < ninetyDaysAgoMs) toEmail.push({ ...c, hash });
     }
 
-    functions.logger.info(`Dormants à relancer : ${toEmail.length}`);
-    if (toEmail.length === 0) return null;
+    const desinscritsDormants = await unsubscribedAmong(toEmail.map((c) => c.email));
+    const toEmailOk = toEmail.filter((c) => !desinscritsDormants.has(String(c.email).trim().toLowerCase()));
+    functions.logger.info(`Dormants à relancer : ${toEmailOk.length} (${toEmail.length - toEmailOk.length} désinscrits ignorés)`);
+    if (toEmailOk.length === 0) return null;
 
     const resend = new Resend(RESEND_API_KEY.value());
     let sent = 0, errors = 0;
-    for (const c of toEmail) {
+    for (const c of toEmailOk) {
       try {
+        const unsub = await unsubscribeParts(c.email);
         const { error } = await resend.emails.send({
           from:    NEWSLETTER_FROM,
           to:      c.email,
           subject: 'On ne s\'est pas vus depuis un moment 👋',
-          html:    buildDormantHtml(c),
+          html:    withFooter(buildDormantHtml(c), unsub.footerHtml),
+          headers: unsub.headers,
         });
         if (error) { errors++; functions.logger.error('Dormant send error', { email: c.email, err: error.message }); }
         else {

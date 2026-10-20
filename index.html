@@ -139,41 +139,9 @@ section{padding:5rem 2rem}
 .sap-note-global{font-size:0.9rem;color:var(--muted);font-style:italic;text-align:center;margin:1.25rem auto 0;max-width:980px;padding-bottom:0.5rem}
 @media(max-width:600px){.pro-teaser{flex-direction:column}.pro-teaser a{width:100%;text-align:center}}
 /* TARIFS WEB & MAINTENANCE */
-.web-sep{display:flex;align-items:center;gap:1rem;margin:3rem 0 2rem}
-.web-sep-line{flex:1;height:1px;background:var(--border)}
-.web-sep-badge{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:99px;padding:6px 18px;white-space:nowrap;flex-shrink:0}
-.web-sep-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-.web-sep-text{font-size:0.9rem;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
-.web-sub-label{font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);font-weight:600;margin-bottom:0.6rem}
-.web-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem}
 @media(max-width:900px){.web-grid{grid-template-columns:1fr}}
-.web-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;gap:0.6rem;position:relative}
-.web-card.web-feat{border-color:#3b82f660;background:linear-gradient(135deg,#3b82f612,#60a5fa08)}
-.web-card.maint-feat{border-color:#22c55e60;background:linear-gradient(135deg,#22c55e10,#16a34a06)}
-.web-card-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:0.9rem;font-weight:700;padding:3px 14px;border-radius:99px;white-space:nowrap}
 .wcb-blue{background:var(--accent);color:#fff}
 .wcb-green{background:#22c55e;color:#fff}
-.web-card-type{font-size:0.9rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;color:var(--accent)}
-.web-card-type.green{color:#166534}
-.web-card-name{font-size:1rem;font-weight:600;color:var(--text);font-family:'Syne',sans-serif}
-.web-card-price{font-size:1.6rem;font-weight:800;color:var(--text);font-family:'Syne',sans-serif;line-height:1.1}
-.web-card-price span{font-size:0.9rem;font-weight:400;color:var(--muted)}
-.web-card-desc{font-size:0.9rem;color:var(--muted);line-height:1.5}
-.web-divider{border:none;border-top:1px solid var(--border)}
-.web-features{list-style:none;display:flex;flex-direction:column;gap:6px;flex:1}
-.web-features li{font-size:0.9rem;color:var(--text);display:flex;align-items:flex-start;gap:7px}
-.web-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.9rem;flex-shrink:0;margin-top:2px}
-.web-features li.green::before{color:#22c55e}
-.web-card-note{font-size:0.9rem;color:#4b5563;font-style:italic}
-.web-btn{display:block;text-align:center;padding:0.65rem 1rem;border-radius:9px;font-size:0.9rem;font-weight:500;text-decoration:none;transition:opacity 0.2s;margin-top:auto}
-.web-btn-solid{background:var(--accent);color:#fff}
-.web-btn-solid:hover{opacity:0.85}
-.web-btn-outline{background:transparent;border:1px solid #3b82f640;color:var(--accent2)}
-.web-btn-outline:hover{background:#3b82f615;border-color:#3b82f680}
-.web-btn-green{background:#22c55e;color:#fff}
-.web-btn-green:hover{opacity:0.85}
-.web-btn-green-outline{background:transparent;border:1px solid #22c55e40;color:#166534}
-.web-btn-green-outline:hover{background:#22c55e10;border-color:#22c55e80}
 
 .tarif-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:0.9rem;font-weight:600;padding:0.2rem 0.9rem;border-radius:99px;white-space:nowrap}
 .tarif-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;margin-bottom:0.3rem}
@@ -407,15 +375,49 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .blog-modal-body p{margin-bottom:1rem}
 .blog-modal-body h3{font-family:'Syne',sans-serif;color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.5rem}
 </style>
+<style>/* ── Accueil en 6 blocs (lot 4) ── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.cta-call{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:#15803d;color:#fff;padding:.95rem 2rem;border-radius:12px;font-size:1.1rem;font-weight:700;text-decoration:none;min-height:56px}
+.cta-call:hover{background:#166534}
+.hero .cta-primary{min-height:56px;font-size:1.1rem}
+.pb-title{font-size:1.4rem;font-weight:800;margin:2.5rem 0 1rem;font-family:'Syne',sans-serif}
+.pb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;text-align:left}
+@media(max-width:900px){.pb-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.pb-grid{grid-template-columns:1fr}}
+.pb-tile{display:flex;align-items:center;gap:.9rem;background:#fff;border:2px solid #dbe3ef;border-radius:14px;padding:1rem 1.1rem;text-decoration:none;color:#111827;min-height:72px;transition:border-color .15s,box-shadow .15s}
+.pb-tile:hover,.pb-tile:focus-visible{border-color:#1d4ed8;box-shadow:0 6px 20px rgba(29,78,216,.12)}
+.pb-ico{font-size:1.8rem;flex-shrink:0}
+.pb-txt{display:flex;flex-direction:column;gap:.15rem}
+.pb-txt strong{font-size:1.05rem;line-height:1.3}
+.pb-txt small{font-size:.95rem;color:#374151}
+.pb-diag{margin-top:1.25rem}
+.tarif-desc{color:var(--muted);font-size:1rem;line-height:1.5}
+.tarif-price>span:last-child{font-size:1rem;color:var(--muted);font-weight:500}
+.more-offers{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:980px;margin:2rem auto 0}
+@media(max-width:768px){.more-offers{grid-template-columns:1fr}}
+.more-offer{display:flex;flex-direction:column;gap:.3rem;background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.2rem;text-decoration:none;color:#111827}
+.more-offer strong{font-family:'Syne',sans-serif;font-size:1.05rem}
+.more-offer>span{color:#374151;font-size:.95rem}
+.more-offer em{font-style:normal;color:#1d4ed8;font-weight:600;margin-top:.2rem}
+.more-offer:hover{border-color:#1d4ed8}
+.process-grid.process-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:768px){.process-grid.process-3{grid-template-columns:1fr}}
+.zone-big .zone-chip{font-size:1.05rem;padding:.7rem 1.1rem;min-height:48px;display:inline-flex;align-items:center}
+.contact-big-phone{display:inline-flex;align-items:center;gap:.6rem;font-family:'Syne',sans-serif;font-size:clamp(1.8rem,6vw,2.6rem);font-weight:800;color:#15803d;text-decoration:none;margin-top:.5rem}
+#callback.callback-card{margin:0;max-width:none}
+.callback-msg{margin:.25rem 0 0;font-weight:600;min-height:1.4em}
+.callback-msg.ok{color:#166534}.callback-msg.err{color:#b91c1c}
+</style>
 <link rel="stylesheet" href="/theme-clair.css">
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Aller au contenu principal</a>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"LocalBusiness","@id":"https://makouezit.org/#business","name":"Makouez IT","description":"Dépannage informatique à domicile en Île-de-France : Pierrefitte-sur-Seine, Saint-Denis, Stains, Épinay-sur-Seine. Technicien expérimenté, intervention rapide, devis gratuit.","url":"https://makouezit.org","telephone":"+33745103827","email":"contact@makouezit.org","image":"https://makouezit.org/images/stevy-makouez-it.jpg","priceRange":"€€","areaServed":[{"@type":"AdministrativeArea","name":"Île-de-France"},{"@type":"AdministrativeArea","name":"Seine-Saint-Denis (93)"},{"@type":"City","name":"Pierrefitte-sur-Seine"},{"@type":"City","name":"Saint-Denis"},{"@type":"City","name":"Stains"},{"@type":"City","name":"Épinay-sur-Seine"},{"@type":"City","name":"Villetaneuse"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"20:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Saturday"],"opens":"10:00","closes":"18:00"}],"founder":{"@type":"Person","name":"Stevy Makouézi","jobTitle":"Technicien informatique"},"identifier":{"@type":"PropertyValue","propertyID":"SIRET","value":"83955229600023"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services informatiques","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dépannage PC"},"price":"55","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réseau Wi-Fi"},"price":"55","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Installation Windows"},"price":"89","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Récupération de données"},"price":"89","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Formation informatique"},"price":"55","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Création de site web"},"price":"990","priceCurrency":"EUR"}]}},
-{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Combien coûte une intervention à domicile ?","acceptedAnswer":{"@type":"Answer","text":"Une intervention standard coûte entre 55€ et 129€ selon la durée, déplacement inclus. Le tarif exact vous est communiqué avant l'intervention, après diagnostic. Pas de mauvaise surprise."}},{"@type":"Question","name":"Dans quel délai Makouez IT peut-il intervenir ?","acceptedAnswer":{"@type":"Answer","text":"En général sous 24h à 48h. Pour les urgences, contactez directement au 07 45 10 38 27."}},{"@type":"Question","name":"Dans quelle zone intervenez-vous ?","acceptedAnswer":{"@type":"Answer","text":"Makouez IT intervient dans toute l'Île-de-France, en particulier en Seine-Saint-Denis (93) : Pierrefitte-sur-Seine, Saint-Denis, Stains, Épinay-sur-Seine, Villetaneuse et les communes environnantes. Interventions possibles ailleurs en Île-de-France sur demande."}},{"@type":"Question","name":"Que se passe-t-il si le problème ne peut pas être résolu ?","acceptedAnswer":{"@type":"Answer","text":"Le problème est expliqué honnêtement avec les options disponibles. Le déplacement reste facturé à tarif réduit."}},{"@type":"Question","name":"Acceptez-vous le paiement par carte bancaire ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le paiement se fait par carte bancaire, virement, espèces ou PayPal, uniquement après l'intervention. Aucun pré-paiement n'est demandé."}}]}
+{"@type":"LocalBusiness","@id":"https://makouezit.org/#business","name":"Makouez IT","description":"Dépannage informatique à domicile en Île-de-France : Pierrefitte-sur-Seine, Saint-Denis, Stains, Épinay-sur-Seine. Technicien expérimenté, intervention rapide, devis gratuit.","url":"https://makouezit.org","telephone":"+33745103827","email":"contact@makouezit.org","image":"https://makouezit.org/images/stevy-makouez-it.jpg","priceRange":"€€","areaServed":[{"@type":"AdministrativeArea","name":"Île-de-France"},{"@type":"AdministrativeArea","name":"Seine-Saint-Denis (93)"},{"@type":"City","name":"Pierrefitte-sur-Seine"},{"@type":"City","name":"Saint-Denis"},{"@type":"City","name":"Stains"},{"@type":"City","name":"Épinay-sur-Seine"},{"@type":"City","name":"Villetaneuse"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"20:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Saturday"],"opens":"10:00","closes":"18:00"}],"founder":{"@type":"Person","name":"Stevy Makouézi","jobTitle":"Technicien informatique"},"identifier":{"@type":"PropertyValue","propertyID":"SIRET","value":"83955229600023"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services informatiques","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dépannage PC"},"price":"55","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Réseau Wi-Fi"},"price":"55","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Installation Windows"},"price":"89","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Récupération de données"},"price":"89","priceCurrency":"EUR"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Formation informatique"},"price":"40","priceCurrency":"EUR","unitText":"heure"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Création de site web"},"price":"990","priceCurrency":"EUR"}]}},
+{"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Combien coûte une intervention à domicile ?", "acceptedAnswer": {"@type": "Answer", "text": "Trois forfaits selon la durée, déplacement inclus : Diag Express (1h) à 55 €, Standard (2h) à 89 €, Long format (3h) à 129 €. Le forfait est confirmé avec vous avant l'intervention."}}, {"@type": "Question", "name": "Dans quel délai pouvez-vous intervenir ?", "acceptedAnswer": {"@type": "Answer", "text": "Généralement sous 24 h, parfois le jour même selon les disponibilités. Pour une urgence, appelez le 07 45 10 38 27."}}, {"@type": "Question", "name": "Comment se passe le paiement ?", "acceptedAnswer": {"@type": "Answer", "text": "Après l'intervention, aucun prépaiement : carte bancaire, virement, espèces ou PayPal."}}, {"@type": "Question", "name": "Et si le problème ne peut pas être résolu ?", "acceptedAnswer": {"@type": "Answer", "text": "Le problème est expliqué honnêtement avec les solutions possibles. Seul le déplacement est facturé, à tarif réduit (30 €)."}}]}
 ]}
 </script>
 
@@ -424,15 +426,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#tarifs">Tarifs</a></li>
-    <li><a href="#avis">Avis</a></li>
-        <li><a href="#contact">Contact</a></li>
+    <li class="js-avis-link" hidden><a href="#avis">Avis</a></li>
+    <li><a href="#zone">Zone</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
     <a href="mon-rdv.html" class="nav-espace">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="label">Mon espace client</span>
     </a>
-    <a href="#rdv" class="nav-cta">📅 Prendre rendez-vous</a>
+    <a href="makouez-it-rdv.html" class="nav-cta"><span aria-hidden="true">📅</span> Prendre rendez-vous</a>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
@@ -442,622 +445,205 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 <!-- MENU MOBILE -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services" onclick="closeMobileMenu()">Services</a>
-  <a href="#tarifs" onclick="closeMobileMenu()">Tarifs & Contrats</a>
-  <a href="#avis" onclick="closeMobileMenu()">Avis clients</a>
-  <a href="#blog" onclick="closeMobileMenu()">Blog</a>
-  <a href="portfolio.html" onclick="closeMobileMenu()">Portfolio</a>
-  <a href="#about" onclick="closeMobileMenu()">À propos</a>
+  <a href="#tarifs" onclick="closeMobileMenu()">Tarifs & contrats</a>
+  <a href="#avis" class="js-avis-link" hidden onclick="closeMobileMenu()">Avis clients</a>
+  <a href="#zone" onclick="closeMobileMenu()">Zone d'intervention</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-  <a href="makouez-it-rdv.html" class="mobile-cta">📅 Prendre rendez-vous</a>
+  <a href="blog.html" onclick="closeMobileMenu()">Conseils (blog)</a>
+  <a href="portfolio.html#offres-web" onclick="closeMobileMenu()">Création de sites</a>
+  <a href="makouez-it-rdv.html" class="mobile-cta"><span aria-hidden="true">📅</span> Prendre rendez-vous</a>
   <button class="mmlink" onclick="openSuiviModal();closeMobileMenu()">Déjà client ? Suivre ma demande</button>
-  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()">👤 Mon espace client</a>
+  <a href="mon-rdv.html" class="mmlink" onclick="closeMobileMenu()"><span aria-hidden="true">👤</span> Mon espace client</a>
 </div>
 
-<main id="main-content">
-<section class="hero">
+<main id="main-content" tabindex="-1">
+
+<!-- ═══ 1. VOTRE PROBLÈME ═══ -->
+<section class="hero" id="services">
   <div class="hero-bg"></div>
   <div class="hero-dot"></div>
-  <div style="position:relative;z-index:1">
-    <div class="badge fade-up"><span class="badge-dot"></span> Disponible en Île-de-France (93)</div>
+  <div style="position:relative;z-index:1;width:100%;max-width:980px">
+    <div class="badge fade-up"><span class="badge-dot"></span> Disponible en Seine-Saint-Denis (93) et Île-de-France</div>
     <h1>Votre PC en panne ? <br> Stevy intervient à domicile sous 24h.</h1>
-    <p class="lede">Dépannage, virus, Wi-Fi, formation : un technicien expérimenté chez vous, sans jargon. <strong>Devis gratuit, paiement après intervention.</strong></p>
+    <p class="lede">Un technicien expérimenté chez vous, qui explique sans jargon. <strong>Prix annoncé avant, paiement après l'intervention.</strong></p>
     <div class="hero-btns fade-up delay-3">
-      <a href="#rdv" class="cta-primary">📅 Prendre rendez-vous</a>
-      <a href="diagnostic.html" class="cta-secondary">Pas sûr du problème ? Diagnostic 2 min →</a>
+      <a href="tel:+33745103827" class="cta-call" onclick="trackEvent('conversion','phone_click','hero')"><span aria-hidden="true">📞</span> Appeler · 07 45 10 38 27</a>
+      <a href="makouez-it-rdv.html" class="cta-primary" onclick="trackEvent('conversion','rdv_click','hero')"><span aria-hidden="true">📅</span> Prendre rendez-vous</a>
     </div>
-    <div style="margin-top:1rem;color:var(--muted);font-size:0.9rem" class="fade-up delay-3">Devis gratuit · Paiement après intervention · Compte client facultatif</div>
-    <!-- Trust badges -->
+
+    <h2 class="pb-title">Quel est votre problème ?</h2>
+    <div class="pb-grid">
+      <a class="pb-tile" href="service-depannage-pc.html"><span class="pb-ico" aria-hidden="true">💻</span><span class="pb-txt"><strong>Mon ordinateur est lent ou plante</strong><small>Dépannage PC · à partir de <span data-tarif="services.depannagePc.prix">55&nbsp;€</span></small></span></a>
+      <a class="pb-tile" href="service-reseau-wifi.html"><span class="pb-ico" aria-hidden="true">📶</span><span class="pb-txt"><strong>Mon Wi-Fi ne marche pas bien</strong><small>Réseau et box · à partir de <span data-tarif="services.reseauWifi.prix">55&nbsp;€</span></small></span></a>
+      <a class="pb-tile" href="service-sauvegarde-securite.html"><span class="pb-ico" aria-hidden="true">🛡️</span><span class="pb-txt"><strong>Virus, arnaque, message bizarre</strong><small>Sécurité et sauvegarde · à partir de <span data-tarif="services.sauvegardeSecurite.prix">55&nbsp;€</span></small></span></a>
+      <a class="pb-tile" href="service-recuperation-donnees.html"><span class="pb-ico" aria-hidden="true">💾</span><span class="pb-txt"><strong>J'ai perdu des photos ou des fichiers</strong><small>Récupération de données · <span data-tarif="services.recuperationDonnees.prix">89&nbsp;€</span></small></span></a>
+      <a class="pb-tile" href="service-installation-windows.html"><span class="pb-ico" aria-hidden="true">🪟</span><span class="pb-txt"><strong>Windows à installer ou réinstaller</strong><small>Installation · à partir de <span data-tarif="services.installationWindows.prix">89&nbsp;€</span></small></span></a>
+      <a class="pb-tile" href="service-formation.html"><span class="pb-ico" aria-hidden="true">🎓</span><span class="pb-txt"><strong>Je veux apprendre à m'en servir</strong><small>Formation à domicile · <span data-tarif="services.formation.prix">40&nbsp;€</span>/h</small></span></a>
+    </div>
+    <p class="pb-diag"><a href="diagnostic.html" class="cta-secondary">Pas sûr du problème ? Faites le diagnostic gratuit en 2 minutes →</a></p>
+
     <div class="hero-trust fade-up delay-4">
-      <span class="hero-trust-badge">⭐ Premiers retours excellents</span>
-      <span class="hero-trust-badge">🏆 10 ans d'expérience</span>
-      <span class="hero-trust-badge">🔒 SIRET 83955229600023</span>
-      <span class="hero-trust-badge">📍 Île-de-France (93)</span>
-    </div>
-    <div class="hero-stats fade-up delay-4">
-      <div class="stat"><div class="stat-num">10 ans</div><div class="stat-label">d'expérience</div></div>
-      <div class="stat"><div class="stat-num">55€</div><div class="stat-label">à partir de</div></div>
-      <div class="stat"><div class="stat-num">24h</div><div class="stat-label">délai moyen</div></div>
-      <div class="stat"><div class="stat-num">4 étapes</div><div class="stat-label">prise en charge claire</div></div>
+      <span class="hero-trust-badge"><span aria-hidden="true">🏆</span> 10 ans d'expérience</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">💳</span> Paiement après intervention</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">🔒</span> SIRET 83955229600023</span>
+      <span class="hero-trust-badge"><span aria-hidden="true">📍</span> Seine-Saint-Denis (93)</span>
     </div>
   </div>
 </section>
 
-<section id="services">
-  <div class="container">
-    <div class="section-label">Services</div>
-    <h2 class="section-title">Des solutions claires pour les pannes les plus courantes</h2>
-    <p class="section-sub">Choisissez votre besoin, réservez un créneau ou demandez un devis. Si vous préférez, vous pouvez aussi appeler directement.</p>
-    <div class="services-grid">
-      <a href="makouez-it-rdv.html?service=D%C3%A9pannage+PC" class="service-card">
-        <div class="service-icon">💻</div><h3>Dépannage PC</h3>
-        <p>Lenteur, virus, écran noir, plantages, Windows qui ne démarre plus, je diagnostique et répare rapidement.</p>
-        <div class="service-cta">Réserver ce service →</div>
-      </a>
-      <a href="makouez-it-rdv.html?service=Installation+Windows+et+logiciels" class="service-card">
-        <div class="service-icon">🪟</div><h3>Installation Windows et logiciels</h3>
-        <p>Réinstallation de Windows, configuration initiale, installation de vos logiciels et mises à jour.</p>
-        <div class="service-cta">Réserver ce service →</div>
-      </a>
-      <a href="makouez-it-rdv.html?service=R%C3%A9seau+Wi-Fi" class="service-card">
-        <div class="service-icon">📶</div><h3>Réseau Wi-Fi</h3>
-        <p>Connexion lente, Wi-Fi coupé, problème de box, extension de réseau, sécurisation de votre connexion.</p>
-        <div class="service-cta">Réserver ce service →</div>
-      </a>
-      <a href="makouez-it-rdv.html?service=R%C3%A9cup%C3%A9ration+de+donn%C3%A9es" class="service-card">
-        <div class="service-icon">💾</div><h3>Récupération de données</h3>
-        <p>Fichiers supprimés, disque dur défaillant, photos perdues, je récupère vos données précieuses.</p>
-        <div class="service-cta">Réserver ce service →</div>
-      </a>
-      <a href="makouez-it-rdv.html?service=Sauvegarde+%26+s%C3%A9curit%C3%A9" class="service-card">
-        <div class="service-icon">🔒</div><h3>Sauvegarde et sécurité</h3>
-        <p>Mise en place de sauvegardes automatiques, antivirus, protection contre les arnaques en ligne.</p>
-        <div class="service-cta">Réserver ce service →</div>
-      </a>
-      <a href="makouez-it-rdv.html?service=Formation+et+accompagnement" class="service-card">
-        <div class="service-icon">🎓</div><h3>Formation et accompagnement</h3>
-        <p>Apprenez à maîtriser votre PC, smartphone ou tablette à votre rythme, sans jargon technique.</p>
-        <div class="service-cta">Réserver ce service →</div>
-      </a>
-      <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="service-card new-service">
-        <div class="service-icon">🌐</div>
-        <h3>Intégration et Développement web <span class="service-new-badge">Nouveau</span></h3>
-        <p>Création de sites vitrines, landing pages, intégration HTML/CSS/JS, développement d'applications web sur mesure.</p>
-        <div class="service-cta">Demander un devis →</div>
-      </a>
-    </div>
-  </div>
-  <div style="text-align:center;margin-top:28px;">
-  <a href="diagnostic.html" style="display:inline-flex;align-items:center;gap:8px;background:#eff6ff;color:#2563eb;padding:12px 24px;border-radius:10px;font-weight:600;font-size:0.9rem;text-decoration:none;border:1px solid #bfdbfe;">
-    🔍 Pas sûr de votre problème ? Faites le diagnostic gratuit
-  </a>
-</div>
-</section>
-<section id="process">
-  <div class="container">
-    <div class="section-label">Comment ça marche</div>
-    <h2 class="section-title">Une prise en charge simple, du premier message jusqu'à l'intervention</h2>
-    <p class="section-sub">Vous n'avez pas besoin de comprendre la technique. Vous expliquez le problème, Stevy s'occupe du reste.</p>
-    <div class="process-grid">
-      <div class="process-card"><div class="process-step">Étape 1</div><h3>Vous expliquez le problème</h3><p>Vous prenez rendez-vous, demandez un rappel ou utilisez le diagnostic gratuit si vous hésitez.</p></div>
-      <div class="process-card"><div class="process-step">Étape 2</div><h3>Stevy vérifie votre demande</h3><p>Le besoin est relu rapidement pour confirmer le bon service et le bon créneau.</p></div>
-      <div class="process-card"><div class="process-step">Étape 3</div><h3>Vous êtes recontacté</h3><p>Confirmation par email ou téléphone, avec des explications simples et sans jargon.</p></div>
-      <div class="process-card"><div class="process-step">Étape 4</div><h3>Intervention ou mise en place</h3><p>Dépannage à domicile, accompagnement, contrat ou projet web selon votre besoin réel.</p></div>
-    </div>
-  </div>
-</section>
-<section id="callback" class="callback-section">
-  <div class="callback-card">
-    <div class="callback-top">
-      <div class="section-label" style="color:#2563eb">Demande de rappel</div>
-      <h2 style="font-size:1.9rem;font-family:'Syne',sans-serif;font-weight:800;margin-bottom:0.6rem">Vous préférez être rappelé ?</h2>
-      <p>Laissez juste vos coordonnées et votre besoin. Stevy vous recontacte rapidement.</p>
-    </div>
-    <form class="callback-form" action="makouez-it-rdv.html" method="get">
-      <input class="callback-input" type="text" name="nom" placeholder="Votre prénom" required>
-      <input class="callback-input" type="tel" name="telephone" placeholder="Votre téléphone" required>
-      <select class="callback-select" name="service">
-        <option value="">Besoin principal</option>
-        <option value="Dépannage PC">Dépannage PC</option>
-        <option value="Réseau Wi-Fi">Réseau Wi-Fi</option>
-        <option value="Sauvegarde & sécurité">Sauvegarde et sécurité</option>
-        <option value="Formation et accompagnement">Formation et accompagnement</option>
-        <option value="Intégration / Développement web">Site web / devis</option>
-      </select>
-      <button class="callback-button" type="submit">Être rappelé</button>
-    </form>
-    <div class="callback-note">Vous pouvez aussi appeler directement au <strong>07 45 10 38 27</strong>.</div>
-    <div class="callback-proof">
-      <span>Réponse rapide</span>
-      <span>Sans compte obligatoire</span>
-      <span>Devis gratuit avant intervention</span>
-    </div>
-  </div>
-</section>
-<section id="diagnostic" style="padding:64px 24px;background:#fff;">
-  <div style="max-width:700px;margin:0 auto;text-align:center;">
-    <p style="font-size:0.9rem;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Outil gratuit</p>
-    <h2 style="font-size:1.8rem;font-weight:800;color:#111827;margin-bottom:12px;">Pas sûr de votre problème ?</h2>
-    <p style="color:#6b7280;max-width:560px;margin:0 auto 32px;line-height:1.6;">En 2 minutes, vous obtenez une orientation claire : quoi essayer vous-même, quel service choisir, et un ordre de prix indicatif.</p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px;text-align:left;">
-      <div style="background:#f9fafb;border-radius:12px;padding:18px;">
-        <div style="font-size:1.4rem;margin-bottom:8px;">🔍</div>
-        <p style="font-weight:700;font-size:0.9rem;color:#374151;margin-bottom:4px;">Diagnostic précis</p>
-        <p style="font-size:0.9rem;color:#374151;">Questions ciblées pour identifier votre problème</p>
-      </div>
-      <div style="background:#f9fafb;border-radius:12px;padding:18px;">
-        <div style="font-size:1.4rem;margin-bottom:8px;">💡</div>
-        <p style="font-weight:700;font-size:0.9rem;color:#374151;margin-bottom:4px;">Conseils gratuits</p>
-        <p style="font-size:0.9rem;color:#374151;">Ce que vous pouvez essayer vous-même</p>
-      </div>
-      <div style="background:#f9fafb;border-radius:12px;padding:18px;">
-        <div style="font-size:1.4rem;margin-bottom:8px;">💰</div>
-        <p style="font-weight:700;font-size:0.9rem;color:#374151;margin-bottom:4px;">Estimation de prix</p>
-        <p style="font-size:0.9rem;color:#374151;">Le service adapté avec son tarif indicatif</p>
-      </div>
-    </div>
-
-    <a href="diagnostic.html" style="display:inline-flex;align-items:center;gap:8px;background:#2563eb;color:#fff;padding:16px 36px;border-radius:12px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .2s;"
-      onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
-      🔍 Lancer le diagnostic gratuit
-    </a>
-    <p style="font-size:0.9rem;color:#374151;margin-top:10px;">Sans inscription · 2 minutes · 100% gratuit</p>
-  </div>
-</section>
+<!-- ═══ 2. TROIS FORFAITS ═══ -->
 <section id="tarifs" class="tarifs-section">
   <div class="container">
-    <div class="section-label">Tarifs & Contrats</div>
-    <h2 class="section-title">Des tarifs clairs selon votre besoin</h2>
-    <p class="section-sub">Intervention ponctuelle, accompagnement régulier ou contrat : vous savez à quoi vous attendre avant toute intervention.</p>
-
-    <div class="tarif-sub-label">Interventions ponctuelles · déplacement inclus · paiement après</div>
+    <div class="section-label">Tarifs</div>
+    <h2 class="section-title">Trois forfaits, déplacement inclus</h2>
+    <p class="section-sub">Le forfait est confirmé avec vous avant l'intervention. Vous payez après, par carte, virement, espèces ou PayPal.</p>
     <div class="tarifs-grid">
       <div class="tarif-card">
         <div class="tarif-name">Diag Express</div>
         <div class="tarif-price"><span data-tarif="depannage.diagExpress.prix">55&nbsp;€</span> <span>· 1h</span></div>
-        <div class="tarif-desc">Déplacement + 1 réparation simple</div>
-        <ul class="tarif-features"><li>Diagnostic complet</li><li>1 réparation simple</li><li>Conseils personnalisés</li><li>Paiement après intervention</li></ul>
-        <a href="makouez-it-rdv.html" class="btn-souscrire" style="margin-top:auto">Prendre rendez-vous →</a>
+        <div class="tarif-desc">Déplacement, diagnostic et une réparation simple.</div>
       </div>
       <div class="tarif-card featured">
         <div class="tarif-badge">Le plus choisi</div>
         <div class="tarif-name">Standard</div>
         <div class="tarif-price"><span data-tarif="depannage.standard.prix">89&nbsp;€</span> <span>· 2h</span></div>
-        <div class="tarif-desc">Diagnostic complet + dépannage + conseils</div>
-        <ul class="tarif-features"><li>Diagnostic approfondi</li><li>Dépannage complet</li><li>Conseils & mini-formation</li><li>Suivi post-intervention</li></ul>
-        <a href="makouez-it-rdv.html" class="btn-souscrire" style="margin-top:auto">Prendre rendez-vous →</a>
+        <div class="tarif-desc">Diagnostic complet, dépannage et conseils pour la suite.</div>
       </div>
       <div class="tarif-card">
         <div class="tarif-name">Long format</div>
         <div class="tarif-price"><span data-tarif="depannage.longFormat.prix">129&nbsp;€</span> <span>· 3h</span></div>
-        <div class="tarif-desc">Réinstall Windows ou récupération données</div>
-        <ul class="tarif-features"><li>Réinstallation Windows complète</li><li>OU récupération de données</li><li>Sauvegarde & transfert inclus</li><li>Formation à la prise en main</li></ul>
-        <a href="makouez-it-rdv.html" class="btn-souscrire" style="margin-top:auto">Prendre rendez-vous →</a>
+        <div class="tarif-desc">Réinstallation de Windows ou récupération de données, sauvegarde comprise.</div>
       </div>
     </div>
-    <div class="tarif-heure-supp">Heure supplémentaire : <strong><span data-tarif="depannage.heureSup.prix">45&nbsp;€</span>/h</strong></div>
+    <div class="tarif-heure-supp">Heure supplémentaire : <strong><span data-tarif="depannage.heureSup.prix">45&nbsp;€</span>/h</strong> · Si le problème ne peut pas être résolu : seul le déplacement est facturé, <span data-tarif="depannage.deplacementSansSolution.prix">30&nbsp;€</span>.</div>
 
-    <div class="tarif-sub-label">Contrats particuliers · sans engagement · résiliable à tout moment</div>
-    <div class="tarifs-grid">
-      <div class="tarif-card featured">
-        <div class="tarif-badge">Recommandé</div>
-        <div class="tarif-name">Contrat Sérénité</div>
-        <div class="tarif-price"><span data-tarif="contrats.serenite.prix">65&nbsp;€</span> <span>/mois</span></div>
-        <div class="tarif-desc">Assistance prioritaire toute l'année · 2 interventions/mois</div>
-        <ul class="tarif-features"><li>2 interventions/mois incluses</li><li>Priorité de passage sous 24h</li><li>Support téléphonique inclus</li><li>Bilan informatique annuel</li></ul>
-        <a href="contrats.html?contrat=serenite" class="btn-souscrire" style="margin-top:auto">Demander ma souscription →</a>
-      </div>
-      <div class="tarif-card">
-        <div class="tarif-name">Pack Senior+</div>
-        <div class="tarif-price"><span data-tarif="contrats.senior.prix">55&nbsp;€</span> <span>/mois</span></div>
-        <div class="tarif-desc">Accompagnement doux et pédagogique pour les seniors</div>
-        <ul class="tarif-features"><li>Visites régulières à domicile</li><li>Formation progressive</li><li>Hotline dédiée</li><li>Protection anti-arnaques</li></ul>
-        <a href="contrats.html?contrat=senior" class="btn-souscrire" style="margin-top:auto">Demander ma souscription →</a>
-      </div>
-      <div class="tarif-card">
-        <div class="tarif-name">Pack Famille</div>
-        <div class="tarif-price"><span data-tarif="contrats.famille.prix">79&nbsp;€</span> <span>/mois</span></div>
-        <div class="tarif-desc">Jusqu'à 3 appareils couverts, toute la famille</div>
-        <ul class="tarif-features"><li>3 appareils couverts</li><li>PC, smartphone, tablette</li><li>Contrôle parental inclus</li><li>3 interventions/mois</li></ul>
-        <a href="contrats.html?contrat=famille" class="btn-souscrire" style="margin-top:auto">Demander ma souscription →</a>
-      </div>
+    <div class="more-offers">
+      <a class="more-offer" href="contrats.html"><strong>Contrats mensuels</strong><span>Assistance régulière dès <span data-tarif="contrats.senior.prix">55&nbsp;€</span>/mois, sans engagement</span><em>Voir les contrats →</em></a>
+      <a class="more-offer" href="contrats-pro.html"><strong>Professionnels</strong><span>Intervention dès <span data-tarif="pro.interventionHeure.prix">75&nbsp;€</span>/h HT, contrats multi-postes</span><em>Voir les offres pro →</em></a>
+      <a class="more-offer" href="portfolio.html#offres-web"><strong>Besoin d'un site internet ?</strong><span>Site vitrine dès <span data-tarif="web.essentiel.prix">990&nbsp;€</span>, maintenance dès <span data-tarif="maintenanceWeb.essentielle.prix">49&nbsp;€</span>/mois</span><em>Voir les offres web →</em></a>
     </div>
-
-    <div class="pro-teaser">
-      <div>
-        <div class="pro-teaser-label">Offres Pro / TPE-PME</div>
-        <div class="pro-teaser-title">Votre entreprise a besoin d'un technicien dédié ?</div>
-        <div class="pro-teaser-desc">Interventions HT, infogérance, audit sécurité, maintenance multi-postes. À partir de <span data-tarif="pro.interventionHeure.prix">75&nbsp;€</span>/h.</div>
-      </div>
-      <a href="contrats-pro.html" class="btn-primary">Voir les offres Pro →</a>
-    </div>
-
-    <div class="sap-note-global">Prix en euros, TVA non applicable (art. 293 B du CGI). Paiement après l'intervention&nbsp;: carte bancaire, virement, espèces ou PayPal.</div>
-  </div>
-  <!-- ═══ SÉPARATEUR WEB & MAINTENANCE ═══ -->
-  <div class="container" style="margin-top:0">
-    <div class="web-sep">
-      <div class="web-sep-line"></div>
-      <div class="web-sep-badge"><div class="web-sep-dot"></div><span class="web-sep-text">Offres Web & Maintenance</span></div>
-      <div class="web-sep-line"></div>
-    </div>
-
-    <!-- CRÉATION DE SITE -->
-    <div class="web-sub-label">Création de site web</div>
-    <div class="web-grid">
-
-      <div class="web-card">
-        <div class="web-card-type">Essentiel</div>
-        <div class="web-card-name">Site vitrine</div>
-        <div class="web-card-price"><span data-tarif="web.essentiel.prix">990&nbsp;€</span> <span>à partir de</span></div>
-        <div class="web-card-desc">Pour artisans, freelances et commerçants qui veulent une présence en ligne professionnelle.</div>
-        <div class="web-divider"></div>
-        <ul class="web-features">
-          <li>Jusqu'à 5 pages responsive</li>
-          <li>Design sur mesure</li>
-          <li>Formulaire de contact</li>
-          <li>SEO de base (meta, sitemap, schema)</li>
-          <li>Mise en ligne incluse</li>
-        </ul>
-        <div class="web-card-note">Livraison : 5–7 jours ouvrés</div>
-        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="web-btn web-btn-outline">Demander un devis →</a>
-      </div>
-
-      <div class="web-card web-feat">
-        <div class="web-card-badge wcb-blue">Populaire</div>
-        <div class="web-card-type">Pro</div>
-        <div class="web-card-name">Site pro + fonctionnalités</div>
-        <div class="web-card-price"><span data-tarif="web.pro.prix">1&#8239;890&nbsp;€</span> <span>à partir de</span></div>
-        <div class="web-card-desc">Site complet avec prise de RDV, espace client, blog et emails automatiques.</div>
-        <div class="web-divider"></div>
-        <ul class="web-features">
-          <li>Tout l'Essentiel +</li>
-          <li>Prise de RDV en ligne</li>
-          <li>Espace client / panel admin</li>
-          <li>Emails automatiques (confirmation, suivi)</li>
-          <li>Blog indexable Google</li>
-          <li>Firebase / base de données inclus</li>
-        </ul>
-        <div class="web-card-note">Livraison : 2–3 semaines · Exemple : ce site</div>
-        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="web-btn web-btn-solid">Demander un devis →</a>
-      </div>
-
-      <div class="web-card">
-        <div class="web-card-type">Sur mesure</div>
-        <div class="web-card-name">Application web</div>
-        <div class="web-card-price"><span data-tarif="web.applicationWeb.prix">3&#8239;500&nbsp;€</span> <span>à partir de</span></div>
-        <div class="web-card-desc">Plateforme, SaaS, outil métier, marketplace — projets complexes définis ensemble.</div>
-        <div class="web-divider"></div>
-        <ul class="web-features">
-          <li>Tout le Pro +</li>
-          <li>Authentification & rôles</li>
-          <li>Paiement Stripe intégré</li>
-          <li>API / intégrations tierces</li>
-          <li>Architecture scalable</li>
-        </ul>
-        <div class="web-card-note">Délai à définir selon projet</div>
-        <a href="makouez-it-rdv.html?service=Int%C3%A9gration+%2F+D%C3%A9veloppement+web" class="web-btn web-btn-outline">Prendre contact →</a>
-      </div>
-
-    </div>
-
-    <!-- MAINTENANCE -->
-    <div class="web-sub-label" style="color:#166534">Maintenance & suivi de site</div>
-    <div class="web-grid" style="margin-bottom:0">
-
-      <div class="web-card">
-        <div class="web-card-type green">Basique</div>
-        <div class="web-card-name">Maintenance Essentielle</div>
-        <div class="web-card-price"><span data-tarif="maintenanceWeb.essentielle.prix">49&nbsp;€</span> <span>/mois</span></div>
-        <div class="web-card-desc">Pour les sites vitrines simples. Surveillance et corrections légères.</div>
-        <div class="web-divider"></div>
-        <ul class="web-features">
-          <li class="green">Surveillance uptime 24h/24</li>
-          <li class="green">1 modification de contenu / mois</li>
-          <li class="green">Correction de bugs mineurs</li>
-          <li class="green">Rapport mensuel</li>
-        </ul>
-        <div class="web-card-note">Sans engagement</div>
-        <a href="contrats.html" class="web-btn web-btn-green-outline">Souscrire →</a>
-      </div>
-
-      <div class="web-card maint-feat">
-        <div class="web-card-badge wcb-green">Recommandé</div>
-        <div class="web-card-type green">Pro</div>
-        <div class="web-card-name">Maintenance Pro</div>
-        <div class="web-card-price"><span data-tarif="maintenanceWeb.pro.prix">99&nbsp;€</span> <span>/mois</span></div>
-        <div class="web-card-desc">Pour les sites Firebase, RDV, espace client. Réactivité garantie sous 48h.</div>
-        <div class="web-divider"></div>
-        <ul class="web-features">
-          <li class="green">Tout le Basique +</li>
-          <li class="green">3 modifications de contenu / mois</li>
-          <li class="green">Bugs corrigés sous 48h</li>
-          <li class="green">Sauvegarde mensuelle du code</li>
-          <li class="green">Suivi Firebase (erreurs, quotas)</li>
-          <li class="green">Support WhatsApp & email</li>
-          <li class="green">1 mois offert si site créé par Makouez IT</li>
-        </ul>
-        <div class="web-card-note">Sans engagement</div>
-        <a href="contrats.html" class="web-btn web-btn-green">Souscrire →</a>
-      </div>
-
-      <div class="web-card">
-        <div class="web-card-type green">Premium</div>
-        <div class="web-card-name">Maintenance & Évolution</div>
-        <div class="web-card-price"><span data-tarif="maintenanceWeb.evolution.prix">179&nbsp;€</span> <span>/mois</span></div>
-        <div class="web-card-desc">Pour les sites actifs à fort usage. Heures de développement incluses chaque mois.</div>
-        <div class="web-divider"></div>
-        <ul class="web-features">
-          <li class="green">Tout le Pro +</li>
-          <li class="green">3h de développement / mois incluses</li>
-          <li class="green">Ajout de nouvelles fonctionnalités</li>
-          <li class="green">Bugs urgents corrigés sous 24h</li>
-          <li class="green">Appel mensuel de suivi (30 min)</li>
-          <li class="green">Heures non utilisées reportées</li>
-        </ul>
-        <div class="web-card-note">Sans engagement</div>
-        <a href="contrats.html" class="web-btn web-btn-green-outline">Souscrire →</a>
-      </div>
-
-    </div>
-  </div>
-
-</section>
-<section id="local-seo" class="seo-section">
-  <div class="container">
-    <div class="section-label">Zones et besoins</div>
-    <h2 class="section-title">Pages utiles selon votre besoin</h2>
-    <p class="section-sub">Que vous cherchiez un dépannage à domicile, une intervention rapide ou une assistance locale, voici des pages plus précises pour vous orienter.</p>
-    <div class="local-grid">
-      <a class="local-card" href="depannage-pc-ile-de-france.html"><h3>Dépannage informatique en Île-de-France</h3><p>La page de référence pour les particuliers qui cherchent un technicien à domicile dans toute la région.</p></a>
-      <a class="local-card" href="depannage-informatique-pierrefitte-sur-seine.html"><h3>Technicien informatique à Pierrefitte-sur-Seine</h3><p>Intervention à domicile, accompagnement et dépannage rapide sur Pierrefitte et les communes voisines.</p></a>
-      <a class="local-card" href="technicien-informatique-saint-denis.html"><h3>Dépannage informatique à Saint-Denis</h3><p>Aide claire à domicile pour particuliers, familles et seniors à Saint-Denis et alentours.</p></a>
-      <a class="local-card" href="service-depannage-pc.html"><h3>Dépannage PC à domicile</h3><p>Une entrée simple pour les pannes courantes : lenteur, virus, démarrage, Wi-Fi, sauvegarde.</p></a>
-      <a class="local-card" href="service-reseau-wifi.html"><h3>Réseau &amp; Wi-Fi</h3><p>Connexion instable, coupures, mauvaise couverture dans la maison : on remet le réseau d'aplomb.</p></a>
-      <a class="local-card" href="service-formation.html"><h3>Formation à domicile</h3><p>Prise en main du PC, du smartphone et des outils du quotidien, sans jargon, à votre rythme.</p></a>
-    </div>
+    <div class="sap-note-global">Prix en euros, TVA non applicable (art. 293 B du CGI).</div>
   </div>
 </section>
-<section id="avis" class="avis-section">
+
+<!-- ═══ 3. AVIS (ou, en attendant, comment ça se passe) ═══ -->
+<section id="avis" class="avis-section" hidden>
   <div class="container">
     <div class="section-label">Avis clients</div>
     <h2 class="section-title">Ce que disent mes clients</h2>
-    <p class="section-sub">Ces avis sont ceux publiés par mes clients sur Google, affichés tels quels et mis à jour automatiquement.</p>
+    <p class="section-sub">Avis publiés sur Google, affichés tels quels et mis à jour automatiquement.</p>
     <div class="avis-moyenne" id="avisMoyenne" style="display:none"></div>
-    <div class="avis-grid" id="avisGrid">
-      <p id="avisVide" style="grid-column:1/-1;text-align:center;color:var(--muted)">Les avis Google de mes clients s'afficheront ici.</p>
-    </div>
+    <div class="avis-grid" id="avisGrid"></div>
     <div style="margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
       <a id="avisVoirTous" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none">Voir tous les avis sur Google</a>
-      <a id="avisLaisser" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none">⭐ Laisser un avis sur Google</a>
+      <a id="avisLaisser" class="btn-avis" href="#avis" rel="noopener" target="_blank" style="text-decoration:none;display:none"><span aria-hidden="true">⭐</span> Laisser un avis sur Google</a>
     </div>
-    <p style="margin-top:1rem;color:var(--muted);font-size:0.9rem;text-align:center">Après chaque intervention, un lien vers le formulaire d'avis Google vous est envoyé par e-mail.</p>
   </div>
 </section>
-
-<!-- BLOG -->
-<section id="blog" class="blog-section">
+<section id="process">
   <div class="container">
-    <div class="section-label">Conseils et Astuces</div>
-    <h2 class="section-title">Blog informatique</h2>
-    <p class="section-sub">Des guides pratiques pour résoudre vos problèmes du quotidien, sans jargon.</p>
-    <div class="blog-mini-grid">
-      <a href="blog.html" class="blog-mini-card" data-article="pc-lent">
-        <div class="blog-mini-thumb">🐢</div>
-        <div class="blog-mini-body">
-          <div class="blog-mini-tag">Performance</div>
-          <div class="blog-mini-title">Pourquoi mon PC est lent et comment y remédier</div>
-          <div class="blog-mini-excerpt">Les 5 causes les plus fréquentes et comment les résoudre vous-même en moins de 10 minutes.</div>
-          <div class="blog-mini-read">Lire l'article →</div>
-        </div>
-      </a>
-      <a href="comment-savoir-si-mon-pc-a-un-virus.html" class="blog-mini-card" data-article="virus">
-        <div class="blog-mini-thumb">🦠</div>
-        <div class="blog-mini-body">
-          <div class="blog-mini-tag">Sécurité</div>
-          <div class="blog-mini-title">Comment savoir si mon PC a un virus</div>
-          <div class="blog-mini-excerpt">Pop-ups intempestifs, PC lent, programmes bizarres… comment détecter et éliminer un virus.</div>
-          <div class="blog-mini-read">Lire l'article →</div>
-        </div>
-      </a>
-      <a href="wifi-lent-solutions.html" class="blog-mini-card" data-article="wifi">
-        <div class="blog-mini-thumb">📶</div>
-        <div class="blog-mini-body">
-          <div class="blog-mini-tag">Réseau</div>
-          <div class="blog-mini-title">Wi-Fi lent ou qui coupe : les solutions</div>
-          <div class="blog-mini-excerpt">Avant d'appeler votre opérateur, essayez ces astuces simples et efficaces.</div>
-          <div class="blog-mini-read">Lire l'article →</div>
-        </div>
-      </a>
-      <a href="reconnaitre-eviter-arnaques-en-ligne.html" class="blog-mini-card" data-article="arnaques">
-        <div class="blog-mini-thumb">📧</div>
-        <div class="blog-mini-body">
-          <div class="blog-mini-tag">Arnaque</div>
-          <div class="blog-mini-title">Reconnaître et éviter les arnaques en ligne</div>
-          <div class="blog-mini-excerpt">Phishing, faux support technique, fausses livraisons… apprenez à les repérer.</div>
-          <div class="blog-mini-read">Lire l'article →</div>
-        </div>
-      </a>
-      <a href="sauvegarder-ses-donnees-guide-complet.html" class="blog-mini-card" data-article="sauvegarde">
-        <div class="blog-mini-thumb">💾</div>
-        <div class="blog-mini-body">
-          <div class="blog-mini-tag">Données</div>
-          <div class="blog-mini-title">Sauvegarder ses données : le guide complet</div>
-          <div class="blog-mini-excerpt">La règle du 3-2-1 et les outils gratuits pour ne plus jamais perdre vos fichiers.</div>
-          <div class="blog-mini-read">Lire l'article →</div>
-        </div>
-      </a>
-      <a href="10-astuces-booster-windows.html" class="blog-mini-card" data-article="booster-windows">
-        <div class="blog-mini-thumb">⚡</div>
-        <div class="blog-mini-body">
-          <div class="blog-mini-tag">Optimisation</div>
-          <div class="blog-mini-title">10 astuces pour booster Windows</div>
-          <div class="blog-mini-excerpt">Sans acheter de nouveau matériel, gagnez en performance avec ces réglages simples.</div>
-          <div class="blog-mini-read">Lire l'article →</div>
-        </div>
-      </a>
+    <div class="section-label">Comment ça se passe</div>
+    <h2 class="section-title">Trois étapes, sans surprise</h2>
+    <div class="process-grid process-3">
+      <div class="process-card"><div class="process-step">1</div><h3>Vous appelez ou réservez</h3><p>Par téléphone, en ligne, ou en demandant à être rappelé. Vous expliquez simplement le problème.</p></div>
+      <div class="process-card"><div class="process-step">2</div><h3>Stevy confirme</h3><p>Il vous rappelle pour confirmer le créneau et le forfait. Le prix est annoncé avant.</p></div>
+      <div class="process-card"><div class="process-step">3</div><h3>Intervention chez vous</h3><p>Il répare, vous explique ce qui s'est passé, et vous payez après.</p></div>
     </div>
-    <a href="blog.html" class="blog-voir-plus">Voir tous les articles →</a>
   </div>
 </section>
 
+<!-- ═══ 4. QUI SUIS-JE ═══ -->
 <section id="about">
   <div class="container">
-    <div class="section-label">À propos</div>
+    <div class="section-label">Qui suis-je</div>
     <div class="about-section">
       <div>
         <h2 class="section-title">Bonjour, je suis Stevy</h2>
-        <p style="color:var(--muted);margin-bottom:1.5rem">Fondateur de Makouez IT, technicien informatique depuis plus de 10 ans. J'ai exercé en itinérance pour de grandes entreprises comme LCL, BNP Paribas, SPIE, Neurones IT et Safran, en support de proximité N1/N2, déploiement Windows et assistance VIP. J'interviens aujourd'hui à domicile en Île-de-France — Pierrefitte-sur-Seine, Saint-Denis, Stains, Épinay-sur-Seine et alentours.</p>
-        <p style="color:var(--muted);margin-bottom:1.5rem">Passionné par le web depuis toujours, j'ai développé en parallèle une expertise en création de sites vitrines, landing pages et applications web sur mesure en HTML, CSS, JavaScript et Firebase. Ce site a été conçu et développé entièrement par mes soins.</p>
-        <p style="color:var(--muted);margin-bottom:1.5rem">Aujourd'hui je mets cette double expertise au service des particuliers et des professionnels : dépanner, conseiller, former, mais aussi concevoir une présence en ligne claire, rapide et professionnelle.</p>
-        <p style="color:var(--muted);margin-bottom:1.5rem">Je peux intervenir pour une panne ponctuelle, une mise en place durable ou un projet web complet, avec le même niveau d'exigence et une communication simple du début à la fin.</p>
-        <div class="about-tags">
-          <span class="tag">Dépannage PC</span><span class="tag">Réseaux</span>
-          <span class="tag">Windows</span><span class="tag">Sécurité</span>
-          <span class="tag">Formation</span><span class="tag">Développement web</span>
-          <span class="tag">Micro-entrepreneur</span>
-        </div>
+        <p style="color:var(--muted);margin-bottom:1rem">Technicien informatique depuis 10 ans, j'ai travaillé pour de grandes entreprises comme BNP Paribas, LCL, Safran et SPIE, en support de proximité et en déploiement Windows. Aujourd'hui, j'interviens chez les particuliers, les familles, les seniors et les petites entreprises de Seine-Saint-Denis et d'Île-de-France. Je prends le temps d'expliquer, sans jargon, ce qui s'est passé et comment l'éviter. Je crée aussi des sites internet pour les artisans et les indépendants.</p>
       </div>
       <div class="about-card">
         <div style="display:flex;align-items:center;gap:1rem">
-          <img src="/images/stevy-makouez-it.jpg" alt="Stevy Makouézi, technicien informatique Makouez IT" width="180" height="180" loading="lazy" decoding="async" style="width:180px;height:180px;border-radius:50%;object-fit:cover;object-position:center;border:3px solid var(--accent);box-shadow:0 8px 32px rgba(59,130,246,0.2);flex-shrink:0;background:linear-gradient(135deg,#3b82f6,#60a5fa);" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div style="display:none;width:180px;height:180px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#60a5fa);align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:3rem;font-weight:700;color:#fff;border:3px solid var(--accent);box-shadow:0 8px 32px rgba(59,130,246,0.2);flex-shrink:0;">S</div>
+          <img src="/images/stevy-makouez-it.jpg" alt="Stevy Makouézi, technicien informatique Makouez IT" width="140" height="140" loading="lazy" decoding="async" style="width:140px;height:140px;border-radius:50%;object-fit:cover;object-position:center;border:3px solid var(--accent)">
           <div>
             <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem">Stevy Makouézi</div>
-            <div style="color:var(--muted);font-size:0.9rem">Fondateur de Makouez IT · 10 ans d'expérience</div>
+            <div style="color:var(--muted);font-size:0.95rem">Fondateur de Makouez IT · micro-entrepreneur</div>
           </div>
-        </div>
-        <!-- Badges de confiance -->
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:0.25rem">
-          <span style="background:#3b82f618;border:1px solid #3b82f630;color:var(--accent2);padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">🏆 10 ans d'exp.</span>
-          <span style="background:#22c55e14;border:1px solid #22c55e30;color:#166534;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">✅ SIRET vérifié</span>
-          <span style="background:#f59e0b14;border:1px solid #f59e0b30;color:#92400e;padding:4px 10px;border-radius:99px;font-size:0.9rem;font-weight:600">⭐ Premiers retours excellents</span>
         </div>
         <div class="values">
-          <div class="value-item"><div class="value-icon">🎯</div><div><h3>Transparence totale</h3><p>Tarif annoncé avant l'intervention. Vous payez ce qui est convenu, rien de plus.</p></div></div>
-          <div class="value-item"><div class="value-icon">⚡</div><div><h3>Réactivité</h3><p>Intervention généralement sous 24h, parfois le jour même selon les disponibilités.</p></div></div>
-          <div class="value-item"><div class="value-icon">🤝</div><div><h3>Pédagogie</h3><p>Je vous explique ce qui s'est passé et comment éviter que ça se reproduise.</p></div></div>
-          <!-- RC Pro en attente d'attestation : décommenter et compléter avec l'assureur et la référence une fois disponible.
-          <div class="value-item"><div class="value-icon">🛡️</div><div><h3>Assurance RC Pro</h3><p>Couverture professionnelle dédiée aux interventions à domicile.</p></div></div>
-          -->
+          <div class="value-item"><div class="value-icon"><span aria-hidden="true">🎯</span></div><div><h3>Prix annoncé avant</h3><p>Vous connaissez le forfait avant que je commence. Rien de plus.</p></div></div>
+          <div class="value-item"><div class="value-icon"><span aria-hidden="true">🤝</span></div><div><h3>Explications sans jargon</h3><p>Je vous montre ce que j'ai fait et comment éviter que ça recommence.</p></div></div>
+          <div class="value-item"><div class="value-icon"><span aria-hidden="true">💳</span></div><div><h3>Paiement après</h3><p>Vous payez une fois l'intervention terminée. Aucun acompte.</p></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
-  <section id="portfolio" style="padding:64px 24px;background:#f9fafb;">
-  <div style="max-width:800px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:40px;">
-      <p style="font-size:0.9rem;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Développement web</p>
-      <h2 style="font-size:1.8rem;font-weight:800;color:#111827;margin-bottom:8px;">Mes réalisations</h2>
-      <p style="color:#6b7280;font-size:0.9rem;">Sites web créés de A à Z — design, développement, déploiement.</p>
-    </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;">
-
-      <!-- MAKOUEZ IT — Réel -->
-      <a href="portfolio.html" style="text-decoration:none;">
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform .2s,box-shadow .2s;cursor:pointer;"
-          onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.14)'"
-          onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'">
-          <div style="height:110px;background:linear-gradient(135deg,#1e3a8a,#2563eb);display:flex;align-items:center;justify-content:center;flex-direction:column;">
-            <div style="font-size:1.2rem;font-weight:800;color:#fff;">Makouez <span style="color:#1d4ed8;">IT</span></div>
-            <div style="font-size:0.9rem;color:rgba(255,255,255,0.7);margin-top:4px;">Site vitrine + Réservation</div>
-          </div>
-          <div style="padding:14px;">
-            <div style="font-weight:700;font-size:0.9rem;color:#111827;margin-bottom:3px;">makouezit.org</div>
-            <div style="font-size:0.9rem;color:#6b7280;">HTML · CSS · JS · Firebase</div>
-          </div>
-        </div>
-      </a>
-
-      <!-- NOIRLAND — Réel -->
-      <a href="portfolio.html" style="text-decoration:none;">
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform .2s,box-shadow .2s;cursor:pointer;"
-          onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.14)'"
-          onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'">
-          <div style="height:110px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden;">
-            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(139,0,0,0.3),transparent 70%);"></div>
-            <div style="font-size:1.3rem;font-weight:900;color:#fff;letter-spacing:0.12em;position:relative;">NOIRLAND</div>
-            <div style="font-size:0.9rem;color:#666;letter-spacing:0.2em;text-transform:uppercase;position:relative;margin-top:4px;">MUSIC</div>
-          </div>
-          <div style="padding:14px;">
-            <div style="font-weight:700;font-size:0.9rem;color:#111827;margin-bottom:3px;">noirlandmusic.com</div>
-            <div style="font-size:0.9rem;color:#6b7280;">HTML · CSS · JS</div>
-          </div>
-        </div>
-      </a>
-
-    </div>
-    </div>
-  </div>
-</section>
-<section class="zone-section">
+<!-- ═══ 5. ZONE D'INTERVENTION ═══ -->
+<section class="zone-section" id="zone">
   <div class="container">
-   <div class="section-label">Zone d'intervention</div>
-<h2 class="section-title">Toute l'Île-de-France</h2>
-<p class="section-sub">Makouez IT intervient à domicile en Île-de-France, avec une présence privilégiée en Seine-Saint-Denis (93).</p>
-<div class="zone-chips">
-  <a class="zone-chip main" href="depannage-informatique-pierrefitte-sur-seine.html">Pierrefitte-sur-Seine</a><a class="zone-chip main" href="technicien-informatique-saint-denis.html">Saint-Denis</a>
-  <a class="zone-chip main" href="depannage-pc-stains.html">Stains</a><a class="zone-chip main" href="technicien-informatique-epinay-sur-seine.html">Épinay-sur-Seine</a>
-  <a class="zone-chip" href="depannage-informatique-aubervilliers.html">Aubervilliers</a><span class="zone-chip">Villetaneuse</span><span class="zone-chip">Sarcelles</span>
-  <span class="zone-chip">Deuil-la-Barre</span><span class="zone-chip">Montmagny</span>
-  <a class="zone-chip" href="depannage-informatique-paris-75.html">Paris</a><span class="zone-chip">Val-d'Oise (95)</span>
-  <a class="zone-chip" href="depannage-informatique-hauts-de-seine-92.html">Hauts-de-Seine (92)</a><a class="zone-chip" href="depannage-informatique-val-de-marne-94.html">Val-de-Marne (94)</a>
-</div>
-    <p style="color:var(--muted);font-size:0.9rem;margin-top:1.25rem">Département non listé ? Contactez au <a href="tel:+33745103827" style="color:var(--accent2)">07 45 10 38 27</a> pour vérifier la disponibilité.</p>
-  </div>
-</section>
-
-<section class="seo-section">
-  <div class="container">
-    <div class="section-label">Pourquoi Makouez IT ?</div>
-    <h2 class="section-title">Ce qui me différencie</h2>
-    <div class="seo-grid">
-      <div class="seo-card"><h3>Technicien expérimenté</h3><p>Plus de 10 ans d'expérience professionnelle en itinérance pour de grandes entreprises, aujourd'hui au service des Franciliens.</p></div>
-      <div class="seo-card"><h3>Intervention à domicile uniquement</h3><p>Pas besoin de démonter votre ordinateur. Je viens chez vous.</p></div>
-      <div class="seo-card"><h3>Paiement après intervention</h3><p>Vous ne payez qu'une fois satisfait. Devis gratuit.</p></div>
-      <div class="seo-card"><h3>Disponible rapidement</h3><p>Disponible en semaine et souvent le week-end. Délai moyen : moins de 24h.</p></div>       <div class="seo-card" style="border-color:#3b82f640;background:linear-gradient(135deg,#3b82f610,#60a5fa08)"><h4>🌐 Technicien & Développeur web</h4><p>Dépannage informatique et création de sites web sous le même toit. Un seul interlocuteur pour tous vos besoins numériques.</p></div>     </div>
+    <div class="section-label">Zone d'intervention</div>
+    <h2 class="section-title">Seine-Saint-Denis et Île-de-France</h2>
+    <p class="section-sub">J'interviens en priorité dans le nord de la Seine-Saint-Denis. Choisissez votre ville :</p>
+    <div class="zone-chips zone-big">
+      <a class="zone-chip main" href="depannage-informatique-pierrefitte-sur-seine.html">Pierrefitte-sur-Seine</a>
+      <a class="zone-chip main" href="technicien-informatique-saint-denis.html">Saint-Denis</a>
+      <a class="zone-chip main" href="depannage-pc-stains.html">Stains</a>
+      <a class="zone-chip main" href="technicien-informatique-epinay-sur-seine.html">Épinay-sur-Seine</a>
+      <a class="zone-chip main" href="depannage-informatique-aubervilliers.html">Aubervilliers</a>
+      <a class="zone-chip main" href="depannage-informatique-seine-saint-denis.html">Toute la Seine-Saint-Denis</a>
     </div>
+    <p style="color:var(--muted);margin-top:1.25rem">Sur demande : <a href="depannage-informatique-paris-75.html">Paris</a>, <a href="depannage-informatique-hauts-de-seine-92.html">Hauts-de-Seine (92)</a>, <a href="depannage-informatique-val-de-marne-94.html">Val-de-Marne (94)</a>, Val-d'Oise (95) et <a href="depannage-pc-ile-de-france.html">toute l'Île-de-France</a>. Un doute ? Appelez le <a href="tel:+33745103827">07 45 10 38 27</a>.</p>
   </div>
 </section>
 
-<section class="faq-section">
-  <div class="container">
-    <div class="section-label">Questions fréquentes</div>
-    <h2 class="section-title">FAQ</h2>
-    <div class="faq-list" id="faq">
-      <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Trois forfaits selon la durée : Diag Express (1h) à 55€, Standard (2h) à 89€, Long format (3h) à 129€. Déplacement inclus, paiement uniquement après intervention.</div></div>
-      <div class="faq-item"><div class="faq-q">Quels types de problèmes pouvez-vous résoudre ? <span class="faq-arrow">+</span></div><div class="faq-a">PC lent, virus, écran noir, Windows qui plante, Wi-Fi qui ne fonctionne pas, récupération de fichiers perdus, formation, création de site web…</div></div>
-      <div class="faq-item"><div class="faq-q">Dans quel délai Makouez IT peut-il intervenir ? <span class="faq-arrow">+</span></div><div class="faq-a">En général sous 24h à 48h. Pour les urgences, contactez-moi directement par téléphone au 07 45 10 38 27 — j'essaie d'intervenir le jour même si possible.</div></div>
-      <div class="faq-item"><div class="faq-q">Que se passe-t-il si le problème ne peut pas être résolu ? <span class="faq-arrow">+</span></div><div class="faq-a">Je vous l'explique honnêtement et vous conseille sur les options disponibles. Le déplacement reste facturé, à un tarif réduit de 30€.</div></div>
-      <div class="faq-item"><div class="faq-q">Dans quelle zone intervenez-vous ? <span class="faq-arrow">+</span></div><div class="faq-a">J'interviens dans toute l'Île-de-France, avec une présence privilégiée en Seine-Saint-Denis (93) : Pierrefitte-sur-Seine, Saint-Denis, Stains, Épinay-sur-Seine, Villetaneuse et les communes environnantes. Contactez-moi au 07 45 10 38 27 pour vérifier votre zone.</div></div>
-      <div class="faq-item"><div class="faq-q">Acceptez-vous le paiement par carte bancaire ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui. Le paiement se fait par carte bancaire, virement, espèces ou PayPal. Le règlement s'effectue toujours après l'intervention — aucun pré-paiement n'est demandé.</div></div>
-      <div class="faq-item"><div class="faq-q">Intervenez-vous le week-end ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, j'interviens souvent le samedi et parfois le dimanche selon les disponibilités. Contactez-moi par téléphone ou WhatsApp pour connaître les créneaux disponibles.</div></div>
-    </div>
-  </div>
-</section>
-
+<!-- ═══ 6. CONTACT ═══ -->
 <section id="contact" class="contact-section">
   <div class="container">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Besoin d'aide ? Je suis là.</h2>
+    <a href="tel:+33745103827" class="contact-big-phone" onclick="trackEvent('conversion','phone_click','contact_section')"><span aria-hidden="true">📞</span> 07 45 10 38 27</a>
+    <p style="color:var(--muted);margin:.25rem 0 1.5rem">Du lundi au samedi. Si je suis en intervention, je vous rappelle dans la journée.</p>
     <div class="contact-grid">
       <div>
-        <div class="section-label">Contact</div>
-        <h2 class="section-title">Besoin d'aide ? Je suis là.</h2>
-        <p style="color:var(--muted);margin-bottom:0.5rem">Contactez Makouez IT par le moyen qui vous convient le mieux.</p>
         <div class="contact-methods">
-          <a href="tel:+33745103827" class="contact-method" onclick="trackEvent('conversion','phone_click','contact_section')"><div class="contact-method-icon">📞</div><div class="contact-method-text"><small>Appel direct</small><strong>07 45 10 38 27</strong></div></a>
-          <a href="mailto:contact@makouezit.org" class="contact-method" id="emailLink"><div class="contact-method-icon">✉️</div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay">contact@makouezit.org</strong></div></a>
-          <a href="https://wa.me/33745103827?text=Bonjour%20Stevy%2C%20j%27ai%20besoin%20d%27aide%20pour%20mon%20PC.%20Pouvez-vous%20m%27aider%20%3F" class="contact-method" onclick="trackEvent('conversion','whatsapp_click','contact_section')"><div class="contact-method-icon">💬</div><div class="contact-method-text"><small>WhatsApp</small><strong>Message rapide</strong></div></a>
+          <a href="https://wa.me/33745103827?text=Bonjour%20Stevy%2C%20j%27ai%20besoin%20d%27aide%20pour%20mon%20PC." class="contact-method" target="_blank" rel="noopener" onclick="trackEvent('conversion','whatsapp_click','contact_section')"><div class="contact-method-icon"><span aria-hidden="true">💬</span></div><div class="contact-method-text"><small>WhatsApp</small><strong>Écrire un message</strong></div></a>
+          <a href="mailto:contact@makouezit.org" class="contact-method" id="emailLink"><div class="contact-method-icon"><span aria-hidden="true">✉️</span></div><div class="contact-method-text"><small>Email</small><strong id="emailDisplay">contact@makouezit.org</strong></div></a>
+          <a href="makouez-it-rdv.html" id="rdv" class="contact-method" onclick="trackEvent('conversion','rdv_click','contact_section')"><div class="contact-method-icon"><span aria-hidden="true">📅</span></div><div class="contact-method-text"><small>En ligne</small><strong>Réserver un créneau</strong></div></a>
         </div>
       </div>
-      <div id="rdv" class="contact-cta-box" style="margin-top:0;align-self:center">
-        <div style="font-size:2.5rem;margin-bottom:0.75rem">📅</div>
-        <h3>Prendre rendez-vous</h3>
-        <p>Réservez votre créneau en ligne en quelques secondes. Je confirme sous 24h.</p>
-        <a href="makouez-it-rdv.html" class="btn-primary" onclick="trackEvent('conversion','rdv_click','contact_section')">Réserver un créneau →</a>
-        <p style="margin-top:1rem;font-size:0.9rem;color:var(--muted)">Ou appelez le 07 45 10 38 27</p>
+      <div id="callback" class="callback-card">
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;margin-bottom:.4rem">Vous préférez être rappelé ?</h3>
+        <p style="color:var(--muted);margin-bottom:1rem">Laissez votre prénom et votre numéro : Stevy vous rappelle.</p>
+        <form class="callback-form" id="callbackForm" novalidate>
+          <label class="sr-only" for="cbPrenom">Votre prénom</label>
+          <input class="callback-input" id="cbPrenom" type="text" autocomplete="given-name" placeholder="Votre prénom" required maxlength="80">
+          <label class="sr-only" for="cbTel">Votre téléphone</label>
+          <input class="callback-input" id="cbTel" type="tel" autocomplete="tel" placeholder="Votre téléphone" required maxlength="40">
+          <label class="sr-only" for="cbBesoin">Votre besoin</label>
+          <select class="callback-select" id="cbBesoin">
+            <option value="Dépannage PC">Dépannage PC</option>
+            <option value="Réseau Wi-Fi">Réseau Wi-Fi</option>
+            <option value="Sauvegarde et sécurité">Virus, arnaque, sécurité</option>
+            <option value="Récupération de données">Fichiers perdus</option>
+            <option value="Installation Windows et logiciels">Installation Windows</option>
+            <option value="Formation et accompagnement">Formation</option>
+            <option value="Site web / devis">Site web / devis</option>
+            <option value="Autre">Autre</option>
+          </select>
+          <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;cursor:pointer;text-align:left"><input type="checkbox" id="cbConsent" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'accepte d'être rappelé par Makouez IT à ce sujet. <a href="confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>.</span></label>
+          <button class="callback-button" type="submit" id="cbBtn">Être rappelé</button>
+          <p class="callback-msg" id="cbMsg" role="status" aria-live="polite"></p>
+        </form>
       </div>
+    </div>
+
+    <div class="faq-list" id="faq" style="margin-top:2.5rem">
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;margin-bottom:.75rem">Questions fréquentes</h3>
+      <div class="faq-item"><div class="faq-q">Combien coûte une intervention à domicile ? <span class="faq-arrow">+</span></div><div class="faq-a">Trois forfaits selon la durée, déplacement inclus : Diag Express (1h) à <span data-tarif="depannage.diagExpress.prix">55&nbsp;€</span>, Standard (2h) à <span data-tarif="depannage.standard.prix">89&nbsp;€</span>, Long format (3h) à <span data-tarif="depannage.longFormat.prix">129&nbsp;€</span>. Le forfait est confirmé avec vous avant l'intervention.</div></div>
+      <div class="faq-item"><div class="faq-q">Dans quel délai pouvez-vous intervenir ? <span class="faq-arrow">+</span></div><div class="faq-a">En général sous 24 à 48 heures, souvent le samedi. Pour une urgence, appelez le 07 45 10 38 27 : j'essaie d'intervenir le jour même.</div></div>
+      <div class="faq-item"><div class="faq-q">Comment se passe le paiement ? <span class="faq-arrow">+</span></div><div class="faq-a">Après l'intervention, aucun prépaiement : carte bancaire, virement, espèces ou PayPal.</div></div>
+      <div class="faq-item"><div class="faq-q">Et si le problème ne peut pas être résolu ? <span class="faq-arrow">+</span></div><div class="faq-a">Je vous l'explique honnêtement et je vous conseille sur les solutions possibles. Seul le déplacement est facturé, à tarif réduit (<span data-tarif="depannage.deplacementSansSolution.prix">30&nbsp;€</span>).</div></div>
     </div>
   </div>
 </section>
@@ -1071,7 +657,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Politique de confidentialité</a><a href="cgv.html">CGV</a>
       <a href="#services">Services</a><a href="#tarifs">Tarifs</a>
       <a href="contrats.html">Contrats</a><a href="blog.html">Blog</a><a href="#contact">Contact</a>
-      <a href="portfolio.html">Portfolio</a>
+      <a href="portfolio.html">Portfolio et sites web</a>
   <a href="diagnostic.html">Diagnostic</a>
     </div>
     <div style="margin-top:0.75rem;font-size:0.9rem">© 2026 Makouez IT – Stevy | SIRET : 83955229600023 | Tous droits réservés</div>
@@ -1090,7 +676,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
   <div class="suivi-modal">
     <button class="suivi-modal-close" onclick="closeSuiviModal()" aria-label="Fermer la fenêtre">✕</button>
     <div id="suiviFormWrap">
-      <h3 id="suiviModalTitle">🔍 Suivre ma demande</h3>
+      <h3 id="suiviModalTitle"><span aria-hidden="true">🔍</span> Suivre ma demande</h3>
       <p>Entrez votre adresse email pour recevoir à nouveau le lien de suivi de votre réservation.</p>
       <input class="suivi-input" type="email" id="suiviEmail" placeholder="votre@email.com" oninput="checkSuiviForm()">
       <div class="suivi-error" id="suiviError"></div>
@@ -1098,7 +684,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <p style="font-size:0.9rem;color:var(--muted);text-align:center">Vous n'avez pas encore de réservation ? <a href="makouez-it-rdv.html" style="color:var(--accent2);text-decoration:none">Prendre rendez-vous →</a></p>
     </div>
     <div id="suiviSuccessWrap" style="display:none" class="suivi-success">
-      <div class="suivi-success-icon">📧</div>
+      <div class="suivi-success-icon"><span aria-hidden="true">📧</span></div>
       <div style="font-family:Syne,sans-serif;font-weight:700;font-size:1rem">Email envoyé !</div>
       <p>Le lien de suivi de votre réservation a été envoyé à votre adresse email. Vérifiez votre boîte de réception.</p>
       <button onclick="closeSuiviModal()" style="background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:0.6rem 1.2rem;cursor:pointer;font-family:DM Sans,sans-serif;font-size:0.9rem">Fermer</button>
@@ -1135,7 +721,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
       <button class="btn-submit-avis" id="btnSubmitAvis">Envoyer mon avis</button>
     </div>
     <div id="avisSuccessWrap" class="avis-success" style="display:none">
-      <div class="avis-success-icon">🎉</div>
+      <div class="avis-success-icon"><span aria-hidden="true">🎉</span></div>
       <h4>Merci pour votre avis !</h4>
       <p>Votre retour a bien été enregistré. Il apparaîtra prochainement sur le site.</p>
     </div>
@@ -1406,9 +992,17 @@ function closeModal() {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
 import { getFirestore, collection, getDocs, getDoc, doc, addDoc, orderBy, query, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 const firebaseConfig = { apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a" };
 const app = initializeApp(firebaseConfig);
+// App Check (reCAPTCHA Enterprise) : actif dès que la clé est renseignée dans /appcheck-config.js
+if (APP_CHECK_SITE_KEY) {
+  try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); }
+  catch (e) { console.warn('App Check indisponible :', e); }
+}
 const db  = getFirestore(app);
 const MSG_VIDE = '<div class="avis-empty">Aucun avis pour le moment.<br>Vous avez fait appel à Makouez IT ? N\'hésitez pas à laisser le vôtre, ça m\'aide beaucoup !</div>';
 async function loadAvis() {
@@ -1425,6 +1019,10 @@ async function loadAvis() {
     if (writeUrl) { const b=document.getElementById('avisLaisser'); b.href=writeUrl; b.style.display=''; }
     if (allUrl)   { const b=document.getElementById('avisVoirTous'); b.href=allUrl; b.style.display=''; }
     if (!g.count || avis.length === 0) return;
+    // Le bloc et ses liens de menu ne s'affichent que s'il y a de vrais avis
+    document.getElementById('avis').hidden = false;
+    const proc = document.getElementById('process'); if (proc) proc.hidden = true;
+    document.querySelectorAll('.js-avis-link').forEach((el) => { el.hidden = false; });
     moyenneEl.style.display='';
     const r=Math.round(g.rating||0);
     moyenneEl.innerHTML=`<div class="avis-moyenne-num">${Number(g.rating).toFixed(1).replace('.',',')}</div><div><div class="avis-moyenne-stars" aria-label="Note moyenne ${Number(g.rating).toFixed(1)} sur 5">${'★'.repeat(r)}${'☆'.repeat(5-r)}</div><div class="avis-moyenne-count">${g.count} avis sur Google</div></div>`;
@@ -1437,6 +1035,30 @@ async function loadAvis() {
   } catch(e){ /* Firestore indisponible : le message par défaut reste affiché */ }
 }
 loadAvis();
+
+// DEMANDE DE RAPPEL (Cloud Function requestCallback)
+const requestCallback = httpsCallable(getFunctions(app, 'europe-west1'), 'requestCallback');
+document.getElementById('callbackForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById('cbMsg'), btn = document.getElementById('cbBtn');
+  const prenom = document.getElementById('cbPrenom').value.trim();
+  const telephone = document.getElementById('cbTel').value.trim();
+  const say = (t, ok) => { msg.textContent = t; msg.className = 'callback-msg ' + (ok ? 'ok' : 'err'); };
+  if (!prenom || !telephone) return say('Merci d\'indiquer votre prénom et votre téléphone.', false);
+  if (!document.getElementById('cbConsent').checked) return say('Merci de cocher la case pour être rappelé.', false);
+  btn.disabled = true; btn.textContent = 'Envoi…';
+  try {
+    await requestCallback({ prenom, telephone, besoin: document.getElementById('cbBesoin').value, consentement: true });
+    say('✓ C\'est noté ! Stevy vous rappelle dès que possible.', true);
+    e.target.reset();
+    if (window.trackEvent) window.trackEvent('conversion', 'callback_request', 'contact_section');
+  } catch (err) {
+    const lisible = err && err.code && err.code.startsWith('functions/') && err.code !== 'functions/internal' && err.message;
+    say(lisible || 'Envoi impossible. Appelez le 07 45 10 38 27.', false);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Être rappelé';
+  }
+});
 
 
 // ENVOI AVIS
@@ -1471,7 +1093,7 @@ document.getElementById('btnSubmitAvis').addEventListener('click', async ()=>{
 <!-- BANDEAU PROMO BAS — BIENVENUE10 -->
 <div class="promo-banner" id="promoBanner" role="region" aria-label="Offre de bienvenue">
   <div class="promo-banner-text">
-    🎁 <strong>−10% sur votre 1ère intervention</strong> — code&nbsp;<span class="promo-banner-code">BIENVENUE10</span>&nbsp;à mentionner à la réservation
+    <span aria-hidden="true">🎁</span> <strong>−10% sur votre 1ère intervention</strong> — code&nbsp;<span class="promo-banner-code">BIENVENUE10</span>&nbsp;à mentionner à la réservation
   </div>
   <div class="promo-banner-actions">
     <a href="makouez-it-rdv.html?promo=BIENVENUE10" class="promo-banner-cta" onclick="trackEvent('conversion','promo_banner_rdv','bandeau')">Réserver →</a>
@@ -1510,5 +1132,7 @@ document.querySelectorAll('a[href^="tel:"]').forEach(a=>{
   a.addEventListener('click',()=>trackEvent('conversion','phone_click','tel_link'));
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

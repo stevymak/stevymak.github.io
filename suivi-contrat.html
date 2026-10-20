@@ -121,20 +121,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
   <a href="index.html" class="nav-back">← Retour au site</a>
 </nav>
 
-<div class="page">
+<div class="page" id="contenu" tabindex="-1">
   <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Suivi de contrat Makouez IT</h1>
   <div class="error-wrap">
-    <div class="error-icon">🔐</div>
+    <div class="error-icon"><span aria-hidden="true">🔐</span></div>
     <div class="error-title">Suivi direct désactivé</div>
     <div class="error-sub">Le suivi d'un contrat par simple identifiant d'URL n'est plus autorisé. Utilisez l'espace client sécurisé pour consulter votre contrat ou contactez Stevy directement.</div>
     <a href="mon-rdv.html" class="btn-primary" style="max-width:320px;margin:0 auto">Accéder à mon espace client →</a>
     <a href="contrats.html" class="btn-secondary" style="max-width:320px;margin:0 auto">Voir nos contrats</a>
   </div>
 </div>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

@@ -154,6 +154,7 @@ footer a:hover{color:var(--text)}
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez <span>IT</span></a>
@@ -163,7 +164,7 @@ footer a:hover{color:var(--text)}
   </div>
 </nav>
 
-<div class="page">
+<div class="page" id="contenu" tabindex="-1">
   <div class="page-label">Offres Pro / TPE-PME</div>
   <h1 class="page-title">Technicien informatique dédié aux professionnels</h1>
   <p class="page-sub">Interventions à domicile ou en entreprise en Île-de-France. Tous les tarifs sont exprimés sans TVA — TVA non applicable, art. 293B du CGI.</p>
@@ -173,21 +174,21 @@ footer a:hover{color:var(--text)}
   <div class="sub-label">Interventions ponctuelles</div>
   <div class="ponctuel-grid">
     <div class="ponctuel-card">
-      <div class="ponctuel-icon">🔧</div>
+      <div class="ponctuel-icon"><span aria-hidden="true">🔧</span></div>
       <div class="ponctuel-name">Intervention ponctuelle</div>
       <div class="ponctuel-price"><span data-tarif="pro.interventionHeure.prix">75&nbsp;€</span> <span>/h · minimum 1h</span></div>
       <div class="ponctuel-desc">Dépannage, configuration, installation logiciel. Déplacement en Île-de-France inclus.</div>
       <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Intervention ponctuelle','75€/h')">Demander un devis →</button>
     </div>
     <div class="ponctuel-card">
-      <div class="ponctuel-icon">💻</div>
+      <div class="ponctuel-icon"><span aria-hidden="true">💻</span></div>
       <div class="ponctuel-name">Pack installation poste</div>
       <div class="ponctuel-price"><span data-tarif="pro.installationPoste.prix">180&nbsp;€</span> <span>/ poste</span></div>
       <div class="ponctuel-desc">Montage, configuration Windows, profil utilisateur, logiciels métier, sécurité. Prêt à l'emploi.</div>
       <button class="btn-contact-pro-out" style="margin-top:0.75rem" onclick="openModal('pro-ponctuel','Pack installation poste','180€ HT/poste')">Demander un devis →</button>
     </div>
     <div class="ponctuel-card">
-      <div class="ponctuel-icon">🔒</div>
+      <div class="ponctuel-icon"><span aria-hidden="true">🔒</span></div>
       <div class="ponctuel-name">Audit sécurité TPE</div>
       <div class="ponctuel-price"><span data-tarif="pro.auditSecurite.prix">290&nbsp;€</span> <span>· ≤ 5 postes</span></div>
       <div class="ponctuel-desc">Analyse des risques, vérification mots de passe, antivirus, sauvegardes. Rapport écrit fourni.</div>
@@ -201,7 +202,7 @@ footer a:hover{color:var(--text)}
   <div class="contrats-pro-grid">
 
     <div class="contrat-pro-card">
-      <div class="contrat-pro-icon">🏢</div>
+      <div class="contrat-pro-icon"><span aria-hidden="true">🏢</span></div>
       <div class="contrat-pro-name">Pro Essentiel</div>
       <div class="contrat-pro-price"><span data-tarif="pro.essentiel.prix">89&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-pro-target">1–3 postes</div>
@@ -218,7 +219,7 @@ footer a:hover{color:var(--text)}
 
     <div class="contrat-pro-card featured">
       <div class="contrat-pro-badge">Recommandé</div>
-      <div class="contrat-pro-icon">🏪</div>
+      <div class="contrat-pro-icon"><span aria-hidden="true">🏪</span></div>
       <div class="contrat-pro-name">Pro Confort</div>
       <div class="contrat-pro-price"><span data-tarif="pro.confort.prix">249&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-pro-target">4–10 postes</div>
@@ -235,7 +236,7 @@ footer a:hover{color:var(--text)}
     </div>
 
     <div class="contrat-pro-card">
-      <div class="contrat-pro-icon">🏬</div>
+      <div class="contrat-pro-icon"><span aria-hidden="true">🏬</span></div>
       <div class="contrat-pro-name">Pro Premium</div>
       <div class="contrat-pro-price"><span data-tarif="pro.premium.prix">Sur devis</span></div>
       <div class="contrat-pro-target">Infogérance complète</div>
@@ -264,11 +265,11 @@ footer a:hover{color:var(--text)}
           <tr><td class="feat">Téléassistance</td><td>Lun-ven 9h-19h</td><td>Lun-sam 9h-20h</td><td>7j/7</td></tr>
           <tr><td class="feat">Visites sur site</td><td>1 / trimestre</td><td>1 / mois</td><td>Sur besoin</td></tr>
           <tr><td class="feat">Délai intervention prioritaire</td><td>Sous 24h</td><td>Sous 4h</td><td>SLA défini</td></tr>
-          <tr><td class="feat">Surveillance sauvegardes</td><td><span class="cross">–</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Surveillance sauvegardes</td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr><td class="feat">Rapport mensuel</td><td>Trimestriel</td><td>Mensuel</td><td>Mensuel</td></tr>
-          <tr><td class="feat">Déploiement postes</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Gestion complète du parc</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td class="feat">Sans engagement</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feat">Déploiement postes</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Gestion complète du parc</td><td><span class="cross">–</span></td><td><span class="cross">–</span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
+          <tr><td class="feat">Sans engagement</td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td><td><span class="check"><span aria-hidden="true">✓</span></span></td></tr>
           <tr>
             <td class="feat" style="font-weight:700;color:var(--text)">Prix mensuel</td>
             <td style="color:var(--accent);font-weight:700;font-family:'Syne',sans-serif"><span data-tarif="pro.essentiel.prix">89&nbsp;€</span></td>
@@ -296,7 +297,7 @@ footer a:hover{color:var(--text)}
     <p>Un devis gratuit et personnalisé sous 24h. Pas d'engagement avant validation de votre part.</p>
     <div class="cta-btns">
       <a href="makouez-it-rdv.html" class="btn-primary">Prendre rendez-vous →</a>
-      <a href="tel:+33745103827" class="btn-outline" onclick="if(typeof gtag==='function')gtag('event','phone_click',{event_category:'contact',event_label:'contrats-pro'})">📞 07 45 10 38 27</a>
+      <a href="tel:+33745103827" class="btn-outline" onclick="if(typeof gtag==='function')gtag('event','phone_click',{event_category:'contact',event_label:'contrats-pro'})"><span aria-hidden="true">📞</span> 07 45 10 38 27</a>
     </div>
   </div>
 
@@ -357,11 +358,11 @@ footer a:hover{color:var(--text)}
       <button class="btn-modal-cancel" id="btnCancel">Annuler</button>
     </div>
     <div class="success-view" id="successView">
-      <div class="success-icon">✓</div>
+      <div class="success-icon"><span aria-hidden="true">✓</span></div>
       <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700">Demande envoyée !</div>
       <div style="color:var(--muted);font-size:0.9rem;max-width:340px;line-height:1.6">Stevy vous contactera sous 24h pour établir votre devis personnalisé.</div>
       <div class="success-info">
-        <strong>📋 Prochaines étapes</strong><br>
+        <strong><span aria-hidden="true">📋</span> Prochaines étapes</strong><br>
         Vous serez contacté par email ou téléphone. Un devis détaillé vous sera transmis gratuitement sans engagement de votre part.
       </div>
       <button class="btn-modal-cancel" id="btnFermer">Fermer</button>
@@ -371,6 +372,8 @@ footer a:hover{color:var(--text)}
 
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -383,6 +386,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+// App Check (reCAPTCHA Enterprise) : actif dès que la clé est renseignée dans /appcheck-config.js
+if (APP_CHECK_SITE_KEY) {
+  try { initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); }
+  catch (e) { console.warn('App Check indisponible :', e); }
+}
 const db  = getFirestore(app);
 
 let selectedContrat = '';
@@ -487,5 +495,7 @@ if (cp) {
   if (map[cp]) window.openModal(...map[cp]);
 }
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>

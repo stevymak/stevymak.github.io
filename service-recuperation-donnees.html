@@ -115,6 +115,7 @@
 <link rel="stylesheet" href="/a11y.css">
 </head>
 <body>
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
 
 <nav>
   <a href="index.html" class="logo">Makouez<span>IT</span></a>
@@ -122,7 +123,7 @@
   <a href="makouez-it-rdv.html?service=recuperation-donnees" class="nav-rdv">Prendre RDV</a>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu" tabindex="-1">
   <section class="hero-svc">
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
       <a href="index.html">Accueil</a>
@@ -146,29 +147,29 @@
     <h2>Types de récupération possibles</h2>
     <div class="points-grid">
       <div class="point-card">
-        <div class="point-icon">🖼️</div>
+        <div class="point-icon"><span aria-hidden="true">🖼️</span></div>
         <div class="point-title">Photos et vidéos effacées</div>
         <div class="point-desc">Récupération depuis carte SD, clé USB, disque dur, même après vidage de la corbeille. Taux de succès élevé si le support n'a pas été réécrit.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">💿</div>
+        <div class="point-icon"><span aria-hidden="true">💿</span></div>
         <div class="point-title">Disque dur en panne</div>
         <div class="point-desc">Disque non reconnu, secteurs défaillants, lenteurs extrêmes. Récupération logicielle professionnelle réalisée sur place.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🗃️</div>
+        <div class="point-icon"><span aria-hidden="true">🗃️</span></div>
         <div class="point-title">Formatage accidentel</div>
         <div class="point-desc">Disque reformaté, Windows réinstallé par erreur — les données restent récupérables dans la majorité des cas si le disque n'a pas été trop écrasé.</div>
       </div>
       <div class="point-card">
-        <div class="point-icon">🔌</div>
+        <div class="point-icon"><span aria-hidden="true">🔌</span></div>
         <div class="point-title">Clé USB ou carte SD</div>
         <div class="point-desc">Récupération depuis supports amovibles endommagés, corrompus ou non reconnus par le système.</div>
       </div>
     </div>
 
     <div class="warning-card">
-      <div class="warn-icon">⚠️</div>
+      <div class="warn-icon"><span aria-hidden="true">⚠️</span></div>
       <div class="warn-title">Important — Panne mécanique (disque qui clique)</div>
       <div class="warn-desc">Si votre disque dur émet des cliquetis ou des bruits anormaux, <strong style="color:#b91c1c">n'essayez rien vous-même</strong> et éteignez le PC immédiatement. Stevy effectue uniquement de la récupération logicielle. Pour une panne mécanique avec dommage physique des plateaux, il vous orientera vers un laboratoire spécialisé disposant d'une salle blanche — toute tentative non qualifiée détruit définitivement les données.</div>
     </div>
@@ -287,5 +288,7 @@ document.querySelectorAll('.faq-item').forEach(function(item){
   });
 });
 </script>
+
+<a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
 </body>
 </html>
