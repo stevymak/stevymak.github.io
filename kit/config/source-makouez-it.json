@@ -1,0 +1,33 @@
+{
+  "_role": "Valeurs telles qu'elles figurent dans le code de makouezit.org. Le générateur les remplace par celles de la configuration du client. Ne pas modifier sans changer le site source.",
+  "identite": {
+    "marque": "Makouez IT",
+    "logo": { "debut": "Makouez", "accent": "IT" },
+    "prenom": "Stevy",
+    "nom": "Makouezi",
+    "nomComplet": "Stevy Makouezi",
+    "siret": "83955229600023",
+    "adresse": { "rue": "1 rue de la Révolution des Œillets", "codePostal": "93380", "ville": "Pierrefitte-sur-Seine" }
+  },
+  "contact": {
+    "telephone": "07 45 10 38 27",
+    "telephoneIntl": "+33745103827",
+    "whatsapp": "33745103827",
+    "email": "contact@makouezit.org",
+    "emailFacturation": "facturation@makouezit.org",
+    "emailNewsletter": "newsletter@makouezit.org",
+    "emailAdmin": "s.makouezi@gmail.com"
+  },
+  "site": { "domaine": "makouezit.org" },
+  "firebase": {
+    "projectId": "makouez-it",
+    "apiKey": "AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",
+    "messagingSenderId": "558314427247",
+    "appId": "1:558314427247:web:83e656344dd79019ccce9a"
+  },
+  "integrations": {
+    "ga4": "G-5963KCLEX1",
+    "googleReviewUrl": "https://g.page/r/Cc_MkTWnr_xGEAE/review",
+    "mapsApiKeyPrefix": "AIzaSyA5"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "_role": "Exemple de client fictif (dépannage informatique à Lyon) pour tester le générateur. Toutes les valeurs sont inventées.",
+  "slug": "demo-clic-repare",
+  "metier": "informatique",
+  "design": "clair",
+  "identite": {
+    "marque": "Clic & Répare",
+    "logo": { "debut": "Clic &", "accent": "Répare" },
+    "prenom": "Karim",
+    "nom": "Benali",
+    "nomComplet": "Karim Benali",
+    "siret": "00000000000000",
+    "adresse": { "rue": "10 rue Exemple", "codePostal": "69003", "ville": "Lyon" }
+  },
+  "contact": {
+    "telephone": "06 00 00 00 00",
+    "telephoneIntl": "+33600000000",
+    "whatsapp": "33600000000",
+    "email": "contact@clic-repare.example",
+    "emailFacturation": "facturation@clic-repare.example",
+    "emailNewsletter": "newsletter@clic-repare.example",
+    "emailAdmin": "karim@clic-repare.example"
+  },
+  "site": { "domaine": "clic-repare.example" },
+  "zone": {
+    "pagesLocalesAGarder": [],
+    "_note": "Les pages locales de Makouez IT (93, villes, Paris, 92, 94, IDF) sont retirées ; celles du client seront générées à l'étape 3."
+  },
+  "modules": { "portfolio": false, "offresWeb": false, "chatIA": false },
+  "firebase": {
+    "projectId": "clic-repare-demo",
+    "apiKey": "A-RENSEIGNER",
+    "messagingSenderId": "000000000000",
+    "appId": "1:000000000000:web:0000000000000000"
+  },
+  "integrations": { "ga4": "", "googleReviewUrl": "", "mapsApiKey": "", "appCheckSiteKey": "" },
+  "tarifs": "tarifs.json"
+}
