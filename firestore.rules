@@ -61,7 +61,7 @@ service cloud.firestore {
         && d.keys().hasAll(['name', 'email', 'service', 'date', 'status', 'source', 'createdAt'])
         && d.keys().hasOnly(['name', 'email', 'phone', 'service', 'date', 'time', 'duration',
                              'artists', 'project', 'notes', 'status', 'adminEmail', 'source', 'createdAt'])
-        && str(d.name, 120) && str(d.email, 200) && str(d.service, 120) && str(d.date, 40)
+        && str(d.name, 120) && str(d.email, 200) && str(d['service'], 120) && str(d.date, 40)
         && (!('phone' in d) || str(d.phone, 40))
         && (!('time' in d) || str(d.time, 40))
         && (!('duration' in d) || str(d.duration, 40))
@@ -118,7 +118,7 @@ service cloud.firestore {
       return d.keys().hasAll(['type', 'createdAt'])
         && d.keys().hasOnly(['type', 'marque', 'modele', 'annee', 'systeme', 'achat', 'garantie',
                              'notes', 'createdAt', 'updatedAt'])
-        && d.type in ['ordinateur-portable', 'ordinateur-fixe', 'tablette', 'smartphone',
+        && d['type'] in ['ordinateur-portable', 'ordinateur-fixe', 'tablette', 'smartphone',
                       'imprimante', 'box-internet', 'autre']
         && (!('marque' in d) || str(d.marque, 60))
         && (!('modele' in d) || str(d.modele, 80))
