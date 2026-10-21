@@ -404,6 +404,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
 .zone-big .zone-chip{font-size:1.05rem;padding:.7rem 1.1rem;min-height:48px;display:inline-flex;align-items:center}
 .contact-big-phone{display:inline-flex;align-items:center;gap:.6rem;font-family:'Syne',sans-serif;font-size:clamp(1.8rem,6vw,2.6rem);font-weight:800;color:#15803d;text-decoration:none;margin-top:.5rem}
 #callback.callback-card{margin:0;max-width:none}
+#callback .callback-form{grid-template-columns:1fr 1fr;align-items:start}
+#callback .callback-form>.callback-select,#callback .callback-form>.consent-cgv,#callback .callback-form>button,#callback .callback-form>.callback-msg{grid-column:1/-1}
+#callback .callback-form .callback-input,#callback .callback-form .callback-select{width:100%;min-width:0;min-height:48px}
+#callback .callback-form>button{width:100%;min-height:52px}
+@media(max-width:580px){#callback .callback-form{grid-template-columns:1fr}}
 .callback-msg{margin:.25rem 0 0;font-weight:600;min-height:1.4em}
 .callback-msg.ok{color:#166534}.callback-msg.err{color:#b91c1c}
 </style>
