@@ -21,7 +21,7 @@ curl -X PATCH "https://identitytoolkit.googleapis.com/admin/v2/projects/makouez-
 ```
 L'email du compte admin `s.makouezi@gmail.com` doit être « vérifié » (*Authentication* → *Utilisateurs*).
 
-### A2. Déployer les Cloud Functions (obligatoire avant la fusion)
+### A2. ✅ Cloud Functions déployées (20-21/10/2026)
 La page de réservation appelle `createReservation` et l'accueil appelle `requestCallback` : si la fusion a lieu avant, les réservations et les demandes de rappel échouent.
 Dans Google Cloud Shell (ou sur votre PC avec Firebase CLI) :
 ```bash
@@ -52,7 +52,7 @@ npm i firebase-admin && node -e "const {initializeApp}=require('firebase-admin/a
 ### C2. Recalculer les créneaux (une seule fois)
 Admin → Réservations → **« 🗓 Recalculer les créneaux »** : libère les créneaux bloqués par d'anciennes réservations annulées.
 
-### C3. Déployer les règles Firestore validées (seulement après C1)
+### C3. ✅ Règles Firestore déployées (21/10/2026)
 ```bash
 firebase deploy --only firestore:rules --project makouez-it
 ```
@@ -68,7 +68,7 @@ Noirland Music : ces règles réautorisent les demandes de session de `noirlandm
 
 ## G. Espace client v2 (21/10/2026) — à faire une fois
 
-### G1. Déployer les fonctions et les règles
+### G1. ✅ Fonctions et règles déployées, accès public vérifié (21/10/2026)
 Dans Cloud Shell : `cd ~/stevymak.github.io && git checkout main && git pull`, puis :
 ```bash
 cd functions && npm ci && cd .. && firebase deploy --only functions,firestore:rules --project makouez-it
