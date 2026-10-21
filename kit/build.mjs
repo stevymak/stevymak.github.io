@@ -248,6 +248,8 @@ if (T) {
   fs.writeFileSync(lv, blocs.map((b) => (/^exports\.noirland/.test(b) ? garde(b) : b)).filter(Boolean).join('\n'));
   const idx = path.join(OUT, 'functions', 'index.js');
   fs.appendFileSync(idx, "\n// Kit : les fonctions propres à Noirland Music ne font pas partie du produit.\nfor (const k of Object.keys(exports)) if (/^noirland/i.test(k)) delete exports[k];\n");
+  // Sans le module chat IA : pas de fonction claudeProxy (ni de secret ANTHROPIC_API_KEY à créer)
+  if (MODULES.chatIA === false) fs.appendFileSync(idx, "// Kit : module chat IA non souscrit.\ndelete exports.claudeProxy;\n");
   const rulesPath = path.join(OUT, 'firestore.rules');
   let rules = fs.readFileSync(rulesPath, 'utf8');
   rules = rules.replace('allow create: if isAdmin() || validNoirlandCreate();', 'allow create: if isAdmin();');
