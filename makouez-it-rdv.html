@@ -543,6 +543,10 @@
 // ══════════════════════════════════════════════
 // CONSTANTES MÉTIER
 // ══════════════════════════════════════════════
+// kit:promo
+const PROMO = {"code":"BIENVENUE10","remise":0.1,"texte":"−10% sur votre 1ère intervention"};
+// /kit:promo
+
 // kit:creneaux
 const MAX_PAR_JOUR = 5;
 
@@ -996,7 +1000,7 @@ function renderSummary() {
   if (pricing.subtotal !== null) {
     rows.push(
       {key:'Sous-total',val:formatEuroAmount(pricing.subtotal)},
-      {key:`Remise ${pricing.discountLabel} (-10%)`,val:`-${formatEuroAmount(pricing.discountAmount)}`},
+      {key:`Remise ${pricing.discountLabel} (-${Math.round((window.activePromo?.discount || 0) * 100)} %)`,val:`-${formatEuroAmount(pricing.discountAmount)}`},
       {key:'Total estimatif',val:formatEuroAmount(pricing.total)+' (code valable pour une première réservation)'}
     );
   } else {
@@ -1100,7 +1104,7 @@ async function submitRDV() {
       successText.textContent = (user
         ? 'Votre rendez-vous a été enregistré et rattaché à votre espace client sécurisé. Vous pouvez suivre son évolution depuis votre compte.'
         : 'Votre rendez-vous a été envoyé. Stevy vous confirmera le créneau par email ou téléphone. Créez un espace client lors d’une prochaine demande si vous souhaitez un suivi en ligne.')
-        + (promoRefusee ? ' Le code BIENVENUE10 est réservé à une première réservation : le tarif normal s’applique.' : '');
+        + (promoRefusee ? ` Le code ${PROMO.code} est réservé à une première réservation : le tarif normal s’applique.` : '');
     }
 
     [1,2,3,4].forEach(i=>document.getElementById('step'+i).classList.remove('active'));
@@ -1166,9 +1170,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const promo = params.get('promo');
   
-  if (promo === 'BIENVENUE10') {
+  if (PROMO && promo && promo.toUpperCase() === PROMO.code) {
     // Stocker la promo pour l'utiliser au moment du calcul du prix
-    window.activePromo = { code: 'BIENVENUE10', discount: 0.10 };
+    window.activePromo = { code: PROMO.code, discount: PROMO.remise };
     
     // Afficher un bandeau de confirmation
     const banner = document.createElement('div');
@@ -1178,8 +1182,8 @@ document.addEventListener('DOMContentLoaded', () => {
       font-weight:700;font-family:sans-serif;
       position:sticky;top:0;z-index:1000;
     `;
-    banner.innerHTML = `🎁 Code BIENVENUE10 appliqué — 
-      <span style="font-weight:400">-10% sur votre 1ère intervention</span>`;
+    banner.innerHTML = `🎁 Code ${PROMO.code} appliqué — 
+      <span style="font-weight:400">${PROMO.texte}</span>`;
     document.body.prepend(banner);
   }
 });

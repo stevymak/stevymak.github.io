@@ -5,7 +5,7 @@
 //   createReservation (callable) : seule porte d'entrée publique pour créer
 //     une réservation. Vérifie les champs, le jour et le créneau, le quota de
 //     5 RDV par jour (transaction), recalcule le prix depuis tarifs.json,
-//     n'accorde le code BIENVENUE10 qu'à une première réservation, et limite
+//     n'accorde le code de bienvenue (tarifs.json → promo) qu'à une première réservation, et limite
 //     les envois par adresse IP.
 //   syncSlot (trigger) : tient la collection publique `slots` (sans données
 //     personnelles) à jour à partir des réservations : création, changement
@@ -46,7 +46,7 @@ const SERVICES = Object.fromEntries(Object.entries(TARIFS.services)
   .filter(([, t]) => t.libelle).map(([k, t]) => [t.libelle, k]));
 
 // Codes promo valables uniquement pour une première réservation
-const PROMOS = { BIENVENUE10: 0.10 };
+const PROMOS = TARIFS.promo?.code ? { [String(TARIFS.promo.code).toUpperCase()]: Number(TARIFS.promo.remise) || 0 } : {};
 
 // ─── Utilitaires ────────────────────────────────────────────────────────────
 const eur = (n) => `${Number.isInteger(n) ? n : n.toFixed(2).replace('.', ',')}€`;

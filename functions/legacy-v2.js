@@ -61,26 +61,22 @@ const TARIFS = (() => {
 })();
 const eur = (v) => (v === null || v === undefined ? "sur devis" : `${v} €`);
 
+// id de contrat Firestore → entrée de la grille : contrats particuliers, maintenance-<clé>, pro-<clé> (formules mensuelles)
 const CONTRAT_SOURCES = {
-  serenite:                  TARIFS?.contrats?.serenite,
-  senior:                    TARIFS?.contrats?.senior,
-  famille:                   TARIFS?.contrats?.famille,
-  "maintenance-essentielle": TARIFS?.maintenanceWeb?.essentielle,
-  "maintenance-pro":         TARIFS?.maintenanceWeb?.pro,
-  "maintenance-evolution":   TARIFS?.maintenanceWeb?.evolution,
-  "pro-essentiel":           TARIFS?.pro?.essentiel,
-  "pro-confort":             TARIFS?.pro?.confort,
-  "pro-premium":             TARIFS?.pro?.premium,
+  ...(TARIFS?.contrats || {}),
+  ...Object.fromEntries(Object.entries(TARIFS?.maintenanceWeb || {}).map(([k, v]) => [`maintenance-${k}`, v])),
+  ...Object.fromEntries(Object.entries(TARIFS?.pro || {}).filter(([, v]) => v.unite === "mois" || v.prix === null).map(([k, v]) => [`pro-${k}`, v])),
 };
 const CONTRAT_LABELS = Object.fromEntries(Object.entries(CONTRAT_SOURCES).filter(([, v]) => v).map(([k, v]) => [k, v.nom]));
 const CONTRAT_TARIFS = Object.fromEntries(Object.entries(CONTRAT_SOURCES).filter(([, v]) => v)
   .map(([k, v]) => [k, typeof v.prix === "number" ? `${v.prix}€/mois` : "Sur devis"]));
-// Avantages repris à l'identique des cartes de contrats.html
-const CONTRAT_FEATURES = {
+// Avantages affichés dans l'email de confirmation : champ « avantages » de tarifs.json, sinon cette liste
+const CONTRAT_FEATURES_DEFAUT = {
   serenite: ["2 interventions/mois incluses à domicile", "Priorité de passage (sous 24h)", "Support téléphonique inclus", "Bilan informatique annuel", "Sans engagement"],
   senior:   ["Visites régulières à domicile", "Formation progressive à votre rythme", "Hotline dédiée (lun-sam)", "Protection anti-arnaques", "Sans engagement"],
   famille:  ["3 appareils couverts", "3 interventions/mois incluses", "Contrôle parental inclus", "Support pour tous les membres", "Sans engagement"],
 };
+const CONTRAT_FEATURES = Object.fromEntries(Object.entries({ ...CONTRAT_FEATURES_DEFAUT, ...Object.fromEntries(Object.entries(CONTRAT_SOURCES).filter(([, v]) => v.avantages).map(([k, v]) => [k, v.avantages])) }));
 
 // Bloc « tarifs » du prompt du chat, généré depuis la grille pour ne jamais diverger du site.
 function tarifsPrompt(t) {
@@ -504,7 +500,7 @@ exports.sendContratConfirmation = onDocumentCreated(
 
     const nom      = data.nom     || "Client";
     const email    = data.email   || null;
-    const contrat  = data.contrat || "serenite";
+    const contrat  = data.contrat || Object.keys(CONTRAT_SOURCES)[0];
     const prenom   = nom.split(" ")[0];
 
     const label    = CONTRAT_LABELS[contrat]   || contrat;

@@ -47,19 +47,20 @@ function updateContratStats() {
   if (dashStat) dashStat.textContent = ac;
 
   let mrr = 0;
-  const breakdown = { serenite: 0, senior: 0, famille: 0 };
+  const breakdown = {};
   allContrats
     .filter((c) => c.status === 'active')
     .forEach((c) => {
       mrr += CONTRAT_TARIFS[c.contrat] || 0;
-      if (breakdown[c.contrat] !== undefined) breakdown[c.contrat]++;
+      if (CONTRAT_TARIFS[c.contrat]) breakdown[c.contrat] = (breakdown[c.contrat] || 0) + 1;
     });
 
   document.getElementById('mrrVal').textContent = mrr + '€';
   document.getElementById('mrrSub').textContent =
     ac > 0 ? `${ac} contrat${ac > 1 ? 's' : ''} actif${ac > 1 ? 's' : ''}` : 'Aucun contrat actif';
 
-  const colors = { serenite: '#3b82f6', senior: '#f59e0b', famille: '#22c55e' };
+  const PALETTE = ['#3b82f6', '#f59e0b', '#22c55e', '#a855f7', '#0ea5e9', '#ec4899'];
+  const colors = Object.fromEntries(Object.keys(CONTRAT_TARIFS).map((k, i) => [k, PALETTE[i % PALETTE.length]]));
   document.getElementById('mrrBreakdown').innerHTML = Object.entries(breakdown)
     .filter(([, count]) => count > 0)
     .map(

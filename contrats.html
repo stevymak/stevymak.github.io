@@ -156,6 +156,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   <p class="page-sub" style="font-size:0.9rem;margin-top:-1rem">Prix en euros, TVA non applicable (art. 293 B du CGI).</p>
 
   <div class="contrats-grid">
+<!-- kit:contrats-cartes -->
     <div class="contrat-card featured">
       <div class="contrat-badge">Le plus demandé</div>
       <div class="contrat-icon"><span aria-hidden="true">🛡️</span></div>
@@ -163,9 +164,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="contrat-price"><span data-tarif="contrats.serenite.prix">65&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Assistance prioritaire toute l'année pour particuliers</div>
       <ul class="contrat-features">
-        <li>2 interventions/mois incluses à domicile</li><li>Priorité de passage (sous 24h)</li>
-        <li>Support téléphonique inclus</li><li>Bilan informatique annuel</li>
-        <li>Mises à jour & maintenance</li><li>Sans engagement</li>
+        <li>2 interventions/mois incluses à domicile</li>
+        <li>Priorité de passage (sous 24h)</li>
+        <li>Support téléphonique inclus</li>
+        <li>Bilan informatique annuel</li>
+        <li>Mises à jour &amp; maintenance</li>
+        <li>Sans engagement</li>
       </ul>
       <button class="btn-souscrire" onclick="openModal('serenite','Contrat Sérénité','65€/mois')">Demander ma souscription →</button>
     </div>
@@ -175,9 +179,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="contrat-price"><span data-tarif="contrats.senior.prix">55&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Accompagnement doux et pédagogique pour les seniors</div>
       <ul class="contrat-features">
-        <li>Visites régulières à domicile</li><li>Formation progressive à votre rythme</li>
-        <li>Hotline dédiée (lun-sam)</li><li>Protection anti-arnaques</li>
-        <li>Aide smartphone/tablette</li><li>Sans engagement</li>
+        <li>Visites régulières à domicile</li>
+        <li>Formation progressive à votre rythme</li>
+        <li>Hotline dédiée (lun-sam)</li>
+        <li>Protection anti-arnaques</li>
+        <li>Aide smartphone/tablette</li>
+        <li>Sans engagement</li>
       </ul>
       <button class="btn-souscrire" onclick="openModal('senior','Pack Senior+','55€/mois')">Demander ma souscription →</button>
     </div>
@@ -187,14 +194,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="contrat-price"><span data-tarif="contrats.famille.prix">79&nbsp;€</span> <span>/mois</span></div>
       <div class="contrat-desc">Toute la famille couverte sur 3 appareils</div>
       <ul class="contrat-features">
-        <li>3 appareils couverts</li><li>3 interventions/mois incluses</li>
-        <li>Contrôle parental inclus</li><li>Support pour tous les membres</li>
-        <li>Sauvegarde automatique</li><li>Sans engagement</li>
+        <li>3 appareils couverts</li>
+        <li>3 interventions/mois incluses</li>
+        <li>Contrôle parental inclus</li>
+        <li>Support pour tous les membres</li>
+        <li>Sauvegarde automatique</li>
+        <li>Sans engagement</li>
       </ul>
       <button class="btn-souscrire" onclick="openModal('famille','Pack Famille','79€/mois')">Demander ma souscription →</button>
     </div>
+<!-- /kit:contrats-cartes -->
   </div>
 
+<!-- kit:contrats-comparatif -->
   <div class="compare-section">
     <div class="compare-title">Comparatif détaillé</div>
     <div style="overflow-x:auto">
@@ -222,16 +234,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     </div>
   </div>
 
+<!-- /kit:contrats-comparatif -->
   <div class="faq-mini">
     <div class="faq-mini-title">Questions fréquentes sur les contrats</div>
+<!-- kit:contrats-faq -->
     <div class="faq-item"><div class="faq-q">Comment fonctionne l'abonnement ? <span class="faq-arrow">+</span></div><div class="faq-a">Après validation de votre demande, Stevy vous contacte pour confirmer les modalités. Le paiement est mensuel (carte bancaire, virement, espèces ou PayPal). Vous pouvez résilier à tout moment, sans frais ni préavis : la résiliation prend effet à la fin du mois en cours.</div></div>
     <div class="faq-item"><div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-arrow">+</span></div><div class="faq-a">Non, aucun engagement. Vous êtes libre de résilier à tout moment par simple email, sans préavis : le contrat s'arrête à la fin du mois en cours, déjà payé.</div></div>
     <div class="faq-item"><div class="faq-q">Combien d'interventions puis-je demander par mois ? <span class="faq-arrow">+</span></div><div class="faq-a">Le contrat Sérénité inclut 2 interventions par mois et le Pack Famille 3 interventions par mois. Au-delà, une intervention supplémentaire est facturée au tarif en vigueur (heure supplémentaire : <span data-tarif="depannage.heureSup.prix">45&nbsp;€</span>/h).</div></div>
     <div class="faq-item"><div class="faq-q">Puis-je changer de formule ? <span class="faq-arrow">+</span></div><div class="faq-a">Oui, vous pouvez passer d'une formule à une autre à tout moment. Le changement prend effet le mois suivant.</div></div>
     <div class="faq-item"><div class="faq-q">Comment suivre ma demande après souscription ? <span class="faq-arrow">+</span></div><div class="faq-a">Après soumission du formulaire, Stevy vous recontacte par email ou téléphone. Si vous créez un espace client lors de la souscription, votre contrat sera aussi visible dans votre espace sécurisé.</div></div>
+<!-- /kit:contrats-faq -->
   </div>
 </div>
 
+<!-- kit:offres-web -->
 <!-- ═══ SECTION MAINTENANCE WEB ═══ -->
 <div class="page" style="padding-top:0">
 
@@ -340,6 +356,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   </div>
 
 </div>
+
+<!-- /kit:offres-web -->
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -561,19 +579,16 @@ document.querySelectorAll('.faq-item').forEach(item => {
   item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
 });
 
-// ── Ouverture auto via URL (?contrat=serenite|senior|famille) ──
+// ── Ouverture auto via URL (?contrat=<clé>) : contrats et maintenance web de /tarifs.json ──
 const params = new URLSearchParams(window.location.search);
 const cp = params.get('contrat');
 if (cp) {
-  const map = {
-    serenite:   ['serenite',   'Contrat Sérénité',   '65€/mois'],
-    senior:     ['senior',     'Pack Senior+',        '55€/mois'],
-    famille:    ['famille',    'Pack Famille',         '79€/mois'],
-    'maintenance-essentielle': ['maintenance-essentielle', 'Maintenance Essentielle', '49€/mois'],
-    'maintenance-pro':         ['maintenance-pro',         'Maintenance Pro',         '99€/mois'],
-    'maintenance-evolution':   ['maintenance-evolution',   'Maintenance & Évolution', '179€/mois'],
-  };
-  if (map[cp]) window.openModal(...map[cp]);
+  (window.MAKOUEZ_TARIFS_READY || Promise.resolve(null)).then((t) => {
+    if (!t) return;
+    const src = { ...(t.contrats || {}), ...Object.fromEntries(Object.entries(t.maintenanceWeb || {}).map(([k, v]) => [`maintenance-${k}`, v])) };
+    const c = src[cp];
+    if (c) window.openModal(cp, c.nom, typeof c.prix === 'number' ? `${c.prix}€/mois` : 'Sur devis');
+  });
 }
 </script>
 

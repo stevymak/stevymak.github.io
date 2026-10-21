@@ -1,0 +1,64 @@
+{
+  "_role": "Exemple de client fictif (plombier chauffagiste à Nantes) pour tester le pack « plomberie ». Toutes les valeurs sont inventées : nom, SIRET, adresse, téléphone, prix.",
+  "slug": "demo-garnier-plomberie",
+  "metier": "plomberie",
+  "design": "artisan",
+  "identite": {
+    "marque": "Garnier Plomberie",
+    "logo": { "debut": "Garnier", "accent": "Plomberie" },
+    "prenom": "Julien",
+    "nom": "Garnier",
+    "nomComplet": "Julien Garnier",
+    "siret": "00000000000000",
+    "adresse": { "rue": "5 rue Exemple", "codePostal": "44000", "ville": "Nantes" },
+    "bio": "Plombier chauffagiste depuis plus de dix ans, j'interviens chez les particuliers de Nantes et de l'agglomération pour les dépannages comme pour l'entretien. Je vous explique ce que je fais, je vous annonce le prix avant de commencer et je laisse la place propre. (Texte d'exemple, client fictif.)",
+    "accroche": "Plombier chauffagiste à domicile à Nantes.",
+    "experience": "plombier chauffagiste expérimenté",
+    "badgeExperience": "Artisan depuis 2014",
+    "activitePrincipale": "Travaux d'installation d'eau et de gaz (NAF : 4322A) — exemple"
+  },
+  "contact": {
+    "telephone": "06 00 00 00 01",
+    "telephoneIntl": "+33600000001",
+    "whatsapp": "33600000001",
+    "email": "contact@garnier-plomberie.example",
+    "emailAdmin": "julien@garnier-plomberie.example"
+  },
+  "site": { "domaine": "garnier-plomberie.example" },
+  "zone": {
+    "region": "l'agglomération nantaise",
+    "regionEn": "dans l'agglomération nantaise",
+    "regionDe": "de l'agglomération nantaise",
+    "regionLa": "l'agglomération nantaise",
+    "departement": "Loire-Atlantique",
+    "departementCode": "44",
+    "departementEn": "en Loire-Atlantique",
+    "departementDe": "de Loire-Atlantique",
+    "departementLe": "la Loire-Atlantique",
+    "villeBase": "Nantes",
+    "phrasePriorite": "J'interviens à Nantes et dans les communes voisines. Choisissez votre ville :",
+    "surDemande": "Sur demande : le reste de la Loire-Atlantique, selon les créneaux disponibles.",
+    "delai": "souvent dans la journée pour une urgence",
+    "horaires": "Du lundi au vendredi de 8 h à 18 h, le samedi matin. Urgences : appelez directement.",
+    "villes": [
+      {
+        "nom": "Nantes",
+        "codePostal": "44000–44300",
+        "principale": true,
+        "quartiers": ["Centre-ville", "Chantenay", "Doulon", "Île de Nantes", "Saint-Joseph-de-Porterie"],
+        "voisines": ["Rezé", "Saint-Herblain", "Orvault"],
+        "intro": "À Nantes, j'interviens aussi bien dans les immeubles anciens du centre, où les canalisations en plomb ou en fonte réservent parfois des surprises, que dans les maisons des quartiers périphériques équipées de chauffe-eau et de chaudières individuelles. (Texte d'exemple.)",
+        "sections": [
+          { "titre": "Les interventions les plus fréquentes à Nantes", "texte": "Fuites sur des raccords anciens, colonnes d'évacuation entartrées dans les immeubles, chauffe-eau électriques en fin de vie et entretiens annuels de chaudières gaz avant l'hiver. (Texte d'exemple.)" },
+          { "titre": "Se garer et accéder au logement", "texte": "Dans l'hyper-centre, prévoyez si possible une place ou un code d'accès : cela évite de facturer du temps perdu. Je vous appelle avant d'arriver. (Texte d'exemple.)" }
+        ]
+      },
+      { "nom": "Rezé", "codePostal": "44400", "voisines": ["Nantes", "Bouguenais"] },
+      { "nom": "Saint-Herblain", "codePostal": "44800", "voisines": ["Nantes", "Orvault"] },
+      { "nom": "Orvault", "codePostal": "44700", "voisines": ["Nantes", "Saint-Herblain"] }
+    ]
+  },
+  "modules": { "portfolio": false, "offresWeb": false, "chatIA": false },
+  "firebase": { "projectId": "garnier-plomberie-demo", "apiKey": "CLE-FIREBASE-A-RENSEIGNER", "messagingSenderId": "000000000000", "appId": "1:000000000000:web:0000000000000000000000" },
+  "integrations": {}
+}

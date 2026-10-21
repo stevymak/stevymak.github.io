@@ -16,14 +16,47 @@ const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const PREFIXE = { informatique: 'depannage-informatique' };
 
+// Textes des pages locales pour le métier d'origine (dépannage informatique).
+// Un pack métier (kit/packs/<metier>.json, bloc « villes ») remplace ces valeurs.
+export const METIER_INFORMATIQUE = {
+  titreVille: 'Dépannage informatique à {ville}',
+  h1Ville: 'Dépannage informatique à domicile à {ville}',
+  descriptionVille: 'Technicien informatique à domicile à {ville} ({cp}) : PC lent, virus, Wi-Fi, installation Windows. Prix annoncé avant, paiement après.',
+  introVille: 'Makouez IT intervient à domicile à {ville} et dans les communes voisines pour les pannes du quotidien : ordinateur lent, Wi-Fi instable, virus, fichiers perdus ou besoin d’aide pour se servir de son matériel.',
+  serviceVille: 'Dépannage informatique à domicile à {ville}',
+  serviceType: 'Assistance informatique à domicile',
+  titreCartes: 'Les dépannages les plus demandés à {ville}',
+  cartes: [
+    ['Ordinateur lent ou bloqué', 'Nettoyage, optimisation, mises à jour, vérification du disque.'],
+    ['Box et Wi-Fi', 'Connexion lente, coupures, mauvaise couverture dans le logement.'],
+    ['Virus et arnaques', 'Nettoyage, protection, changement des mots de passe.'],
+    ['Fichiers perdus', 'Récupération de données et mise en place d’une sauvegarde.'],
+    ['Installation Windows', 'Réinstallation propre, logiciels utiles, transfert des fichiers.'],
+    ['Accompagnement', 'Prise en main de l’ordinateur, du smartphone et des démarches en ligne.'],
+  ],
+  // Forfaits affichés sur les pages locales : clé de tarifs.json → depannage, et texte
+  forfaits: [
+    ['diagExpress', 'diagnostic et une réparation simple, déplacement inclus.'],
+    ['standard', 'la plupart des dépannages, réinstallations et récupérations.'],
+    ['longFormat', 'interventions lourdes, transfert de données, plusieurs appareils.'],
+  ],
+  rdvService: 'Dépannage PC',
+  titreDepartement: 'Dépannage informatique {departementEn} ({code})',
+  h1Departement: 'Dépannage informatique à domicile {departementEn}',
+  descriptionDepartement: 'Technicien informatique à domicile {departementEn} : {villes}… Prix annoncé avant, paiement après.',
+  serviceDepartement: 'Dépannage informatique à domicile {departementEn}',
+  titreProcess: 'Comment se passe un dépannage',
+};
+const remplir = (t, o) => String(t).replace(/\{(\w+)\}/g, (m, k) => (o[k] ?? m));
+
 // Vérifie et complète la configuration de zone
-export function zoneConfig(CFG) {
+export function zoneConfig(CFG, M = METIER_INFORMATIQUE) {
   const z = CFG.zone || {};
   if (!z.villes?.length) return null;
   const req = ['region', 'regionEn', 'regionDe', 'regionLa', 'departement', 'departementCode', 'departementEn', 'departementDe', 'departementLe'];
   const manque = req.filter((k) => !z[k]);
   if (manque.length) throw new Error('zone incomplète : ' + manque.join(', '));
-  const prefixe = PREFIXE[CFG.metier || 'informatique'] || 'depannage';
+  const prefixe = M.prefixe || PREFIXE[CFG.metier || 'informatique'] || 'depannage';
   const villes = z.villes.map((v) => ({ ...v, slug: v.slug || slugify(v.nom), voisines: v.voisines || [], quartiers: v.quartiers || [] }))
     .map((v) => ({ ...v, fichier: `${prefixe}-${v.slug}.html`, sections: v.sections || [] }))
     // Page complète = texte propre à la ville (intro + au moins 2 paragraphes) ; sinon noindex pour éviter le contenu dupliqué
@@ -59,7 +92,7 @@ export function zoneRemplacements(z) {
   ];
 }
 
-function coquille(gabarit, { titre, description, url, jsonld }) {
+export function coquille(gabarit, { titre, description, url, jsonld }) {
   const i = gabarit.indexOf('<main'), j = gabarit.indexOf('</main>') + '</main>'.length;
   let tete = gabarit.slice(0, i), pied = gabarit.slice(j);
   tete = tete.replace(/<title>[\s\S]*?<\/title>/, `<title>${h(titre)}</title>`)
@@ -72,46 +105,41 @@ function coquille(gabarit, { titre, description, url, jsonld }) {
   return (main) => `${tete}${main}${pied}`;
 }
 
-const SERVICES_INFO = [
-  ['Ordinateur lent ou bloqué', 'Nettoyage, optimisation, mises à jour, vérification du disque.'],
-  ['Box et Wi-Fi', 'Connexion lente, coupures, mauvaise couverture dans le logement.'],
-  ['Virus et arnaques', 'Nettoyage, protection, changement des mots de passe.'],
-  ['Fichiers perdus', 'Récupération de données et mise en place d’une sauvegarde.'],
-  ['Installation Windows', 'Réinstallation propre, logiciels utiles, transfert des fichiers.'],
-  ['Accompagnement', 'Prise en main de l’ordinateur, du smartphone et des démarches en ligne.'],
-];
-
-export function genererPages(z, CFG, gabarit, domaine) {
+export function genererPages(z, CFG, gabarit, domaine, M = METIER_INFORMATIQUE, T = null) {
   const base = `https://${domaine}/`;
   const pages = {};
   const delai = z.delai || 'généralement sous 24 h';
   const horaires = z.horaires || 'Du lundi au samedi, aux horaires indiqués lors de la réservation.';
-  const rdv = 'makouez-it-rdv.html?service=D%C3%A9pannage+PC';
+  const rdv = `makouez-it-rdv.html?service=${encodeURIComponent(M.rdvService).replace(/%20/g, '+')}`;
+  const fmtEur = (v) => (v == null ? 'Sur devis' : `${String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}&nbsp;€`);
+  const forfaitsHtml = M.forfaits.map(([k, txt]) => {
+    const f = T?.depannage?.[k] || { nom: k, prix: null };
+    return `<div class="card"><h3>${h(f.nom)}${f.duree && !f.nom.includes(f.duree) ? ` · ${h(f.duree)}` : ''}</h3><p><strong data-tarif="depannage.${k}.prix">${fmtEur(f.prix)}</strong> : ${h(txt)}</p></div>`;
+  }).join('\n');
 
   for (const v of z.villes) {
     const autres = z.villes.filter((x) => x !== v);
     const voisinesLiens = v.voisines.map((n) => { const p = z.villes.find((x) => x.nom === n); return p ? `<a href="${p.fichier}">${h(n)}</a>` : h(n); });
-    const titre = `Dépannage informatique à ${v.nom} – Makouez IT`;
-    const description = `Technicien informatique à domicile à ${v.nom} (${v.codePostal}) : PC lent, virus, Wi-Fi, installation Windows. Prix annoncé avant, paiement après.`.slice(0, 160);
-    const intro = v.intro || `Makouez IT intervient à domicile à ${v.nom} et dans les communes voisines pour les pannes du quotidien : ordinateur lent, Wi-Fi instable, virus, fichiers perdus ou besoin d’aide pour se servir de son matériel.`;
+    const o = { ville: v.nom, cp: v.codePostal };
+    const titre = `${remplir(M.titreVille, o)} – Makouez IT`;
+    const description = remplir(M.descriptionVille, o).slice(0, 160);
+    const intro = v.intro || remplir(M.introVille, o);
     const coque = coquille(gabarit, {
       titre, description, url: base + v.fichier,
-      jsonld: { '@context': 'https://schema.org', '@type': 'Service', name: `Dépannage informatique à domicile à ${v.nom}`,
+      jsonld: { '@context': 'https://schema.org', '@type': 'Service', name: remplir(M.serviceVille, o),
         provider: { '@type': 'LocalBusiness', name: 'Makouez IT', url: base, telephone: '+33745103827', email: 'contact@makouezit.org' },
-        areaServed: [v.nom, ...v.voisines, z.departement], serviceType: 'Assistance informatique à domicile', url: base + v.fichier },
+        areaServed: [v.nom, ...v.voisines, z.departement], serviceType: M.serviceType, url: base + v.fichier },
     });
     const main = `<main class="wrap" id="contenu" tabindex="-1">
-<section class="hero"><div class="badge">${h(v.nom)} et alentours</div><h1>Dépannage informatique à domicile à ${h(v.nom)}</h1><p>${h(intro)}</p><div class="cta"><a class="btn btnp" href="${rdv}">Prendre rendez-vous</a><a class="btn btno" href="tel:+33745103827">Appeler Stevy</a></div></section>
+<section class="hero"><div class="badge">${h(v.nom)} et alentours</div><h1>${h(remplir(M.h1Ville, o))}</h1><p>${h(intro)}</p><div class="cta"><a class="btn btnp" href="${rdv}">Prendre rendez-vous</a><a class="btn btno" href="tel:+33745103827">Appeler Stevy</a></div></section>
 ${v.sections.map((x) => `<section class="section"><h2>${h(x.titre)}</h2><p>${h(x.texte)}</p></section>`).join('\n')}
-<section class="section"><h2>Les dépannages les plus demandés à ${h(v.nom)}</h2><div class="cards">${SERVICES_INFO.map(([t, d]) => `<div class="card"><h3>${t}</h3><p>${d}</p></div>`).join('')}</div></section>
+<section class="section"><h2>${h(remplir(M.titreCartes, o))}</h2><div class="cards">${M.cartes.map(([t, d]) => `<div class="card"><h3>${h(t)}</h3><p>${h(d)}</p></div>`).join('')}</div></section>
 ${v.quartiers.length || v.voisines.length ? `<section class="section"><h2>Où j’interviens autour de ${h(v.nom)}</h2>
 ${v.quartiers.length ? `<p>À ${h(v.nom)} : ${h(liste(v.quartiers))}.</p>` : ''}
 ${v.voisines.length ? `<p>Communes voisines : ${liste(voisinesLiens)}.</p>` : ''}
 <p>Le déplacement est inclus dans le forfait, ${h(z.departementEn)} comme ${h(z.regionEn)}.</p></section>` : ''}
 <section class="section"><h2>Des prix annoncés avant</h2><div class="cards">
-<div class="card"><h3>Diag Express · 1 h</h3><p><strong data-tarif="depannage.diagExpress.prix">55&nbsp;€</strong> : diagnostic et une réparation simple, déplacement inclus.</p></div>
-<div class="card"><h3>Standard · 2 h</h3><p><strong data-tarif="depannage.standard.prix">89&nbsp;€</strong> : la plupart des dépannages, réinstallations et récupérations.</p></div>
-<div class="card"><h3>Long format · 3 h</h3><p><strong data-tarif="depannage.longFormat.prix">129&nbsp;€</strong> : interventions lourdes, transfert de données, plusieurs appareils.</p></div>
+${forfaitsHtml}
 </div><p style="margin-top:1rem">Paiement après l’intervention. Le forfait est confirmé avec vous avant de commencer.</p></section>
 <section class="section"><h2>Questions fréquentes à ${h(v.nom)}</h2><div class="cards">
 <div class="card"><h3>Sous quel délai ?</h3><p>${h(cap(delai))}. Pour une urgence, appelez le 07 45 10 38 27.</p></div>
@@ -127,18 +155,19 @@ ${v.voisines.length ? `<p>Communes voisines : ${liste(voisinesLiens)}.</p>` : ''
 
   // Page département (hub)
   {
-    const titre = `Dépannage informatique ${z.departementEn} (${z.departementCode}) – Makouez IT`;
-    const description = `Technicien informatique à domicile ${z.departementEn} : ${z.villes.map((v) => v.nom).slice(0, 4).join(', ')}… Prix annoncé avant, paiement après.`.slice(0, 160);
+    const o = { departementEn: z.departementEn, code: z.departementCode, villes: z.villes.map((v) => v.nom).slice(0, 4).join(', ') };
+    const titre = `${remplir(M.titreDepartement, o)} – Makouez IT`;
+    const description = remplir(M.descriptionDepartement, o).slice(0, 160);
     const coque = coquille(gabarit, {
       titre, description, url: base + z.hub,
-      jsonld: { '@context': 'https://schema.org', '@type': 'Service', name: `Dépannage informatique à domicile ${z.departementEn}`,
+      jsonld: { '@context': 'https://schema.org', '@type': 'Service', name: remplir(M.serviceDepartement, o),
         provider: { '@type': 'LocalBusiness', name: 'Makouez IT', url: base, telephone: '+33745103827', email: 'contact@makouezit.org' },
-        areaServed: [z.departement, ...z.villes.map((v) => v.nom)], serviceType: 'Assistance informatique à domicile', url: base + z.hub },
+        areaServed: [z.departement, ...z.villes.map((v) => v.nom)], serviceType: M.serviceType, url: base + z.hub },
     });
     const main = `<main class="wrap" id="contenu" tabindex="-1">
-<section class="hero"><div class="badge">${h(z.departement)} (${h(z.departementCode)})</div><h1>Dépannage informatique à domicile ${h(z.departementEn)}</h1><p>${h(z.introDepartement || `J’interviens à domicile ${z.departementEn}, ${delai}. Choisissez votre ville pour voir les détails.`)}</p><div class="cta"><a class="btn btnp" href="${rdv}">Prendre rendez-vous</a><a class="btn btno" href="tel:+33745103827">Appeler Stevy</a></div></section>
+<section class="hero"><div class="badge">${h(z.departement)} (${h(z.departementCode)})</div><h1>${h(remplir(M.h1Departement, o))}</h1><p>${h(z.introDepartement || `J’interviens à domicile ${z.departementEn}, ${delai}. Choisissez votre ville pour voir les détails.`)}</p><div class="cta"><a class="btn btnp" href="${rdv}">Prendre rendez-vous</a><a class="btn btno" href="tel:+33745103827">Appeler Stevy</a></div></section>
 <section class="section"><h2>Villes desservies</h2><div class="cards">${z.villes.map((v) => `<div class="card"><h3><a href="${v.fichier}">${h(v.nom)}</a></h3><p>${h(v.codePostal)}${v.voisines.length ? ` · avec ${h(liste(v.voisines))}` : ''}</p></div>`).join('')}</div></section>
-<section class="section"><h2>Comment se passe un dépannage</h2><div class="cards">
+<section class="section"><h2>${h(M.titreProcess)}</h2><div class="cards">
 <div class="card"><h3>1. Vous décrivez le problème</h3><p>En ligne, par téléphone ou par WhatsApp, avec vos mots.</p></div>
 <div class="card"><h3>2. Je confirme le créneau et le prix</h3><p>Le forfait est annoncé avant de commencer, déplacement inclus.</p></div>
 <div class="card"><h3>3. J’interviens chez vous</h3><p>Réparation, explications, et paiement une fois le travail terminé.</p></div>
@@ -170,7 +199,8 @@ ${z.surDemande ? `    <p style="color:var(--muted);margin-top:1.25rem">${h(z.sur
 // Suggestions d'adresse de secours (réservation) : villes du client
 export function adapterReservation(js, z) {
   const villes = z.villes.map((v) => `${v.nom}, ${z.departement}, France`);
-  return js.replace(/const cities=\[[^\]]*\];/, `const cities=${JSON.stringify(villes)};`);
+  // « const cities=[…].filter(…) » : liste de secours quand Google Maps est indisponible
+  return js.replace(/const cities=\[[^\]]*\]/, `const cities=${JSON.stringify(villes)}`);
 }
 
 export function entreesSitemap(z, domaine, date) {

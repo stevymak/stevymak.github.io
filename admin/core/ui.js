@@ -21,16 +21,11 @@ export const TARIFS = await fetch('/tarifs.json', { cache: 'no-cache' })
   .catch(() => TARIFS_FALLBACK);
 
 // id de contrat Firestore → entrée de la grille
-const CONTRAT_SOURCES = {
-  serenite:                  TARIFS.contrats?.serenite,
-  senior:                    TARIFS.contrats?.senior,
-  famille:                   TARIFS.contrats?.famille,
-  'maintenance-essentielle': TARIFS.maintenanceWeb?.essentielle,
-  'maintenance-pro':         TARIFS.maintenanceWeb?.pro,
-  'maintenance-evolution':   TARIFS.maintenanceWeb?.evolution,
-  'pro-essentiel':           TARIFS.pro?.essentiel,
-  'pro-confort':             TARIFS.pro?.confort,
-  'pro-premium':             TARIFS.pro?.premium,
+// (contrats particuliers, maintenance-<clé>, pro-<clé> pour les formules mensuelles pro)
+export const CONTRAT_SOURCES = {
+  ...(TARIFS.contrats || {}),
+  ...Object.fromEntries(Object.entries(TARIFS.maintenanceWeb || {}).map(([k, v]) => [`maintenance-${k}`, v])),
+  ...Object.fromEntries(Object.entries(TARIFS.pro || {}).filter(([, v]) => v.unite === 'mois' || v.prix === null).map(([k, v]) => [`pro-${k}`, v])),
 };
 
 export const CONTRAT_LABELS = {

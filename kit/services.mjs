@@ -96,12 +96,51 @@ ${noms.map((n) => `  ${JSON.stringify(n)},`).join('\n')}
 // /kit:services-admin`;
 }
 
+function cartesContrats(T) {
+  const jsAttr = (v) => h(`'${String(v).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`);
+  return Object.entries(T.contrats || {}).map(([k, c]) => {
+    const prixTxt = typeof c.prix === 'number' ? `${eur(c.prix)}/mois` : 'Sur devis';
+    return `    <div class="contrat-card${c.badge ? ' featured' : ''}">
+${c.badge ? `      <div class="contrat-badge">${h(c.badge)}</div>\n` : ''}      <div class="contrat-icon"><span aria-hidden="true">${c.icone || '📄'}</span></div>
+      <div class="contrat-name">${h(c.nom)}</div>
+      <div class="contrat-price"><span data-tarif="contrats.${k}.prix">${fmt(c.prix)}</span>${typeof c.prix === 'number' ? ' <span>/mois</span>' : ''}</div>
+${c.description ? `      <div class="contrat-desc">${h(c.description)}</div>\n` : ''}      <ul class="contrat-features">
+${(c.avantages || []).map((a) => `        <li>${h(a)}</li>`).join('\n')}
+      </ul>
+      <button class="btn-souscrire" onclick="openModal(${jsAttr(k)},${jsAttr(c.nom)},${jsAttr(prixTxt)})">Demander ma souscription →</button>
+    </div>
+`;
+  }).join('');
+}
+
+function promoJs(T) {
+  const p = T.promo?.code ? { code: String(T.promo.code).toUpperCase(), remise: Number(T.promo.remise) || 0, texte: T.promo.texte || '' } : null;
+  return `// kit:promo\nconst PROMO = ${JSON.stringify(p)};\n// /kit:promo\n`;
+}
+
+function promoBandeau(T) {
+  const p = T.promo;
+  if (!p?.code) return '';
+  const code = h(String(p.code).toUpperCase());
+  return `<div class="promo-banner" id="promoBanner" role="region" aria-label="Offre de bienvenue">
+  <div class="promo-banner-text">
+    <span aria-hidden="true">🎁</span> <strong>${h(p.texte || '')}</strong> — code&nbsp;<span class="promo-banner-code">${code}</span>&nbsp;à mentionner à la réservation
+  </div>
+  <div class="promo-banner-actions">
+    <a href="makouez-it-rdv.html?promo=${encodeURIComponent(String(p.code).toUpperCase())}" class="promo-banner-cta" onclick="trackEvent('conversion','promo_banner_rdv','bandeau')">Réserver →</a>
+    <button class="promo-banner-close" onclick="dismissPromoBanner()" aria-label="Fermer">✕</button>
+  </div>
+</div>
+`;
+}
+
 // fichier → [marqueur, générateur, style de commentaire]
 export const BLOCS = {
-  'makouez-it-rdv.html': [['services-cartes', cartes, 'html'], ['creneaux', creneaux, 'js-entier']],
+  'makouez-it-rdv.html': [['services-cartes', cartes, 'html'], ['promo', promoJs, 'js-entier'], ['creneaux', creneaux, 'js-entier']],
   'mon-rdv.html': [['services-options', optionsEspaceClient, 'html']],
-  'index.html': [['rappel-options', optionsRappel, 'html']],
+  'index.html': [['rappel-options', optionsRappel, 'html'], ['promo-bandeau', promoBandeau, 'html']],
   'admin/modules/reservations.js': [['services-admin', servicesAdmin, 'js-entier']],
+  'contrats.html': [['contrats-cartes', cartesContrats, 'html']],
 };
 
 const js = (a) => JSON.stringify(a).replace(/","/g, '", "');

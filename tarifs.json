@@ -38,9 +38,15 @@
     "rappelAutres": ["Site web / devis", "Autre"]
   },
   "contrats": {
-    "serenite": { "nom": "Contrat Sérénité", "prix": 65, "unite": "mois" },
-    "senior":   { "nom": "Pack Senior+",     "prix": 55, "unite": "mois" },
-    "famille":  { "nom": "Pack Famille",     "prix": 79, "unite": "mois" }
+    "serenite": { "nom": "Contrat Sérénité", "prix": 65, "unite": "mois", "icone": "🛡️", "badge": "Le plus demandé",
+                  "description": "Assistance prioritaire toute l'année pour particuliers",
+                  "avantages": ["2 interventions/mois incluses à domicile", "Priorité de passage (sous 24h)", "Support téléphonique inclus", "Bilan informatique annuel", "Mises à jour & maintenance", "Sans engagement"] },
+    "senior":   { "nom": "Pack Senior+",     "prix": 55, "unite": "mois", "icone": "👴",
+                  "description": "Accompagnement doux et pédagogique pour les seniors",
+                  "avantages": ["Visites régulières à domicile", "Formation progressive à votre rythme", "Hotline dédiée (lun-sam)", "Protection anti-arnaques", "Aide smartphone/tablette", "Sans engagement"] },
+    "famille":  { "nom": "Pack Famille",     "prix": 79, "unite": "mois", "icone": "👨‍👩‍👧‍👦",
+                  "description": "Toute la famille couverte sur 3 appareils",
+                  "avantages": ["3 appareils couverts", "3 interventions/mois incluses", "Contrôle parental inclus", "Support pour tous les membres", "Sauvegarde automatique", "Sans engagement"] }
   },
   "web": {
     "essentiel":      { "nom": "Site vitrine",     "prix": 990,  "aPartirDe": true },
@@ -60,6 +66,8 @@
     "confort":            { "nom": "Pro Confort",             "prix": 249, "unite": "mois", "ht": true },
     "premium":            { "nom": "Pro Premium",             "prix": null, "ht": true }
   },
+  "promo": { "code": "BIENVENUE10", "remise": 0.1, "texte": "−10% sur votre 1ère intervention",
+             "_doc": "Code de bienvenue, réservé à une première réservation (hors tarif horaire). Supprimer ce bloc pour ne proposer aucun code." },
   "paiement": {
     "moyens": ["Carte bancaire", "Virement", "Espèces", "PayPal"],
     "moment": "Après l'intervention, aucun prépaiement",
