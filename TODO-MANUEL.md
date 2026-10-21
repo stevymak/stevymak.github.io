@@ -114,6 +114,20 @@ Choisir un médiateur agréé (liste officielle : https://www.economie.gouv.fr/m
 
 ---
 
+## F. Contenu à fournir
+
+### F1. Photo de Stevy
+Le fichier `/images/stevy-makouez-it.jpg` n'a jamais été envoyé sur le site : l'accueil affiche pour l'instant un médaillon « SM ».
+Déposer une photo carrée (400×400, fond neutre) sous `images/stevy-makouez-it.jpg`, puis dans `index.html` (section « Bonjour, je suis Stevy ») remplacer le bloc `<div class="avatar" …>SM</div>` par la balise `<img>` indiquée en commentaire juste au-dessus. Remettre aussi `"image":"https://makouezit.org/images/stevy-makouez-it.jpg"` dans le JSON-LD de l'accueil.
+
+### F2. Captures du portfolio
+Déposer `images/portfolio/makouez-it.webp`, `noirland.webp` et `landing.webp` (1200×720, WebP), puis dans `portfolio.html` retirer les marques de commentaire `<!-- … -->` autour des balises `<img>` (repérées par « EMPLACEMENT CAPTURE »).
+
+### F3. Ancienne adresse de la page 93 (optionnel, après D4)
+`depannage-informatique-seine-saint-denis.html` redirige vers `…-seine-saint-denis-93.html` par une page de redirection. Quand le trafic passe par Cloudflare, ajouter *Règles → Redirect Rules* : URL égale à `https://makouezit.org/depannage-informatique-seine-saint-denis.html` → `https://makouezit.org/depannage-informatique-seine-saint-denis-93.html`, code **301**.
+
+---
+
 ## Référence (à chaque modification)
 
 - **Changer un prix :** modifier uniquement `tarifs.json`, lancer `node tests/check-tarifs.mjs` (liste les prix écrits en dur à aligner), publier, puis redéployer les fonctions (emails et chat ; la copie `functions/tarifs.json` est faite automatiquement par `firebase deploy`).
@@ -128,4 +142,4 @@ Choisir un médiateur agréé (liste officielle : https://www.economie.gouv.fr/m
 - **Emails :** Resend (secret `RESEND_API_KEY` dans Firebase).
 - **Supabase :** portfolio (carte Savourez Paris).
 
-*Retirés car déjà faits ou devenus sans objet : Pixel Facebook (aucun emplacement dans le code), lien avis Google, photo de Stevy (en place), avis factices (les avis viennent de Google/Firestore et la section reste masquée tant qu'il n'y en a pas), liens « # » du portfolio.*
+*Retirés car déjà faits ou devenus sans objet : Pixel Facebook (aucun emplacement dans le code), lien avis Google, avis factices (les avis viennent de Google/Firestore et la section reste masquée tant qu'il n'y en a pas), liens « # » du portfolio.*

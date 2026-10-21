@@ -363,7 +363,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div class="field"><label>Email *</label><input class="form-input" id="fEmail" type="email" placeholder="marie@email.com"></div>
       <div class="field"><label>Téléphone *</label><input class="form-input" id="fTel" type="tel" placeholder="06 XX XX XX XX"></div>
       <div class="field"><label>Adresse *</label><input class="form-input" id="fAdresse" type="text" placeholder="12 rue de la Paix, Pierrefitte-sur-Seine"></div>
-      <div class="field"><label>Mot de passe espace client (optionnel)</label><input class="form-input" id="fPwd" type="password" placeholder="6 caracteres minimum"><div style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem">Optionnel : creez votre espace client maintenant pour suivre plus facilement vos contrats et demandes.</div></div>
+      <div class="field"><label>Mot de passe espace client (optionnel)</label><input class="form-input" id="fPwd" type="password" placeholder="6 caractères minimum"><div style="font-size:0.9rem;color:var(--muted);margin-top:0.35rem">Optionnel : créez votre espace client maintenant pour suivre plus facilement vos contrats et demandes.</div></div>
       <div class="field"><label>Message (optionnel)</label><input class="form-input" id="fMessage" type="text" placeholder="Précisions, questions..."></div>
       <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;margin:.75rem 0;cursor:pointer;text-align:left"><input type="checkbox" id="fCgv" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>. Le contrat est sans engagement et résiliable à tout moment. Mes données sont traitées selon la <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>
       <button class="btn-submit" id="btnSubmit" disabled><span id="btnText">Envoyer ma demande →</span></button>
@@ -386,11 +386,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
 <!-- TOUT dans un seul script type="module" pour éviter le problème d'initialisation async -->
 <script type="module">
-import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
+import { initializeApp }  from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
 import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 // ── Init Firebase ──
 const firebaseConfig = {
