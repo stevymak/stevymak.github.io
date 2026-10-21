@@ -420,7 +420,11 @@ button.sum-card{font:inherit;text-align:left;cursor:pointer;color:inherit;width:
   <div class="modal" style="max-width:520px">
     <h3 id="appTitle">Ajouter un appareil</h3>
     <div class="edit-row">
-      <div class="field"><label for="aType">Type</label><select id="aType"><option value="ordinateur-portable">Ordinateur portable</option><option value="ordinateur-fixe">Ordinateur fixe</option><option value="tablette">Tablette</option><option value="smartphone">Smartphone</option><option value="imprimante">Imprimante</option><option value="box-internet">Box internet</option><option value="autre">Autre</option></select></div>
+      <div class="field"><label for="aType">Type</label><select id="aType">
+<!-- kit:appareils-options -->
+<option value="ordinateur-portable">Ordinateur portable</option><option value="ordinateur-fixe">Ordinateur fixe</option><option value="tablette">Tablette</option><option value="smartphone">Smartphone</option><option value="imprimante">Imprimante</option><option value="box-internet">Box internet</option><option value="autre">Autre</option>
+<!-- /kit:appareils-options -->
+</select></div>
       <div class="field"><label for="aMarque">Marque</label><input id="aMarque" maxlength="60" placeholder="HP, Lenovo, Apple…"></div>
     </div>
     <div class="edit-row">
@@ -460,11 +464,17 @@ button.sum-card{font:inherit;text-align:left;cursor:pointer;color:inherit;width:
     <div class="field">
       <label>Service</label>
       <select id="edit-service">
+<!-- kit:services-options -->
         <option value="">— Sélectionner —</option>
-        <option>Diagnostic & Dépannage PC</option><option>Suppression de virus / malwares</option>
-        <option>Installation logicielle</option><option>Sauvegarde & récupération de données</option>
-        <option>Configuration réseau / Wi-Fi</option><option>Optimisation & nettoyage PC</option>
-        <option>Formation informatique</option><option>Autre</option>
+        <option>Dépannage PC</option>
+        <option>Installation Windows et logiciels</option>
+        <option>Réseau Wi-Fi</option>
+        <option>Récupération de données</option>
+        <option>Sauvegarde et sécurité</option>
+        <option>Formation et accompagnement</option>
+        <option>Intégration / Développement web</option>
+        <option>Autre</option>
+<!-- /kit:services-options -->
       </select>
     </div>
     <div class="edit-row">
@@ -805,7 +815,9 @@ window.downloadFacture = async function(id) {
 };
 
 // Appareils (carnet de santé)
+// kit:appareils-types
 const TYPES={'ordinateur-portable':['💻','Ordinateur portable'],'ordinateur-fixe':['🖥️','Ordinateur fixe'],tablette:['📱','Tablette'],smartphone:['📱','Smartphone'],imprimante:['🖨️','Imprimante'],'box-internet':['📶','Box internet'],autre:['🔌','Autre']};
+// /kit:appareils-types
 const moisFr=(m)=>{ if(!m) return ''; const [y,mo]=m.split('-'); return new Date(+y,+mo-1,1).toLocaleDateString('fr-FR',{month:'long',year:'numeric'}); };
 async function fetchAppareils(user) {
   try { const s=await getDocs(collection(db,'clients',user.uid,'appareils')); currentAppareils=s.docs.map(d=>({id:d.id,...d.data()})); } catch(e){ console.warn(e); currentAppareils=[]; }
@@ -845,6 +857,7 @@ window.deleteAppareil = async function(id) {
 };
 
 // Accueil
+// kit:conseils
 const CONSEILS=[
   'Une sauvegarde qui n’a jamais été testée ne protège rien : essayez de restaurer un fichier une fois par trimestre.',
   'Un faux message de la banque ou de l’Assurance maladie ? Ne cliquez pas : appelez le numéro habituel, ou transférez-le à Stevy.',
@@ -852,6 +865,7 @@ const CONSEILS=[
   'Votre box chauffe ou coupe souvent ? Elle doit être à l’air libre, en hauteur, loin des murs épais et des appareils électriques.',
   'Notez vos appareils dans « Mes appareils » : Stevy arrive avec les bonnes pièces et les bons outils.'
 ];
+// /kit:conseils
 function renderHome() {
   const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
   const upcoming=currentReservations.filter(r=>r.status!=='done'&&r.status!=='cancelled'&&getReservationDate(r)>=today).sort((a,b)=>getReservationDate(a)-getReservationDate(b));
@@ -936,9 +950,8 @@ function rdvCard(r,isPast) {
 // ── Grille tarifaire (source unique : /tarifs.json) ──
 const tarifsData=fetch('/tarifs.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).catch(()=>null);
 function contratGrid(t){
-  const src={serenite:t?.contrats?.serenite,senior:t?.contrats?.senior,famille:t?.contrats?.famille,
-    'maintenance-essentielle':t?.maintenanceWeb?.essentielle,'maintenance-pro':t?.maintenanceWeb?.pro,'maintenance-evolution':t?.maintenanceWeb?.evolution,
-    'pro-essentiel':t?.pro?.essentiel,'pro-confort':t?.pro?.confort,'pro-premium':t?.pro?.premium};
+  const pre=(o,p,f)=>Object.fromEntries(Object.entries(o||{}).filter(([,v])=>!f||f(v)).map(([k,v])=>[p+k,v]));
+  const src={...(t?.contrats||{}),...pre(t?.maintenanceWeb,'maintenance-'),...pre(t?.pro,'pro-',(v)=>v.unite==='mois'||v.prix===null)};
   const LABELS={},TARIFS={};
   for(const [k,v] of Object.entries(src)){ if(!v) continue; LABELS[k]=v.nom; TARIFS[k]=typeof v.prix==='number'?`${v.prix} €/mois`:'Sur devis'; }
   return {LABELS,TARIFS};

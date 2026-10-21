@@ -344,6 +344,7 @@
       <span><span aria-hidden="true">✓</span></span><span id="preSelectedName">Service pré-sélectionné</span>
     </div>
     <div class="services-grid">
+<!-- kit:services-cartes -->
       <div class="service-card" data-service="Dépannage PC" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
         <span class="emoji"><span aria-hidden="true">💻</span></span><span class="name">Dépannage PC</span><span class="price">À partir de <span data-tarif="services.depannagePc.prix">55&nbsp;€</span></span>
       </div>
@@ -353,20 +354,19 @@
       <div class="service-card" data-service="Réseau Wi-Fi" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
         <span class="emoji"><span aria-hidden="true">📶</span></span><span class="name">Réseau Wi-Fi</span><span class="price">À partir de <span data-tarif="services.reseauWifi.prix">55&nbsp;€</span></span>
       </div>
-      <div class="service-card" data-service="Récupération de données" data-price="89€ (forfait Standard)" data-base-price="89" onclick="selectService(this)">
+      <div class="service-card" data-service="Récupération de données" data-price="89€ (forfait standard)" data-base-price="89" onclick="selectService(this)">
         <span class="emoji"><span aria-hidden="true">💾</span></span><span class="name">Récupération données</span><span class="price"><span data-tarif="services.recuperationDonnees.prix">89&nbsp;€</span> · forfait Standard</span>
       </div>
       <div class="service-card" data-service="Sauvegarde et sécurité" data-price="À partir de 55€" data-base-price="55" onclick="selectService(this)">
-        <span class="emoji"><span aria-hidden="true">🔒</span></span><span class="name">Sauvegarde & sécurité</span><span class="price">À partir de <span data-tarif="services.sauvegardeSecurite.prix">55&nbsp;€</span></span>
+        <span class="emoji"><span aria-hidden="true">🔒</span></span><span class="name">Sauvegarde &amp; sécurité</span><span class="price">À partir de <span data-tarif="services.sauvegardeSecurite.prix">55&nbsp;€</span></span>
       </div>
       <div class="service-card" data-service="Formation et accompagnement" data-price="40€/h" data-base-price="40" onclick="selectService(this)">
         <span class="emoji"><span aria-hidden="true">🎓</span></span><span class="name">Formation</span><span class="price"><span data-tarif="services.formation.prix">40&nbsp;€</span> / heure</span>
       </div>
       <div class="service-card" data-service="Intégration / Développement web" data-price="À partir de 990€" data-base-price="990" onclick="selectService(this)" style="grid-column:span 2;">
-        <span class="emoji"><span aria-hidden="true">🌐</span></span>
-        <span class="name">Développement web <span style="background:var(--blue);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-left:4px;">Nouveau</span></span>
-        <span class="price">À partir de <span data-tarif="services.developpementWeb.prix">990&nbsp;€</span></span>
+        <span class="emoji"><span aria-hidden="true">🌐</span></span><span class="name">Développement web <span style="background:var(--blue);color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:4px;margin-left:4px;">Nouveau</span></span><span class="price">À partir de <span data-tarif="services.developpementWeb.prix">990&nbsp;€</span></span>
       </div>
+<!-- /kit:services-cartes -->
     </div>
     <div style="margin-top:20px;">
       <button class="btn btn-primary" id="step1Btn" onclick="goStep2()" disabled>Continuer →</button>
@@ -543,22 +543,28 @@
 // ══════════════════════════════════════════════
 // CONSTANTES MÉTIER
 // ══════════════════════════════════════════════
+// kit:promo
+const PROMO = {"code":"BIENVENUE10","remise":0.1,"texte":"−10% sur votre 1ère intervention"};
+// /kit:promo
+
+// kit:creneaux
 const MAX_PAR_JOUR = 5;
 
-// Plages horaires — weekend : toutes | semaine : ap-m + soir seulement
+// Plages horaires (tarifs.json → reservation) — week-end : matin, après-midi, soir | semaine : après-midi, soir
 const PERIODES = {
-  matin:     { label: '🌅 Matin',       slots: ['8h00 – 10h00', '10h00 – 12h00'] },
-  apresmidi: { label: '☀️ Après-midi',  slots: ['13h00 – 15h00', '15h00 – 17h00'] },
-  soir:      { label: '🌆 Soir',        slots: ['17h00 – 19h00', '19h00 – 21h00'] },
+  matin:     { label: "🌅 Matin", slots: ["8h00 – 10h00", "10h00 – 12h00"] },
+  apresmidi: { label: "☀️ Après-midi", slots: ["13h00 – 15h00", "15h00 – 17h00"] },
+  soir:      { label: "🌆 Soir", slots: ["17h00 – 19h00", "19h00 – 21h00"] },
 };
+const PERIODES_SEMAINE = ["apresmidi", "soir"];
+const PERIODES_WEEKEND = ["matin", "apresmidi", "soir"];
 
 function getPeriodesForDate(dateStr) {
   const [y, m, d] = dateStr.split('-').map(Number);
   const dow = new Date(y, m - 1, d).getDay(); // 0=dim 6=sam
-  return (dow === 0 || dow === 6)
-    ? ['matin', 'apresmidi', 'soir']
-    : ['apresmidi', 'soir'];
+  return (dow === 0 || dow === 6) ? PERIODES_WEEKEND : PERIODES_SEMAINE;
 }
+// /kit:creneaux
 
 // ══════════════════════════════════════════════
 // STATE
@@ -920,41 +926,45 @@ function togglePwd() { const f=document.getElementById('fpwd'); f.type=f.type===
 // ══════════════════════════════════════════════
 // SUMMARY
 // ══════════════════════════════════════════════
-// Détail du forfait affiché dans le récapitulatif (source : /tarifs.json via tarifs.js)
-const FORFAIT_PAR_SERVICE = {
-  'Dépannage PC':                      { forfait: 'diagExpress', suite: true },
-  'Installation Windows et logiciels': { forfait: 'standard',    note: 'Long format (3 h) si sauvegarde ou transfert de vos données' },
-  'Réseau Wi-Fi':                      { forfait: 'diagExpress', suite: true },
-  'Récupération de données':           { forfait: 'standard' },
-  'Sauvegarde et sécurité':            { forfait: 'diagExpress', suite: true },
-  'Formation et accompagnement':       { horaire: true },
-};
+// Détail du forfait affiché dans le récapitulatif (source : /tarifs.json via tarifs.js,
+// champ « forfait » de chaque service réservable)
+function tarifService(service) {
+  const t = window.MAKOUEZ_TARIFS;
+  return t ? Object.values(t.services || {}).find((x) => x.libelle === service) || null : null;
+}
 function getServiceDetails(service) {
   const t = window.MAKOUEZ_TARIFS;
-  const cfg = FORFAIT_PAR_SERVICE[service];
+  const s = tarifService(service);
+  const cfg = s && s.forfait;
   if (!t || !cfg) return [];
   const fmt = window.formatTarif || ((v) => v + ' €');
-  const d = t.depannage;
+  const d = t.depannage || {};
   if (cfg.horaire) {
     return [
-      { key: 'Durée prévue', val: '1 à 2 heures selon le thème' },
-      { key: 'Inclus', val: `Déplacement inclus · ${fmt(t.services.formation.prix)} de l'heure` },
+      { key: 'Durée prévue', val: cfg.duree || '1 à 2 heures' },
+      { key: 'Inclus', val: `Déplacement inclus · ${fmt(s.prix)} de l'heure` },
     ];
   }
-  const f = d[cfg.forfait];
+  const f = d[cfg.base];
+  if (!f) return [];
   const rows = [
     { key: 'Forfait', val: `${f.nom} — ${fmt(f.prix)}` },
     { key: 'Durée prévue', val: f.duree },
     { key: 'Inclus', val: `${f.detail}, déplacement inclus` },
   ];
-  if (cfg.note) rows.push({ key: 'À savoir', val: `${cfg.note} : ${fmt(d.longFormat.prix)}` });
-  if (cfg.suite) rows.push({ key: 'Si c\'est plus long', val: `${d.standard.nom} ${fmt(d.standard.prix)} (${d.standard.duree}) ou ${d.longFormat.nom} ${fmt(d.longFormat.prix)} (${d.longFormat.duree}), toujours annoncé avant` });
+  if (cfg.note) rows.push({ key: 'À savoir', val: cfg.notePrix && d[cfg.notePrix] ? `${cfg.note} : ${fmt(d[cfg.notePrix].prix)}` : cfg.note });
+  if (cfg.suite) {
+    const suites = Object.values(d).filter((x) => x.duree && x !== f && typeof x.prix === 'number' && x.prix > f.prix);
+    if (suites.length) rows.push({ key: 'Si c\'est plus long', val: `${suites.map((x) => `${x.nom} ${fmt(x.prix)} (${x.duree})`).join(' ou ')}, toujours annoncé avant` });
+  }
   return rows;
 }
 
 function getPricingSummary() {
-  // Pas de remise sur la formation (tarif horaire) — même règle que le serveur
-  if (!selectedBasePrice || !window.activePromo || selectedService === 'Formation et accompagnement') {
+  // Pas de remise sur un tarif horaire (formation) — même règle que le serveur
+  const svcT = tarifService(selectedService);
+  const horaire = svcT ? svcT.unite === 'h' : /\/h$/.test(selectedPrice || '');
+  if (!selectedBasePrice || !window.activePromo || horaire) {
     return {
       displayPrice: selectedPrice,
       subtotal: null,
@@ -990,7 +1000,7 @@ function renderSummary() {
   if (pricing.subtotal !== null) {
     rows.push(
       {key:'Sous-total',val:formatEuroAmount(pricing.subtotal)},
-      {key:`Remise ${pricing.discountLabel} (-10%)`,val:`-${formatEuroAmount(pricing.discountAmount)}`},
+      {key:`Remise ${pricing.discountLabel} (-${Math.round((window.activePromo?.discount || 0) * 100)} %)`,val:`-${formatEuroAmount(pricing.discountAmount)}`},
       {key:'Total estimatif',val:formatEuroAmount(pricing.total)+' (code valable pour une première réservation)'}
     );
   } else {
@@ -1094,7 +1104,7 @@ async function submitRDV() {
       successText.textContent = (user
         ? 'Votre rendez-vous a été enregistré et rattaché à votre espace client sécurisé. Vous pouvez suivre son évolution depuis votre compte.'
         : 'Votre rendez-vous a été envoyé. Stevy vous confirmera le créneau par email ou téléphone. Créez un espace client lors d’une prochaine demande si vous souhaitez un suivi en ligne.')
-        + (promoRefusee ? ' Le code BIENVENUE10 est réservé à une première réservation : le tarif normal s’applique.' : '');
+        + (promoRefusee ? ` Le code ${PROMO.code} est réservé à une première réservation : le tarif normal s’applique.` : '');
     }
 
     [1,2,3,4].forEach(i=>document.getElementById('step'+i).classList.remove('active'));
@@ -1160,9 +1170,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const promo = params.get('promo');
   
-  if (promo === 'BIENVENUE10') {
+  if (PROMO && promo && promo.toUpperCase() === PROMO.code) {
     // Stocker la promo pour l'utiliser au moment du calcul du prix
-    window.activePromo = { code: 'BIENVENUE10', discount: 0.10 };
+    window.activePromo = { code: PROMO.code, discount: PROMO.remise };
     
     // Afficher un bandeau de confirmation
     const banner = document.createElement('div');
@@ -1172,8 +1182,8 @@ document.addEventListener('DOMContentLoaded', () => {
       font-weight:700;font-family:sans-serif;
       position:sticky;top:0;z-index:1000;
     `;
-    banner.innerHTML = `🎁 Code BIENVENUE10 appliqué — 
-      <span style="font-weight:400">-10% sur votre 1ère intervention</span>`;
+    banner.innerHTML = `🎁 Code ${PROMO.code} appliqué — 
+      <span style="font-weight:400">${PROMO.texte}</span>`;
     document.body.prepend(banner);
   }
 });

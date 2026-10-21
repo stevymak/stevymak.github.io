@@ -1041,7 +1041,15 @@ exports.automationMonthlyRecap = functions.region('europe-west1')
     });
 
     // Contrats actifs + MRR
-    const tarifs = { serenite: 45, senior: 49, famille: 59 };
+    // Prix mensuels de tarifs.json (avant : valeurs écrites en dur, restées sur l'ancienne grille)
+    let tarifs = {};
+    try {
+      const T = require('./tarifs.json');
+      const mensuels = { ...(T.contrats || {}) };
+      for (const [k, v] of Object.entries(T.maintenanceWeb || {})) mensuels[`maintenance-${k}`] = v;
+      for (const [k, v] of Object.entries(T.pro || {})) if (v.unite === 'mois') mensuels[`pro-${k}`] = v;
+      tarifs = Object.fromEntries(Object.entries(mensuels).filter(([, v]) => typeof v.prix === 'number').map(([k, v]) => [k, v.prix]));
+    } catch (e) { functions.logger.warn('tarifs.json introuvable pour le MRR', e.message); }
     const cSnap  = await db.collection('contrats').where('status', '==', 'active').get();
     let contratsActifs = 0, mrr = 0;
     cSnap.forEach((d) => {

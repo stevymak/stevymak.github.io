@@ -4,6 +4,7 @@
 // 1. Chaque élément data-tarif="chemin" affiche en dur la valeur de tarifs.json.
 // 2. functions/tarifs.json est identique à tarifs.json (emails, chat IA).
 // 3. Aucune mention retirée ne réapparaît (prix nets, crédit d'impôt, offre Découverte…).
+// 4. Les listes de services et les créneaux écrits dans les pages suivent tarifs.json (kit/services.mjs).
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -65,8 +66,15 @@ for (const f of SCAN) {
   }
 }
 
+// 4. listes de services et créneaux (cartes de réservation, espace client, rappel, admin)
+{
+  const { regenerer } = await import('../kit/services.mjs');
+  const d = regenerer(ROOT, tarifs, { ecrire: false });
+  if (d.length) errors.push(`listes de services ou créneaux différentes de tarifs.json : ${d.join(', ')} (lancer : node kit/services.mjs --write)`);
+}
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problème(s) :\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
 }
-console.log(`✓ ${checked} prix vérifiés sur ${pages.length} pages, copie functions/tarifs.json à jour, aucune mention retirée.`);
+console.log(`✓ ${checked} prix vérifiés sur ${pages.length} pages, copie functions/tarifs.json à jour, aucune mention retirée, listes de services conformes.`);

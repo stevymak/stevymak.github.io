@@ -5,7 +5,7 @@
 //   createReservation (callable) : seule porte d'entrée publique pour créer
 //     une réservation. Vérifie les champs, le jour et le créneau, le quota de
 //     5 RDV par jour (transaction), recalcule le prix depuis tarifs.json,
-//     n'accorde le code BIENVENUE10 qu'à une première réservation, et limite
+//     n'accorde le code de bienvenue (tarifs.json → promo) qu'à une première réservation, et limite
 //     les envois par adresse IP.
 //   syncSlot (trigger) : tient la collection publique `slots` (sans données
 //     personnelles) à jour à partir des réservations : création, changement
@@ -28,30 +28,25 @@ const TARIFS = require('./tarifs.json');
 const ENFORCE_APP_CHECK = false;
 
 const REGION            = 'europe-west1';
-const MAX_PAR_JOUR      = 5;
-const MAX_JOURS_AVANCE  = 90;
+const RESA              = TARIFS.reservation || {};
+const MAX_PAR_JOUR      = RESA.maxParJour || 5;
+const MAX_JOURS_AVANCE  = RESA.maxJoursAvance || 90;
 const MAX_PAR_IP_JOUR   = 5;
 const STATUTS_ACTIFS    = ['pending', 'confirmed', 'done'];
 
-// Plages horaires : mêmes valeurs que makouez-it-rdv.html
-const PLAGES = {
-  matin:     ['8h00 – 10h00', '10h00 – 12h00'],
-  apresmidi: ['13h00 – 15h00', '15h00 – 17h00'],
-  soir:      ['17h00 – 19h00', '19h00 – 21h00'],
-};
+// Plages horaires : tarifs.json → reservation (mêmes valeurs que makouez-it-rdv.html,
+// vérifié par tests/check-services.mjs)
+const PLAGES = Object.fromEntries(Object.entries(RESA.periodes || {}).map(([k, p]) => [k, p.creneaux]));
+const JOURS_SEMAINE = RESA.semaine || ['apresmidi', 'soir'];
+const JOURS_WEEKEND = RESA.weekend || Object.keys(PLAGES);
 
-// Libellé du service (data-service de la page) → entrée de tarifs.json
-const SERVICES = {
-  'Dépannage PC':                      'depannagePc',
-  'Installation Windows et logiciels': 'installationWindows',
-  'Réseau Wi-Fi':                      'reseauWifi',
-  'Récupération de données':           'recuperationDonnees',
-  'Sauvegarde et sécurité':            'sauvegardeSecurite',
-  'Formation et accompagnement':       'formation',
-};
+// Libellé du service (data-service de la page) → entrée de tarifs.json :
+// toutes les entrées de « services » qui ont un « libelle » sont réservables.
+const SERVICES = Object.fromEntries(Object.entries(TARIFS.services)
+  .filter(([, t]) => t.libelle).map(([k, t]) => [t.libelle, k]));
 
 // Codes promo valables uniquement pour une première réservation
-const PROMOS = { BIENVENUE10: 0.10 };
+const PROMOS = TARIFS.promo?.code ? { [String(TARIFS.promo.code).toUpperCase()]: Number(TARIFS.promo.remise) || 0 } : {};
 
 // ─── Utilitaires ────────────────────────────────────────────────────────────
 const eur = (n) => `${Number.isInteger(n) ? n : n.toFixed(2).replace('.', ',')}€`;
@@ -76,8 +71,8 @@ function parisToday() {
 function plagesPourDate(dateKey) {
   const [y, m, d] = dateKey.split('-').map(Number);
   const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay(); // 0 = dimanche
-  const periodes = (dow === 0 || dow === 6) ? ['matin', 'apresmidi', 'soir'] : ['apresmidi', 'soir'];
-  return periodes.flatMap((p) => PLAGES[p]);
+  const periodes = (dow === 0 || dow === 6) ? JOURS_WEEKEND : JOURS_SEMAINE;
+  return periodes.flatMap((p) => PLAGES[p] || []);
 }
 
 function validerDate(dateKey) {
@@ -100,7 +95,8 @@ function prixService(service) {
   const t = key && TARIFS.services[key];
   if (!t) throw new HttpsError('invalid-argument', 'Service inconnu.');
   let affiche;
-  if (t.unite === 'h') affiche = `${eur(t.prix)}/h`;
+  if (t.prix == null) affiche = 'Sur devis';
+  else if (t.unite === 'h') affiche = `${eur(t.prix)}/h`;
   else if (t.aPartirDe) affiche = `À partir de ${eur(t.prix)}`;
   else affiche = `${eur(t.prix)}${t.note ? ` (${t.note.toLowerCase()})` : ''}`;
   return { base: t.prix, affiche, aPartirDe: !!t.aPartirDe, unite: t.unite || null };
@@ -164,7 +160,7 @@ exports.createReservation = onCall(
 
     // Promo : uniquement pour une première réservation avec cet email
     let promo = null;
-    if (promoCode && PROMOS[promoCode] && prix.unite !== 'h') {
+    if (promoCode && PROMOS[promoCode] && prix.unite !== 'h' && typeof prix.base === 'number') {
       const deja = await db.collection('reservations').where('email', '==', email).limit(1).get();
       if (deja.empty) promo = { code: promoCode, taux: PROMOS[promoCode] };
     }

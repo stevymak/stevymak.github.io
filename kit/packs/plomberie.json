@@ -1,0 +1,284 @@
+{
+  "_role": "Pack métier « plomberie et chauffage » du kit. Les textes sont écrits à la première personne (voix d'un artisan seul) et utilisent {prenom}, {marque}, {villeBase}, {departementEn}, {regionEn}. Les prix de « tarifs » sont des EXEMPLES : chaque client fournit sa propre grille (clé « tarifs » de sa configuration).",
+  "metier": "plomberie",
+  "libelle": "Plomberie et chauffage",
+  "activite": "plombier chauffagiste",
+
+  "pagesRetirees": [
+    "blog.html", "10-astuces-booster-windows.html", "comment-savoir-si-mon-pc-a-un-virus.html", "pourquoi-mon-pc-est-lent.html",
+    "reconnaitre-eviter-arnaques-en-ligne.html", "sauvegarder-ses-donnees-guide-complet.html", "wifi-lent-solutions.html",
+    "diagnostic.html", "contrats-pro.html", "portfolio.html",
+    "service-depannage-pc.html", "service-formation.html", "service-installation-windows.html",
+    "service-recuperation-donnees.html", "service-reseau-wifi.html", "service-sauvegarde-securite.html"
+  ],
+  "fichiersRetires": ["offres-web.css"],
+  "modules": { "chatIA": false, "portfolio": false, "offresWeb": false },
+
+  "tarifs": {
+    "_doc": "Grille d'exemple du pack plomberie (prix fictifs, à remplacer par ceux du client). Prix TTC.",
+    "maj": "2026-10-21",
+    "depannage": {
+      "deplacement":    { "nom": "Déplacement et diagnostic", "prix": 45,  "duree": "30 min", "detail": "Diagnostic sur place et devis immédiat" },
+      "intervention1h": { "nom": "Intervention 1 h",          "prix": 85,  "duree": "1 h",    "detail": "1 h de main-d'œuvre : petite réparation, joint, mécanisme" },
+      "intervention2h": { "nom": "Intervention 2 h",          "prix": 150, "duree": "2 h",    "detail": "2 h de main-d'œuvre : remplacement d'un équipement simple" },
+      "heureSup":       { "nom": "Heure supplémentaire",      "prix": 55,  "unite": "h" }
+    },
+    "services": {
+      "fuite":             { "nom": "Recherche et réparation de fuite", "prix": 85,  "aPartirDe": true,
+                             "libelle": "Recherche et réparation de fuite", "carte": "Fuite d'eau", "icone": "💧", "rappel": "Fuite d'eau",
+                             "forfait": { "base": "intervention1h", "suite": true } },
+      "debouchage":        { "nom": "Débouchage de canalisation",       "prix": 85,  "aPartirDe": true,
+                             "libelle": "Débouchage de canalisation", "carte": "Canalisation bouchée", "icone": "🚿", "rappel": "Canalisation bouchée",
+                             "forfait": { "base": "intervention1h", "suite": true } },
+      "chauffeEau":        { "nom": "Dépannage de chauffe-eau",         "prix": 85,  "aPartirDe": true, "note": "Remplacement sur devis",
+                             "libelle": "Dépannage de chauffe-eau", "carte": "Chauffe-eau en panne", "icone": "🔥", "rappel": "Chauffe-eau",
+                             "forfait": { "base": "intervention1h", "suite": true, "note": "Remplacement complet : devis remis sur place, sans engagement" } },
+      "sanitaires":        { "nom": "WC, robinetterie et sanitaires",   "prix": 85,  "aPartirDe": true,
+                             "libelle": "WC, robinetterie et sanitaires", "carte": "WC ou robinet qui fuit", "icone": "🚽", "rappel": "WC, robinet",
+                             "forfait": { "base": "intervention1h", "suite": true } },
+      "entretienChaudiere":{ "nom": "Entretien de chaudière gaz",       "prix": 110, "aPartirDe": false, "note": "Attestation d'entretien remise",
+                             "libelle": "Entretien de chaudière gaz", "carte": "Entretien chaudière", "icone": "🌡️", "rappel": "Entretien chaudière" },
+      "salleDeBain":       { "nom": "Rénovation de salle de bain",      "prix": null,
+                             "libelle": "Visite pour un devis (salle de bain, rénovation)", "carte": "Salle de bain (devis)", "icone": "🛁", "rappel": "Projet salle de bain" }
+    },
+    "contrats": {
+      "essentiel": { "nom": "Contrat Essentiel", "prix": 9,  "unite": "mois", "icone": "🔧",
+                     "description": "L'entretien annuel obligatoire, sans y penser",
+                     "avantages": ["Entretien annuel de la chaudière inclus", "Attestation d'entretien remise", "Rappel avant chaque échéance", "Sans engagement"] },
+      "confort":   { "nom": "Contrat Confort",   "prix": 15, "unite": "mois", "icone": "🛡️", "badge": "Le plus choisi",
+                     "description": "Entretien et priorité en cas d'urgence",
+                     "avantages": ["Entretien annuel de la chaudière inclus", "Intervention prioritaire en cas de panne", "Déplacement offert sur les dépannages", "10 % de remise sur les pièces", "Sans engagement"] }
+    },
+    "paiement": {
+      "moyens": ["Carte bancaire", "Virement", "Espèces"],
+      "moment": "Après l'intervention, sur facture"
+    },
+    "resiliation": "Sans engagement : résiliable à tout moment, effet à la fin du mois en cours, sans préavis ni frais.",
+    "reservation": {
+      "_doc": "Créneaux proposés à la réservation. Les services avec un « libelle » sont réservables en ligne, dans cet ordre.",
+      "maxParJour": 4,
+      "maxJoursAvance": 60,
+      "periodes": {
+        "matin":     { "label": "🌅 Matin",      "creneaux": ["8h00 – 10h00", "10h00 – 12h00"] },
+        "apresmidi": { "label": "☀️ Après-midi", "creneaux": ["14h00 – 16h00", "16h00 – 18h00"] }
+      },
+      "semaine": ["matin", "apresmidi"],
+      "weekend": ["matin"],
+      "rappelAutres": ["Urgence", "Autre"]
+    }
+  },
+
+  "accueil": {
+    "title": "Plombier chauffagiste à domicile {regionEn} | {marque}",
+    "description": "Plombier chauffagiste {departementEn} : fuite d'eau, canalisation bouchée, chauffe-eau, entretien de chaudière. Devis avant travaux, paiement après l'intervention.",
+    "ogDescription": "Plombier chauffagiste à domicile {departementEn} : fuite, débouchage, chauffe-eau, chaudière. Prix annoncé avant de commencer.",
+    "h1": "Une fuite, un chauffe-eau en panne ? <br> {prenom} intervient chez vous rapidement.",
+    "lede": "Un artisan qui explique ce qu'il fait et laisse la place propre. <strong>Prix annoncé avant, paiement après l'intervention.</strong>",
+    "tuilesTitre": "Quel est votre besoin ?",
+    "tuiles": [
+      { "service": "fuite",              "titre": "J'ai une fuite d'eau" },
+      { "service": "debouchage",         "titre": "Évier, douche ou WC bouché" },
+      { "service": "chauffeEau",         "titre": "Plus d'eau chaude" },
+      { "service": "sanitaires",         "titre": "Robinet ou chasse d'eau qui fuit" },
+      { "service": "entretienChaudiere", "titre": "Entretien annuel de la chaudière" },
+      { "service": "salleDeBain",        "titre": "Un projet de salle de bain" }
+    ],
+    "tarifsTitre": "Des prix clairs, déplacement inclus",
+    "tarifsSous": "Le prix est confirmé avec vous avant de commencer. Vous payez après, par carte, virement ou espèces.",
+    "forfaits": [
+      { "cle": "deplacement",    "desc": "Je viens, je trouve la cause et je vous remets un devis. Déduit si vous acceptez les travaux." },
+      { "cle": "intervention1h", "desc": "La plupart des réparations : fuite, joint, mécanisme de chasse d'eau, robinet.", "badge": "Le plus fréquent" },
+      { "cle": "intervention2h", "desc": "Remplacement d'un équipement simple : mitigeur, WC, groupe de sécurité." }
+    ],
+    "noteForfaits": "Heure supplémentaire : <strong>{depannage.heureSup.prix}/h</strong> · Les pièces sont indiquées sur le devis avant les travaux.",
+    "autresOffres": [
+      { "titre": "Contrats d'entretien", "texte": "Entretien annuel de la chaudière dès {contrats.essentiel.prix}/mois, sans engagement", "lien": "contrats.html", "action": "Voir les contrats →" }
+    ],
+    "valeurs": [
+      ["🎯", "Prix annoncé avant", "Vous connaissez le prix avant que je commence. Rien de plus."],
+      ["🧽", "Chantier propre", "Je protège le sol et je repars avec mes déchets."],
+      ["💳", "Paiement après", "Vous payez une fois l'intervention terminée. Aucun acompte pour un dépannage."]
+    ],
+    "faq": [
+      { "q": "Combien coûte un dépannage ?", "r": "Le déplacement et le diagnostic coûtent {depannage.deplacement.prix}. Une réparation courante tient en une heure ({depannage.intervention1h.prix}, déplacement compris). Le prix est toujours annoncé avant de commencer." },
+      { "q": "Intervenez-vous en urgence ?", "r": "Oui, pour une fuite importante ou une panne d'eau chaude : appelez directement le {telephone}. En attendant, coupez l'arrivée d'eau au compteur." },
+      { "q": "Comment se passe le paiement ?", "r": "Après l'intervention, sur facture : carte bancaire, virement ou espèces. Pour des travaux importants, un devis signé est demandé avant de commencer." },
+      { "q": "L'entretien de la chaudière est-il obligatoire ?", "r": "Oui, une fois par an pour les chaudières gaz, fioul et bois. Je vous remets l'attestation d'entretien à la fin de la visite." }
+    ],
+    "process": [
+      ["Vous appelez ou réservez", "Par téléphone, en ligne, ou en demandant à être rappelé. Vous décrivez le problème avec vos mots."],
+      ["{prenom} confirme", "Il vous rappelle pour confirmer le créneau et le prix. Pour une urgence, il vous donne les gestes à faire en attendant."],
+      ["Intervention chez vous", "Il répare, vous montre ce qui a été fait, et vous payez après."]
+    ],
+    "pied": "Plombier chauffagiste à domicile",
+    "whatsapp": "Bonjour {prenom}, j'ai besoin d'un plombier."
+  },
+
+  "servicesPages": {
+    "fuite": {
+      "fichier": "service-recherche-fuite.html",
+      "titre": "Recherche et réparation de fuite d'eau",
+      "description": "Fuite sous l'évier, au plafond ou au compteur : recherche de la fuite et réparation à domicile, prix annoncé avant.",
+      "intro": "Une tache au plafond, un compteur qui tourne alors que tout est fermé, une flaque sous l'évier : plus une fuite est traitée tôt, moins elle coûte. Je cherche l'origine, je répare et je vous explique ce qui s'est passé.",
+      "sections": [
+        { "titre": "Les fuites les plus fréquentes", "texte": "Raccord desserré sous un évier, joint de robinet usé, flexible de douche fendu, groupe de sécurité du chauffe-eau qui goutte, canalisation encastrée percée. La plupart se réparent en moins d'une heure." },
+        { "titre": "Les bons gestes en attendant", "texte": "Coupez l'arrivée d'eau au compteur ou à la vanne la plus proche, épongez, et si l'eau approche d'une prise ou d'un appareil électrique, coupez le disjoncteur concerné. Prenez une photo : elle sera utile pour votre assurance." },
+        { "titre": "Et pour l'assurance ?", "texte": "Je vous remets une facture détaillée qui indique l'origine de la fuite et la réparation faite. En cas de dégât chez un voisin, elle accompagne le constat amiable de dégât des eaux." }
+      ]
+    },
+    "debouchage": {
+      "fichier": "service-debouchage.html",
+      "titre": "Débouchage d'évier, de douche et de WC",
+      "description": "Évier, douche, baignoire ou WC bouché : débouchage manuel ou au furet à domicile, sans produits agressifs, prix annoncé avant.",
+      "intro": "L'eau qui stagne, une mauvaise odeur, un gargouillis : le bouchon se forme souvent loin de la bonde. Je débouche au furet ou à la pompe, sans produits qui abîment les canalisations.",
+      "sections": [
+        { "titre": "Ce que je débouche", "texte": "Éviers et lavabos (graisses, résidus), douches et baignoires (cheveux, savon), WC (papier, objets tombés), et les évacuations communes jusqu'au regard extérieur quand il est accessible." },
+        { "titre": "Éviter que ça revienne", "texte": "Une grille sur la bonde de douche, pas de graisse de cuisson dans l'évier, et un nettoyage du siphon deux fois par an suffisent à éviter la plupart des bouchons. Je vous montre comment faire." }
+      ]
+    },
+    "chauffeEau": {
+      "fichier": "service-chauffe-eau.html",
+      "titre": "Dépannage et remplacement de chauffe-eau",
+      "description": "Plus d'eau chaude, ballon qui fuit ou disjoncte : dépannage de chauffe-eau électrique et remplacement sur devis.",
+      "intro": "Plus d'eau chaude du jour au lendemain, un ballon qui goutte ou qui fait sauter le disjoncteur : je trouve la cause (thermostat, résistance, groupe de sécurité) et je répare quand c'est possible.",
+      "sections": [
+        { "titre": "Réparer ou remplacer ?", "texte": "Un thermostat ou une résistance se changent pour un coût bien inférieur à un ballon neuf. Si la cuve fuit ou si l'appareil a plus de 12 à 15 ans, je vous propose un remplacement avec un devis détaillé, sans engagement." },
+        { "titre": "Entretenir son chauffe-eau", "texte": "Actionner le groupe de sécurité une fois par mois et faire détartrer le ballon tous les deux ou trois ans en zone calcaire prolongent nettement sa durée de vie." }
+      ]
+    },
+    "sanitaires": {
+      "fichier": "service-sanitaires.html",
+      "titre": "WC, robinetterie et sanitaires",
+      "description": "Chasse d'eau qui coule, robinet qui goutte, mitigeur à changer, WC à remplacer : réparation et pose à domicile.",
+      "intro": "Une chasse d'eau qui coule en continu peut consommer plusieurs dizaines de litres par jour. Je répare ou remplace mécanismes, robinets, mitigeurs et WC, avec du matériel que je vous montre avant la pose.",
+      "sections": [
+        { "titre": "Réparations courantes", "texte": "Mécanisme de chasse d'eau, flotteur, joint de robinet, cartouche de mitigeur, flexible, siphon. Je garde les pièces les plus courantes dans le véhicule pour réparer dès le premier passage." },
+        { "titre": "Remplacement et pose", "texte": "WC classique ou suspendu, lavabo, mitigeur thermostatique de douche : je vous conseille un modèle adapté à votre budget et je reprends l'ancien." }
+      ]
+    },
+    "entretienChaudiere": {
+      "fichier": "service-entretien-chaudiere.html",
+      "titre": "Entretien annuel de chaudière gaz",
+      "description": "Entretien annuel obligatoire de chaudière gaz : nettoyage, contrôle de sécurité et attestation d'entretien remise.",
+      "intro": "L'entretien annuel de la chaudière est obligatoire. Il garde l'appareil sûr, limite la consommation et vous est souvent demandé par votre assureur ou votre propriétaire.",
+      "sections": [
+        { "titre": "Ce que comprend la visite", "texte": "Nettoyage du corps de chauffe et du brûleur, contrôle des organes de sécurité, mesure du monoxyde de carbone, vérification de l'évacuation des fumées et réglages. Comptez environ une heure." },
+        { "titre": "L'attestation d'entretien", "texte": "Je vous la remets à la fin de la visite. Gardez-la deux ans : elle peut vous être demandée par votre assurance en cas de sinistre." },
+        { "titre": "Ne plus y penser", "texte": "Avec un contrat d'entretien, la visite annuelle est incluse et je vous rappelle avant l'échéance." }
+      ]
+    },
+    "salleDeBain": {
+      "fichier": "service-salle-de-bain.html",
+      "titre": "Rénovation de salle de bain",
+      "description": "Remplacement d'une baignoire par une douche, salle de bain adaptée aux seniors, rénovation complète : visite et devis gratuits.",
+      "intro": "Remplacer une baignoire par une douche de plain-pied, adapter la salle de bain à une personne âgée, tout refaire : je viens voir la pièce, on en parle, et je vous remets un devis détaillé.",
+      "sections": [
+        { "titre": "Comment se passe un projet", "texte": "Une visite pour prendre les mesures et comprendre vos besoins, un devis écrit avec le détail des travaux et du matériel, puis une date de chantier fixée ensemble. Rien ne commence sans devis signé." },
+        { "titre": "Salle de bain adaptée", "texte": "Douche à l'italienne, barres d'appui, WC surélevé, mitigeur thermostatique : des aménagements simples qui permettent de rester chez soi en sécurité." }
+      ]
+    }
+  },
+
+  "villes": {
+    "prefixe": "plombier",
+    "titreVille": "Plombier à {ville}",
+    "h1Ville": "Plombier chauffagiste à {ville}",
+    "descriptionVille": "Plombier chauffagiste à {ville} ({cp}) : fuite, débouchage, chauffe-eau, entretien de chaudière. Prix annoncé avant, paiement après.",
+    "introVille": "J'interviens à {ville} et dans les communes voisines pour les urgences comme pour l'entretien : fuite d'eau, canalisation bouchée, chauffe-eau en panne, entretien annuel de la chaudière.",
+    "serviceVille": "Plomberie et chauffage à domicile à {ville}",
+    "serviceType": "Plomberie et chauffage",
+    "titreCartes": "Les interventions les plus demandées à {ville}",
+    "cartes": [
+      ["Fuite d'eau", "Recherche de fuite, raccords, joints, flexibles, canalisations."],
+      ["Canalisation bouchée", "Évier, douche, baignoire, WC : débouchage au furet."],
+      ["Chauffe-eau", "Plus d'eau chaude, fuite, disjonction : dépannage ou remplacement."],
+      ["Sanitaires", "Chasse d'eau, robinet, mitigeur, WC à remplacer."],
+      ["Chaudière", "Entretien annuel obligatoire et attestation remise."],
+      ["Salle de bain", "Douche de plain-pied, adaptation seniors, rénovation sur devis."]
+    ],
+    "forfaits": [
+      ["deplacement", "je viens, je trouve la cause et je vous remets un devis."],
+      ["intervention1h", "la plupart des réparations courantes."],
+      ["intervention2h", "remplacement d'un équipement simple."]
+    ],
+    "rdvService": "Recherche et réparation de fuite",
+    "titreDepartement": "Plombier {departementEn} ({code})",
+    "h1Departement": "Plombier chauffagiste {departementEn}",
+    "descriptionDepartement": "Plombier chauffagiste à domicile {departementEn} : {villes}… Prix annoncé avant, paiement après.",
+    "serviceDepartement": "Plomberie et chauffage à domicile {departementEn}",
+    "titreProcess": "Comment se passe une intervention"
+  },
+
+  "equipements": {
+    "onglet": "Mes équipements",
+    "titre": "Le carnet d'entretien de vos équipements",
+    "aide": "Notez vos équipements (chaudière, chauffe-eau, adoucisseur…), leur date d'achat et leur garantie. {prenom} les retrouve avant chaque intervention.",
+    "ajouter": "Ajouter un équipement",
+    "types": [
+      ["chaudiere", "🔥", "Chaudière"],
+      ["chauffe-eau", "🚿", "Chauffe-eau"],
+      ["adoucisseur", "💧", "Adoucisseur"],
+      ["pompe-a-chaleur", "🌡️", "Pompe à chaleur"],
+      ["robinetterie", "🚰", "Robinetterie"],
+      ["autre", "🔧", "Autre"]
+    ],
+    "marquePlaceholder": "Saunier Duval, Atlantic…",
+    "systemeLabel": "Énergie",
+    "systemePlaceholder": "Gaz, électrique, fioul…"
+  },
+
+  "contratsPage": {
+    "titre": "Choisissez votre contrat d'entretien",
+    "sous": "L'entretien annuel de votre chaudière, et un plombier prioritaire en cas de panne. Sans engagement, résiliable à tout moment.",
+    "faq": [
+      { "q": "Que comprend l'entretien annuel ?", "r": "Le nettoyage de la chaudière, le contrôle des organes de sécurité, la mesure du monoxyde de carbone et la remise de l'attestation d'entretien." },
+      { "q": "Y a-t-il un engagement minimum ?", "r": "Non. Vous pouvez résilier à tout moment par simple email, sans préavis : le contrat s'arrête à la fin du mois en cours." },
+      { "q": "Comment suivre ma demande ?", "r": "Après l'envoi du formulaire, {prenom} vous recontacte pour fixer la première visite. Si vous créez un espace client, votre contrat y apparaît aussi." }
+    ]
+  },
+
+  "conseils": [
+    "Repérez dès aujourd'hui où se trouve le robinet d'arrêt général : en cas de fuite, c'est le premier geste.",
+    "Actionnez le groupe de sécurité de votre chauffe-eau une fois par mois : il évite les surpressions et prolonge la vie du ballon.",
+    "Une chasse d'eau qui coule en continu peut gaspiller plusieurs dizaines de litres par jour : un mécanisme se change en moins d'une heure.",
+    "Pas de graisse de cuisson dans l'évier : laissée refroidir, elle se jette à la poubelle et ne bouche pas les canalisations.",
+    "Notez votre chaudière et votre chauffe-eau dans « Mes équipements » : {prenom} arrive avec les bonnes pièces."
+  ],
+
+  "cgvServices": [
+    "Recherche et réparation de fuites d'eau",
+    "Débouchage de canalisations",
+    "Dépannage, entretien et remplacement de chauffe-eau",
+    "Réparation et pose de WC, robinetterie et sanitaires",
+    "Entretien annuel de chaudières gaz",
+    "Rénovation de salles de bain, sur devis",
+    "Contrats d'entretien mensuels"
+  ],
+
+  "remplacements": [
+    ["PC ne démarre plus, virus actif, données en danger…", "Fuite importante, plus d'eau chaude, WC bouché…"],
+    ["pour un dépannage informatique à domicile, une assistance réseau ou une prestation web", "pour un dépannage de plomberie ou de chauffage à domicile"],
+    ["le suivi de vos réservations informatiques", "le suivi de vos rendez-vous"],
+    ["Dépannage, Wi-Fi, installation…", "Fuite, débouchage, chauffe-eau…"],
+    ["Assistance informatique à domicile dès", "Entretien de chaudière dès"],
+    ["💻</span> Mes appareils", "🔧</span> Mes équipements"],
+    ["💻</span><strong>Mes appareils</strong><small>Le carnet de santé de votre matériel</small>", "🔧</span><strong>Mes équipements</strong><small>Le carnet d'entretien de vos équipements</small>"],
+    ["💻</span> Le carnet de santé de vos appareils", "🔧</span> Le carnet d'entretien de vos équipements"],
+    ["Aucun appareil enregistré. Ajoutez votre ordinateur, votre box ou votre imprimante.", "Aucun équipement enregistré. Ajoutez votre chaudière, votre chauffe-eau ou votre adoucisseur."],
+    ["Appareil enregistré.", "Équipement enregistré."],
+    ["Supprimer cet appareil de votre carnet ?", "Supprimer cet équipement de votre carnet ?"],
+    ["Modifier l’appareil", "Modifier l’équipement"],
+    [">Appareil${currentAppareils", ">Équipement${currentAppareils"],
+    ["Ajouter un appareil", "Ajouter un équipement"],
+    ["Dépannage informatique à domicile", "Plomberie et chauffage à domicile"],
+    ["Technicien informatique à domicile", "Plombier chauffagiste à domicile"],
+    ["technicien informatique", "plombier chauffagiste"],
+    ["Technicien informatique", "Plombier chauffagiste"],
+    ["Dépannage informatique", "Dépannage plomberie"],
+    ["dépannage informatique", "dépannage de plomberie"],
+    ["assistance informatique", "plomberie"],
+    ["Assistance informatique", "Plomberie"],
+    ["j%27ai%20besoin%20d%27aide%20pour%20mon%20PC.", "j%27ai%20besoin%20d%27un%20plombier."],
+    ["je%20souhaite%20un%20renseignement%20sur%20vos%20services%20informatiques.", "je%20souhaite%20un%20renseignement."]
+  ]
+}

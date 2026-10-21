@@ -10,18 +10,23 @@ import { formatDateLong } from '../core/ui.js';
 import { promptInput } from '../core/prompt.js';
 import { esc, attr, jsArg } from '../core/escape.js';
 
+// kit:services-admin (suggestions du champ « Service », générées depuis tarifs.json)
 const SERVICES = [
-  'Dépannage informatique',
-  'Installation / Configuration PC',
-  'Récupération de données',
-  'Installation réseau & Wi-Fi',
-  'Formation informatique',
-  'Sauvegardes & Sécurité',
-  'Audit sécurité TPE',
-  'Intervention ponctuelle Pro',
-  'Maintenance contrat Pro',
-  'Intégration / Développement web',
+  "Dépannage PC",
+  "Installation Windows et logiciels",
+  "Réseau Wi-Fi",
+  "Récupération de données",
+  "Sauvegarde et sécurité",
+  "Formation et accompagnement",
+  "Intégration / Développement web",
+  "Intervention ponctuelle (pro)",
+  "Pack installation poste (pro)",
+  "Audit sécurité TPE (pro)",
+  "Pro Essentiel",
+  "Pro Confort",
+  "Pro Premium",
 ];
+// /kit:services-admin
 
 // ID en cours d'édition (null = création)
 let _editingRdvId = null;

@@ -18,8 +18,10 @@ const db = admin.firestore();
 const RESEND_API_KEY = defineSecret('RESEND_API_KEY');
 const ENFORCE_APP_CHECK = false; // à passer à true avec booking.js (TODO-MANUEL.md, S6)
 const MAX_PAR_IP_JOUR = 3;
-const BESOINS = ['Dépannage PC', 'Réseau Wi-Fi', 'Sauvegarde et sécurité', 'Récupération de données',
-  'Installation Windows et logiciels', 'Formation et accompagnement', 'Site web / devis', 'Autre'];
+const TARIFS = require('./tarifs.json');
+// Besoins acceptés : les services réservables de tarifs.json (champ « libelle »), plus les choix libres
+const BESOINS = [...Object.values(TARIFS.services || {}).filter((t) => t.libelle).map((t) => t.libelle),
+  ...(TARIFS.reservation?.rappelAutres || ['Autre'])];
 
 const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
