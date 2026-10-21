@@ -5,12 +5,22 @@
   "design": "clair",
   "identite": {
     "marque": "Clic & Répare",
-    "logo": { "debut": "Clic &", "accent": "Répare" },
+    "logo": {
+      "debut": "Clic &",
+      "accent": "Répare"
+    },
     "prenom": "Karim",
     "nom": "Benali",
     "nomComplet": "Karim Benali",
     "siret": "00000000000000",
-    "adresse": { "rue": "10 rue Exemple", "codePostal": "69003", "ville": "Lyon" }
+    "adresse": {
+      "rue": "10 rue Exemple",
+      "codePostal": "69003",
+      "ville": "Lyon"
+    },
+    "bio": "Technicien informatique depuis plusieurs années, j'interviens chez les particuliers et les petites entreprises de Lyon et des environs. Je prends le temps d'expliquer, sans jargon, ce qui s'est passé et comment l'éviter. (Texte d'exemple, client fictif.)",
+    "accroche": "Technicien informatique à domicile à Lyon.",
+    "experience": "technicien informatique expérimenté"
   },
   "contact": {
     "telephone": "06 00 00 00 00",
@@ -21,18 +31,107 @@
     "emailNewsletter": "newsletter@clic-repare.example",
     "emailAdmin": "karim@clic-repare.example"
   },
-  "site": { "domaine": "clic-repare.example" },
-  "zone": {
-    "pagesLocalesAGarder": [],
-    "_note": "Les pages locales de Makouez IT (93, villes, Paris, 92, 94, IDF) sont retirées ; celles du client seront générées à l'étape 3."
+  "site": {
+    "domaine": "clic-repare.example"
   },
-  "modules": { "portfolio": false, "offresWeb": false, "chatIA": false },
+  "zone": {
+    "region": "la métropole de Lyon",
+    "regionEn": "dans la métropole de Lyon",
+    "regionDe": "de la métropole de Lyon",
+    "regionLa": "la métropole de Lyon",
+    "departement": "Rhône",
+    "departementCode": "69",
+    "departementEn": "dans le Rhône",
+    "departementDe": "du Rhône",
+    "departementLe": "le Rhône",
+    "villeBase": "Lyon",
+    "phrasePriorite": "J'interviens en priorité à Lyon et dans les communes voisines. Choisissez votre ville :",
+    "surDemande": "Sur demande : le reste du Rhône, selon les créneaux disponibles.",
+    "delai": "généralement sous 24 h",
+    "horaires": "Du lundi au vendredi de 9 h à 19 h, le samedi de 10 h à 17 h.",
+    "villes": [
+      {
+        "nom": "Lyon",
+        "codePostal": "69001–69009",
+        "principale": true,
+        "quartiers": [
+          "Presqu'île",
+          "Croix-Rousse",
+          "Part-Dieu",
+          "Gerland",
+          "Monplaisir"
+        ],
+        "voisines": [
+          "Villeurbanne",
+          "Caluire-et-Cuire",
+          "Vénissieux"
+        ],
+        "intro": "Clic & Répare dépanne les ordinateurs, box et imprimantes chez les particuliers lyonnais, du studio de la Croix-Rousse à la maison de famille de Monplaisir. Exemple fictif de texte propre à la ville.",
+        "sections": [
+          {
+            "titre": "De la Croix-Rousse à Gerland",
+            "texte": "Texte d'exemple propre à la ville : le client y décrit les situations qu'il rencontre le plus à Lyon, les types de logements, ses délais habituels selon les arrondissements et ce qui le distingue. Ce paragraphe doit être écrit par le client ou avec lui, jamais copié d'une autre ville."
+          },
+          {
+            "titre": "Télétravail et étudiants",
+            "texte": "Deuxième paragraphe d'exemple : un public ou un usage fréquent dans cette ville, avec les problèmes typiques et la façon dont le technicien les résout. Deux paragraphes de ce type suffisent à rendre la page unique et à la publier dans le sitemap."
+          }
+        ]
+      },
+      {
+        "nom": "Villeurbanne",
+        "codePostal": "69100",
+        "voisines": [
+          "Lyon",
+          "Bron",
+          "Vaulx-en-Velin"
+        ]
+      },
+      {
+        "nom": "Vénissieux",
+        "codePostal": "69200",
+        "voisines": [
+          "Lyon",
+          "Saint-Fons",
+          "Bron"
+        ]
+      },
+      {
+        "nom": "Caluire-et-Cuire",
+        "codePostal": "69300",
+        "voisines": [
+          "Lyon",
+          "Rillieux-la-Pape"
+        ]
+      },
+      {
+        "nom": "Bron",
+        "codePostal": "69500",
+        "voisines": [
+          "Villeurbanne",
+          "Vénissieux",
+          "Lyon"
+        ]
+      }
+    ],
+    "pagesLocalesAGarder": []
+  },
+  "modules": {
+    "portfolio": false,
+    "offresWeb": false,
+    "chatIA": false
+  },
   "firebase": {
     "projectId": "clic-repare-demo",
     "apiKey": "A-RENSEIGNER",
     "messagingSenderId": "000000000000",
     "appId": "1:000000000000:web:0000000000000000"
   },
-  "integrations": { "ga4": "", "googleReviewUrl": "", "mapsApiKey": "", "appCheckSiteKey": "" },
+  "integrations": {
+    "ga4": "",
+    "googleReviewUrl": "",
+    "mapsApiKey": "",
+    "appCheckSiteKey": ""
+  },
   "tarifs": "tarifs.json"
 }
