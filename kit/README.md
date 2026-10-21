@@ -12,13 +12,15 @@ Le site est produit dans `dist/<slug>/` (dossier ignoré par git), avec un fichi
 
 Exemple fourni (client fictif) : `kit/config/demo-clic-repare.json`.
 
+Pour essayer un autre design sans toucher à la configuration : `node kit/build.mjs kit/config/<client>.json --design nuit` (sortie dans `dist/<slug>-nuit/`).
+
 ## La configuration d'un client
 
 | Bloc | Ce qu'il contient |
 | --- | --- |
 | `slug` | Nom technique du dossier (minuscules, chiffres, tirets) |
 | `metier` | `informatique` aujourd'hui ; le pack « services à domicile » arrive à l'étape 5 |
-| `design` | `clair` aujourd'hui ; `nuit` et `artisan` arrivent à l'étape 4 |
+| `design` | `clair` (d'origine), `nuit` (sombre, accent ambre) ou `artisan` (vert forêt, ocre, filets) |
 | `identite` | Marque, logo en deux parties (`debut`, `accent`), prénom, nom, SIRET, adresse, et la présentation du client : `bio` (paragraphe « À propos »), `accroche` (phrase des aperçus de partage), `experience` (pour l'assistant IA) |
 | `contact` | Téléphone (affiché et international), WhatsApp, emails (contact, facturation, newsletter, admin) |
 | `site.domaine` | Domaine du client (écrit aussi dans CNAME) |
@@ -57,7 +59,8 @@ Chaque ville de `villes` donne une page `depannage-informatique-<ville>.html` ; 
 3. Retire les pages locales de Makouez IT, les modules non souscrits et les liens qui y menaient ; filtre le sitemap.
 4. Génère les pages par ville et la page département, adapte le bloc « Zone d'intervention » de l'accueil, les données structurées, les suggestions d'adresse et l'assistant IA.
 5. Retire Noirland Music : code des 5 fonctions et règle de création Firestore.
-6. Écrit `CNAME`, `.firebaserc`, `tarifs.json` et le rapport.
+6. Applique le design choisi : palette transformée famille par famille (accent, neutres, action, alertes) en gardant les contrastes, polices, feuille de forme `theme-design.css`.
+7. Écrit `CNAME`, `.firebaserc`, `tarifs.json` et le rapport.
 
 ## Installer le site d'un client (procédure actuelle, à automatiser à l'étape 6)
 
@@ -75,7 +78,7 @@ Chaque ville de `villes` donne une page `depannage-informatique-<ville>.html` ; 
 | 1. Noirland hors du produit | Fait dans le kit (retrait à la génération) |
 | 2. Configuration unique | Fait : identité, contact, domaine, Firebase, intégrations, modules, tarifs |
 | 3. Générateur de pages | Fait : identité, présentation, textes de zone, pages par ville et page département, accueil, sitemap |
-| 4. Trois designs | À faire (passage des couleurs du site en variables de thème) |
+| 4. Trois designs | Fait : clair, nuit, artisan ; contraste vérifié sur les 29 pages publiques (WCAG AA), aucun débordement mobile. L'admin garde son propre thème |
 | 5. Pack « services à domicile » | À faire |
 | 6. Installation automatisée | À faire (procédure manuelle ci-dessus) |
 | 7. Vitrine commerciale | Démo publiée (3 designs, 3 métiers fictifs) |
