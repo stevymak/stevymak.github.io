@@ -20,6 +20,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { zoneConfig, zoneRemplacements, genererPages, adapterAccueil, adapterReservation, entreesSitemap } from './zone.mjs';
 
 const KIT = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(KIT, '..');
@@ -61,12 +62,22 @@ const PAGES_LOCALES = ['depannage-informatique-aubervilliers.html', 'depannage-i
   'depannage-informatique-seine-saint-denis-93.html', 'depannage-informatique-seine-saint-denis.html',
   'depannage-informatique-val-de-marne-94.html', 'depannage-pc-ile-de-france.html', 'depannage-pc-stains.html',
   'technicien-informatique-epinay-sur-seine.html', 'technicien-informatique-saint-denis.html'];
-const garder = new Set(CFG.zone?.pagesLocalesAGarder || []);
+const Z = zoneConfig(CFG); // null si le client n'a pas renseigné de villes
+const garder = new Set([...(CFG.zone?.pagesLocalesAGarder || []), ...(Z ? [Z.hub, ...Z.villes.map((v) => v.fichier)] : [])]);
 const retirees = PAGES_LOCALES.filter((p) => !garder.has(p));
 if (CFG.modules?.portfolio === false) retirees.push('portfolio.html');
 retirees.push('services-a-la-personne.html'); // page de redirection propre à makouezit.org
 for (const p of retirees) fs.rmSync(path.join(OUT, p), { force: true });
 if (CFG.modules?.offresWeb === false) fs.rmSync(path.join(OUT, 'offres-web.css'), { force: true });
+
+// ─── 2 bis. Pages locales du client (étape 3) ───────────────────────────────
+let pagesGenerees = [];
+if (Z) {
+  const gabarit = fs.readFileSync(path.join(ROOT, 'depannage-informatique-pierrefitte-sur-seine.html'), 'utf8');
+  const pages = genererPages(Z, CFG, gabarit, CFG.site.domaine);
+  for (const [f, contenu] of Object.entries(pages)) fs.writeFileSync(path.join(OUT, f), contenu);
+  pagesGenerees = Object.keys(pages);
+}
 
 // ─── 3. Table de remplacement (du plus spécifique au plus général) ──────────
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -76,6 +87,13 @@ const logoAccent = C.identite.logo.accent || '';
 const R = []; // [RegExp|string, remplacement]
 const add = (from, to) => { if (from && to != null) R.push([from, String(to)]); };
 
+// Textes de zone (« Seine-Saint-Denis », « Île-de-France »… → zone du client)
+if (Z) for (const [a, b] of zoneRemplacements(Z)) add(a, b);
+// Présentation personnelle (parcours de Stevy → texte du client)
+const id = C.identite;
+R.push([/Formé au dépannage informatique dès 2014[^<]*/g, id.bio || `${id.prenom} intervient à domicile pour les particuliers et les petites entreprises, avec des explications simples et un prix annoncé avant.`]);
+add('Technicien informatique en entreprise depuis 2018.', id.accroche || 'Technicien informatique à domicile.');
+add("technicien informatique avec 9 ans d'expérience", id.experience || 'technicien informatique');
 // Logos HTML (marque en deux couleurs)
 R.push([/Makouez ?<span( style="[^"]*")?>IT<\/span>/g, (m, st) => `${html(C.identite.logo.debut)}${logoAccent ? ` <span${st || ''}>${html(logoAccent)}</span>` : ''}`]);
 R.push([/Makouez<span>IT(?!<)/g, `${html(C.identite.logo.debut)}<span>${html(logoAccent)}`]);
@@ -130,6 +148,9 @@ for (const f of fichiers) {
   let t = fs.readFileSync(f, 'utf8');
   const avant = t;
   if (f.endsWith('.html')) t = nettoyerLiens(t);
+  if (Z && rel === 'index.html') t = adapterAccueil(t, Z);
+  if (Z && rel === 'makouez-it-rdv.html') t = adapterReservation(t, Z);
+  if (Z && rel === 'sitemap.xml') t = t.replace('</urlset>', entreesSitemap(Z, CFG.site.domaine, new Date().toISOString().slice(0, 10)) + '</urlset>');
   if (rel === 'sitemap.xml') t = t.replace(new RegExp(`\\s*<url><loc>[^<]*/(?:${retirees.map(esc).join('|')})</loc>[\\s\\S]*?</url>`, 'g'), '');
   t = remplacer(t);
   if (t !== avant) fs.writeFileSync(f, t);
@@ -181,6 +202,7 @@ const rapport = `# Rapport de génération — ${C.identite.marque}
 Généré le ${new Date().toISOString().slice(0, 10)} depuis makouezit.org (configuration \`${path.basename(cfgPath)}\`).
 
 - Pages retirées : ${retirees.length} (${retirees.join(', ')})
+- Pages locales générées : ${pagesGenerees.length}${pagesGenerees.length ? ` (${pagesGenerees.join(', ')})` : ' (renseigner zone.villes dans la configuration)'}${Z && Z.villes.some((v) => !v.complete) ? `\n- **Pages de ville à compléter** (en noindex et hors sitemap tant qu'il manque un texte propre : \`intro\` + au moins 2 \`sections\`) : ${Z.villes.filter((v) => !v.complete).map((v) => v.nom).join(', ')}` : ''}
 - Remplacements d'identité appliqués : ${R.length} règles
 - Fonctions Noirland Music retirées, règle Firestore Noirland désactivée
 
