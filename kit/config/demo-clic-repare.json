@@ -20,7 +20,8 @@
     },
     "bio": "Technicien informatique depuis plusieurs années, j'interviens chez les particuliers et les petites entreprises de Lyon et des environs. Je prends le temps d'expliquer, sans jargon, ce qui s'est passé et comment l'éviter. (Texte d'exemple, client fictif.)",
     "accroche": "Technicien informatique à domicile à Lyon.",
-    "experience": "technicien informatique expérimenté"
+    "experience": "technicien informatique expérimenté",
+    "badgeExperience": "Technicien depuis 2015"
   },
   "contact": {
     "telephone": "06 00 00 00 00",

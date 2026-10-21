@@ -20,6 +20,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { transformeur, DESIGNS_DISPONIBLES } from './themes.mjs';
 import { zoneConfig, zoneRemplacements, genererPages, adapterAccueil, adapterReservation, entreesSitemap } from './zone.mjs';
 
 const KIT = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +30,11 @@ if (!cfgPath) { console.error('Usage : node kit/build.mjs kit/config/<client>.js
 
 const SRC = JSON.parse(fs.readFileSync(path.join(KIT, 'config', 'source-makouez-it.json'), 'utf8'));
 const CFG = JSON.parse(fs.readFileSync(path.resolve(cfgPath), 'utf8'));
+// Option --design <nom> : essayer un autre design sans modifier la configuration
+const iDesign = process.argv.indexOf('--design');
+if (iDesign > 0) { CFG.design = process.argv[iDesign + 1]; CFG.slug = `${CFG.slug}-${CFG.design}`; }
+CFG.design = CFG.design || 'clair';
+if (!DESIGNS_DISPONIBLES.includes(CFG.design)) { console.error(`design inconnu : ${CFG.design} (${DESIGNS_DISPONIBLES.join(', ')})`); process.exit(1); }
 const OUT = path.join(ROOT, 'dist', CFG.slug);
 
 // ─── 0. Vérification de la configuration ────────────────────────────────────
@@ -93,10 +99,11 @@ if (Z) for (const [a, b] of zoneRemplacements(Z)) add(a, b);
 const id = C.identite;
 R.push([/Formé au dépannage informatique dès 2014[^<]*/g, id.bio || `${id.prenom} intervient à domicile pour les particuliers et les petites entreprises, avec des explications simples et un prix annoncé avant.`]);
 add('Technicien informatique en entreprise depuis 2018.', id.accroche || 'Technicien informatique à domicile.');
+add('<span aria-hidden="true">🏆</span> Technicien depuis 2018', `<span aria-hidden="true">🏆</span> ${html(id.badgeExperience || 'Technicien expérimenté')}`);
 add("technicien informatique avec 9 ans d'expérience", id.experience || 'technicien informatique');
 // Logos HTML (marque en deux couleurs)
-R.push([/Makouez ?<span( style="[^"]*")?>IT<\/span>/g, (m, st) => `${html(C.identite.logo.debut)}${logoAccent ? ` <span${st || ''}>${html(logoAccent)}</span>` : ''}`]);
-R.push([/Makouez<span>IT(?!<)/g, `${html(C.identite.logo.debut)}<span>${html(logoAccent)}`]);
+R.push([/Makouez ?<span( style="[^"]*")?>IT<\/span>/g, (m, st) => `${html(C.identite.logo.debut)}${logoAccent ? `${C.identite.logo.colle ? '' : '&nbsp;'}<span${st || ''}>${html(logoAccent)}</span>` : ''}`]);
+R.push([/Makouez<span>IT(?!<)/g, `${html(C.identite.logo.debut)}${C.identite.logo.colle ? '' : '&nbsp;'}<span>${html(logoAccent)}`]);
 // Personne
 add('Stevy Makouézi', C.identite.nomComplet);
 add(S.identite.nomComplet, C.identite.nomComplet);
@@ -156,6 +163,24 @@ for (const f of fichiers) {
   if (t !== avant) fs.writeFileSync(f, t);
 }
 
+// ─── 3 bis. Design (étape 4) ─────────────────────────────────────────────────
+const T = transformeur(CFG.design);
+if (T) {
+  const publics = fichiers.filter((f) => {
+    const rel = path.relative(OUT, f);
+    if (rel.includes(path.sep)) return false; // racine uniquement : pas d'admin/, functions/, vendor/
+    return /\.(html|css|js|json)$/.test(rel) && rel !== 'admin.html' && rel !== 'tarifs.json' && rel !== 'appcheck-config.js' && !T.exclus.includes(rel);
+  });
+  for (const f of publics) {
+    if (!fs.existsSync(f)) continue;
+    let t = fs.readFileSync(f, 'utf8');
+    t = T.appliquer(t);
+    if (f.endsWith('.html')) t = t.replace('</head>', '<link rel="stylesheet" href="/theme-design.css">\n</head>');
+    fs.writeFileSync(f, t);
+  }
+  fs.writeFileSync(path.join(OUT, 'theme-design.css'), T.forme);
+}
+
 // ─── 4. Noirland Music : hors produit ────────────────────────────────────────
 {
   // Retrait du code des fonctions Noirland (blocs « exports.noirland… » de legacy-v2.js)
@@ -203,6 +228,7 @@ Généré le ${new Date().toISOString().slice(0, 10)} depuis makouezit.org (conf
 
 - Pages retirées : ${retirees.length} (${retirees.join(', ')})
 - Pages locales générées : ${pagesGenerees.length}${pagesGenerees.length ? ` (${pagesGenerees.join(', ')})` : ' (renseigner zone.villes dans la configuration)'}${Z && Z.villes.some((v) => !v.complete) ? `\n- **Pages de ville à compléter** (en noindex et hors sitemap tant qu'il manque un texte propre : \`intro\` + au moins 2 \`sections\`) : ${Z.villes.filter((v) => !v.complete).map((v) => v.nom).join(', ')}` : ''}
+- Design : ${CFG.design}
 - Remplacements d'identité appliqués : ${R.length} règles
 - Fonctions Noirland Music retirées, règle Firestore Noirland désactivée
 
