@@ -19,6 +19,7 @@ import { loadAll }            from '../modules/reservations.js';
 import { loadAvis,
          loadAvisEnAttente }  from '../modules/avis.js';
 import { loadContrats }       from '../modules/contrats.js';
+import { loadMessages }       from '../modules/messages.js';
 import { loadClientsMeta }    from '../modules/clients.js';
 import { loadDevis }          from '../modules/devis.js';
 import { loadFactures }       from '../modules/factures.js';
@@ -147,6 +148,7 @@ function enterDashboard(user) {
   loadCampagnes();
   loadFiches();
   loadAutomationSettings();
+  loadMessages();
 }
 
 // ─── Étape 1 : email + mot de passe ─────────────────────────────────────────

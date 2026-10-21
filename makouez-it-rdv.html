@@ -15,7 +15,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
     import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
     import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
     import { initializeFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
     import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js";
 
@@ -41,6 +41,7 @@
     window._createUserWithEmailAndPassword = createUserWithEmailAndPassword;
     window._signInWithEmailAndPassword     = signInWithEmailAndPassword;
     window._updateProfile         = updateProfile;
+    window._sendEmailVerification = (u) => { auth.languageCode = 'fr'; return sendEmailVerification(u, { url: 'https://makouezit.org/mon-rdv.html' }); };
     window._db                    = db;
     const withTimeout = (p, ms = 12000) => Promise.race([
       p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('timeout'), { code: 'timeout' })), ms))
@@ -273,6 +274,7 @@
 <meta property="og:image" content="https://makouezit.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Makouez IT – Réserver un rendez-vous", "description": "Réservez un rendez-vous Makouez IT pour un dépannage informatique à domicile, une assistance réseau ou une prestation web.", "url": "https://makouezit.org/makouez-it-rdv.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
+<script src="/client-bar.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu principal</a>
@@ -1054,6 +1056,7 @@ async function submitRDV() {
           const cred = await window._createUserWithEmailAndPassword(window._auth, email, password);
           user = cred.user;
           await window._updateProfile(user, { displayName: name });
+          try { await window._sendEmailVerification(user); } catch(e) { console.warn(e); }
         } catch(createErr) {
           if (createErr?.code === 'auth/email-already-in-use') {
             const cred = await window._signInWithEmailAndPassword(window._auth, email, password);
@@ -1082,6 +1085,7 @@ async function submitRDV() {
       acceptCgv:   document.getElementById('cgvRdv').checked,
     });
     const promoRefusee = !!window.activePromo && !result?.data?.promoApplique;
+    if (user || window._auth.currentUser) { try { localStorage.setItem('mkClient', JSON.stringify({ prenom: name.split(' ')[0], t: Date.now() })); } catch(e){} }
 
     reservationCounts[selectedDate] = (reservationCounts[selectedDate] || 0) + 1;
 
@@ -1176,5 +1180,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
+<script>
+// Pré-remplissage depuis le profil de l'espace client (enregistré à la connexion, effacé à la déconnexion)
+(function(){ var p; try { p = JSON.parse(localStorage.getItem('mkClientForm') || 'null'); } catch(e) {}
+  if (!p) return;
+  var map = {fname:"nom",fphone:"telephone",femail:"email",faddress:"adresse"};
+  Object.keys(map).forEach(function(id){ var el = document.getElementById(id); var v = p[map[id]]; if (el && v && !el.value) el.value = v; });
+})();
+</script>
 </body>
 </html>

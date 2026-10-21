@@ -19,6 +19,7 @@ import './modules/devis.js';
 import './modules/factures.js';
 import './modules/communications.js';
 import './modules/finance.js';
+import './modules/messages.js';
 import { bootAuth } from './core/auth-guard.js';
 
 bootAuth();

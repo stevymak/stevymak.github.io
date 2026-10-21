@@ -64,6 +64,7 @@ export const ROUTE_TITLES = {
   communications: 'Communications',
   finance:        'Finance',
   avis:           'Avis',
+  messages:       'Messages',
 };
 
 export const TEMPLATE_KINDS = {

@@ -11,3 +11,6 @@ Object.assign(exports, booking);
 Object.assign(exports, require('./unsubscribe').functions);
 // Demande de rappel depuis l'accueil — lot 4 de l'audit.
 Object.assign(exports, require('./callback'));
+// Espace client : rattachement des demandes au compte, préférences d'emails (21/10/2026).
+const { _test: _clientTest, ...client } = require('./client');
+Object.assign(exports, client);

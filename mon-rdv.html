@@ -148,6 +148,41 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
   .greeting-bar{flex-direction:column;align-items:flex-start}.edit-row{grid-template-columns:1fr}
   .contact-methods-grid{grid-template-columns:1fr 1fr}.ci-grid{grid-template-columns:1fr}
 }
+/* ── Espace client v2 (21/10/2026) ── */
+:root{--border:#dbe3ef;--card:#f8fafc}
+nav{background:rgba(255,255,255,0.95)!important}
+.verify-banner{background:#fffbeb;border:1px solid #fcd34d;color:#92400e;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;font-size:.95rem}
+.verify-banner[hidden]{display:none}
+.verify-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn-sm,.btn-logout,.btn-resilier,.tab-btn-main{min-height:44px}
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-bottom:2rem}
+.quick-card{display:flex;flex-direction:column;gap:.2rem;text-align:left;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;color:var(--text);font:inherit;cursor:pointer;min-height:72px}
+.quick-card:hover{border-color:#3b82f6}
+.quick-card span{font-size:1.4rem}.quick-card strong{font-size:1rem}.quick-card small{color:var(--muted);font-size:.9rem}
+.tip-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1rem 1.25rem;font-size:.95rem;color:#1e3a8a}
+.tip-box:empty{display:none}
+.doc-list{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem}
+.doc-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between}
+.doc-card h4{font-size:1rem;margin:0}.doc-card .doc-meta{color:var(--muted);font-size:.9rem}
+.doc-card .doc-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.85rem;font-weight:600;border:1px solid}
+.pill.ok{background:#22c55e15;color:#15803d;border-color:#22c55e40}.pill.wait{background:#f9731615;color:#c2410c;border-color:#f9731640}.pill.off{background:#f1f5f9;color:#475569;border-color:#cbd5e1}
+.profile-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem}
+.check-row{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;cursor:pointer;margin:.25rem 0}
+.check-row input{width:22px;height:22px;flex-shrink:0;margin-top:2px;accent-color:#2563eb}
+.sec-details{border-top:1px solid var(--border);padding:.75rem 0}
+.sec-details summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+.sec-details[open] summary{margin-bottom:.75rem}
+.compte-rendu{margin-top:.6rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.6rem .8rem;font-size:.92rem;white-space:pre-line;color:#14532d}
+.magic-sep{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0 1rem;color:var(--muted);font-size:.9rem}
+.magic-sep::before,.magic-sep::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-magic{background:#fff;color:#1d4ed8;border:2px solid #bfdbfe}
+.field label{text-transform:none;letter-spacing:0}
+button.sum-card{font:inherit;text-align:left;cursor:pointer;color:inherit;width:100%}
+.modal{max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);overflow-y:auto}
+.modal-overlay{z-index:1100}
+.toast{z-index:1200}
+@media(max-width:768px){.toast{bottom:4.75rem;right:1rem;left:1rem}}
 </style>
 <link rel="stylesheet" href="/theme-clair.css">
 <link rel="stylesheet" href="/a11y.css">
@@ -171,12 +206,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
     </div>
     <div class="login-card">
       <h2>Connexion</h2>
-      <p>Connectez-vous avec l'email et le mot de passe de votre compte client. Si vous avez fait une demande sans créer de compte, Stevy vous recontactera directement par email ou téléphone.</p>
+      <p>Connectez-vous avec votre email et votre mot de passe, ou recevez un lien de connexion par email. Vos rendez-vous, contrats et factures faits avec la même adresse apparaissent automatiquement.</p>
       <div class="error-msg" id="error-msg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="error-text">Email ou mot de passe incorrect.</span></div>
       <div class="field"><label>Adresse email</label><input type="email" id="input-email" placeholder="votre@email.com" autocomplete="off"></div>
       <div class="field"><label>Mot de passe</label><div class="field-password"><input type="password" id="input-password" placeholder="••••••••" autocomplete="off"><button class="toggle-pw" aria-label="Afficher ou masquer le mot de passe" type="button" onclick="togglePassword()"><svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <div class="link-forgot"><a href="#" onclick="showResetView(event)">Mot de passe oublié ?</a></div>
       <button class="btn-login" id="btn-login" onclick="doLogin()"><span id="btn-login-text">Accéder à mon espace →</span></button>
+      <div class="magic-sep"><span>ou</span></div>
+      <button class="btn-login btn-magic" type="button" id="btn-magic" onclick="sendMagicLink()"><span id="btn-magic-text">✉️ Recevoir un lien de connexion par email</span></button>
+      <p class="field-hint" style="text-align:center;margin-top:0.5rem">Sans mot de passe. Idéal si vous avez fait une demande sans créer de compte : le lien crée votre espace et y relie vos demandes.</p>
+      <div class="success-msg" id="magic-success-msg"><span>Lien envoyé ! Ouvrez l'email sur cet appareil et cliquez sur le lien.</span></div>
       <div class="login-hint">Pas encore de compte ? <a href="makouez-it-rdv.html">Prendre un RDV</a> ou <a href="contrats.html">demander un contrat</a>.</div>
     </div>
   </div>
@@ -208,15 +247,42 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <button class="btn-logout" onclick="doLogout()">Se déconnecter</button>
     </div>
 
+    <!-- Bandeau : adresse email à confirmer -->
+    <div class="verify-banner" id="verifyBanner" hidden>
+      <div><strong>Confirmez votre adresse email</strong> pour relier automatiquement à votre espace toutes vos demandes faites avec cette adresse (rendez-vous, contrats, factures).</div>
+      <div class="verify-actions"><button class="btn-sm primary" id="btnSendVerify" type="button" onclick="sendVerify()">Recevoir le lien de confirmation</button><button class="btn-sm" type="button" onclick="recheckVerify()">J'ai confirmé</button></div>
+    </div>
+
     <!-- Navigation onglets -->
-    <div class="tabs-nav-main">
-      <button class="tab-btn-main active" onclick="switchMainTab('rdv',this)"><span aria-hidden="true">📅</span> Mes rendez-vous</button>
-      <button class="tab-btn-main" onclick="switchMainTab('contrats',this)"><span aria-hidden="true">📄</span> Mes contrats</button>
-      <button class="tab-btn-main" onclick="switchMainTab('contact',this)"><span aria-hidden="true">✉️</span> Contacter Stevy</button>
+    <div class="tabs-nav-main" role="tablist" aria-label="Rubriques de mon espace">
+      <button class="tab-btn-main active" data-tab="accueil" onclick="switchMainTab('accueil',this)"><span aria-hidden="true">🏠</span> Accueil</button>
+      <button class="tab-btn-main" data-tab="rdv" onclick="switchMainTab('rdv',this)"><span aria-hidden="true">📅</span> Rendez-vous</button>
+      <button class="tab-btn-main" data-tab="contrats" onclick="switchMainTab('contrats',this)"><span aria-hidden="true">📄</span> Contrats</button>
+      <button class="tab-btn-main" data-tab="factures" onclick="switchMainTab('factures',this)"><span aria-hidden="true">🧾</span> Factures et devis</button>
+      <button class="tab-btn-main" data-tab="appareils" onclick="switchMainTab('appareils',this)"><span aria-hidden="true">💻</span> Mes appareils</button>
+      <button class="tab-btn-main" data-tab="profil" onclick="switchMainTab('profil',this)"><span aria-hidden="true">👤</span> Mon profil</button>
+      <button class="tab-btn-main" data-tab="contact" onclick="switchMainTab('contact',this)"><span aria-hidden="true">✉️</span> Aide et contact</button>
+    </div>
+
+    <!-- ── ONGLET ACCUEIL ── -->
+    <div class="tab-section active" id="tab-accueil">
+      <div class="summary-grid" id="home-summary"></div>
+      <div class="sec-title"><span aria-hidden="true">⏭️</span> Prochain rendez-vous</div>
+      <div id="home-next" class="rdv-list"></div>
+      <div class="sec-title"><span aria-hidden="true">⚡</span> Raccourcis</div>
+      <div class="quick-grid">
+        <a class="quick-card" href="makouez-it-rdv.html"><span aria-hidden="true">📅</span><strong>Réserver un créneau</strong><small>Dépannage, Wi-Fi, installation…</small></a>
+        <a class="quick-card" href="diagnostic.html"><span aria-hidden="true">🩺</span><strong>Diagnostic gratuit</strong><small>Identifier la panne en 2 minutes</small></a>
+        <button class="quick-card" type="button" onclick="goTab('appareils')"><span aria-hidden="true">💻</span><strong>Mes appareils</strong><small>Le carnet de santé de votre matériel</small></button>
+        <button class="quick-card" type="button" onclick="goTab('profil')"><span aria-hidden="true">👤</span><strong>Modifier mes informations</strong><small>Téléphone, adresse, préférences</small></button>
+        <a class="quick-card" href="tel:+33745103827"><span aria-hidden="true">📞</span><strong>Appeler Stevy</strong><small>07 45 10 38 27</small></a>
+        <a class="quick-card" href="https://g.page/r/Cc_MkTWnr_xGEAE/review" target="_blank" rel="noopener"><span aria-hidden="true">⭐</span><strong>Laisser un avis Google</strong><small>1 minute, ça aide énormément</small></a>
+      </div>
+      <div class="tip-box" id="home-tip"></div>
     </div>
 
     <!-- ── ONGLET RDV ── -->
-    <div class="tab-section active" id="tab-rdv">
+    <div class="tab-section" id="tab-rdv">
       <div class="summary-grid" id="summary-grid"></div>
       <div class="sec-title"><span aria-hidden="true">📅</span> Rendez-vous à venir <span id="count-upcoming"></span></div>
       <div class="rdv-list" id="list-upcoming"></div>
@@ -233,6 +299,77 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
       <div style="margin-top:1.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
         <div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.2rem">Vous souhaitez souscrire à un contrat ?</div><div style="color:var(--muted);font-size:0.9rem">Assistance informatique à domicile dès <span data-tarif="contrats.senior.prix">55&nbsp;€</span>/mois, sans engagement</div></div>
         <a href="contrats.html" class="btn-new-rdv" style="white-space:nowrap">Voir nos contrats →</a>
+      </div>
+    </div>
+
+    <!-- ── ONGLET FACTURES ET DEVIS ── -->
+    <div class="tab-section" id="tab-factures">
+      <div class="sec-title"><span aria-hidden="true">🧾</span> Mes factures <span id="count-factures"></span></div>
+      <div id="list-factures" class="doc-list"></div>
+      <div class="sec-title" style="margin-top:2rem"><span aria-hidden="true">📝</span> Mes devis <span id="count-devis"></span></div>
+      <div id="list-devis" class="doc-list"></div>
+      <p class="field-hint" style="margin-top:1rem">Les factures et devis apparaissent ici lorsqu'ils sont établis à l'adresse email de votre compte, une fois celle-ci confirmée.</p>
+    </div>
+
+    <!-- ── ONGLET APPAREILS (carnet de santé) ── -->
+    <div class="tab-section" id="tab-appareils">
+      <div class="sec-title"><span aria-hidden="true">💻</span> Le carnet de santé de vos appareils</div>
+      <p class="field-hint" style="margin:-0.5rem 0 1.25rem">Notez vos appareils (modèle, date d'achat, garantie). Stevy les voit avant de venir : l'intervention est plus rapide et les conseils plus justes.</p>
+      <div id="list-appareils" class="doc-list"></div>
+      <button class="btn-new-rdv" type="button" onclick="openAppareil()" style="border:none;cursor:pointer;margin-top:0.5rem">+ Ajouter un appareil</button>
+    </div>
+
+    <!-- ── ONGLET PROFIL ── -->
+    <div class="tab-section" id="tab-profil">
+      <form class="profile-card" id="profileForm" onsubmit="saveProfile(event)">
+        <div class="sec-title"><span aria-hidden="true">👤</span> Mes informations</div>
+        <div class="edit-row">
+          <div class="field"><label for="pPrenom">Prénom</label><input id="pPrenom" maxlength="80" autocomplete="given-name"></div>
+          <div class="field"><label for="pNom">Nom</label><input id="pNom" maxlength="80" autocomplete="family-name"></div>
+        </div>
+        <div class="edit-row">
+          <div class="field"><label for="pTel">Téléphone</label><input id="pTel" type="tel" maxlength="40" autocomplete="tel"></div>
+          <div class="field"><label for="pContact">Je préfère être contacté par</label><select id="pContact"><option value="telephone">Téléphone</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="email">Email</option></select></div>
+        </div>
+        <div class="field"><label for="pAdresse">Adresse d'intervention</label><input id="pAdresse" maxlength="300" autocomplete="street-address"></div>
+        <div class="edit-row">
+          <div class="field"><label for="pCp">Code postal</label><input id="pCp" maxlength="10" inputmode="numeric" autocomplete="postal-code"></div>
+          <div class="field"><label for="pVille">Ville</label><input id="pVille" maxlength="80" autocomplete="address-level2"></div>
+        </div>
+        <label class="check-row"><input type="checkbox" id="pRappels"> <span>Recevoir un rappel la veille de mes rendez-vous</span></label>
+        <p class="field-hint">Ces informations pré-remplissent vos prochaines réservations et demandes de contrat.</p>
+        <button class="btn-login" type="submit" id="btnSaveProfile" style="margin-top:1rem">Enregistrer mes informations</button>
+      </form>
+
+      <div class="profile-card">
+        <div class="sec-title"><span aria-hidden="true">📬</span> Emails d'information</div>
+        <label class="check-row"><input type="checkbox" id="pMarketing" onchange="saveMarketing()"> <span>Recevoir les conseils et offres de Makouez IT (quelques emails par an). Les emails liés à vos rendez-vous et factures sont toujours envoyés.</span></label>
+        <p class="field-hint" id="marketingHint"></p>
+      </div>
+
+      <div class="profile-card">
+        <div class="sec-title"><span aria-hidden="true">🔒</span> Sécurité du compte</div>
+        <div class="ci-grid" style="margin-bottom:1rem">
+          <div class="ci-item"><div class="ci-label">Adresse email</div><div id="secEmail">—</div></div>
+          <div class="ci-item"><div class="ci-label">Statut</div><div id="secVerified">—</div></div>
+        </div>
+        <details class="sec-details"><summary>Changer mon mot de passe</summary>
+          <div class="field"><label for="pwCurrent">Mot de passe actuel</label><input id="pwCurrent" type="password" autocomplete="current-password"></div>
+          <div class="field"><label for="pwNew">Nouveau mot de passe (8 caractères minimum)</label><input id="pwNew" type="password" minlength="8" autocomplete="new-password"></div>
+          <button class="btn-sm primary" type="button" onclick="changePassword()">Mettre à jour le mot de passe</button>
+          <p class="field-hint">Compte créé avec un lien de connexion ? Utilisez « Mot de passe oublié » sur l'écran de connexion pour en définir un.</p>
+        </details>
+        <details class="sec-details"><summary>Changer mon adresse email</summary>
+          <div class="field"><label for="emNew">Nouvelle adresse email</label><input id="emNew" type="email" autocomplete="email"></div>
+          <div class="field"><label for="emPw">Mot de passe actuel</label><input id="emPw" type="password" autocomplete="current-password"></div>
+          <button class="btn-sm primary" type="button" onclick="changeEmail()">Envoyer le lien de confirmation</button>
+          <p class="field-hint">Le changement est effectif quand vous cliquez sur le lien reçu à la nouvelle adresse.</p>
+        </details>
+        <details class="sec-details"><summary>Supprimer mon compte et mes données</summary>
+          <p class="field-hint">Votre demande est transmise à Stevy, qui supprime votre compte et vos données sous 30 jours, sauf les factures, que la loi oblige à conserver 10 ans.</p>
+          <button class="btn-resilier" type="button" onclick="requestDeletion()">Demander la suppression</button>
+        </details>
+        <button class="btn-logout" type="button" onclick="doLogout()" style="margin-top:1rem">Se déconnecter</button>
       </div>
     </div>
 
@@ -277,6 +414,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 
   </div><!-- /dashboard -->
 </div><!-- /page -->
+
+<!-- MODAL APPAREIL -->
+<div class="modal-overlay" id="modal-appareil">
+  <div class="modal" style="max-width:520px">
+    <h3 id="appTitle">Ajouter un appareil</h3>
+    <div class="edit-row">
+      <div class="field"><label for="aType">Type</label><select id="aType"><option value="ordinateur-portable">Ordinateur portable</option><option value="ordinateur-fixe">Ordinateur fixe</option><option value="tablette">Tablette</option><option value="smartphone">Smartphone</option><option value="imprimante">Imprimante</option><option value="box-internet">Box internet</option><option value="autre">Autre</option></select></div>
+      <div class="field"><label for="aMarque">Marque</label><input id="aMarque" maxlength="60" placeholder="HP, Lenovo, Apple…"></div>
+    </div>
+    <div class="edit-row">
+      <div class="field"><label for="aModele">Modèle</label><input id="aModele" maxlength="80"></div>
+      <div class="field"><label for="aSysteme">Système</label><input id="aSysteme" maxlength="60" placeholder="Windows 11, Android…"></div>
+    </div>
+    <div class="edit-row">
+      <div class="field"><label for="aAchat">Date d'achat</label><input id="aAchat" type="month"></div>
+      <div class="field"><label for="aGarantie">Fin de garantie</label><input id="aGarantie" type="month"></div>
+    </div>
+    <div class="field"><label for="aNotes">Notes (problèmes connus, accessoires…)</label><textarea id="aNotes" maxlength="1000"></textarea></div>
+    <p class="field-hint">Ne notez jamais de mot de passe ici.</p>
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" type="button" onclick="closeModal('modal-appareil')">Annuler</button>
+      <button class="btn-modal-save" type="button" id="btnSaveAppareil" onclick="saveAppareil()">Enregistrer</button>
+    </div>
+  </div>
+</div>
 
 <!-- MODAL ANNULATION -->
 <div class="modal-overlay" id="modal-cancel">
@@ -340,8 +502,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
 import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, sendEmailVerification, updateProfile, updatePassword, verifyBeforeUpdateEmail, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js";
+import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, updateDoc, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig = {apiKey:"AIzaSyBx6R4LC9HOt4wXbG2VmjI9nmLciwzDmz0",authDomain:"makouez-it.firebaseapp.com",projectId:"makouez-it",storageBucket:"makouez-it.firebasestorage.app",messagingSenderId:"558314427247",appId:"1:558314427247:web:83e656344dd79019ccce9a"};
 const app = initializeApp(firebaseConfig);
@@ -358,6 +521,7 @@ let currentReservations=[], currentContrats=[], currentUser=null;
 
 onAuthStateChanged(auth, async (user) => {
   if (user) { currentUser=user; await loadDashboard(user); }
+  else { rememberClient(null); }
 });
 
 function getReservationDate(r) {
@@ -378,12 +542,13 @@ window.doLogin = async function() {
   btn.disabled=true;
   btnText.innerHTML='<span class="spinner"></span>';
   document.getElementById('error-msg').classList.remove('show');
-  try { const cred=await signInWithEmailAndPassword(auth,email,password); await loadDashboard(cred.user); }
+  try { await signInWithEmailAndPassword(auth,email,password); /* onAuthStateChanged charge l'espace */ }
   catch(err){ btn.disabled=false; btnText.textContent='Accéder à mon espace →'; showError('error-msg','error-text',firebaseErrorMessage(err.code)); }
 };
 
 window.doLogout = async function() {
   await signOut(auth);
+  rememberClient(null); try { localStorage.removeItem('mkClientForm'); } catch(e){}
   currentReservations=[]; currentContrats=[]; currentUser=null;
   document.getElementById('dashboard').style.display='none';
   document.getElementById('login-view').style.display='block';
@@ -418,26 +583,290 @@ async function loadDashboard(user) {
   document.getElementById('list-upcoming').innerHTML='<div style="color:var(--muted);font-size:0.9rem;padding:1rem 0">Chargement de vos rendez-vous…</div>';
   document.getElementById('list-past').innerHTML='';
   document.getElementById('list-contrats').innerHTML='<div style="color:var(--muted);font-size:0.9rem;padding:1rem 0">Chargement de vos contrats…</div>';
-  await Promise.all([fetchReservations(user.uid), fetchContrats(user.email)]);
+  rememberClient(user);
+  const linked = await linkAccount(user);
+  await Promise.all([fetchReservations(user), fetchContrats(user.email), loadProfile(user), fetchFactures(user), fetchAppareils(user)]);
+  if (currentProfile.prenom) document.getElementById('greeting-name').textContent=`Bonjour, ${currentProfile.prenom} 👋`;
+  rememberClient(user, currentProfile);
+  renderHome();
+  const h=(location.hash||'').slice(1); if (h) goTab(h);
 }
 
-async function fetchReservations(uid) {
+async function fetchReservations(user) {
   try {
-    const q=query(collection(db,'reservations'),where('uid','==',uid));
-    const snap=await getDocs(q);
-    currentReservations=snap.docs.map(d=>({id:d.id,...d.data()}));
+    const byId=new Map();
+    const snap=await getDocs(query(collection(db,'reservations'),where('uid','==',user.uid)));
+    snap.docs.forEach(d=>byId.set(d.id,{id:d.id,...d.data()}));
+    if (user.emailVerified) {
+      try { const s2=await getDocs(query(collection(db,'reservations'),where('email','==',user.email.toLowerCase()))); s2.docs.forEach(d=>byId.set(d.id,{id:d.id,...d.data()})); } catch(e){ console.warn(e); }
+    }
+    currentReservations=[...byId.values()];
     renderRdvs();
   } catch(err){ console.error(err); showToast('Impossible de charger vos rendez-vous liés à cet espace client.','error'); currentReservations=[]; renderRdvs(); }
 }
 
 async function fetchContrats(email) {
   try {
-    const q=query(collection(db,'contrats'),where('email','==',email.toLowerCase()),orderBy('createdAt','desc'));
-    const snap=await getDocs(q);
-    currentContrats=snap.docs.map(d=>({id:d.id,...d.data()}));
+    const byId=new Map();
+    const s1=await getDocs(query(collection(db,'contrats'),where('uid','==',currentUser.uid)));
+    s1.docs.forEach(d=>byId.set(d.id,{id:d.id,...d.data()}));
+    if (currentUser.emailVerified) {
+      try { const s2=await getDocs(query(collection(db,'contrats'),where('email','==',email.toLowerCase()))); s2.docs.forEach(d=>byId.set(d.id,{id:d.id,...d.data()})); } catch(e){ console.warn(e); }
+    }
+    const ts=(c)=>c.createdAt?.toMillis?c.createdAt.toMillis():0;
+    currentContrats=[...byId.values()].sort((a,b)=>ts(b)-ts(a));
     renderContrats();
   } catch(err){ console.error(err); showToast('Impossible de charger vos contrats liés à cet espace client.','error'); currentContrats=[]; renderContrats(); }
 }
+
+
+// ════════════════════════════════════════════════════════════════
+// ESPACE CLIENT v2 (21/10/2026) : rattachement par email, profil,
+// factures, appareils, lien de connexion, bandeau sur tout le site.
+// ════════════════════════════════════════════════════════════════
+auth.languageCode = 'fr';
+const fx = getFunctions(app, 'europe-west1');
+const callLink   = httpsCallable(fx, 'linkMyAccount');
+const callSetMkt = httpsCallable(fx, 'setMarketingPreference');
+const callGetMkt = httpsCallable(fx, 'getMarketingPreference');
+const SITE = 'https://makouezit.org';
+let currentFactures=[], currentDevis=[], currentAppareils=[], currentProfile={}, editAppareilId=null;
+
+// Bandeau « connecté » sur les autres pages du site (voir /client-bar.js)
+function rememberClient(user, profile) {
+  try {
+    if (!user) { localStorage.removeItem('mkClient'); return; }
+    const prenom = (profile?.prenom || user.displayName || user.email.split('@')[0] || '').split(' ')[0];
+    localStorage.setItem('mkClient', JSON.stringify({ prenom, t: Date.now() }));
+  } catch (e) {}
+}
+
+// Lien de connexion sans mot de passe
+window.sendMagicLink = async function() {
+  const email=document.getElementById('input-email').value.trim();
+  if(!email){showError('error-msg','error-text','Indiquez votre adresse email ci-dessus, puis cliquez à nouveau.');return;}
+  const btn=document.getElementById('btn-magic'); btn.disabled=true;
+  try {
+    await sendSignInLinkToEmail(auth, email, { url: SITE + '/mon-rdv.html', handleCodeInApp: true });
+    try { localStorage.setItem('mkEmailForSignIn', email); } catch(e){}
+    document.getElementById('magic-success-msg').classList.add('show');
+    document.getElementById('btn-magic-text').textContent='Lien envoyé ✓';
+  } catch(err) {
+    btn.disabled=false;
+    showError('error-msg','error-text', err.code==='auth/operation-not-allowed'
+      ? 'La connexion par lien n’est pas encore activée. Utilisez votre mot de passe ou appelez le 07 45 10 38 27.'
+      : firebaseErrorMessage(err.code));
+  }
+};
+async function completeMagicLink() {
+  if (!isSignInWithEmailLink(auth, location.href)) return;
+  let email=null; try { email=localStorage.getItem('mkEmailForSignIn'); } catch(e){}
+  if (!email) email = window.prompt('Pour finir la connexion, confirmez votre adresse email :');
+  if (!email) return;
+  try {
+    await signInWithEmailLink(auth, email, location.href);
+    try { localStorage.removeItem('mkEmailForSignIn'); } catch(e){}
+    history.replaceState(null, '', location.pathname + location.hash);
+  } catch(err) { showError('error-msg','error-text','Ce lien a expiré ou a déjà servi. Demandez-en un nouveau.'); }
+}
+completeMagicLink();
+
+// Rattachement des demandes faites avec la même adresse email
+async function linkAccount(user) {
+  const banner=document.getElementById('verifyBanner');
+  if (!user.emailVerified) { banner.hidden=false; return false; }
+  banner.hidden=true;
+  try {
+    const r = await callLink({});
+    const n = r?.data?.linked || {};
+    const total = (n.reservations||0)+(n.contrats||0)+(n.factures||0);
+    if (total) showToast(`${total} demande${total>1?'s':''} reliée${total>1?'s':''} à votre espace.`,'success');
+    return total>0;
+  } catch(e) { console.warn('linkMyAccount', e); return false; }
+}
+window.sendVerify = async function() {
+  const b=document.getElementById('btnSendVerify'); b.disabled=true;
+  try { await sendEmailVerification(currentUser, { url: SITE + '/mon-rdv.html' }); b.textContent='Lien envoyé ✓ (vérifiez vos spams)'; }
+  catch(e){ b.disabled=false; showToast(e.code==='auth/too-many-requests'?'Lien déjà envoyé, patientez quelques minutes.':'Envoi impossible pour le moment.','error'); }
+};
+window.recheckVerify = async function() {
+  await currentUser.reload();
+  await currentUser.getIdToken(true);
+  if (currentUser.emailVerified) { await linkAccount(currentUser); await loadDashboard(currentUser); }
+  else showToast('Adresse pas encore confirmée : cliquez sur le lien reçu par email.','info');
+};
+
+// Profil
+async function loadProfile(user) {
+  try {
+    const snap = await getDoc(doc(db,'clients',user.uid));
+    currentProfile = snap.exists() ? snap.data() : {};
+  } catch(e){ currentProfile={}; }
+  const [p0,...pr] = (user.displayName||'').split(' ');
+  const v=(id,val)=>{ document.getElementById(id).value = val||''; };
+  v('pPrenom', currentProfile.prenom ?? p0); v('pNom', currentProfile.nom ?? pr.join(' '));
+  v('pTel', currentProfile.telephone); v('pAdresse', currentProfile.adresse);
+  v('pCp', currentProfile.codePostal); v('pVille', currentProfile.ville);
+  document.getElementById('pContact').value = currentProfile.contactPrefere || 'telephone';
+  document.getElementById('pRappels').checked = currentProfile.rappels !== false;
+  document.getElementById('secEmail').textContent = user.email;
+  document.getElementById('secVerified').innerHTML = user.emailVerified ? '<span class="pill ok">Confirmée</span>' : '<span class="pill wait">À confirmer</span>';
+  // Pré-remplissage des formulaires du site (réservation, contrats)
+  try { localStorage.setItem('mkClientForm', JSON.stringify({ nom: [currentProfile.prenom ?? p0, currentProfile.nom ?? pr.join(' ')].filter(Boolean).join(' '), prenom: currentProfile.prenom ?? p0 ?? '', nomFamille: currentProfile.nom ?? pr.join(' '), telephone: currentProfile.telephone||'', adresse: [currentProfile.adresse, currentProfile.codePostal, currentProfile.ville].filter(Boolean).join(', '), email: user.email })); } catch(e){}
+  if (user.emailVerified) {
+    callGetMkt({}).then(r=>{ document.getElementById('pMarketing').checked = !!r?.data?.accepte; }).catch(()=>{ document.getElementById('pMarketing').disabled=true; });
+    document.getElementById('marketingHint').textContent='';
+  } else {
+    document.getElementById('pMarketing').disabled = true;
+    document.getElementById('marketingHint').textContent = 'Confirmez votre adresse email pour gérer ce choix.';
+  }
+}
+window.saveProfile = async function(e) {
+  e.preventDefault();
+  const btn=document.getElementById('btnSaveProfile'); btn.disabled=true;
+  const g=(id)=>document.getElementById(id).value.trim();
+  const data={ prenom:g('pPrenom'), nom:g('pNom'), telephone:g('pTel'), adresse:g('pAdresse'), codePostal:g('pCp'), ville:g('pVille'),
+    contactPrefere:document.getElementById('pContact').value, rappels:document.getElementById('pRappels').checked, updatedAt:serverTimestamp() };
+  try {
+    await setDoc(doc(db,'clients',currentUser.uid), data, { merge:true });
+    const full=[data.prenom,data.nom].filter(Boolean).join(' ');
+    if (full && full!==currentUser.displayName) await updateProfile(currentUser,{ displayName: full });
+    currentProfile={...currentProfile,...data}; rememberClient(currentUser,currentProfile); await loadProfile(currentUser);
+    document.getElementById('greeting-name').textContent=`Bonjour, ${data.prenom||full||''} 👋`;
+    showToast('Vos informations sont enregistrées.','success');
+  } catch(err){ console.error(err); showToast('Enregistrement impossible. Réessayez.','error'); }
+  btn.disabled=false;
+};
+window.saveMarketing = async function() {
+  const cb=document.getElementById('pMarketing'); cb.disabled=true;
+  try { await callSetMkt({ accepte: cb.checked }); showToast(cb.checked?'Vous recevrez nos conseils et offres.':'Vous ne recevrez plus nos emails d’information.','success'); }
+  catch(e){ cb.checked=!cb.checked; showToast('Enregistrement impossible.','error'); }
+  cb.disabled=false;
+};
+async function reauth(pw) {
+  if (!pw) throw Object.assign(new Error('pw'),{code:'missing-password'});
+  await reauthenticateWithCredential(currentUser, EmailAuthProvider.credential(currentUser.email, pw));
+}
+const secErr=(e)=>({'missing-password':'Indiquez votre mot de passe actuel.','auth/wrong-password':'Mot de passe actuel incorrect.','auth/invalid-credential':'Mot de passe actuel incorrect.','auth/weak-password':'Mot de passe trop faible (8 caractères minimum).','auth/email-already-in-use':'Cette adresse est déjà utilisée.','auth/invalid-email':'Adresse email invalide.','auth/too-many-requests':'Trop de tentatives. Réessayez plus tard.'}[e.code]||'Opération impossible pour le moment.');
+window.changePassword = async function() {
+  const cur=document.getElementById('pwCurrent').value, nw=document.getElementById('pwNew').value;
+  if (nw.length<8) return showToast('Le nouveau mot de passe doit faire au moins 8 caractères.','error');
+  try { await reauth(cur); await updatePassword(currentUser,nw); document.getElementById('pwCurrent').value=''; document.getElementById('pwNew').value=''; showToast('Mot de passe mis à jour.','success'); }
+  catch(e){ showToast(secErr(e),'error'); }
+};
+window.changeEmail = async function() {
+  const nw=document.getElementById('emNew').value.trim(), pw=document.getElementById('emPw').value;
+  if (!nw) return showToast('Indiquez la nouvelle adresse.','error');
+  try { await reauth(pw); await verifyBeforeUpdateEmail(currentUser, nw, { url: SITE + '/mon-rdv.html' }); document.getElementById('emPw').value=''; showToast('Lien envoyé à '+nw+'. Cliquez dessus pour valider le changement.','info'); }
+  catch(e){ showToast(secErr(e),'error'); }
+};
+window.requestDeletion = async function() {
+  if (!confirm('Envoyer à Stevy une demande de suppression de votre compte et de vos données ?')) return;
+  try {
+    await addDoc(collection(db,'messages_clients'),{ uid:currentUser.uid, email:currentUser.email, sujet:'suppression-compte',
+      texte:'Demande de suppression du compte client et des données associées (RGPD), envoyée depuis l’espace client.', createdAt:serverTimestamp(), lu:false });
+    showToast('Demande envoyée. Stevy vous confirme la suppression par email.','info');
+  } catch(e){ showToast('Envoi impossible. Écrivez à contact@makouezit.org.','error'); }
+};
+
+// Factures et devis
+const eur=(n)=>typeof n==='number'?new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n):'–';
+const frDate=(s)=>{ try { return new Date(s+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}); } catch(e){ return s||'–'; } };
+async function fetchFactures(user) {
+  if (!user.emailVerified) { currentFactures=[]; currentDevis=[]; renderFactures(); return; }
+  const email=user.email.toLowerCase();
+  try { const s=await getDocs(query(collection(db,'factures'),where('clientEmailLc','==',email))); currentFactures=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.date).localeCompare(String(a.date))); } catch(e){ console.warn(e); currentFactures=[]; }
+  try { const s=await getDocs(query(collection(db,'devis'),where('clientEmailLc','==',email))); currentDevis=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.date).localeCompare(String(a.date))); } catch(e){ console.warn(e); currentDevis=[]; }
+  renderFactures();
+}
+function renderFactures() {
+  const verified=currentUser?.emailVerified;
+  document.getElementById('count-factures').textContent=currentFactures.length?`(${currentFactures.length})`:'';
+  document.getElementById('count-devis').textContent=currentDevis.length?`(${currentDevis.length})`:'';
+  const empty=(t)=>`<div class="empty-state" style="padding:1.5rem"><p style="margin:0">${t}</p></div>`;
+  document.getElementById('list-factures').innerHTML = !verified ? empty('Confirmez votre adresse email pour afficher vos factures.')
+    : currentFactures.length ? currentFactures.map(f=>`<div class="doc-card"><div><h4>Facture ${esc(f.numero||'')}</h4><div class="doc-meta">${esc(frDate(f.date))} · ${eur(f.totalTTC)}</div></div>
+      <div class="doc-actions">${f.paid?'<span class="pill ok">Payée</span>':'<span class="pill wait">À régler</span>'}<button class="btn-sm primary" type="button" onclick="downloadFacture(${jsArg(f.id)})">Télécharger le PDF</button></div></div>`).join('')
+    : empty('Aucune facture pour le moment.');
+  const DST={sent:['Envoyé','wait'],accepted:['Accepté','ok'],refused:['Refusé','off'],converted:['Facturé','ok']};
+  document.getElementById('list-devis').innerHTML = !verified ? empty('Confirmez votre adresse email pour afficher vos devis.')
+    : currentDevis.length ? currentDevis.map(d=>{ const st=DST[d.status]||['Envoyé','wait']; return `<div class="doc-card"><div><h4>Devis ${esc(d.numero||'')}</h4><div class="doc-meta">${esc(frDate(d.date))} · ${eur(d.totalTTC)}${d.validite?' · valable jusqu’au '+esc(frDate(d.validite)):''}</div></div><div class="doc-actions"><span class="pill ${st[1]}">${st[0]}</span></div></div>`; }).join('')
+    : empty('Aucun devis pour le moment.');
+}
+window.downloadFacture = async function(id) {
+  try {
+    const s=await getDoc(doc(db,'factures_pdf',id));
+    if(!s.exists()) return showToast('Le PDF de cette facture n’est pas encore disponible : demandez-le à Stevy.','info');
+    const bin=atob(s.data().base64); const bytes=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+    const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+    const a=document.createElement('a'); a.href=url; a.download=(s.data().numero||'facture')+'.pdf'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+  } catch(e){ console.error(e); showToast('Téléchargement impossible pour le moment.','error'); }
+};
+
+// Appareils (carnet de santé)
+const TYPES={'ordinateur-portable':['💻','Ordinateur portable'],'ordinateur-fixe':['🖥️','Ordinateur fixe'],tablette:['📱','Tablette'],smartphone:['📱','Smartphone'],imprimante:['🖨️','Imprimante'],'box-internet':['📶','Box internet'],autre:['🔌','Autre']};
+const moisFr=(m)=>{ if(!m) return ''; const [y,mo]=m.split('-'); return new Date(+y,+mo-1,1).toLocaleDateString('fr-FR',{month:'long',year:'numeric'}); };
+async function fetchAppareils(user) {
+  try { const s=await getDocs(collection(db,'clients',user.uid,'appareils')); currentAppareils=s.docs.map(d=>({id:d.id,...d.data()})); } catch(e){ console.warn(e); currentAppareils=[]; }
+  renderAppareils();
+}
+function renderAppareils() {
+  const el=document.getElementById('list-appareils');
+  if(!currentAppareils.length){ el.innerHTML='<div class="empty-state" style="padding:1.5rem"><p style="margin:0">Aucun appareil enregistré. Ajoutez votre ordinateur, votre box ou votre imprimante.</p></div>'; return; }
+  const now=new Date().toISOString().slice(0,7);
+  el.innerHTML=currentAppareils.map(a=>{ const t=TYPES[a.type]||TYPES.autre; const gar=a.garantie?(a.garantie>=now?`<span class="pill ok">Garantie jusqu’en ${esc(moisFr(a.garantie))}</span>`:'<span class="pill off">Hors garantie</span>'):'';
+    return `<div class="doc-card"><div><h4><span aria-hidden="true">${t[0]}</span> ${esc([a.marque,a.modele].filter(Boolean).join(' ')||t[1])}</h4><div class="doc-meta">${esc(t[1])}${a.systeme?' · '+esc(a.systeme):''}${a.achat?' · acheté en '+esc(moisFr(a.achat)):''}</div>${a.notes?`<div class="doc-meta" style="margin-top:.3rem">${esc(a.notes)}</div>`:''}</div>
+    <div class="doc-actions">${gar}<button class="btn-sm primary" type="button" onclick="openAppareil(${jsArg(a.id)})">Modifier</button><button class="btn-sm danger" type="button" onclick="deleteAppareil(${jsArg(a.id)})">Supprimer</button></div></div>`; }).join('');
+}
+window.openAppareil = function(id) {
+  editAppareilId=id||null; const a=currentAppareils.find(x=>x.id===id)||{};
+  document.getElementById('appTitle').textContent=id?'Modifier l’appareil':'Ajouter un appareil';
+  document.getElementById('aType').value=a.type||'ordinateur-portable';
+  [['aMarque','marque'],['aModele','modele'],['aSysteme','systeme'],['aAchat','achat'],['aGarantie','garantie'],['aNotes','notes']].forEach(([i,k])=>document.getElementById(i).value=a[k]||'');
+  document.getElementById('modal-appareil').classList.add('show');
+};
+window.saveAppareil = async function() {
+  const g=(id)=>document.getElementById(id).value.trim();
+  const data={ type:document.getElementById('aType').value };
+  [['marque','aMarque'],['modele','aModele'],['systeme','aSysteme'],['achat','aAchat'],['garantie','aGarantie'],['notes','aNotes']].forEach(([k,i])=>{ const v=g(i); if(v) data[k]=v; });
+  const btn=document.getElementById('btnSaveAppareil'); btn.disabled=true;
+  try {
+    if (editAppareilId) { await setDoc(doc(db,'clients',currentUser.uid,'appareils',editAppareilId), { ...data, createdAt: currentAppareils.find(x=>x.id===editAppareilId)?.createdAt || serverTimestamp(), updatedAt: serverTimestamp() }); }
+    else { await addDoc(collection(db,'clients',currentUser.uid,'appareils'), { ...data, createdAt: serverTimestamp() }); }
+    closeModal('modal-appareil'); await fetchAppareils(currentUser); showToast('Appareil enregistré.','success');
+  } catch(e){ console.error(e); showToast('Enregistrement impossible.','error'); }
+  btn.disabled=false;
+};
+window.deleteAppareil = async function(id) {
+  if(!confirm('Supprimer cet appareil de votre carnet ?')) return;
+  try { await deleteDoc(doc(db,'clients',currentUser.uid,'appareils',id)); await fetchAppareils(currentUser); }
+  catch(e){ showToast('Suppression impossible.','error'); }
+};
+
+// Accueil
+const CONSEILS=[
+  'Une sauvegarde qui n’a jamais été testée ne protège rien : essayez de restaurer un fichier une fois par trimestre.',
+  'Un faux message de la banque ou de l’Assurance maladie ? Ne cliquez pas : appelez le numéro habituel, ou transférez-le à Stevy.',
+  'Redémarrez complètement votre ordinateur au moins une fois par semaine : beaucoup de mises à jour ne s’installent qu’à ce moment-là.',
+  'Votre box chauffe ou coupe souvent ? Elle doit être à l’air libre, en hauteur, loin des murs épais et des appareils électriques.',
+  'Notez vos appareils dans « Mes appareils » : Stevy arrive avec les bonnes pièces et les bons outils.'
+];
+function renderHome() {
+  const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const upcoming=currentReservations.filter(r=>r.status!=='done'&&r.status!=='cancelled'&&getReservationDate(r)>=today).sort((a,b)=>getReservationDate(a)-getReservationDate(b));
+  const actifs=currentContrats.filter(c=>c.status==='active').length;
+  const aRegler=currentFactures.filter(f=>!f.paid).length;
+  document.getElementById('home-summary').innerHTML=`
+    <button type="button" class="sum-card accent" onclick="goTab('rdv')"><div class="num">${upcoming.length}</div><div class="lbl">RDV à venir</div></button>
+    <button type="button" class="sum-card green" onclick="goTab('contrats')"><div class="num">${actifs}</div><div class="lbl">Contrat${actifs>1?'s':''} actif${actifs>1?'s':''}</div></button>
+    <button type="button" class="sum-card orange" onclick="goTab('factures')"><div class="num">${aRegler}</div><div class="lbl">Facture${aRegler>1?'s':''} à régler</div></button>
+    <button type="button" class="sum-card" onclick="goTab('appareils')"><div class="num">${currentAppareils.length}</div><div class="lbl">Appareil${currentAppareils.length>1?'s':''}</div></button>`;
+  document.getElementById('home-next').innerHTML = upcoming.length ? rdvCard(upcoming[0],false)
+    : `<div class="empty-state" style="padding:1.5rem"><p>Aucun rendez-vous prévu.</p><a href="makouez-it-rdv.html" class="btn-new-rdv">Réserver un créneau →</a></div>`;
+  document.getElementById('home-tip').innerHTML = '<strong>💡 Le conseil de Stevy :</strong> ' + esc(CONSEILS[now.getDate()%CONSEILS.length]);
+}
+window.goTab = function(id) { const b=document.querySelector(`.tab-btn-main[data-tab="${id}"]`); if(b) switchMainTab(id,b); };
 
 // ── SWITCH TABS ──
 window.switchMainTab = function(id, btn) {
@@ -445,10 +874,12 @@ window.switchMainTab = function(id, btn) {
   document.querySelectorAll('.tab-btn-main').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
+  if (location.hash.slice(1)!==id) history.replaceState(null,'','#'+id);
 };
+window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1); if(h && document.getElementById('tab-'+h)) goTab(h); });
 
 // ── RENDER RDV ──
-window.renderAll = function() { renderRdvs(); };
+window.renderAll = function() { renderRdvs(); renderHome(); };
 
 function renderRdvs() {
   const now=new Date();
@@ -495,6 +926,7 @@ function rdvCard(r,isPast) {
         ${r.adresse?`<span class="rdv-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${esc(r.adresse)}</span>`:''}
       </div>
       ${modifBadge}
+      ${r.compteRendu?`<div class="compte-rendu"><strong>Compte rendu :</strong>\n${esc(r.compteRendu)}</div>`:''}
       ${canAct?`<div class="rdv-actions"><button class="btn-sm primary" onclick="askEdit(${jsArg(r.id)})">✏️ Modifier</button><button class="btn-sm danger" onclick="askCancel(${jsArg(r.id)})">Annuler ce RDV</button></div>`:''}
     </div>
     <div class="rdv-status"><div class="badge-status ${st.cls}"><span class="badge-dot-s"></span>${st.label}</div></div>
@@ -665,7 +1097,7 @@ window.closeModal = function(id) {
   if(id==='modal-resilier') resilierTarget=null;
 };
 
-['modal-cancel','modal-edit','modal-resilier'].forEach(id=>{
+['modal-cancel','modal-edit','modal-resilier','modal-appareil'].forEach(id=>{
   document.getElementById(id).addEventListener('click',e=>{if(e.target===document.getElementById(id))closeModal(id);});
 });
 

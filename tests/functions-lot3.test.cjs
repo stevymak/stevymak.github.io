@@ -11,12 +11,13 @@ const Module = require('module');
 const store = new Map(); // "col/id" -> data
 let autoId = 0;
 const SERVER_TS = { __ts: true };
-class DocSnap { constructor(ref, data) { this.ref = ref; this.id = ref.id; this._d = data; this.exists = data !== undefined; } data() { return this._d && JSON.parse(JSON.stringify(this._d)); } }
+class DocSnap { constructor(ref, data) { this.ref = ref; this.id = ref.id; this._d = data; this.exists = data !== undefined; } data() { return this._d && JSON.parse(JSON.stringify(this._d)); } get(f) { return this._d ? this._d[f] : undefined; } }
 class DocRef {
   constructor(col, id) { this.col = col; this.id = id; this.path = `${col}/${id}`; }
   async get() { return new DocSnap(this, store.get(this.path)); }
   async set(d, opt) { store.set(this.path, opt && opt.merge ? { ...(store.get(this.path) || {}), ...d } : { ...d }); }
   async delete() { store.delete(this.path); }
+  async update(d) { if (!store.has(this.path)) throw new Error('missing'); store.set(this.path, { ...store.get(this.path), ...d }); }
 }
 class Query {
   constructor(col, filters = [], lim) { this.col = col; this.filters = filters; this.lim = lim; }
@@ -38,11 +39,14 @@ const fakeDb = {
     const tx = { get: (r) => r.get(), set: (r, d) => writes.push(() => r.set(d)), create: (r, d) => { if (store.has(r.path)) throw new Error('exists'); writes.push(() => r.set(d)); } };
     const out = await fn(tx); for (const w of writes) await w(); return out;
   },
+  batch() { const ops = []; return { update: (r, d) => ops.push(() => r.update(d)), commit: async () => { for (const o of ops) await o(); } }; },
   async getAll(...refs) { return Promise.all(refs.map((r) => r.get())); },
   bulkWriter() { const ops = []; return { delete: (r) => ops.push(() => r.delete()), set: (r, d) => ops.push(() => r.set(d)), close: async () => { for (const o of ops) await o(); } }; },
 };
+const fakeUsers = {};
 const fakeAdmin = {
   apps: [1], initializeApp() {},
+  auth: () => ({ getUserByEmail: async (e) => { const u = fakeUsers[e]; if (!u) throw Object.assign(new Error('nf'), { code: 'auth/user-not-found' }); return u; } }),
   firestore: Object.assign(() => fakeDb, { FieldValue: { serverTimestamp: () => SERVER_TS, increment: (n) => n }, Timestamp: { fromMillis: (ms) => ({ ms }) } }),
 };
 const origResolve = Module._resolveFilename;
@@ -52,6 +56,7 @@ require.cache[adminPath] = { id: adminPath, filename: adminPath, loaded: true, e
 const booking = require(path.join(FN, 'booking.js'));
 const unsub   = require(path.join(FN, 'unsubscribe.js'));
 const { parisToday } = booking._test;
+const client  = require(path.join(FN, 'client.js'));
 
 // ─── Aides ──────────────────────────────────────────────────────────────────
 function addDays(n) { const [y, m, d] = parisToday().split('-').map(Number); const t = new Date(Date.UTC(y, m - 1, d + n)); return t.toISOString().slice(0, 10); }
@@ -147,6 +152,41 @@ async function t(name, fn) { try { await fn(); results.push(['✓', name]); } ca
     assert.ok(set.has('a@test.fr') && !set.has('b@test.fr'));
     const parts = await unsub.unsubscribeParts('b@test.fr');
     assert.ok(parts.headers['List-Unsubscribe-Post'] === 'List-Unsubscribe=One-Click' && /unsubscribe\?e=/.test(parts.footerHtml));
+  });
+
+  // ─── Espace client (21/10/2026) ─────────────────────────────────────────
+  await t('espace client : rattachement refusé tant que l’email n’est pas confirmé', async () => {
+    await expectErr(client.linkMyAccount.run({ data: {}, auth: { uid: 'u9', token: { email: 'x@test.fr', email_verified: false } } }), 'failed-precondition');
+    await expectErr(client.linkMyAccount.run({ data: {} }), 'unauthenticated');
+  });
+  await t('espace client : rattache RDV, contrats et factures de la même adresse, pas ceux d’un autre compte', async () => {
+    store.set('reservations/L1', { email: 'jean@link.fr', status: 'pending' });
+    store.set('reservations/L2', { email: 'jean@link.fr', status: 'done', uid: 'autre' });
+    store.set('contrats/L3', { email: 'jean@link.fr', status: 'new' });
+    store.set('factures/L4', { clientEmailLc: 'jean@link.fr', numero: 'F1' });
+    store.set('contrats/L5', { email: 'autre@link.fr', status: 'new' });
+    const r = await client.linkMyAccount.run({ data: {}, auth: { uid: 'u1', token: { email: 'Jean@Link.fr', email_verified: true } } });
+    assert.deepStrictEqual(r.linked, { reservations: 1, contrats: 1, factures: 1 });
+    assert.strictEqual(store.get('reservations/L1').uid, 'u1');
+    assert.strictEqual(store.get('reservations/L2').uid, 'autre');
+    assert.strictEqual(store.get('contrats/L3').uid, 'u1');
+    assert.strictEqual(store.get('factures/L4').clientUid, 'u1');
+    assert.ok(!store.get('contrats/L5').uid);
+  });
+  await t('espace client : nouvelle demande reliée automatiquement si un compte confirmé existe', async () => {
+    fakeUsers['ok@link.fr'] = { uid: 'u2', emailVerified: true };
+    fakeUsers['nonconf@link.fr'] = { uid: 'u3', emailVerified: false };
+    store.set('contrats/A1', { email: 'OK@link.fr' }); store.set('contrats/A2', { email: 'nonconf@link.fr' }); store.set('contrats/A3', { email: 'inconnu@link.fr' });
+    for (const id of ['A1', 'A2', 'A3']) await client._test.autoLink(await new (fakeDb.collection('contrats').doc(id).constructor)('contrats', id).get(), 'contrats');
+    assert.strictEqual(store.get('contrats/A1').uid, 'u2'); assert.ok(!store.get('contrats/A2').uid); assert.ok(!store.get('contrats/A3').uid);
+  });
+  await t('espace client : préférence emails d’information (désinscription / réinscription)', async () => {
+    const auth = { uid: 'u1', token: { email: 'pref@link.fr', email_verified: true } };
+    await client.setMarketingPreference.run({ data: { accepte: false }, auth });
+    assert.strictEqual((await client.getMarketingPreference.run({ data: {}, auth })).accepte, false);
+    assert.ok((await unsub.unsubscribedAmong(['pref@link.fr'])).has('pref@link.fr'));
+    await client.setMarketingPreference.run({ data: { accepte: true }, auth });
+    assert.strictEqual((await client.getMarketingPreference.run({ data: {}, auth })).accepte, true);
   });
 
   results.forEach(([s, n]) => console.log(`${s} ${n}`));

@@ -145,6 +145,26 @@ export function renderRdvs() {
 }
 
 // ─── Modale de détail ─────────────────────────────────────────────────────
+// Profil et appareils déclarés par le client dans son espace (si la réservation est reliée à un compte)
+async function loadClientExtra(uid) {
+  const box = document.getElementById('rdvClientExtra');
+  if (!box) return;
+  try {
+    const { doc, getDoc, collection, getDocs } = fns;
+    const [p, apps] = await Promise.all([
+      getDoc(doc(db, 'clients', uid)),
+      getDocs(collection(db, 'clients', uid, 'appareils')),
+    ]);
+    const prof = p.exists() ? p.data() : null;
+    const lignes = apps.docs.map((d) => {
+      const a = d.data();
+      return `<li>${esc([a.marque, a.modele].filter(Boolean).join(' ') || a.type)}${a.systeme ? ' · ' + esc(a.systeme) : ''}${a.garantie ? ' · garantie ' + esc(a.garantie) : ''}${a.notes ? '<br><small>' + esc(a.notes) + '</small>' : ''}</li>`;
+    }).join('');
+    box.innerHTML = (prof && (prof.contactPrefere || prof.telephone) ? `<div class="modal-info-row"><span class="modal-info-icon">📇</span><div class="modal-info-val">Profil client : ${esc(prof.telephone || '')}${prof.contactPrefere ? ' · préfère ' + esc(prof.contactPrefere) : ''}${prof.rappels === false ? ' · pas de rappel la veille' : ''}</div></div>` : '')
+      + (lignes ? `<div class="modal-info-row"><span class="modal-info-icon">💻</span><div class="modal-info-val"><strong>Appareils déclarés :</strong><ul style="margin:0.25rem 0 0 1rem">${lignes}</ul></div></div>` : '');
+  } catch (e) { console.warn('loadClientExtra', e); }
+}
+
 export function openRdvModal(r) {
   const dateLabel = r.dateKey ? formatDateLong(r.dateKey) : '–';
   const badgeMap = {
@@ -171,7 +191,10 @@ export function openRdvModal(r) {
       <div class="modal-info-row"><span class="modal-info-icon">🕐</span><div class="modal-info-val">${esc(r.timeLabel || r.time || '–')}</div></div>
       <div class="modal-info-row"><span class="modal-info-icon">📍</span><div class="modal-info-val">${esc(r.adresse || '–')}</div></div>
       ${r.description ? `<div class="modal-info-row"><span class="modal-info-icon">💬</span><div class="modal-info-val">${esc(r.description)}</div></div>` : ''}
+      ${r.compteRendu ? `<div class="modal-info-row"><span class="modal-info-icon">📝</span><div class="modal-info-val" style="white-space:pre-line"><strong>Compte rendu :</strong> ${esc(r.compteRendu)}</div></div>` : ''}
+      <div id="rdvClientExtra"></div>
     </div>`;
+  if (r.uid) loadClientExtra(r.uid);
 
   const actions = document.getElementById('modalActions');
   actions.innerHTML = '';
@@ -376,6 +399,7 @@ function _openRdvForm(rdv, prefillDateKey) {
   document.getElementById('rfTimeLabel').value = rdv?.timeLabel || '';
   document.getElementById('rfPrice').value     = rdv?.price     || '';
   document.getElementById('rfDesc').value      = rdv?.description || '';
+  document.getElementById('rfCompteRendu').value = rdv?.compteRendu || '';
   document.getElementById('rfStatus').value    = rdv?.status    || 'pending';
 
   // Remplir la datalist Services
@@ -413,6 +437,7 @@ async function _submitRdvForm() {
   const timeLabel   = document.getElementById('rfTimeLabel').value.trim() || time;
   const price       = document.getElementById('rfPrice').value.trim() || null;
   const description = document.getElementById('rfDesc').value.trim()  || null;
+  const compteRendu = document.getElementById('rfCompteRendu').value.trim() || null;
   const status      = document.getElementById('rfStatus').value;
 
   if (!service || !nom || !dateKey || !time) {
@@ -431,7 +456,7 @@ async function _submitRdvForm() {
     const data = {
       service, nom, telephone, email, adresse,
       dateKey, time, timeLabel, price,
-      description, status,
+      description, status, compteRendu,
       source: 'admin',
     };
 

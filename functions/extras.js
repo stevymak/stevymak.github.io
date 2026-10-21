@@ -330,6 +330,20 @@ exports.scheduleReminderCheck = functions.region('europe-west1')
       if (ms >= windowStart && ms <= windowEnd) toSend.push(doc.id);
     });
 
+    // Préférence de l'espace client : « Recevoir un rappel la veille » décoché
+    const uids = [...new Set(toSend.map((id) => snap.docs.find((d) => d.id === id)?.get('uid')).filter(Boolean))];
+    const sansRappel = new Set();
+    await Promise.all(uids.map(async (uid) => {
+      const p = await db.collection('clients').doc(uid).get();
+      if (p.exists && p.get('rappels') === false) sansRappel.add(uid);
+    }));
+    if (sansRappel.size) {
+      for (let i = toSend.length - 1; i >= 0; i--) {
+        const uid = snap.docs.find((d) => d.id === toSend[i])?.get('uid');
+        if (uid && sansRappel.has(uid)) toSend.splice(i, 1);
+      }
+    }
+
     functions.logger.info(`${toSend.length} rappel(s) à envoyer`);
 
     const results = await Promise.allSettled(toSend.map(id => sendReminderEmail(id)));

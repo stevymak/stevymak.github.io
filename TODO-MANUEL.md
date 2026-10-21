@@ -66,6 +66,30 @@ Noirland Music : ces règles réautorisent les demandes de session de `noirlandm
 
 ---
 
+## G. Espace client v2 (21/10/2026) — à faire une fois
+
+### G1. Déployer les fonctions et les règles
+Dans Cloud Shell : `cd ~/stevymak.github.io && git checkout main && git pull`, puis :
+```bash
+cd functions && npm ci && cd .. && firebase deploy --only functions,firestore:rules --project makouez-it
+```
+Nouvelles fonctions : `linkMyAccount`, `autoLinkReservation`, `autoLinkContrat`, `setMarketingPreference`, `getMarketingPreference`, `notifyClientMessage`.
+Si « Failed to set invoker » apparaît pour `linkMyAccount`, `setMarketingPreference` ou `getMarketingPreference` : même commande `gcloud run services add-iam-policy-binding <nom-en-minuscules> --region=europe-west1 --member=allUsers --role=roles/run.invoker --project makouez-it` que pour `createreservation`.
+Les règles exigent la 2FA admin (C1) : faites C1 avant si ce n'est pas déjà fait.
+
+### G2. Activer la connexion par lien email
+Console Firebase → *Authentication* → *Méthode de connexion* → *Adresse e-mail/Mot de passe* → cocher **« Lien envoyé par e-mail (connexion sans mot de passe) »** → Enregistrer.
+Vérifier dans *Authentication* → *Paramètres* → *Domaines autorisés* que `makouezit.org` figure dans la liste.
+
+### G3. Emails Firebase en français
+*Authentication* → *Modèles* → langue du modèle : **français** (vérification d'adresse, réinitialisation du mot de passe, changement d'email). Nom de l'expéditeur conseillé : « Makouez IT ».
+
+### G4. Test
+Créer un compte test lors d'une réservation → cliquer le lien de confirmation reçu → ouvrir `/mon-rdv.html` : la réservation, et un contrat demandé avec la même adresse, apparaissent. Le bandeau bleu « Bonjour … » s'affiche ensuite en haut de toutes les pages.
+Accès admin discret : cliquer sur le symbole **©** en bas de l'accueil (ou de toute page qui l'affiche).
+
+---
+
 ## D. Dans la semaine
 
 ### D1. Clé Google Maps — vérifier les restrictions d'API
