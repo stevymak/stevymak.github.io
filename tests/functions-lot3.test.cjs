@@ -98,6 +98,12 @@ async function t(name, fn) { try { await fn(); results.push(['✓', name]); } ca
   await t('date à plus de 90 jours refusée', () => expectErr(call(base({ dateKey: addDays(120) })), 'invalid-argument'));
   await t('date impossible (31/02) refusée', () => expectErr(call(base({ dateKey: '2027-02-31' })), 'invalid-argument'));
   await t('service inconnu refusé', () => expectErr(call(base({ service: 'Piratage' })), 'invalid-argument'));
+  await t('chaque carte de la page de réservation correspond à un service connu du serveur', () => {
+    const html = require('fs').readFileSync(path.join(__dirname, '..', 'makouez-it-rdv.html'), 'utf8');
+    const cartes = [...html.matchAll(/class="service-card" data-service="([^"]+)" data-price="([^"]+)"/g)];
+    assert.ok(cartes.length >= 1, 'aucune carte trouvée');
+    for (const [, svc, prix] of cartes) assert.strictEqual(booking._test.prixService(svc).affiche, prix.replace(/&amp;/g, '&'), svc);
+  });
   await t('CGV non acceptées refusées', () => expectErr(call(base({ acceptCgv: false })), 'failed-precondition'));
   await t('BIENVENUE10 : 1re réservation seulement', async () => {
     const email = 'promo@test.fr';

@@ -85,35 +85,32 @@ const CONTRAT_FEATURES = {
 // Bloc « tarifs » du prompt du chat, généré depuis la grille pour ne jamais diverger du site.
 function tarifsPrompt(t) {
   if (!t) return "TARIFS : indisponibles, inviter le visiteur à consulter la page Tarifs du site ou à appeler le 07 45 10 38 27.";
-  const d = t.depannage, sv = t.services, c = t.contrats, w = t.web, m = t.maintenanceWeb, p = t.pro;
+  const d = t.depannage || {}, sv = t.services || {}, c = t.contrats, w = t.web, m = t.maintenanceWeb, p = t.pro;
   const ap = (x) => `${x.aPartirDe ? "à partir de " : ""}${eur(x.prix)}`;
-  return `FORFAITS D'INTERVENTION À DOMICILE (déplacement inclus, paiement après l'intervention) :
-- ${d.diagExpress.nom} : ${eur(d.diagExpress.prix)} (${d.diagExpress.duree}) — ${d.diagExpress.detail}
-- ${d.standard.nom} : ${eur(d.standard.prix)} (${d.standard.duree}) — ${d.standard.detail}
-- ${d.longFormat.nom} : ${eur(d.longFormat.prix)} (${d.longFormat.duree}) — ${d.longFormat.detail}
-- Heure supplémentaire : ${eur(d.heureSup.prix)}
-- Si le problème ne peut pas être résolu : seul le déplacement est facturé, ${eur(d.deplacementSansSolution.prix)}
-
-PAR SERVICE :
-- ${sv.depannagePc.nom} : ${ap(sv.depannagePc)}
-- ${sv.installationWindows.nom} : ${ap(sv.installationWindows)} (${sv.installationWindows.note})
-- ${sv.reseauWifi.nom} : ${ap(sv.reseauWifi)}
-- ${sv.recuperationDonnees.nom} : ${ap(sv.recuperationDonnees)} (${sv.recuperationDonnees.note})
-- ${sv.sauvegardeSecurite.nom} : ${ap(sv.sauvegardeSecurite)}
-- ${sv.formation.nom} : ${eur(sv.formation.prix)} de l'heure
-- Création de site : ${w.essentiel.nom} ${ap(w.essentiel)}, ${w.pro.nom} ${ap(w.pro)}, ${w.applicationWeb.nom} ${ap(w.applicationWeb)} (devis gratuit)
-
-CONTRATS MENSUELS PARTICULIERS (${t.resiliation}) :
-- ${c.serenite.nom} : ${eur(c.serenite.prix)}/mois — 2 interventions/mois incluses, priorité 24h, support téléphonique
-- ${c.senior.nom} : ${eur(c.senior.prix)}/mois — visites régulières, formation progressive, hotline dédiée
-- ${c.famille.nom} : ${eur(c.famille.prix)}/mois — 3 appareils couverts, 3 interventions/mois, contrôle parental
-
-MAINTENANCE DE SITE WEB : ${m.essentielle.nom} ${eur(m.essentielle.prix)}/mois, ${m.pro.nom} ${eur(m.pro.prix)}/mois, ${m.evolution.nom} ${eur(m.evolution.prix)}/mois.
-
-PROFESSIONNELS (HT) : intervention ${eur(p.interventionHeure.prix)}/h, ${p.installationPoste.nom} ${eur(p.installationPoste.prix)}, ${p.auditSecurite.nom} ${eur(p.auditSecurite.prix)}, ${p.essentiel.nom} ${eur(p.essentiel.prix)}/mois, ${p.confort.nom} ${eur(p.confort.prix)}/mois, ${p.premium.nom} ${eur(p.premium.prix)}.
-
-PAIEMENT : ${t.paiement.moyens.join(", ")}. ${t.paiement.moment}.
-Aucun crédit d'impôt n'est applicable : ne jamais en promettre.`;
+  const L = ["FORFAITS D'INTERVENTION À DOMICILE (déplacement inclus, paiement après l'intervention) :"];
+  for (const x of Object.values(d)) if (x.duree) L.push(`- ${x.nom} : ${eur(x.prix)} (${x.duree}) — ${x.detail}`);
+  if (d.heureSup) L.push(`- Heure supplémentaire : ${eur(d.heureSup.prix)}`);
+  if (d.deplacementSansSolution) L.push(`- Si le problème ne peut pas être résolu : seul le déplacement est facturé, ${eur(d.deplacementSansSolution.prix)}`);
+  L.push("", "PAR SERVICE :");
+  for (const [k, x] of Object.entries(sv)) {
+    if (k === "developpementWeb" && w) continue; // détaillé avec la création de site
+    L.push(x.unite === "h" ? `- ${x.nom} : ${eur(x.prix)} de l'heure` : `- ${x.nom} : ${ap(x)}${x.note ? ` (${x.note})` : ""}`);
+  }
+  if (w) L.push(`- Création de site : ${Object.values(w).map((x) => `${x.nom} ${ap(x)}`).join(", ")} (devis gratuit)`);
+  if (c) {
+    const RESUME = { serenite: "2 interventions/mois incluses, priorité 24h, support téléphonique",
+      senior: "visites régulières, formation progressive, hotline dédiée", famille: "3 appareils couverts, 3 interventions/mois, contrôle parental" };
+    L.push("", `CONTRATS MENSUELS PARTICULIERS (${t.resiliation}) :`);
+    for (const [k, x] of Object.entries(c)) L.push(`- ${x.nom} : ${eur(x.prix)}/mois${x.resume || RESUME[k] ? ` — ${x.resume || RESUME[k]}` : ""}`);
+  }
+  if (m) L.push("", `MAINTENANCE DE SITE WEB : ${Object.values(m).map((x) => `${x.nom} ${eur(x.prix)}/mois`).join(", ")}.`);
+  if (p) {
+    const pr = Object.entries(p).map(([k, x]) => k === "interventionHeure" ? `intervention ${eur(x.prix)}/h` : `${x.nom} ${eur(x.prix)}${x.unite === "mois" ? "/mois" : ""}`);
+    L.push("", `PROFESSIONNELS (HT) : ${pr.join(", ")}.`);
+  }
+  if (t.paiement) L.push("", `PAIEMENT : ${t.paiement.moyens.join(", ")}. ${t.paiement.moment}.`);
+  L.push("Aucun crédit d'impôt n'est applicable : ne jamais en promettre.");
+  return L.join("\n");
 }
 
 // ─── HELPER : formater une date depuis un dateKey ─────────────────────────────

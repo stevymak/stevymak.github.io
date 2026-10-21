@@ -1,6 +1,6 @@
 {
   "_doc": "Grille tarifaire unique de Makouez IT. Modifier UNIQUEMENT ce fichier, puis lancer `node tests/check-tarifs.mjs` : le test liste les pages dont le prix écrit en dur (repris par Google) ne correspond plus. Prix TTC, TVA non applicable (art. 293 B du CGI) ; offres pro en HT (identique, franchise en base de TVA). null = sur devis.",
-  "maj": "2026-10-20",
+  "maj": "2026-10-21",
   "depannage": {
     "diagExpress": { "nom": "Diag Express", "prix": 55, "duree": "1 h", "detail": "Déplacement + diagnostic + 1 réparation simple" },
     "standard":    { "nom": "Standard",     "prix": 89, "duree": "2 h", "detail": "Diagnostic complet + dépannage + conseils" },
@@ -9,13 +9,33 @@
     "deplacementSansSolution": { "nom": "Déplacement si le problème ne peut pas être résolu", "prix": 30 }
   },
   "services": {
-    "depannagePc":          { "nom": "Dépannage PC",                      "prix": 55,  "aPartirDe": true },
-    "installationWindows":  { "nom": "Installation Windows et logiciels", "prix": 89,  "aPartirDe": true, "note": "Long format (129 €) si sauvegarde ou transfert de données" },
-    "reseauWifi":           { "nom": "Réseau Wi-Fi",                      "prix": 55,  "aPartirDe": true },
-    "recuperationDonnees":  { "nom": "Récupération de données",           "prix": 89,  "aPartirDe": false, "note": "Forfait Standard" },
-    "sauvegardeSecurite":   { "nom": "Sauvegarde & sécurité",             "prix": 55,  "aPartirDe": true },
-    "formation":            { "nom": "Formation et accompagnement",       "prix": 40,  "unite": "h" },
-    "developpementWeb":     { "nom": "Intégration / Développement web",   "prix": 990, "aPartirDe": true }
+    "depannagePc":          { "nom": "Dépannage PC",                      "prix": 55,  "aPartirDe": true,
+                              "libelle": "Dépannage PC", "icone": "💻", "forfait": { "base": "diagExpress", "suite": true } },
+    "installationWindows":  { "nom": "Installation Windows et logiciels", "prix": 89,  "aPartirDe": true, "note": "Long format (129 €) si sauvegarde ou transfert de données",
+                              "libelle": "Installation Windows et logiciels", "rappel": "Installation Windows", "icone": "🪟", "forfait": { "base": "standard", "note": "Long format (3 h) si sauvegarde ou transfert de vos données", "notePrix": "longFormat" } },
+    "reseauWifi":           { "nom": "Réseau Wi-Fi",                      "prix": 55,  "aPartirDe": true,
+                              "libelle": "Réseau Wi-Fi", "icone": "📶", "forfait": { "base": "diagExpress", "suite": true } },
+    "recuperationDonnees":  { "nom": "Récupération de données",           "prix": 89,  "aPartirDe": false, "note": "Forfait Standard",
+                              "libelle": "Récupération de données", "carte": "Récupération données", "rappel": "Fichiers perdus", "icone": "💾", "forfait": { "base": "standard" } },
+    "sauvegardeSecurite":   { "nom": "Sauvegarde & sécurité",             "prix": 55,  "aPartirDe": true,
+                              "libelle": "Sauvegarde et sécurité", "carte": "Sauvegarde & sécurité", "rappel": "Virus, arnaque, sécurité", "icone": "🔒", "forfait": { "base": "diagExpress", "suite": true } },
+    "formation":            { "nom": "Formation et accompagnement",       "prix": 40,  "unite": "h",
+                              "libelle": "Formation et accompagnement", "carte": "Formation", "icone": "🎓", "forfait": { "horaire": true, "duree": "1 à 2 heures selon le thème" } },
+    "developpementWeb":     { "nom": "Intégration / Développement web",   "prix": 990, "aPartirDe": true,
+                              "libelle": "Intégration / Développement web", "carte": "Développement web", "icone": "🌐", "badge": "Nouveau", "large": true, "rappel": false }
+  },
+  "reservation": {
+    "_doc": "Créneaux proposés à la réservation (page de réservation et fonction createReservation). « services » ci-dessus : les entrées avec un « libelle » sont réservables en ligne, dans cet ordre.",
+    "maxParJour": 5,
+    "maxJoursAvance": 90,
+    "periodes": {
+      "matin":     { "label": "🌅 Matin",      "creneaux": ["8h00 – 10h00", "10h00 – 12h00"] },
+      "apresmidi": { "label": "☀️ Après-midi", "creneaux": ["13h00 – 15h00", "15h00 – 17h00"] },
+      "soir":      { "label": "🌆 Soir",       "creneaux": ["17h00 – 19h00", "19h00 – 21h00"] }
+    },
+    "semaine": ["apresmidi", "soir"],
+    "weekend": ["matin", "apresmidi", "soir"],
+    "rappelAutres": ["Site web / devis", "Autre"]
   },
   "contrats": {
     "serenite": { "nom": "Contrat Sérénité", "prix": 65, "unite": "mois" },

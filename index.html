@@ -630,14 +630,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem;text
           <input class="callback-input" id="cbTel" type="tel" autocomplete="tel" placeholder="Votre téléphone" required maxlength="40">
           <label class="sr-only" for="cbBesoin">Votre besoin</label>
           <select class="callback-select" id="cbBesoin">
+<!-- kit:rappel-options -->
             <option value="Dépannage PC">Dépannage PC</option>
-            <option value="Réseau Wi-Fi">Réseau Wi-Fi</option>
-            <option value="Sauvegarde et sécurité">Virus, arnaque, sécurité</option>
-            <option value="Récupération de données">Fichiers perdus</option>
             <option value="Installation Windows et logiciels">Installation Windows</option>
+            <option value="Réseau Wi-Fi">Réseau Wi-Fi</option>
+            <option value="Récupération de données">Fichiers perdus</option>
+            <option value="Sauvegarde et sécurité">Virus, arnaque, sécurité</option>
             <option value="Formation et accompagnement">Formation</option>
             <option value="Site web / devis">Site web / devis</option>
             <option value="Autre">Autre</option>
+<!-- /kit:rappel-options -->
           </select>
           <label class="consent-cgv" style="display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;line-height:1.5;cursor:pointer;text-align:left"><input type="checkbox" id="cbConsent" style="width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:#2563eb"><span>J'accepte d'être rappelé par Makouez IT à ce sujet. <a href="confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>.</span></label>
           <button class="callback-button" type="submit" id="cbBtn">Être rappelé</button>
