@@ -42,7 +42,7 @@ Ces adresses doivent renvoyer « Page introuvable » : `/firestore.rules`, `/fir
 
 ## C. Juste après la fusion (même jour, dans cet ordre)
 
-### C1. Enrôler la 2FA admin
+### C1. ✅ 2FA admin enrôlée (confirmé le 21/10/2026)
 Se connecter à `/admin.html` → écran « Activer la vérification en deux étapes » → scanner le QR code (Google Authenticator / Microsoft Authenticator) → saisir le code → se reconnecter.
 **Conserver la clé de secours** affichée sous « Impossible de scanner ? » dans un gestionnaire de mots de passe. En cas de perte du téléphone, retirer la 2FA depuis Cloud Shell puis se réenrôler :
 ```bash
@@ -75,7 +75,7 @@ cd functions && npm ci && cd .. && firebase deploy --only functions,firestore:ru
 ```
 Nouvelles fonctions : `linkMyAccount`, `autoLinkReservation`, `autoLinkContrat`, `setMarketingPreference`, `getMarketingPreference`, `notifyClientMessage`.
 Si « Failed to set invoker » apparaît pour `linkMyAccount`, `setMarketingPreference` ou `getMarketingPreference` : même commande `gcloud run services add-iam-policy-binding <nom-en-minuscules> --region=europe-west1 --member=allUsers --role=roles/run.invoker --project makouez-it` que pour `createreservation`.
-Les règles exigent la 2FA admin (C1) : faites C1 avant si ce n'est pas déjà fait.
+La 2FA admin (C1) est faite : rien ne bloque le déploiement des règles.
 
 ### G2. Activer la connexion par lien email
 Console Firebase → *Authentication* → *Méthode de connexion* → *Adresse e-mail/Mot de passe* → cocher **« Lien envoyé par e-mail (connexion sans mot de passe) »** → Enregistrer.
