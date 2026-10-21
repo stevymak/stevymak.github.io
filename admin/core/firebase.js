@@ -13,6 +13,7 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   deleteDoc,
@@ -60,6 +61,7 @@ const functionsInstance = getFunctions(app, 'europe-west1');
 export const fns = {
   collection,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   deleteDoc,

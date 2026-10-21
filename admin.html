@@ -84,6 +84,7 @@
       <a class="sidebar-item" data-route="communications" href="#communications"><span class="sidebar-icon">📧</span><span>Communications</span></a>
       <a class="sidebar-item" data-route="finance"        href="#finance"><span class="sidebar-icon">💰</span><span>Finance</span></a>
       <a class="sidebar-item" data-route="avis"         href="#avis"><span class="sidebar-icon">⭐</span><span>Avis</span></a>
+      <a class="sidebar-item" data-route="messages"     href="#messages"><span class="sidebar-icon">✉️</span><span>Messages</span></a>
     </nav>
     <div class="sidebar-footer">
       <span id="adminEmail" class="admin-email"></span>
@@ -532,6 +533,19 @@
         </div>
       </section>
 
+      <section class="tab-content" id="tab-messages">
+        <div class="section-title-row">
+          Messages clients et demandes de rappel
+          <span id="messagesCount" style="font-size:0.8rem;color:var(--muted)"></span>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap">
+          <button class="tab-filter active" onclick="setMessagesFiltre('nonlus', this)">Non traités</button>
+          <button class="tab-filter" onclick="setMessagesFiltre('tous', this)">Tous</button>
+          <button class="tab-filter" onclick="loadMessages()">↻ Actualiser</button>
+        </div>
+        <div id="messagesList" style="display:flex;flex-direction:column;gap:0.75rem"><div class="loading"><div class="spinner"></div></div></div>
+      </section>
+
     </main>
   </div>
 </div>
@@ -602,6 +616,13 @@
       <div class="rdv-form-full">
         <label class="fac-label">Notes / Description
           <textarea class="form-input" id="rfDesc" rows="3" placeholder="Problème décrit par le client, matériel concerné, accès particulier…" style="resize:vertical"></textarea>
+        </label>
+      </div>
+
+      <!-- Compte rendu (visible par le client) -->
+      <div class="rdv-form-full">
+        <label class="fac-label">Compte rendu d'intervention <small style="font-weight:400;color:var(--muted)">(visible par le client dans son espace et joint à l'email « Terminé »)</small>
+          <textarea class="form-input" id="rfCompteRendu" rows="4" maxlength="3000" placeholder="Ce qui a été fait, pièces changées, conseils donnés, points à surveiller…" style="resize:vertical"></textarea>
         </label>
       </div>
 

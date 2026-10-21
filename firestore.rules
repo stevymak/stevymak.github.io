@@ -99,6 +99,36 @@ service cloud.firestore {
       && d.status == 'new';
     }
 
+    function validClientProfile() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['prenom', 'nom', 'telephone', 'adresse', 'codePostal', 'ville',
+                               'contactPrefere', 'rappels', 'updatedAt'])
+        && (!('prenom' in d) || str(d.prenom, 80))
+        && (!('nom' in d) || str(d.nom, 80))
+        && (!('telephone' in d) || str(d.telephone, 40))
+        && (!('adresse' in d) || str(d.adresse, 300))
+        && (!('codePostal' in d) || str(d.codePostal, 10))
+        && (!('ville' in d) || str(d.ville, 80))
+        && (!('contactPrefere' in d) || d.contactPrefere in ['telephone', 'email', 'sms', 'whatsapp'])
+        && (!('rappels' in d) || d.rappels is bool);
+    }
+
+    function validAppareil() {
+      let d = request.resource.data;
+      return d.keys().hasAll(['type', 'createdAt'])
+        && d.keys().hasOnly(['type', 'marque', 'modele', 'annee', 'systeme', 'achat', 'garantie',
+                             'notes', 'createdAt', 'updatedAt'])
+        && d.type in ['ordinateur-portable', 'ordinateur-fixe', 'tablette', 'smartphone',
+                      'imprimante', 'box-internet', 'autre']
+        && (!('marque' in d) || str(d.marque, 60))
+        && (!('modele' in d) || str(d.modele, 80))
+        && (!('annee' in d) || str(d.annee, 4))
+        && (!('systeme' in d) || str(d.systeme, 60))
+        && (!('achat' in d) || str(d.achat, 10))
+        && (!('garantie' in d) || str(d.garantie, 10))
+        && (!('notes' in d) || str(d.notes, 1000));
+    }
+
     function validClientMessageCreate() {
       return request.resource.data.keys().hasAll([
         'uid',
@@ -119,7 +149,7 @@ service cloud.firestore {
     }
 
     match /reservations/{reservationId} {
-      allow read: if isAdmin() || isOwnerUid(resource.data.uid);
+      allow read: if isAdmin() || isOwnerUid(resource.data.uid) || isOwnerEmail(resource.data.email);
 
       // Création réservée à la Cloud Function createReservation (Admin SDK, hors
       // règles) qui vérifie quota, créneau et prix — et à l'admin depuis le panneau.
@@ -211,14 +241,47 @@ service cloud.firestore {
     // Factures émises (admin only). Numérotation séquentielle gérée
     // via la collection counters/.
     match /factures/{factureId} {
-      allow read, write: if isAdmin();
+      // Le client voit ses factures dans son espace (adresse email vérifiée).
+      allow read: if isAdmin()
+        || isOwnerEmail(resource.data.clientEmailLc)
+        || isOwnerUid(resource.data.clientUid);
+      allow write: if isAdmin();
+    }
+
+    // Copie PDF des factures (écrite par l'admin, jointe à l'email « Terminé »).
+    // Sans cette règle, l'enregistrement du PDF était refusé.
+    match /factures_pdf/{factureId} {
+      allow read: if isAdmin()
+        || (signedIn() && isOwnerEmail(get(/databases/$(database)/documents/factures/$(factureId)).data.clientEmailLc));
+      allow write: if isAdmin();
     }
 
     // Devis (admin only). Numérotation séquentielle gérée via counters/.
     // Conversion devis → facture : on crée un nouveau doc factures + on
     // met à jour le statut du devis avec factureId.
     match /devis/{devisId} {
-      allow read, write: if isAdmin();
+      allow read: if isAdmin() || isOwnerEmail(resource.data.clientEmailLc);
+      allow write: if isAdmin();
+    }
+
+    // Profil du client (espace client) : coordonnées et préférences.
+    match /clients/{uid} {
+      allow read: if isAdmin() || isOwnerUid(uid);
+      allow create, update: if isOwnerUid(uid) && validClientProfile();
+      allow delete: if isAdmin();
+
+      // Carnet de santé : appareils déclarés par le client.
+      match /appareils/{appareilId} {
+        allow read: if isAdmin() || isOwnerUid(uid);
+        allow create, update: if (isOwnerUid(uid) || isAdmin()) && validAppareil();
+        allow delete: if isOwnerUid(uid) || isAdmin();
+      }
+    }
+
+    // Demandes de rappel (écrites par la Cloud Function requestCallback).
+    match /rappels/{rappelId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if false;
     }
 
     // Compteurs séquentiels (factures, devis…). Document id de la

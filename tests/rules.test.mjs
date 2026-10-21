@@ -214,3 +214,41 @@ test('9b écriture interdite côté client, même admin (seule la Cloud Function
   await assertFails(setDoc(doc(client(), 'public/googleReviews'), { rating: 5 }));
   await assertFails(setDoc(doc(admin(), 'public/googleReviews'), { rating: 5 }));
 });
+
+// 10. Espace client v2 (21/10/2026)
+test('10a le client lit ses factures (email confirmé), pas celles des autres ni sans confirmation', async () => {
+  await env.withSecurityRulesDisabled(async c => {
+    await setDoc(doc(c.firestore(), 'factures/f1'), { clientEmailLc: 'client@test.fr', numero: 'F1' });
+    await setDoc(doc(c.firestore(), 'factures/f2'), { clientEmailLc: 'autre@test.fr', numero: 'F2' });
+    await setDoc(doc(c.firestore(), 'factures_pdf/f1'), { numero: 'F1', base64: 'x' });
+  });
+  await assertSucceeds(getDocs(query(collection(client(), 'factures'), where('clientEmailLc', '==', 'client@test.fr'))));
+  await assertSucceeds(getDoc(doc(client(), 'factures_pdf/f1')));
+  await assertFails(getDoc(doc(client(), 'factures/f2')));
+  await assertFails(getDoc(doc(client('u1', 'client@test.fr', false), 'factures/f1')));
+  await assertFails(setDoc(doc(client(), 'factures/f1'), { paid: true }));
+});
+test('10b profil : le client écrit le sien (champs listés), pas celui d’un autre', async () => {
+  await assertSucceeds(setDoc(doc(client('u1'), 'clients/u1'), { prenom: 'Jean', telephone: '06', rappels: false, contactPrefere: 'sms', updatedAt: serverTimestamp() }));
+  await assertFails(setDoc(doc(client('u1'), 'clients/u1'), { prenom: 'Jean', admin: true }));
+  await assertFails(setDoc(doc(client('u2', 'b@test.fr'), 'clients/u1'), { prenom: 'Pirate' }));
+  await assertFails(getDoc(doc(client('u2', 'b@test.fr'), 'clients/u1')));
+  await assertSucceeds(getDoc(doc(admin(), 'clients/u1')));
+});
+test('10c appareils : le client gère les siens, l’admin les lit', async () => {
+  await assertSucceeds(addDoc(collection(client('u1'), 'clients/u1/appareils'), { type: 'imprimante', marque: 'Canon', createdAt: serverTimestamp() }));
+  await assertFails(addDoc(collection(client('u1'), 'clients/u1/appareils'), { type: 'fusée', createdAt: serverTimestamp() }));
+  await assertFails(addDoc(collection(client('u2', 'b@test.fr'), 'clients/u1/appareils'), { type: 'autre', createdAt: serverTimestamp() }));
+  await assertSucceeds(getDocs(collection(admin(), 'clients/u1/appareils')));
+});
+test('10d le client lit ses réservations par email confirmé (avant rattachement)', async () => {
+  await env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'reservations/r9'), resa()));
+  await assertSucceeds(getDocs(query(collection(client(), 'reservations'), where('email', '==', 'client@test.fr'))));
+  await assertFails(getDocs(query(collection(client('u1', 'client@test.fr', false), 'reservations'), where('email', '==', 'client@test.fr'))));
+});
+test('10e demandes de rappel : lues et traitées par l’admin seulement', async () => {
+  await env.withSecurityRulesDisabled(c => setDoc(doc(c.firestore(), 'rappels/x'), { prenom: 'A', statut: 'nouveau' }));
+  await assertSucceeds(updateDoc(doc(admin(), 'rappels/x'), { statut: 'traite' }));
+  await assertFails(getDoc(doc(client(), 'rappels/x')));
+  await assertFails(addDoc(collection(anon(), 'rappels'), { prenom: 'spam' }));
+});

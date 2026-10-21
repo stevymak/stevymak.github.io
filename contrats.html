@@ -140,6 +140,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 <meta property="og:image" content="https://makouezit.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Contrats & Forfaits Particuliers – Makouez IT | Île-de-France", "description": "Choisissez votre contrat Makouez IT : Sérénité 65€/mois, Senior+ 55€/mois, Pack Famille 79€/mois. Sans engagement.", "url": "https://makouezit.org/contrats.html", "inLanguage": "fr-FR", "isPartOf": {"@type": "WebSite", "name": "Makouez IT", "url": "https://makouezit.org/"}, "publisher": {"@id": "https://makouezit.org/#business"}}</script>
+<script src="/client-bar.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu principal</a>
@@ -389,7 +390,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:fl
 import { initializeApp }  from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
 import { APP_CHECK_SITE_KEY } from "/appcheck-config.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 // ── Init Firebase ──
@@ -480,6 +481,8 @@ async function submitForm() {
           const cred = await createUserWithEmailAndPassword(auth, email, password);
           user = cred.user;
           await updateProfile(user, { displayName: fullName });
+          // Lien de confirmation : une fois l'adresse confirmée, toutes les demandes faites avec cet email sont reliées à l'espace client.
+          try { auth.languageCode = 'fr'; await sendEmailVerification(user, { url: 'https://makouezit.org/mon-rdv.html' }); } catch (e) { console.warn(e); }
         } catch (createErr) {
           if (createErr?.code === 'auth/email-already-in-use') {
             const cred = await signInWithEmailAndPassword(auth, email, password);
@@ -489,7 +492,8 @@ async function submitForm() {
           }
         }
       }
-    } else {
+    } else if (!(user && String(user.email || '').toLowerCase() === email)) {
+      // Client déjà connecté avec la même adresse : la demande est reliée à son espace même sans ressaisir de mot de passe.
       user = null;
     }
 
@@ -505,6 +509,7 @@ async function submitForm() {
     };
 
     if (user) contractData.uid = user.uid;
+    if (user) { try { localStorage.setItem('mkClient', JSON.stringify({ prenom: prenom || fullName.split(' ')[0], t: Date.now() })); } catch (e) {} }
 
     await addDoc(collection(db, 'contrats'), contractData);
 
@@ -573,5 +578,13 @@ if (cp) {
 </script>
 
 <a class="call-bar" href="tel:+33745103827" aria-label="Appeler Stevy au 07 45 10 38 27"><span aria-hidden="true">📞</span> Appeler Stevy · 07 45 10 38 27</a>
+<script>
+// Pré-remplissage depuis le profil de l'espace client (enregistré à la connexion, effacé à la déconnexion)
+(function(){ var p; try { p = JSON.parse(localStorage.getItem('mkClientForm') || 'null'); } catch(e) {}
+  if (!p) return;
+  var map = {fPrenom:"prenom",fNom:"nomFamille",fEmail:"email",fTel:"telephone",fAdresse:"adresse"};
+  Object.keys(map).forEach(function(id){ var el = document.getElementById(id); var v = p[map[id]]; if (el && v && !el.value) el.value = v; });
+})();
+</script>
 </body>
 </html>

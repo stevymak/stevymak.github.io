@@ -387,6 +387,7 @@ async function saveDevis(downloadPdf) {
     let savedId = editingId;
     let payload = {
       client:    { nom, email, telephone: tel, adresse },
+      clientEmailLc: String(email || '').trim().toLowerCase(),   // affichage dans l'espace client
       date, validite,
       items,
       totalHT:  totals.totalHT,
