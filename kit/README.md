@@ -28,7 +28,8 @@ Pour essayer un autre design sans toucher à la configuration : `node kit/build.
 | `zone.pagesLocalesAGarder` | Pages locales de Makouez IT à conserver (en général aucune) |
 | `modules` | `portfolio`, `offresWeb`, `chatIA` : `false` pour retirer le module et ses liens |
 | `firebase` | Projet Firebase du client (projectId, apiKey, messagingSenderId, appId) |
-| `integrations` | Google Analytics, lien d'avis Google, clé Google Maps, clé App Check |
+| `integrations` | Google Analytics, lien d'avis Google, clé Google Maps, clé App Check, `googlePlaceId` (avis Google côté serveur) |
+| `installation` | Facultatif : `region` (europe-west1 par défaut), `hebergement` (`firebase` ou `github`), `compteFacturation` |
 | `tarifs` | Chemin d'un `tarifs.json` propre au client (sinon la grille d'exemple du pack, sinon celle de Makouez IT) |
 
 `kit/config/source-makouez-it.json` décrit les valeurs actuelles du site source : le générateur les remplace par celles du client. À mettre à jour si l'identité de Makouez IT change.
@@ -94,14 +95,40 @@ Pour un nouveau métier : copier `plomberie.json`, réécrire les textes et la g
 
 Avec un pack métier, il applique aussi le pack (étape 2 ter) : listes de services et créneaux régénérés depuis la grille du client, accueil, pages services, contrats, CGV, espace client.
 
-## Installer le site d'un client (procédure actuelle, à automatiser à l'étape 6)
+## Installer le site d'un client (automatique)
 
-1. Créer le projet Firebase du client (région europe-west1), passer en forfait Blaze, activer Authentication (email/mot de passe + lien par email) et Firestore.
-2. Reporter sa configuration web dans `kit/config/<client>.json`, puis générer.
-3. Dans `dist/<slug>/functions` : `npm ci`, puis créer le secret `RESEND_API_KEY` (et `ANTHROPIC_API_KEY` si le chat IA est vendu).
-4. `firebase deploy --only functions,firestore:rules --project <projectId>`.
-5. Publier le dossier sur l'hébergement du client (GitHub Pages ou Firebase Hosting) et brancher son domaine.
-6. Créer son compte admin, lui donner le claim `admin`, activer le TOTP et l'enrôler (même procédure que TODO-MANUEL.md, C1).
+Dans **Google Cloud Shell** (gcloud, firebase et node y sont déjà), depuis une copie de ce dépôt :
+
+```bash
+firebase login --no-localhost                  # une fois
+node kit/install.mjs kit/config/<client>.json --simulation     # voir ce qui sera fait, sans rien exécuter
+export RESEND_API_KEY=re_...                   # clé Resend du client (jamais dans la configuration)
+node kit/install.mjs kit/config/<client>.json --compte-facturation 0123AB-4567CD-89EF01
+```
+
+`gcloud billing accounts list` donne l'identifiant du compte de facturation. Sans `--compte-facturation`, le script s'arrête à l'étape facturation et explique comment l'activer dans la console.
+
+| Étape | Ce que fait le script |
+| --- | --- |
+| `prerequis` | Vérifie node, gcloud, firebase et les comptes connectés |
+| `projet` | Crée le projet Firebase (`firebase.projectId` de la configuration) |
+| `facturation` | Rattache le compte de facturation (forfait Blaze, obligatoire pour les fonctions) |
+| `apis` | Active les 12 API Google Cloud nécessaires |
+| `firestore` | Crée la base en europe-west1 et la durée de vie des limites anti-abus (`rate_limits.expireAt`) |
+| `appweb` | Crée l'application web et écrit ses clés dans la configuration du client |
+| `generation` | Régénère le site avec ces clés |
+| `auth` | Identity Platform, email + mot de passe, lien de connexion par email, 2FA par application (TOTP), domaines autorisés, emails en français |
+| `secrets` | `RESEND_API_KEY` (obligatoire), `PLACES_API_KEY` et `ANTHROPIC_API_KEY` si le chat est vendu : variables d'environnement, sinon demandées (les facultatives restent « non configurées ») |
+| `deploiement` | `npm ci`, fonctions et règles Firestore ; réessaie au premier déploiement (droits Eventarc lents à se propager) |
+| `invocateurs` | Rend appelables depuis le site les fonctions `onCall`/`onRequest` (sinon erreur 403, déjà vu sur makouezit.org) |
+| `admin` | Crée le compte de `contact.emailAdmin` avec le droit administrateur ; le mot de passe provisoire s'affiche une seule fois |
+| `hebergement` | Firebase Hosting (`<projet>.web.app`) ; `--hebergement github` donne la procédure GitHub Pages |
+
+Le script est **relançable** : chaque étape vérifie l'état avant d'agir et saute ce qui est déjà fait (`--etapes a,b` pour n'en lancer que certaines). Il ne supprime rien : il refuse le projet de makouezit.org et s'arrête si le projet contient des fonctions que le déploiement effacerait.
+
+Il écrit `dist/<slug>/INSTALLATION.md` : ce qui a été fait et ce qui reste à la main, à savoir le DNS du domaine (Hosting) et de Resend (SPF/DKIM), l'enrôlement 2FA à la première connexion sur `/admin.html`, App Check, la clé Google Maps, Search Console et Analytics, la validation des textes légaux par le client et un test de bout en bout.
+
+`node tests/kit-install.test.mjs` teste le script contre un faux projet Google Cloud (installation complète, relance, cas d'arrêt).
 
 ## Feuille de route
 
@@ -112,5 +139,5 @@ Avec un pack métier, il applique aussi le pack (étape 2 ter) : listes de servi
 | 3. Générateur de pages | Fait : identité, présentation, textes de zone, pages par ville et page département, accueil, sitemap |
 | 4. Trois designs | Fait : clair, nuit, artisan ; contraste vérifié sur les 29 pages publiques (WCAG AA), aucun débordement mobile. L'admin garde son propre thème |
 | 5. Pack « services à domicile » | Fait : grille qui pilote services, créneaux, contrats et code promo ; packs métier ; pack plomberie et démo Garnier Plomberie (23 pages, 3 designs, contraste AA) |
-| 6. Installation automatisée | À faire (procédure manuelle ci-dessus) |
+| 6. Installation automatisée | Fait : `kit/install.mjs` (13 étapes relançables, simulation, rapport d'installation) ; testé contre un faux projet, à valider une première fois sur un vrai projet de test |
 | 7. Vitrine commerciale | Démo publiée (3 designs, 3 métiers fictifs) |
