@@ -559,7 +559,7 @@ exports.sendContratConfirmation = onDocumentCreated(
   <div style="background:#111120;border:1px solid #ffffff14;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;text-align:center">
     <p style="color:#8888aa;font-size:0.85rem;margin:0 0 0.75rem">Une question urgente ?</p>
     <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
-      <a href="tel:+336745103827" style="color:#f0f0ff;text-decoration:none;font-size:0.85rem;font-weight:500">📞 07 45 10 38 27</a>
+      <a href="tel:+33745103827" style="color:#f0f0ff;text-decoration:none;font-size:0.85rem;font-weight:500">📞 07 45 10 38 27</a>
       <a href="https://wa.me/33745103827" style="color:#f0f0ff;text-decoration:none;font-size:0.85rem;font-weight:500">💬 WhatsApp</a>
     </div>
   </div>
